@@ -1,3 +1,5 @@
 # Fortran
 
-Fortran BNF Grammar & Lexical Rules
+Fortran Enhanced LALR BNF Grammar & Lexical Rules
+
+This Enhanced LALR grammar is processed by Syntaxis.jar 
