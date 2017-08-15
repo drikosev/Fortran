@@ -39,22 +39,22 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;name-f&gt;&nbsp;
 <BR><BR><STRONG><A name="<bug-end-stmt>">&lt;bug-end-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::~ </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#end-associate-stmt">end-associate-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error( L"Unexpected end-associate-stmt");* /</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-block-stmt">end-block-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error(L"Unexpected end-block-stmt ");* /</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-block-data-stmt">end-block-data-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* */</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-do-stmt">end-do-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected end-do-stmt");*/</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-forall-stmt">end-forall-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected end-forall-stmt");*/</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-function-stmt">end-function-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* */</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-if-stmt">end-if-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected end-if-stmt");*/</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-block-data-stmt">end-block-data-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * * /</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-do-stmt">end-do-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error(L"Unexpected end-do-stmt"); * /</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-forall-stmt">end-forall-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error(L"Unexpected end-forall-stmt"); * /</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-function-stmt">end-function-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-if-stmt">end-if-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error(L"Unexpected end-if-stmt"); * /</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-module-stmt">end-module-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-mp-subprogram-stmt">end-mp-subprogram-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* */</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-program-stmt">end-program-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* */</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-select-stmt">end-select-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected end-select-stmt ");*/</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-submodule-stmt">end-submodule-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* */</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-subroutine-stmt">end-subroutine-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* */</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-type-stmt">end-type-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected end-type-stmt ");*/</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-where-stmt">end-where-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected end-where-stmt");*/</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-program-stmt">end-program-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * * /</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-select-stmt">end-select-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error(L"Unexpected end-select-stmt "); * /</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-submodule-stmt">end-submodule-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * * /</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-subroutine-stmt">end-subroutine-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * * /</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-type-stmt">end-type-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error(L"Unexpected end-type-stmt ");* /</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-where-stmt">end-where-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error(L"Unexpected end-where-stmt");* /</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<missing-end-statement>">&lt;missing-end-statement&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected contains-stmt");*/</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Mispelled Construct or Unit Name");*/</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Mispelled Construct or Unit Name");*/</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error(L"Mispelled Construct or Unit Name"); * /</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error(L"Mispelled Construct or Unit Name");* /</FONT></EM>
 <BR><BR><STRONG><A name="end-associate-stmt">end-associate-stmt</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;ASSOCIATE&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;ASSOCIATE&nbsp;<A href="#<construct-name>">&lt;construct-name&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END_ASSOCIATE&nbsp;
