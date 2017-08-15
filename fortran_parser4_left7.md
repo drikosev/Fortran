@@ -37,8 +37,8 @@
 <BR><BR><STRONG><A name="<name>">&lt;name&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;name-l&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;name-r&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;name-f&gt;&nbsp;
-<BR><BR><STRONG><A name="<bug-end-stmt>">&lt;bug-end-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::~ </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#end-associate-stmt">end-associate-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error( L"Unexpected end-associate-stmt");*/</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-block-stmt">end-block-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected end-block-stmt ");*/</FONT></EM>
+<BR><BR><STRONG><A name="<bug-end-stmt>">&lt;bug-end-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::~ </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#end-associate-stmt">end-associate-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error( L"Unexpected end-associate-stmt");* /</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-block-stmt">end-block-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/ * Tr.error(L"Unexpected end-block-stmt ");* /</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-block-data-stmt">end-block-data-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-do-stmt">end-do-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected end-do-stmt");*/</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-forall-stmt">end-forall-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected end-forall-stmt");*/</FONT></EM>
