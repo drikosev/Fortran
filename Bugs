@@ -9,9 +9,10 @@ Fortran parser bugs
 [ 2017-05-01 ] The ERSP Extension was found to be buggy. So far cannot reproduce the bug in a small grammar (todo: handle this open issue).
 [ 2017-05-03 ] touched name-f & removed name-r from lprocedure names and run all the tests in generated parser ( todo: test also in simulator my test cases)
 [ 2017-05-06 ] Extended the grammar with the newer assumed-rank-spec as an option to array-spec (seems an overkill to run again the tests).
-[ 2017-07-07 ] The rule part-name-p-section-subscript-list-l didn't allow a follow "%" after an p-actual-arg-spec-list-l. In addition the part-name-p-section-subscript-list didn't a follow "=" that might be prooved too restrictive for future requirements.
-[ 2017-07-07 ] A awkard named rule "actual-arg-low-priority" has been replaved by "actual-arg".
+[ 2017-07-07 ] The rule part-name-p-section-subscript-list-l didn't allow a follow "%" after an p-actual-arg-spec-list-l. In addition the part-name-p-section-subscript-list didn't a follow "=" that might be proved too restrictive for future requirements.
+[ 2017-07-07 ] A awkward name rule "actual-arg-low-priority" has been replaced by "actual-arg".
 [ 2017-07-08 ] The "do-block" should be optional in a "block-do-construct".
+[ 2018-04-16 ] Segmentation Fault on an extra comma in a type declaration stmt, between a type and a variable (PROC_PTR_EXAMPLE.f90).
 
 Fortran scanner bugs
 

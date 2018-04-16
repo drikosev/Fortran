@@ -53,8 +53,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-type-stmt">end-type-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected end-type-stmt ");*/</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#end-where-stmt">end-where-stmt</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected end-where-stmt");*/</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<missing-end-statement>">&lt;missing-end-statement&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Unexpected contains-stmt");*/</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Mispelled Construct or Unit Name");*/</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Mispelled Construct or Unit Name");*/</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Mispelled Construct or Unit Name", str(2)); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Mispelled Construct or Unit Name", str(2)); */</FONT></EM>
 <BR><BR><STRONG><A name="end-associate-stmt">end-associate-stmt</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;ASSOCIATE&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;ASSOCIATE&nbsp;<A href="#<construct-name>">&lt;construct-name&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END_ASSOCIATE&nbsp;
@@ -1037,6 +1037,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<character*length>">&lt;character*length&gt;</A>&nbsp;,&nbsp;<A href="#<entity-decl-list>">&lt;entity-decl-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<character*length>">&lt;character*length&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<entity-decl-init-list>">&lt;entity-decl-init-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<character*length>">&lt;character*length&gt;</A>&nbsp;,&nbsp;<A href="#<attr-spec-list>">&lt;attr-spec-list&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<entity-decl-init-list>">&lt;entity-decl-init-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<type-declaration-error>">&lt;type-declaration-error&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<entity-decl-list>">&lt;entity-decl-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<entity-decl-list>">&lt;entity-decl-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<entity-decl>">&lt;entity-decl&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<entity-decl-first>">&lt;entity-decl-first&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<entity-decl-list>">&lt;entity-decl-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<entity-decl>">&lt;entity-decl&gt;</A>&nbsp;<A href="#<initialization~>">&lt;initialization~&gt;</A>&nbsp;
@@ -1090,8 +1091,10 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;TARGET&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;VALUE&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;VOLATILE&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<keyword-l>">&lt;keyword-l&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.scheck( str(1), L"ALLOCATABLE ASYNCHRONOUS CODIMENSION CONTIGUOUS DIMENSION EXTERNAL INTENT INTRINSIC BIND OPTIONAL PARAMETER POINTER PROTECTED SAVE TARGET VALUE VOLATILE PUBLIC PRIVATE"); */</FONT></EM>
-<BR><BR><STRONG><A name="<keyword-l>">&lt;keyword-l&gt;</A></STRONG><FONT color="#cc3300"> ::? </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#keyword">keyword</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<keyword-l>">&lt;keyword-l&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Expecting an Attribute Specification but read:", str(1)); */</FONT></EM>
+<BR><BR><STRONG><A name="<keyword-l>">&lt;keyword-l&gt;</A></STRONG><FONT color="#cc3300"> ::? </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#keyword">keyword</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* $$(0).synthesized=new wstring(str(1)); */</FONT></EM>
+<BR><BR><STRONG><A name="<type-declaration-error>">&lt;type-declaration-error&gt;</A></STRONG><FONT color="#cc3300"> ::~ </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<declaration-type-spec>">&lt;declaration-type-spec&gt;</A>&nbsp;,&nbsp;<A href="#<attr-spec-list>">&lt;attr-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<character*length>">&lt;character*length&gt;</A>&nbsp;,&nbsp;<A href="#<attr-spec-list>">&lt;attr-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR><BR><STRONG><A name="<stmt-function-stmt>">&lt;stmt-function-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<function-declaration>">&lt;function-declaration&gt;</A>&nbsp;=&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<function-declaration>">&lt;function-declaration&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<part-name-l>">&lt;part-name-l&gt;</A>&nbsp;<A href="#<p-name-list-l>">&lt;p-name-list-l&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;=&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR><BR><STRONG><A name="<part-name-l>">&lt;part-name-l&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;name-l&gt;&nbsp;
