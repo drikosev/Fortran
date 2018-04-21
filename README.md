@@ -1,3 +1,64 @@
-# Fortran
 
-Fortran Enhanced LALR BNF Grammar & Lexical Rules, which are processed by Syntaxis.jar 
+Apr 22, 2018
+
+
+ 
+                 Fortran Enhanced LALR BNF Grammar & Lexical Rules
+                 -------------------------------------------------
+
+
+
+ The Fortran Grammar
+ -------------------
+
+ This grammar is based on a Fortran 2003 draft ("N1601.pdf.gz") and has been transformed as needed to allow an Enhanced LALR Builder (Syntaxis.jar) to process it and create a conflicts-free parser that accepts in addition deprecated Fortran 77 features. Over the time, features of newer drafts have been added as well.
+
+ The transformed grammar is supposed to describe accurately array elements and function references. In other words, it isn't a covering grammar. Further, it is also complete in the sense that we fully parse constructs (e.g. non-block do construct ). In other words, we don't parse one statement at a time.
+
+ However, this grammar accepts declaration and execution constructs in any order, the assumed-shape-spec-list is used also for deferred-shaped arrays, and the section-subscript-list in example could likely be more accurate. It has passed a few tests; yet, bug reports by experienced Fortran programmers are welcome.
+
+ Actually, I've written this grammar to stress test some LALR enhancements and some relevant details were originally posted at:
+ http://compilers.iecc.com/comparch/article/13-07-011
+
+ Notes: 
+ [1] We use a stack to distinguish between ordinary labels and labels of non-block do constructs. 
+ [2] Default actions don't overwrite the reduce actions on keyword "SUBROUTINE" because the token "<name-f>" depends on it (the directive is not listed). 
+ [3] The syntax notation is almost pure BNF, with "Follow Restrictions" ( "+:", "-:", and "~:") and "Error Productions" ("::~"). 
+ [4] Definitely, this non LR(k) grammar is ambiguous and the parser deterministic (perhaps this isn't fully consistent with the theory we have been taught). 
+ 
+
+
+ Files
+ -----
+
+ 1) The Fortran Parser
+    1.1) The "Fortran_Parser.txt" contains the syntax rules of the Fortran parser.
+    1.2) The "Fortran_Parser.html" has the same content with the "Fortran_Parser.txt" but it offers
+         in addition hyperlinked navigation.
+
+ 2) The Fortran Scanner
+    2.1) The "Fortran_Scanner.txt" contains the lexical rules of a Fortran scanner that is shared
+         by several Fortran parsers. 
+    2.1) The "Fortran_Scanner.html" has the same content with the "fortran_scanner.txt" but it offers 
+         in addition hyperlinked navigation.
+
+ 3) A Legacy Parser
+    3.1) The "Legacy_Parser.txt" contains the syntax rules of a Fortran parser, which in addition to
+         the above mentioned Fortran parser, accepts structures, unions, maps, and records. These
+         extensions originate from VAX/Dec Fortran and are supported by the Intel® Fortran Compiler.
+         Many of these extensions are also supported by GNU Fortran (gfortran version 7 or newer). 
+
+         At the moment, this grammar is just informative because one needs to implement semantic 
+         actions that can distinguish a user defined operator from members of nested structures. This
+         is required in example when the parser sees text of the form "m1.op.m2". 
+
+         Further, the BNF syntax of those extensions is the result of a personal effort that involves
+         much guessing. So, this grammar might not describe fully & accurately real code yet. 
+
+         Currently, this is just an informative grammar. I haven't even generated a C++ parser yet!
+
+    3.2) The "Legacy_Parser.html" has the same content with the "Legacy_Parser.txt" but it offers in 
+         addition hyperlinked navigation.
+
+ 4) Bugs
+    This file contains some known or solved bugs.
