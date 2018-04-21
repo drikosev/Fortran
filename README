@@ -17,16 +17,14 @@ Apr 22, 2018
 
  However, this grammar accepts declaration and execution constructs in any order, the assumed-shape-spec-list is used also for deferred-shaped arrays, and the section-subscript-list in example could likely be more accurate. It has passed a few tests; yet, bug reports by experienced Fortran programmers are welcome.
 
- Actually, I've written this grammar to stress test some LALR enhancements and some relevant details were originally posted at:
+ Actually, I had written this grammar to stress test some LALR enhancements and some relevant details were originally posted at:
  http://compilers.iecc.com/comparch/article/13-07-011
 
  Notes: 
  [1] We use a stack to distinguish between ordinary labels and labels of non-block do constructs. 
  [2] Default actions don't overwrite the reduce actions on keyword "SUBROUTINE" because the token "<name-f>" depends on it (the directive is not listed). 
  [3] The syntax notation is almost pure BNF, with "Follow Restrictions" ( "+:", "-:", and "~:") and "Error Productions" ("::~"). 
- [4] Definitely, this non LR(k) grammar is ambiguous and the parser deterministic (perhaps this isn't fully consistent with the known theory). 
  
-
 
  Files
  -----
