@@ -17,10 +17,15 @@ Fortran parser bugs
 [ 2018-04-19 ] Found an undefined <-name> instead of a <name> in <suffix> (after a <language-bindic-spec>).
 [ 2018-04-21 ] Extension: Allow old style initialisation without double colon (ie: "real pi / 3.14159 /")
 [ 2018-04-21 ] Extension: Allow Dec style length specification "real x*8 (2)" (in addition to "real x(2) * 8").
-[ 2018-04-22 ] The keyword "RECORD" isn't accepted in a PROCEDURE declaration (Fortran 2003).  (Nothing todo).
 
 
 Fortran scanner bugs
 
 [ 2017-05-03 ] I'd predicted only array context after "call*" and the scanner was returning a name-l on "call r('s')" (todo: confirm not_cons_keys ).
 [ 2018-04-19 ] A scalar-int-constant-name may have underscores (ie: c_char_"kernel32.dll").
+
+
+
+Legacy parser bugs
+
+[ 2018-04-22 ] The keyword "RECORD" isn't acceptable in a PROCEDURE declaration (Fortran 2003).  (Nothing todo).
