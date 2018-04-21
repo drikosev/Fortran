@@ -2090,7 +2090,6 @@ subroutine-stmt ::=
      |     <wait-stmt> 
      |     <where-stmt> 
      |     <write-stmt> 
-     |     <type-stmt> 
      |     <arithmetic-if-stmt> 
      |     <computed-goto-stmt> 
      |     continue-stmt 
@@ -2756,13 +2755,6 @@ subroutine-stmt ::=
      |     ROUND = <char-expr> 
      |     SIGN = <char-expr> 
 
-<type-stmt> ::= 
-           TYPE # <type-output-item-list> 
-
-<type-output-item-list> ::= 
-           <type-output-item-list> <,> <output-item> 
-     |     <output-item> +: <,> 
-
 <arithmetic-if-stmt> ::= 
            <if-expr>
            <LABEL>
@@ -3019,7 +3011,6 @@ label-do-stmt ::=
      |     <wait-stmt> 
      |     <where-stmt> 
      |     <write-stmt> 
-     |     <type-stmt> 
      |     <computed-goto-stmt> 
      |     continue-stmt 
      |     ERROR <;> 
