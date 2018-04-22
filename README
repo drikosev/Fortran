@@ -31,14 +31,14 @@ Apr 22, 2018
 
  1) The Fortran Parser
     1.1) The "Fortran_Parser.txt" contains the syntax rules of the Fortran parser.
-    1.2) The "Fortran_Parser.html" has the same content with the "Fortran_Parser.txt" and supports
-         in addition hyperlinked navigation.
+    1.2) The "Fortran_Parser.html" has the same content with the "Fortran_Parser.txt" but in HTML
+         format.
 
  2) The Fortran Scanner
     2.1) The "Fortran_Scanner.txt" contains the lexical rules of a Fortran scanner that is shared
          by several Fortran parsers. 
-    2.1) The "Fortran_Scanner.html" has the same content with the "fortran_scanner.txt"  and supports 
-         in addition hyperlinked navigation.
+    2.1) The "Fortran_Scanner.html" has the same content with the "fortran_scanner.txt" but in HTML
+         format.
 
  3) A Legacy Parser
     3.1) The "Legacy_Parser.txt" contains the syntax rules of a Fortran parser, which in addition to
@@ -50,13 +50,12 @@ Apr 22, 2018
          actions that can distinguish a user defined operator from members of nested structures. This
          is required in example when the parser sees text of the form "m1.op.m2". 
 
-         Further, the BNF syntax of those extensions is the result of a personal effort that involves
-         much guessing. So, this grammar might not describe fully & accurately real code yet. 
+         Further, the BNF syntax of these extensions is the result of a personal effort that involves
+         some guessing. So, this grammar might not describe fully & accurately real code yet. 
 
          Currently, this is just an informative grammar. I haven't even generated a C++ parser yet!
 
-    3.2) The "Legacy_Parser.html" has the same content with the "Legacy_Parser.txt" and supports in 
-         addition hyperlinked navigation.
+    3.2) The "Legacy_Parser.html" has the same content with the "Legacy_Parser.txt" but in HTML format.
 
  4) Bugs
     This file contains some known or solved bugs.
