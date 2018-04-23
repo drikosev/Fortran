@@ -29,3 +29,7 @@ Fortran scanner bugs
 Legacy parser bugs
 
 [ 2018-04-23 ] The keyword "RECORD" wasn't acceptable in the interface of a PROCEDURE declaration stmt (Fortran 2003).  (done).
+[ 2018-04-23 ] The Intel specific <parameter-stmt> isn't supported in fixed form (ie PARAMETER y = 1 is taken as PARAMETERy= 1).
+[ 2018-04-23 ] Extension: <cray-ptr-stmt>. 
+
+

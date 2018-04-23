@@ -1546,6 +1546,7 @@ subroutine-stmt ::=
 
 <parameter-stmt> ::= 
            PARAMETER <p-named-constant-def-list> 
+     |     PARAMETER <named-constant-def-list> 
 
 <p-named-constant-def-list> ::= 
            ( <named-constant-def-list> ) 
@@ -1605,6 +1606,7 @@ subroutine-stmt ::=
      |     <namelist-stmt> 
      |     <optional-stmt> 
      |     <pointer-stmt> 
+     |     <cray-pointer-stmt> 
      |     <protected-stmt> 
      |     <save-stmt> 
      |     <target-stmt> 
@@ -1884,6 +1886,19 @@ subroutine-stmt ::=
 
 <p-deferred-shape-spec-list> ::= 
            ( <deferred-shape-spec-list> ) 
+
+<cray-pointer-stmt> ::= 
+           POINTER <cray-list> 
+
+<cray-list> ::= 
+           <cray-list> , <p-pointer-pair> 
+     |     <p-pointer-pair> 
+
+<p-pointer-pair> ::= 
+           ( <pointer-pair> ) 
+
+<pointer-pair> ::= 
+           <name> <,> <expr> 
 
 <protected-stmt> ::= 
            PROTECTED <name-list> 

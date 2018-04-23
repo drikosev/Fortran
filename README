@@ -53,9 +53,10 @@ Apr 22, 2018
          Further, the BNF syntax of these extensions is the result of a personal effort that involves
          some guessing. So, this grammar might not describe fully & accurately real code yet. 
 
-         Currently, this is just an informative grammar. I haven't even generated a C++ parser yet!
+         Again, this is just an informative grammar, without an actual, generated C++ parser yet!
 
     3.2) The "Legacy_Parser.html" has the same content with the "Legacy_Parser.txt" but in HTML format.
 
  4) Bugs
-    This file contains some known or solved bugs.
+    4.1) The file "Bugs" contains some known or solved bugs.
+
