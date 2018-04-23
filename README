@@ -47,8 +47,12 @@ Apr 22, 2018
          Many of these extensions are also supported by GNU Fortran (gfortran version 7 or newer). 
 
          At the moment, this grammar is just informative because one needs to implement semantic 
-         actions that can distinguish a user defined operator from members of nested structures. This
-         is required in example when the parser sees text of the form "m1.op.m2". 
+         actions that can distinguish a dotted operator from members of nested structures. This
+         is required in example when the parser sees text of the form "var.op.field". 
+
+         So, in fix form, this grammar doesn't fail to parse statements of the form "a.b.c=a.b.d;" but
+         without the semantic actions mentioned above, the RHS of the expression is interpreted as a
+         user defined operation with two operands, in this example a and d.
 
          Further, the BNF syntax of these extensions is the result of a personal effort that involves
          some guessing. So, this grammar might not describe fully & accurately real code yet. 
