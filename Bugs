@@ -17,6 +17,8 @@ Fortran parser bugs
 [ 2018-04-19 ] Found an undefined <-name> instead of a <name> in <suffix> (after a <language-bindic-spec>).
 [ 2018-04-21 ] Extension: Allow old style initialisation without double colon (ie: "real pi / 3.14159 /")
 [ 2018-04-21 ] Extension: Allow Dec style length specification "real x*8 (2)" (in addition to "real x(2) * 8").
+[ 2018-04-23 ] Extension: <cray-ptr-stmt>. 
+
 
 
 Fortran scanner bugs
@@ -29,7 +31,7 @@ Fortran scanner bugs
 Legacy parser bugs
 
 [ 2018-04-23 ] The keyword "RECORD" wasn't acceptable in the interface of a PROCEDURE declaration stmt (Fortran 2003).  (done).
-[ 2018-04-23 ] The Intel specific <parameter-stmt> isn't supported in fixed form (ie PARAMETER y = 1 is taken as PARAMETERy= 1).
+[ 2018-04-23 ] The Dec specific <parameter-stmt> isn't supported in fixed form (ie PARAMETER y = 1 is taken as PARAMETERy= 1).
 [ 2018-04-23 ] Extension: <cray-ptr-stmt>. 
 
 

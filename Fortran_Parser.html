@@ -869,6 +869,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<namelist-stmt>">&lt;namelist-stmt&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<optional-stmt>">&lt;optional-stmt&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<pointer-stmt>">&lt;pointer-stmt&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<cray-pointer-stmt>">&lt;cray-pointer-stmt&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<protected-stmt>">&lt;protected-stmt&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<save-stmt>">&lt;save-stmt&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<target-stmt>">&lt;target-stmt&gt;</A>&nbsp;
@@ -1010,6 +1011,11 @@
 <BR><BR><STRONG><A name="<pointer-decl>">&lt;pointer-decl&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<object-name>">&lt;object-name&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<object-name>">&lt;object-name&gt;</A>&nbsp;<A href="#<p-deferred-shape-spec-list>">&lt;p-deferred-shape-spec-list&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<p-deferred-shape-spec-list>">&lt;p-deferred-shape-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<deferred-shape-spec-list>">&lt;deferred-shape-spec-list&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<cray-pointer-stmt>">&lt;cray-pointer-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;POINTER&nbsp;<A href="#<cray-list>">&lt;cray-list&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<cray-list>">&lt;cray-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<cray-list>">&lt;cray-list&gt;</A>&nbsp;,&nbsp;<A href="#<p-pointer-pair>">&lt;p-pointer-pair&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<p-pointer-pair>">&lt;p-pointer-pair&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<p-pointer-pair>">&lt;p-pointer-pair&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<pointer-pair>">&lt;pointer-pair&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<pointer-pair>">&lt;pointer-pair&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<protected-stmt>">&lt;protected-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PROTECTED&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;PROTECTED&nbsp;&lt;::&gt;&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<save-stmt>">&lt;save-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAVE&nbsp;
