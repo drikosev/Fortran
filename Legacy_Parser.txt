@@ -1084,6 +1084,10 @@ keyword ::=
 <proc-interface> ::= 
            <interface-name> 
      |     <declaration-type-spec> 
+     |     <record> / 
+
+<record> ::= 
+           RECORD / <type-name> 
 
 <private-or-sequence-stmts> ::= 
            <private-or-sequence-stmts> <private-or-sequence> 

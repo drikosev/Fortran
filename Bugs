@@ -28,4 +28,4 @@ Fortran scanner bugs
 
 Legacy parser bugs
 
-[ 2018-04-22 ] The keyword "RECORD" isn't acceptable in the interface of a PROCEDURE declaration stmt (Fortran 2003).  (Nothing todo).
+[ 2018-04-23 ] The keyword "RECORD" wasn't acceptable in the interface of a PROCEDURE declaration stmt (Fortran 2003).  (done).
