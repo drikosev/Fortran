@@ -1,5 +1,5 @@
 
-Apr 22, 2018
+Apr 24, 2018
 
 
  
@@ -61,6 +61,6 @@ Apr 22, 2018
 
     3.2) The "Legacy_Parser.html" has the same content with the "Legacy_Parser.txt" but in HTML format.
 
- 4) Bugs
-    4.1) The file "Bugs" contains some known or solved bugs.
+ 4) ChangeLog
+    4.1) The file "ChangeLog" contains known or solved bugs along with various supported extensions.
 
