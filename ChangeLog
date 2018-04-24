@@ -29,9 +29,9 @@ Fortran scanner Issues
 
 
 Legacy parser Issues
-[ 2018-04-19 ] Support for VAX/DEC structures, unions, maps, and records. 
+[ 2018-04-22 ] Support for VAX/DEC structures, unions, maps, and records. 
 [ 2018-04-23 ] The keyword "RECORD" wasn't acceptable in the interface of a PROCEDURE declaration stmt (Fortran 2003).  (done).
-[ 2018-04-23 ] The Dec specific <parameter-stmt> isn't supported in fixed form (ie PARAMETER y = 1 is taken as PARAMETERy= 1).
+[ 2018-04-23 ] The Dec specific <parameter-stmt> isn't supported in fixed form (ie PARAMETER y = 1 is interpreted as PARAMETERy= 1).
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
 
 
