@@ -1425,6 +1425,7 @@
 <BR><BR><STRONG><A name="<inquire-length>">&lt;inquire-length&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IOLENGTH&nbsp;=&nbsp;<A href="#<variable>">&lt;variable&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<output-item-list>">&lt;output-item-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<output-item-list>">&lt;output-item-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<output-item>">&lt;output-item&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<output-item>">&lt;output-item&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<output-item>">&lt;output-item&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<output-item>">&lt;output-item&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<io-implied-do>">&lt;io-implied-do&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<io-implied-do>">&lt;io-implied-do&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<io-implied-do-object-list>">&lt;io-implied-do-object-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<io-implied-do-control>">&lt;io-implied-do-control&gt;</A>&nbsp;)&nbsp;
@@ -1591,6 +1592,7 @@
 <BR><BR><STRONG><A name="<where-p-expr>">&lt;where-p-expr&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;<A href="#<p-expr>">&lt;p-expr&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<write-stmt>">&lt;write-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<write-control>">&lt;write-control&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<write-control>">&lt;write-control&gt;</A>&nbsp;<A href="#<output-item-list>">&lt;output-item-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<write-control>">&lt;write-control&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<output-item-list>">&lt;output-item-list&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<write-control>">&lt;write-control&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;<A href="#<p-o-control-spec-list>">&lt;p-o-control-spec-list&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<p-o-control-spec-list>">&lt;p-o-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<o-control-spec-list>">&lt;o-control-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<o-control-spec-list>">&lt;o-control-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<o-control-named-spec-list>">&lt;o-control-named-spec-list&gt;</A>&nbsp;)&nbsp;

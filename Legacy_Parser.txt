@@ -2453,6 +2453,7 @@ subroutine-stmt ::=
 <output-item-list> ::= 
            <output-item-list> <,> <output-item> 
      |     <output-item> 
+     |     <output-item> 
 
 <output-item> ::= 
            <expr> 
@@ -2735,6 +2736,7 @@ subroutine-stmt ::=
 <write-stmt> ::= 
            <write-control> 
      |     <write-control> <output-item-list> 
+     |     <write-control> <,> <output-item-list> 
 
 <write-control> ::= 
            WRITE <p-o-control-spec-list> 
