@@ -51,8 +51,8 @@ Apr 24, 2018
          is required in example when the parser sees text of the form "var.op.field". 
 
          So, in fixed form, this grammar doesn't fail to parse statements of the form "a.b.c=a.b.d;" 
-         but without the semantic actions mentioned above, the RHS of the expression is interpreted
-         as a user defined operation with two operands, in this example a and d.
+         but without the semantic actions mentioned above, the RHS of the assignment is interpreted
+         as an expression with two operands, 'a' and 'd', and a user defined dotted operator, ".b.".
 
          Further, the BNF syntax of these extensions is the result of a personal effort that involves
          some guessing. So, this grammar might not describe fully & accurately real code yet. 
