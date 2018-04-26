@@ -2084,6 +2084,7 @@ subroutine-stmt ::=
      |     <close-stmt> 
      |     <cycle-stmt> 
      |     <deallocate-stmt> 
+     |     <define-file-unit-stmt> 
      |     <endfile-stmt> 
      |     <error-stop-stmt> 
      |     <exit-stmt> 
@@ -2276,6 +2277,71 @@ subroutine-stmt ::=
 <deallocate-stmt> ::= 
            DEALLOCATE <p-allocation-list> 
 
+<define-file-unit-stmt> ::= 
+           DEFINE FILE UNIT <p-i-control-spec-list> 
+
+<p-i-control-spec-list> ::= 
+           ( <i-control-spec-list> ) 
+     |     ( <i-control-spec-list> <,> <i-control-named-spec-list> ) 
+     |     ( <i-control-named-spec-list> ) 
+
+<i-control-spec-list> ::= 
+           <i-control-spec-list> <,> <i-control-spec> 
+     |     <i-control-spec> 
+
+<i-control-spec> ::= 
+           <io-unit> 
+     |     <format> 
+     |     <namelist-group-name> 
+
+<io-unit> ::= 
+           <file-unit-number> 
+     |     * 
+
+<format> ::= 
+           <char-expr> 
+     |     <label> 
+     |     <label-do> 
+     |     * 
+
+<char-expr> ::= 
+           <expr> 
+
+<namelist-group-name> ::= 
+           <name> 
+
+<i-control-named-spec-list> ::= 
+           <i-control-named-spec-list> <,> <i-control-named-spec> 
+     |     <i-control-named-spec> 
+
+<i-control-named-spec> ::= 
+           UNIT = <io-unit> 
+     |     FMT = <format> 
+     |     NML = <namelist-group-name> 
+     |     ADVANCE = <char-expr> 
+     |     ASYNCHRONOUS = <char-expr> 
+     |     BLANK = <char-expr> 
+     |     DECIMAL = <char-expr> 
+     |     DELIM = <char-expr> 
+     |     END = <label> 
+     |     EOR = <label> 
+     |     ERR = <label> 
+     |     ID = <int-variable> 
+     |     IOMSG = <iomsg-variable> 
+     |     IOSTAT = <int-variable> 
+     |     PAD = <char-expr> 
+     |     POS = <int-expr> 
+     |     REC = <int-expr> 
+     |     ROUND = <char-expr> 
+     |     SIGN = <char-expr> 
+     |     SIZE = <int-variable> 
+
+<int-variable> ::= 
+           <variable> 
+
+<int-expr> ::= 
+           <expr> 
+
 <endfile-stmt> ::= 
            ENDFILE <file-unit-number> 
      |     ENDFILE <p-position-spec-list> 
@@ -2438,9 +2504,6 @@ subroutine-stmt ::=
 <logical-variable> ::= 
            <variable> 
 
-<int-variable> ::= 
-           <variable> 
-
 <inquire-p-inquire-length> ::= 
            INQUIRE <p-inquire-length> 
 
@@ -2584,15 +2647,6 @@ subroutine-stmt ::=
            PRINT <format> 
      |     PRINT <format> <,> <output-item-list> 
 
-<format> ::= 
-           <char-expr> 
-     |     <label> 
-     |     <label-do> 
-     |     * 
-
-<char-expr> ::= 
-           <expr> 
-
 <read-stmt> ::= 
            <read-control> 
      |     <read-control> <input-item-list> 
@@ -2601,56 +2655,6 @@ subroutine-stmt ::=
 
 <read-control> ::= 
            READ <p-i-control-spec-list> -: { <unary-op> } 
-
-<p-i-control-spec-list> ::= 
-           ( <i-control-spec-list> ) 
-     |     ( <i-control-spec-list> <,> <i-control-named-spec-list> ) 
-     |     ( <i-control-named-spec-list> ) 
-
-<i-control-spec-list> ::= 
-           <i-control-spec-list> <,> <i-control-spec> 
-     |     <i-control-spec> 
-
-<i-control-spec> ::= 
-           <io-unit> 
-     |     <format> 
-     |     <namelist-group-name> 
-
-<io-unit> ::= 
-           <file-unit-number> 
-     |     * 
-
-<namelist-group-name> ::= 
-           <name> 
-
-<i-control-named-spec-list> ::= 
-           <i-control-named-spec-list> <,> <i-control-named-spec> 
-     |     <i-control-named-spec> 
-
-<i-control-named-spec> ::= 
-           UNIT = <io-unit> 
-     |     FMT = <format> 
-     |     NML = <namelist-group-name> 
-     |     ADVANCE = <char-expr> 
-     |     ASYNCHRONOUS = <char-expr> 
-     |     BLANK = <char-expr> 
-     |     DECIMAL = <char-expr> 
-     |     DELIM = <char-expr> 
-     |     END = <label> 
-     |     EOR = <label> 
-     |     ERR = <label> 
-     |     ID = <int-variable> 
-     |     IOMSG = <iomsg-variable> 
-     |     IOSTAT = <int-variable> 
-     |     PAD = <char-expr> 
-     |     POS = <int-expr> 
-     |     REC = <int-expr> 
-     |     ROUND = <char-expr> 
-     |     SIGN = <char-expr> 
-     |     SIZE = <int-variable> 
-
-<int-expr> ::= 
-           <expr> 
 
 <input-item-list> ::= 
            <input-item-list> <,> <input-item> 
@@ -3012,6 +3016,7 @@ label-do-stmt ::=
      |     <call-stmt> 
      |     <close-stmt> 
      |     <deallocate-stmt> 
+     |     <define-file-unit-stmt> 
      |     <endfile-stmt> 
      |     <flush-stmt> 
      |     <forall-stmt> 

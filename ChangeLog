@@ -18,7 +18,7 @@ Fortran parser Issues
 [ 2018-04-21 ] Extension: Allow old style initialisation without double colon (ie: "real pi / 3.14159 /")
 [ 2018-04-21 ] Extension: Allow Dec style length specification "real x*8 (2)" (in addition to "real x(2) * 8").
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
-[ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in <write-stmt> (ie: write (*,*), "handler";)
+[ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in a <write-stmt> (ie: write (*,*), "handler";)
 
 
 Fortran scanner Issues
@@ -33,5 +33,12 @@ Legacy parser Issues
 [ 2018-04-23 ] The keyword "RECORD" wasn't acceptable in the interface of a PROCEDURE declaration stmt (Fortran 2003).  (done).
 [ 2018-04-23 ] The Dec specific <parameter-stmt> isn't supported in fixed form (ie PARAMETER y = 1 is interpreted as PARAMETERy= 1).
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
-[ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in <write-stmt> (ie: write (*,*), "handler";)
+[ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in a <write-stmt> (ie: write (*,*), "hello";)
+[ 2018-04-26 ] Extension: Allow an originally IBM specific DEFINE FILE Statement, <define-file-unit-stmt>. See also (*1).
+               
+
+
+(*1) Some legacy code examples have been found at: 
+      http://fortranwiki.org/fortran/show/Modernizing+Old+Fortran
+
 

@@ -73,6 +73,7 @@
      |     DECIMAL 
      |     DEFAULT 
      |     DEFERRED 
+     |     DEFINE 
      |     DELIM 
      |     DIMENSION 
      |     DIRECT 
@@ -518,6 +519,9 @@ DEFAULT ::=
 
 DEFERRED ::= 
            D E F E R R E D 
+
+DEFINE ::= 
+           D E F I N E 
 
 DELIM ::= 
            D E L I M 
@@ -1213,6 +1217,7 @@ key ::=
      |     DECIMAL 
      |     DEFAULT 
      |     DEFERRED 
+     |     DEFINE 
      |     DELIM 
      |     DIMENSION 
      |     DIRECT 
@@ -1409,6 +1414,7 @@ cons_keys ::=
      |     SYNC MEMORY 
      |     SYNC IMAGES 
      |     GO TO 
+     |     DEFINE FILE UNIT 
 
 cons_key_begin ::= 
            IMPLICIT 
