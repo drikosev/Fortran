@@ -24,7 +24,7 @@ Apr 24, 2018
  [1] We use a stack to distinguish between ordinary labels and labels of non-block do constructs. 
  [2] Default actions don't overwrite the reduce actions on keyword "SUBROUTINE" because the token "<name-f>" depends on it (the directive is not listed). 
  [3] The syntax notation is almost pure BNF, with "Follow Restrictions" ( "+:", "-:", and "~:") and "Error Productions" ("::~"). 
- [4] Definitely, this non LR(k) grammar is ambiguous and the parser deterministic (explained at http://users.otenet.gr/~drikosev/).
+ [4] Definitely, this non LR(k) grammar is ambiguous (see: users.otenet.gr/~drikosev/miscellaneous.html).
 
 
  Files
