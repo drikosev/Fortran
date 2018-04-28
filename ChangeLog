@@ -17,6 +17,7 @@ Fortran parser Issues
 [ 2018-04-19 ] Found an undefined <-name> instead of a <name> in <suffix> (after a <language-bindic-spec>).
 [ 2018-04-21 ] Extension: Allow old style initialisation without double colon (ie: "real pi / 3.14159 /")
 [ 2018-04-21 ] Extension: Allow Dec style length specification "real x*8 (2)" (in addition to "real x(2) * 8").
+               It doesn't allow such a length specification in a function name, ie "INTEGER FUNCTION FCN*2 ( A, B, C )", see (*2).
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
 [ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in a <write-stmt> (ie: write (*,*), "handler";)
 
@@ -25,6 +26,8 @@ Fortran scanner Issues
 
 [ 2017-05-03 ] I'd predicted only array context after "call*" and the scanner was returning a name-l on "call r('s')" (todo: confirm not_cons_keys ).
 [ 2018-04-19 ] A scalar-int-constant-name may have underscores (ie: c_char_"kernel32.dll").
+[ 2018-04-28 ] Extension: GNU/VMS/Ora <hex-constant> with X in addition to Z (see [*2] ie: X'1f').
+[ 2018-04-28 ] An invalid <,> token has been removed.
 
 
 
@@ -34,11 +37,14 @@ Legacy parser Issues
 [ 2018-04-23 ] The Dec specific <parameter-stmt> isn't supported in fixed form (ie PARAMETER y = 1 is interpreted as PARAMETERy= 1).
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
 [ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in a <write-stmt> (ie: write (*,*), "hello";)
-[ 2018-04-26 ] Extension: Allow an originally IBM specific DEFINE FILE Statement, <define-file-unit-stmt>. See also (*1).
-               
+[ 2018-04-26 ] Extension: Allow an originally IBM specific DEFINE FILE Statement, <define-file-unit-stmt>. See also [*1].
+[ 2018-04-28 ] Extension: GNU/VMS/Ora '$' as a <data-edit-desc> (see [*3] ie:  "100  FORMAT (' ENTER RADIUS VALUE ',$)").               
 
 
-(*1) Some legacy code examples have been found at: 
-      http://fortranwiki.org/fortran/show/Modernizing+Old+Fortran
 
+
+     Some legacy code examples have been found at: 
+[*1] http://fortranwiki.org/fortran/show/Modernizing+Old+Fortran
+[*2] https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vncp/index.html
+[*3] http://h41379.www4.hpe.com/doc/82final/6324/6324pro_048.html
 
