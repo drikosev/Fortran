@@ -310,6 +310,8 @@
      |     <,> 
      |     <..> 
      |     . 
+     |     $ 
+     |     \ 
 
 <fmt{G}w> ::= 
            G { 0 .. 9 }... 
@@ -1593,6 +1595,8 @@ exponent ::=
 <hex-constant> ::= 
            Z <quoted-hex> 
      |     Z <dquoted-hex> 
+     |     X <quoted-hex> 
+     |     X <dquoted-hex> 
 
 <quoted-hex> ::= 
            ' [ <hex_char> ... ] ' 
