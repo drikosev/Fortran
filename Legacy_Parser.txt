@@ -1425,6 +1425,8 @@ keyword ::=
      |     <fmt dt & char-literal-constant> 
      |     DT <p-v-list> 
      |     DT 
+     |     $ 
+     |     \ 
 
 <p-v-list> ::= 
            ( <v-list> ) 
