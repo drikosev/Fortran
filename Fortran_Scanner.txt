@@ -725,6 +725,9 @@ FUNCTION ::=
 GO ::= 
            G O 
 
+ID ::= 
+           I D 
+
 IF ::= 
            I F 
 
