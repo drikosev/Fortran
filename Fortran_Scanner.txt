@@ -232,8 +232,10 @@
      |     COMPLEX 
      |     CHARACTER 
      |     LOGICAL 
+     |     AUTOMATIC 
      |     MAP 
      |     RECORD 
+     |     STATIC 
      |     STRUCTURE 
      |     UNION 
      |     END_MAP 
@@ -1037,11 +1039,17 @@ CHARACTER ::=
 LOGICAL ::= 
            L O G I C A L 
 
+AUTOMATIC ::= 
+           A U T O M A T I C 
+
 MAP ::= 
            M A P 
 
 RECORD ::= 
            R E C O R D 
+
+STATIC ::= 
+           S T A T I C 
 
 STRUCTURE ::= 
            S T R U C T U R E 
@@ -1379,8 +1387,10 @@ key ::=
      |     COMPLEX 
      |     CHARACTER 
      |     LOGICAL 
+     |     AUTOMATIC 
      |     MAP 
      |     RECORD 
+     |     STATIC 
      |     STRUCTURE 
      |     UNION 
      |     END_MAP 

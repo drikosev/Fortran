@@ -1910,6 +1910,8 @@ subroutine-stmt ::=
            SAVE 
      |     SAVE <saved-entity-list> 
      |     SAVE <::> <saved-entity-list> 
+     |     <dec-static> <saved-entity-list> 
+     |     <dec-static> <::> <saved-entity-list> 
 
 <saved-entity-list> ::= 
            <saved-entity-list> <,> <saved-entity> 
@@ -1917,7 +1919,15 @@ subroutine-stmt ::=
 
 <saved-entity> ::= 
            <object-name> 
+     |     <object-name> <initialization-in-save-error> 
      |     / <common-block-name> / 
+
+<initialization-in-save-error> ::~ 
+           <initialization>   /* Tr.error(L"Initialization in a SAVE statement"); */
+
+<dec-static> ::= 
+           AUTOMATIC 
+     |     STATIC 
 
 <target-stmt> ::= 
            TARGET <target-decl-list> 
@@ -2036,6 +2046,7 @@ subroutine-stmt ::=
      |     TARGET 
      |     VALUE 
      |     VOLATILE 
+     |     <dec-static> 
      |     <keyword-l>   /* Tr.error(L"Expecting an Attribute Specification but read:", str(1)); */
 
 <keyword-l> ::? 

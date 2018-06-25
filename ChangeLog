@@ -1,5 +1,6 @@
 
 Fortran parser Issues
+---------------------
 
 [ 2015-01-05 ] The derived-type-def didn't accept labels in type-bound-proc-bindings and a few semicolons were missing (todo: test).
 [ 2015-01-28 ] The "ONLY" keyword was undefined and the comma was omitted in "only-list".
@@ -17,29 +18,32 @@ Fortran parser Issues
 [ 2018-04-19 ] Found an undefined <-name> instead of a <name> in <suffix> (after a <language-bindic-spec>).
 [ 2018-04-21 ] Extension: Allow old style initialisation without double colon (ie: "real pi / 3.14159 /")
 [ 2018-04-21 ] Extension: Allow Dec style length specification "real x*8 (2)" (in addition to "real x(2) * 8").
-               It doesn't allow such a length specification in a function name, ie "INTEGER FUNCTION FCN*2 ( A, B, C )", see (*2).
+               It doesn't allow such a length specification in a function name, ie "INTEGER FUNCTION FCN*2 ( A, B, C )", see [*2].
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
 [ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in a <write-stmt> (ie: write (*,*), "handler";)
 
 
 Fortran scanner Issues
-
+----------------------
 [ 2017-05-03 ] I'd predicted only array context after "call*" and the scanner was returning a name-l on "call r('s')" (todo: confirm not_cons_keys ).
 [ 2018-04-19 ] A scalar-int-constant-name may have underscores (ie: c_char_"kernel32.dll").
-[ 2018-04-28 ] Extension: GNU/VMS/Ora <hex-constant> with X in addition to Z (see [*2] ie: X'1f').
+[ 2018-04-28 ] Extension: GNU/VMS/Oracle <hex-constant> with X in addition to Z (see [*2] ie: X'1f').
 [ 2018-04-28 ] An invalid <,> token has been removed.
-[ 2018-05-04 ] Undefined Lexical Rule "ID::=I D" (ie: write (iu, rec=k, asynchronous="YES", id=id) buffer;)
+[ 2018-05-04 ] Undefined Lexical Rule "ID::=I D" (ie: write (iu, rec=n, asynchronous="YES", id=id) buffer;)
+[ 2018-06-26 ] Extension: Keywords STATIC/AUTOMATIC
 
 
 Legacy parser Issues
+--------------------
 [ 2018-04-22 ] Support for VAX/DEC structures, unions, maps, and records. 
 [ 2018-04-23 ] The keyword "RECORD" wasn't acceptable in the interface of a PROCEDURE declaration stmt (Fortran 2003).  (done).
 [ 2018-04-23 ] The Dec specific <parameter-stmt> isn't supported in fixed form (ie PARAMETER y = 1 is interpreted as PARAMETERy= 1).
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
 [ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in a <write-stmt> (ie: write (*,*), "hello";)
 [ 2018-04-26 ] Extension: Allow an originally IBM specific DEFINE FILE Statement, <define-file-unit-stmt>. See also [*1].
-[ 2018-04-28 ] Extension: GNU/VMS/Ora '$' as a <data-edit-desc> (see [*3] ie:  "100  FORMAT (' ENTER RADIUS VALUE ',$)").               
-
+[ 2018-04-28 ] Extension: GNU/VMS/Oracle '$' as a <data-edit-desc> (see [*3] ie:  "100  FORMAT (' ENTER RADIUS VALUE ',$)").               
+[ 2018-06-26 ] Extension: Allow DEC/GNU STATIC/AUTOMATIC attributes in <type-declaration-stmt> and <save-stmt>. See:
+               http://gcc.gnu.org/onlinedocs/gfortran/AUTOMATIC-and-STATIC-attributes.html
 
 
 
