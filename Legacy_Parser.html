@@ -1383,6 +1383,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;name-l&gt;&nbsp;<A href="#<p-bounds-spec-list>">&lt;p-bounds-spec-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;name-l&gt;&nbsp;<A href="#<p-bounds-remapping-list>">&lt;p-bounds-remapping-list&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<goto-stmt>">&lt;goto-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO&nbsp;TO&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;GOTO&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<if-stmt>">&lt;if-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<if-expr>">&lt;if-expr&gt;</A>&nbsp;<A href="#<action-stmt>">&lt;action-stmt&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<if-expr>">&lt;if-expr&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;<A href="#<p-expr>">&lt;p-expr&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<inquire-stmt>">&lt;inquire-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INQUIRE&nbsp;<A href="#<p-inquire-spec-list>">&lt;p-inquire-spec-list&gt;</A>&nbsp;
@@ -1444,6 +1445,7 @@
 <BR><BR><STRONG><A name="<output-item>">&lt;output-item&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<io-implied-do>">&lt;io-implied-do&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<io-implied-do>">&lt;io-implied-do&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<io-implied-do-object-list>">&lt;io-implied-do-object-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<io-implied-do-control>">&lt;io-implied-do-control&gt;</A>&nbsp;)&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<p-io-implied-do-object-list>">&lt;p-io-implied-do-object-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<io-implied-do-control>">&lt;io-implied-do-control&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<io-implied-do-object-list>">&lt;io-implied-do-object-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<io-implied-do-object-list>">&lt;io-implied-do-object-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<io-implied-do-object>">&lt;io-implied-do-object&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<io-implied-do-object>">&lt;io-implied-do-object&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<io-implied-do-object>">&lt;io-implied-do-object&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<input-item>">&lt;input-item&gt;</A>&nbsp;
@@ -1453,6 +1455,7 @@
 <BR><BR><STRONG><A name="<io-implied-do-control>">&lt;io-implied-do-control&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<do-variable>">&lt;do-variable&gt;</A>&nbsp;=&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<do-variable>">&lt;do-variable&gt;</A>&nbsp;=&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<do-variable>">&lt;do-variable&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<p-io-implied-do-object-list>">&lt;p-io-implied-do-object-list&gt;</A></STRONG><FONT color="#cc3300"> ::? </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<io-implied-do-object-list>">&lt;io-implied-do-object-list&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<lock-stmt>">&lt;lock-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOCK&nbsp;<A href="#<p-variable>">&lt;p-variable&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;LOCK&nbsp;<A href="#<p-lock-arguments>">&lt;p-lock-arguments&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<p-variable>">&lt;p-variable&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<variable>">&lt;variable&gt;</A>&nbsp;)&nbsp;
@@ -1640,9 +1643,15 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;GO&nbsp;TO&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;GO&nbsp;TO&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;<A href="#<p-label-list>">&lt;p-label-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;GO&nbsp;TO&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<p-label-list>">&lt;p-label-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<goto-p-label-list>">&lt;goto-p-label-list&gt;</A>&nbsp;<A href="#<int-expr>">&lt;int-expr&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<goto-p-label-list>">&lt;goto-p-label-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<int-expr>">&lt;int-expr&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;GOTO&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;GOTO&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;<A href="#<p-label-list>">&lt;p-label-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;GOTO&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<p-label-list>">&lt;p-label-list&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<p-label-list>">&lt;p-label-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<label-list>">&lt;label-list&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<label-list>">&lt;label-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<label-list>">&lt;label-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<goto-p-label-list>">&lt;goto-p-label-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GOTO&nbsp;<A href="#<p-label-list>">&lt;p-label-list&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="continue-stmt">continue-stmt</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTINUE&nbsp;
 <BR><BR><STRONG><A name="<associate-construct>">&lt;associate-construct&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<associate-stmt>">&lt;associate-stmt&gt;</A>&nbsp;<A href="#<block>">&lt;block&gt;</A>&nbsp;<A href="#<end-associate-stmt>">&lt;end-associate-stmt&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<associate-stmt>">&lt;associate-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSOCIATE&nbsp;<A href="#<p-association-list>">&lt;p-association-list&gt;</A>&nbsp;&lt;;&gt;&nbsp;

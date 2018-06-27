@@ -21,6 +21,11 @@ Fortran parser Issues
                It doesn't allow such a length specification in a function name, ie "INTEGER FUNCTION FCN*2 ( A, B, C )", see [*2].
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
 [ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in a <write-stmt> (ie: write (*,*), "handler";)
+[ 2018-06-26 ] Bug: The following erroneous 2 line program sends the generated parser (not the simulator) to an infinitive loop:
+                    READ(nunit(k),'(6e17.6)')((xtrajc0(i,k),ytrajc0(i,k),ztrajc0(i,k)),i=1,ntrajcs)
+                    END
+[ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> & <computed-goto-stmt>.
+[ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT (the <case-construct> is obviously wrong).
 
 
 Fortran scanner Issues
@@ -31,6 +36,7 @@ Fortran scanner Issues
 [ 2018-04-28 ] An invalid <,> token has been removed.
 [ 2018-05-04 ] Undefined Lexical Rule "ID::=I D" (ie: write (iu, rec=n, asynchronous="YES", id=id) buffer;)
 [ 2018-06-26 ] Extension: Keywords STATIC/AUTOMATIC
+[ 2018-06-27 ] Bug: Added the keyword GOTO
 
 
 Legacy parser Issues
@@ -44,7 +50,16 @@ Legacy parser Issues
 [ 2018-04-28 ] Extension: GNU/VMS/Oracle '$' as a <data-edit-desc> (see [*3] ie:  "100  FORMAT (' ENTER RADIUS VALUE ',$)").               
 [ 2018-06-26 ] Extension: Allow DEC/GNU STATIC/AUTOMATIC attributes in <type-declaration-stmt> and <save-stmt>. See:
                http://gcc.gnu.org/onlinedocs/gfortran/AUTOMATIC-and-STATIC-attributes.html
-
+[ 2018-06-26 ] Extension: Allow a parenthesised object list (see more about the ARPS Model System in the 4 lines below)
+                          !https://groups.google.com/d/msg/comp.lang.fortran/PUk1-_p09zQ/HYpA9KgWBAAJ
+                          !source: http://www.caps.ou.edu/ARPS/arpsdown.html
+                          READ(nunit(k),'(6e17.6)')((xtrajc0(i,k),ytrajc0(i,k),ztrajc0(i,k)),i=1,ntrajcs)
+                          END
+[ 2018-06-26 ] Bug: The hand coded file reader "thinks" there are Hollerith constants in file globcst.inc of ARPS, line 477. (done)
+                    Once done, the file "src/arpstrajc/arpstrajc.f90" can be parsed successfully. 
+[ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> & <computed-goto-stmt>.
+                    Once done, the files "src/arpstrajc/*.f90" can be parsed successfully.
+[ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT (see ie in the ARPS Model: src/adas/adasmpi.f90 line 412).
 
 
      Some legacy code examples have been found at: 

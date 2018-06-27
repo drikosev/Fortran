@@ -128,6 +128,7 @@
      |     FUNCTION 
      |     <GENERIC> 
      |     GO 
+     |     GOTO 
      |     ID 
      |     IF 
      |     IMAGES 
@@ -727,6 +728,9 @@ FUNCTION ::=
 GO ::= 
            G O 
 
+GOTO ::= 
+           G O T O 
+
 ID ::= 
            I D 
 
@@ -1283,6 +1287,7 @@ key ::=
      |     FUNCTION 
      |     <GENERIC> 
      |     GO 
+     |     GOTO 
      |     ID 
      |     IF 
      |     IMAGES 
@@ -1429,6 +1434,7 @@ cons_keys ::=
      |     SYNC MEMORY 
      |     SYNC IMAGES 
      |     GO TO 
+     |     GOTO 
      |     DEFINE FILE UNIT 
 
 cons_key_begin ::= 
@@ -1444,6 +1450,7 @@ cons_key_begin ::=
      |     DIMENSION 
      |     COMMON 
      |     GO TO 
+     |     GOTO 
      |     DATA 
      |     ENTRY 
 

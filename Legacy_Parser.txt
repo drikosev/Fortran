@@ -2391,6 +2391,7 @@ subroutine-stmt ::=
 
 <goto-stmt> ::= 
            GO TO <LABEL> 
+     |     GOTO <LABEL> 
 
 <if-stmt> ::= 
            <if-expr> <action-stmt> 
@@ -2488,6 +2489,7 @@ subroutine-stmt ::=
 
 <io-implied-do> ::= 
            ( <io-implied-do-object-list> <,> <io-implied-do-control> ) 
+     |     ( <p-io-implied-do-object-list> <,> <io-implied-do-control> ) 
 
 <io-implied-do-object-list> ::= 
            <io-implied-do-object-list> <,> <io-implied-do-object> 
@@ -2507,6 +2509,9 @@ subroutine-stmt ::=
 
 <do-variable> ::= 
            <name> 
+
+<p-io-implied-do-object-list> ::? 
+           ( <io-implied-do-object-list> ) 
 
 <lock-stmt> ::= 
            LOCK <p-variable> 
@@ -2818,6 +2823,11 @@ subroutine-stmt ::=
      |     GO TO <name> 
      |     GO TO <name> <p-label-list> 
      |     GO TO <name> <,> <p-label-list> 
+     |     <goto-p-label-list> <int-expr> 
+     |     <goto-p-label-list> <,> <int-expr> 
+     |     GOTO <name> 
+     |     GOTO <name> <p-label-list> 
+     |     GOTO <name> <,> <p-label-list> 
 
 <p-label-list> ::= 
            ( <label-list> ) 
@@ -2825,6 +2835,9 @@ subroutine-stmt ::=
 <label-list> ::= 
            <label-list> <,> <LABEL> 
      |     <LABEL> 
+
+<goto-p-label-list> ::= 
+           GOTO <p-label-list> 
 
 continue-stmt ::= 
            CONTINUE 
