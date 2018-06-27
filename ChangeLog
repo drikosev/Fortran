@@ -67,9 +67,10 @@ Legacy parser Issues
                     terminate called after throwing an instance of 'std::bad_alloc' 
                     what(): std::bad_alloc
 
-                    When the legacy parser has been compiled in macOS (10.13) by clang (9.1) or in Windows (8.1) by the MS  
-                    Native Tools (cl.exe) the program fsl2snd.f90 is parsed successfully. Also, GNU gcc (4.8 & 8.1) compiles
-                    this file in Linux without any problems.
+
+                    When the legacy parser has been compiled in Windows (8.1) by the MS Native Tools (cl.exe) or in macOS
+                    (10.13) either by clang (9.1) or by GNU gcc (4.8) the program fsl2snd.f90 is parsed successfully. Also, 
+                    GNU gcc (4.8 & 8.1) compiles this file in Linux without any problems.
 
 
      Some legacy code examples have been found at: 
