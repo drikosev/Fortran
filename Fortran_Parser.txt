@@ -2770,18 +2770,10 @@ select-case-stmt ::=
            <case-block> <format-stmt;> 
      |     <case-block> <executable-construct;> 
      |     <case-block> <label> <executable-construct;> 
-     |     <case-block> <label> <case-stmt> <executable-construct;> 
-     |     <case-block> <label> <case-stmt> <label> <executable-construct;> 
-     |     <case-block> <case-stmt> <executable-construct;> 
-     |     <case-block> <case-stmt> <label> <executable-construct;> 
-     |     <case-block> <label> <case-stmt> <format-stmt;> 
-     |     <case-block> <case-stmt> <format-stmt;> 
-     |     <label> <case-stmt> <executable-construct;> 
-     |     <label> <case-stmt> <label> <executable-construct;> 
-     |     <case-stmt> <executable-construct;> 
-     |     <case-stmt> <label> <executable-construct;> 
-     |     <label> <case-stmt> <format-stmt;> 
-     |     <case-stmt> <format-stmt;> 
+     |     <case-block> <case-stmt> 
+     |     <case-block> <label> <case-stmt> 
+     |     <label> <case-stmt> 
+     |     <case-stmt> 
 
 <case-stmt> ::= 
            case-stmt <;> 

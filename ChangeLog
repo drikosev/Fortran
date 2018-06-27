@@ -24,8 +24,9 @@ Fortran parser Issues
 [ 2018-06-26 ] Bug: The following erroneous 2 line program sends the generated parser (not the simulator) to an infinitive loop:
                     READ(nunit(k),'(6e17.6)')((xtrajc0(i,k),ytrajc0(i,k),ztrajc0(i,k)),i=1,ntrajcs)
                     END
-[ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> & <computed-goto-stmt>.
-[ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT (the <case-construct> is obviously wrong).
+[ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> & <computed-goto-stmt>. (done)
+[ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
+[ 2018-06-27 ] Bug: In a format statement, '(/' and '/)' are valid sequences of '(', '/', ')'.
 
 
 Fortran scanner Issues
@@ -35,8 +36,8 @@ Fortran scanner Issues
 [ 2018-04-28 ] Extension: GNU/VMS/Oracle <hex-constant> with X in addition to Z (see [*2] ie: X'1f').
 [ 2018-04-28 ] An invalid <,> token has been removed.
 [ 2018-05-04 ] Undefined Lexical Rule "ID::=I D" (ie: write (iu, rec=n, asynchronous="YES", id=id) buffer;)
-[ 2018-06-26 ] Extension: Keywords STATIC/AUTOMATIC
-[ 2018-06-27 ] Bug: Added the keyword GOTO
+[ 2018-06-26 ] Extension: Keywords STATIC/AUTOMATIC (done)
+[ 2018-06-27 ] Bug: Added the keyword GOTO (done)
 
 
 Legacy parser Issues
@@ -55,11 +56,13 @@ Legacy parser Issues
                           !source: http://www.caps.ou.edu/ARPS/arpsdown.html
                           READ(nunit(k),'(6e17.6)')((xtrajc0(i,k),ytrajc0(i,k),ztrajc0(i,k)),i=1,ntrajcs)
                           END
-[ 2018-06-26 ] Bug: The hand coded file reader "thinks" there are Hollerith constants in file globcst.inc of ARPS, line 477. (done)
-                    Once done, the file "src/arpstrajc/arpstrajc.f90" can be parsed successfully. 
-[ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> & <computed-goto-stmt>.
-                    Once done, the files "src/arpstrajc/*.f90" can be parsed successfully.
-[ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT (see ie in the ARPS Model: src/adas/adasmpi.f90 line 412).
+[ 2018-06-26 ] Bug: The hand coded file reader was returning Hollerith constants within names (ie real x1h ;). (done)
+[ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> & <computed-goto-stmt>. (done)
+[ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
+[ 2018-06-27 ] Bug: In a format statement, '(/' and '/)' are valid sequences of '(', '/', ')'; (see src/adas/rdsfcobs.f90)
+[ 2018-06-27 ] Bug: The legacy parser hangs in Linux when it checks the file "src/adas/fsl2snd.f90". I see the following 2 lines:
+                    terminate called after throwing an instance of 'std::bad_alloc' 
+                    what(): std::bad_alloc
 
 
      Some legacy code examples have been found at: 
