@@ -57,8 +57,6 @@ Legacy parser Issues
                           !source: http://www.caps.ou.edu/ARPS/arpsdown.html
                           READ(nunit(k),'(6e17.6)')((xtrajc0(i,k),ytrajc0(i,k),ztrajc0(i,k)),i=1,ntrajcs)
                           END
-[ 2018-06-26 ] Bug: The hand coded file reader was returning Hollerith constants within names (ie real x1h ;). (done)
-                    Obviously, the beginning of Hollerith constants (ie 12H) should be lexed instead!!!
 [ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> & <computed-goto-stmt>. (done)
 [ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
 [ 2018-06-27 ] Bug: In a format statement, '(/' and '/)' are valid sequences of '(', '/', ')'; (see src/adas/rdsfcobs.f90)
@@ -70,7 +68,13 @@ Legacy parser Issues
 
                     When the legacy parser has been compiled in Windows (8.1) by the MS Native Tools (cl.exe) or in macOS
                     (10.13) either by clang (9.1) or by GNU gcc (4.8) the program fsl2snd.f90 is parsed successfully. Also, 
-                    GNU gcc (4.8 & 8.1) compiles this file in Linux without any problems.
+                    GNU Fortran (4.8 & 8.1) compiles this file in Linux without any problems.
+
+
+
+Hand coded File Reader
+--------------------
+[ 2018-06-26 ] Bug: The hand coded file reader was returning Hollerith constants within names (ie real x1h ;). (done)
 
 
      Some legacy code examples have been found at: 
