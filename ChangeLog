@@ -51,7 +51,7 @@ Legacy parser Issues
 [ 2018-04-26 ] Extension: Allow an originally IBM specific DEFINE FILE Statement, <define-file-unit-stmt>. See also [*1].
 [ 2018-04-28 ] Extension: GNU/VMS/Oracle '$' as a <data-edit-desc> (see [*3] ie:  "100  FORMAT (' ENTER RADIUS VALUE ',$)").               
 [ 2018-06-26 ] Extension: Allow DEC/GNU STATIC/AUTOMATIC attributes in <type-declaration-stmt> and <save-stmt>. See:
-               http://gcc.gnu.org/onlinedocs/gfortran/AUTOMATIC-and-STATIC-attributes.html
+                          http://gcc.gnu.org/onlinedocs/gfortran/AUTOMATIC-and-STATIC-attributes.html
 [ 2018-06-26 ] Extension: Allow a parenthesised object list (see more about the ARPS Model System in the 4 lines below)
                           !https://groups.google.com/d/msg/comp.lang.fortran/PUk1-_p09zQ/HYpA9KgWBAAJ
                           !source: http://www.caps.ou.edu/ARPS/arpsdown.html
@@ -66,9 +66,9 @@ Legacy parser Issues
                     what(): std::bad_alloc
 
 
-                    When the legacy parser has been compiled in Windows (8.1) by the MS Native Tools (cl.exe) or in macOS
-                    (10.13) either by clang (9.1) or by GNU gcc (4.8) the program fsl2snd.f90 is parsed successfully. Also, 
-                    GNU Fortran (4.8 & 8.1) compiles this file in Linux without any problems.
+                    When the legacy parser has been compiled in Windows (8.1) by the VS-2015 Native Tools (cl.exe) or in 
+                    macOS (10.13) either by clang (9.1) or by GNU gcc (4.8) the program fsl2snd.f90 is parsed successfully.  
+                    Also, GNU Fortran (4.8 & 8.1) compiles this file in Linux without any problems.
 
 
 
