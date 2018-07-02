@@ -72,9 +72,22 @@ Legacy parser Issues
 
 
 
+Free Form Preprocessor
+----------------------
+[ 2018-07-01 ] Bug: The preprocessor was accepting a line comment after a '&' in a character context (done).
+                    So, the following statement was found to be invalid:
+                    src/arps/kfpara.f90:1419
+                    PRINT *,'& !!!WARNING!!! CLOUD BASE WATER VAPOR CHANGES BY ', &
+                           qvdiff,'% WHEN MOISTURE IS BORROWED TO PREVENT NEGATIVE ', &
+                           'VALUES IN KAIN-FRITSCH'
+
+
 Hand coded File Reader
---------------------
+----------------------
 [ 2018-06-26 ] Bug: The hand coded file reader was returning Hollerith constants within names (ie real x1h ;). (done)
+
+
+
 
 
      Some legacy code examples have been found at: 
