@@ -58,7 +58,7 @@ Apr 24, 2018
          Further, the BNF syntax of these extensions is the result of a personal effort that involves
          some guessing. So, this grammar might not describe fully & accurately real code yet. 
 
-         Again, this is just an informative grammar, without an actual, generated C++ parser yet!
+         Again, this is just an informative grammar, without a distinct generated C++ parser yet!
 
     3.2) The "Legacy_Parser.html" has the same content with the "Legacy_Parser.txt" but in HTML format.
 
