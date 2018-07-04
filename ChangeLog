@@ -109,7 +109,7 @@ Legacy parser Issues
 
                The bug has been introduced by one of the changes made between 2017-07-08 and 2018-07-03.
                If the error production <p-array-spec-buggy> is removed, then the problem is solved.
-[ 2018-07-04 ] Extension: Allow a missing ',' in a <format-stmt> between a <control-edit-desc> that is
+[ 2018-07-04 ] GNU Extension: Allow a missing ',' in a <format-stmt> between a <control-edit-desc> that is
                a <position-edit-desc> and a <data-edit-desc> (see src/arpsverif/arpshis2ver.f90:4785)  (done)
 
 
