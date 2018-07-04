@@ -1446,7 +1446,7 @@ keyword ::=
      |     <sign> <int-literal-constant> 
 
 <control-edit-desc> ::= 
-           <position-edit-desc> +: { <,> | : | / | ) } 
+           <position-edit-desc> +: { <,> | : | / | ) | <data-edit-desc-first> } 
      |     <sign-edit-desc> +: { <,> | : | / | ) } 
      |     <blank-interp-edit-desc> +: { <,> | : | / | ) } 
      |     <round-edit-desc> +: { <,> | : | / | ) } 
@@ -1463,6 +1463,19 @@ keyword ::=
 <n> ::= 
            <int-literal-constant> 
      |     <sign> <int-literal-constant> 
+
+<data-edit-desc-first> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D}w . d> 
+     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     A 
+     |     <fmt dt & char-literal-constant> 
+     |     DT 
+     |     $ 
+     |     \ 
 
 <sign-edit-desc> ::= 
            SS 
@@ -1983,10 +1996,6 @@ subroutine-stmt ::=
 
 <p-array-spec2> ::= 
            ( <array-spec> ) 
-     |     <p-array-spec-buggy> 
-
-<p-array-spec-buggy> ::~ 
-           ( <array-spec> -: { ) | * | = } 
 
 <name-l-or-r> ::= 
            <name-l> 

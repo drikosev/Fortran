@@ -49,7 +49,8 @@ Fortran parser Issues
 
 Fortran scanner Issues
 ----------------------
-[ 2017-05-03 ] I'd predicted only array context after "call*" and the scanner was returning a name-l on "call r('s')" (todo: confirm not_cons_keys ).
+[ 2017-05-03 ] I'd predicted only array context after "call*" and the scanner was returning a
+               name-l on "call r('s')" (todo: confirm not_cons_keys ).
 [ 2018-04-19 ] A scalar-int-constant-name may have underscores (ie: c_char_"kernel32.dll").
 [ 2018-04-28 ] Extension: GNU/VMS/Oracle <hex-constant> with X in addition to Z (see [*2] ie: X'1f').
 [ 2018-04-28 ] An invalid <,> token has been removed.
