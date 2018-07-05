@@ -40,9 +40,9 @@ Fortran parser Issues
 [ 2018-06-27 ] Bug (free form): In a format statement, '(/','//','/)' are valid sequences of '(','/',')'.
                Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'.
 [ 2018-07-03 ] Bug: The parser rejects this: "REAL :: trigs1(3*(nx-1)/2+1)". (done)
-                    The bug has been introduced by one of the changes made between 2017-07-08 and 2018-07-03.
-                    The problem is solved if the <p-array-spec-buggy> or <initialization-obsolete> is
-                    removed. In this parser I've removed the latter (in the legacy parser below the former).
+               The bug has been introduced by one of the changes made between 2017-07-08 and 2018-07-03.
+               The problem is solved if the <p-array-spec-buggy> or <initialization-obsolete> is
+               removed. In this parser I've removed the latter (in the legacy parser below the former).
 
 
 Fortran scanner Issues
