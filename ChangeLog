@@ -22,7 +22,7 @@ Fortran parser Issues
 [ 2017-07-08 ] The "do-block" should be optional in a "block-do-construct".
 [ 2018-04-16 ] Segmentation fault on an extra comma in a type declaration stmt (ie: "real, x").
 [ 2018-04-19 ] Found an undefined <-name> instead of a <name> in <suffix> (after a <language-bindic-spec>).
-[ 2018-04-21 ] Extension: Allow old style initialisation with slahses ("real pi / 3.14159 /") (undone).
+[ 2018-04-21 ] Extension: Allow old style initialisation with slahses ("real pi / 3.14159 /") (undo).
 [ 2018-04-21 ] Extension: Allow Dec style length specification "real x*8 (2)" 
                (in addition to "real x(2) * 8").
                It doesn't allow such a length specification in a function name, ie:
@@ -39,10 +39,7 @@ Fortran parser Issues
 [ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
 [ 2018-06-27 ] Bug (free form): In a format statement, '(/','//','/)' are valid sequences of '(','/',')'.
                Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'.
-[ 2018-07-03 ] Bug: The parser rejects the following valid declaration: (done)
-                    !src/arps/tinteg3d.f90:501
-                    REAL :: trigs1(3*(nx-1)/2+1) 
-
+[ 2018-07-03 ] Bug: The parser rejects this: "REAL :: trigs1(3*(nx-1)/2+1)". (done)
                     The bug has been introduced by one of the changes made between 2017-07-08 and 2018-07-03.
                     The problem is solved if the <p-array-spec-buggy> or <initialization-obsolete> is
                     removed. In this parser I've removed the latter (in the legacy parser below the former).
@@ -79,11 +76,7 @@ Legacy parser Issues
                "100  FORMAT (' ENTER RADIUS VALUE ',$)").               
 [ 2018-06-26 ] Extension: Allow DEC/GNU STATIC/AUTOMATIC attributes in <type-declaration-stmt> and
                <save-stmt>. See: http://gcc.gnu.org/onlinedocs/gfortran/AUTOMATIC-and-STATIC-attributes.html
-[ 2018-06-26 ] Extension: Allow a parenthesised object list (see more about the ARPS System in these 4 lines)
-                          !https://groups.google.com/d/msg/comp.lang.fortran/PUk1-_p09zQ/HYpA9KgWBAAJ
-                          !source: http://www.caps.ou.edu/ARPS/arpsdown.html
-                          READ(nunit(k),'(6e17.6)')((xtrajc0(i,k),ytrajc0(i,k),ztrajc0(i,k)),i=1,ntrajcs)
-                          END
+[ 2018-06-26 ] Extension: Allow a parenthesised <io-implied-do-object-list>  (done)
 [ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> & 
                <computed-goto-stmt>. (done)
 [ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
@@ -103,12 +96,10 @@ Legacy parser Issues
                Linux without any problems.
 
 
-[ 2018-07-03 ] Bug: The legacy parser rejects the following valid declaration: (done)
-               !src/arps/tinteg3d.f90:501
-               REAL :: trigs1(3*(nx-1)/2+1) 
-
+[ 2018-07-03 ] Bug: The legacy parser rejects this: "REAL :: trigs1(3*(nx-1)/2+1)". (done)
                The bug has been introduced by one of the changes made between 2017-07-08 and 2018-07-03.
-               If the error production <p-array-spec-buggy> is removed, then the problem is solved.
+               If the error production <p-array-spec-buggy> is removed, then the problem is solved. In
+               addition the Shift/Reduce conflict with the <p-io-implied-do-object-list> disappeared.
 [ 2018-07-04 ] GNU Extension: Allow a missing ',' in a <format-stmt> between a <control-edit-desc> that is
                a <position-edit-desc> and a <data-edit-desc> (see src/arpsverif/arpshis2ver.f90:4785)  (done)
 
@@ -116,11 +107,6 @@ Legacy parser Issues
 Free Form Preprocessor
 ----------------------
 [ 2018-07-01 ] Bug: The preprocessor was accepting a line comment after a '&' in a character context (done).
-                    So, the following statement was found to be invalid:
-                    !src/arps/kfpara.f90:1419
-                    PRINT *,'& !!!WARNING!!! CLOUD BASE WATER VAPOR CHANGES BY ', &
-                           qvdiff,'% WHEN MOISTURE IS BORROWED TO PREVENT NEGATIVE ', &
-                           'VALUES IN KAIN-FRITSCH'
 [ 2018-07-03 ] todo: Add semantic actions that strip out statement continuation patters from quoted literals.
 
 
