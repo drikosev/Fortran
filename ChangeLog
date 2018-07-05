@@ -80,9 +80,8 @@ Legacy parser Issues
 [ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> & 
                <computed-goto-stmt>. (done)
 [ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
-[ 2018-06-27 ] Bug (free form): In a format statement, '(/','//','/)' are valid sequences of '(','/',')';
-               (see src/adas/rdsfcobs.f90)
-               Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'. 
+[ 2018-06-27 ] Bug (free form): In a format statement, '(/','//','/)' are valid sequences of '(','/',')'.
+               Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'.
 [ 2018-06-27 ] Bug: The parser hangs in Linux due to a '”', and '–' vs '-' in the first comments of
                "src/adas/fsl2snd.f90".
                Sometimes the following two lines show up:
