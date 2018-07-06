@@ -37,8 +37,9 @@ Fortran parser Issues
 [ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> 
                & <computed-goto-stmt>. (done)
 [ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
-[ 2018-06-27 ] Bug (free form): In a format statement, '(/','//','/)' are valid sequences of '(','/',')'.
-               Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'.
+[ 2018-06-27 ] Bug (free form): In a format stmt, '(/','//','/)' are valid sequences of '(','/',')'. (done)
+[ 2018-06-27 ] Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'. 
+               It returns the label of the format stmt, instead of a '(' !!!
 [ 2018-07-03 ] Bug: The parser rejects this: "REAL :: trigs1(3*(nx-1)/2+1)". (done)
                The bug has been introduced by one of the changes made between 2017-07-08 and 2018-07-03.
                The problem is solved if the <p-array-spec-buggy> or <initialization-obsolete> is
@@ -80,8 +81,9 @@ Legacy parser Issues
 [ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> & 
                <computed-goto-stmt>. (done)
 [ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
-[ 2018-06-27 ] Bug (free form): In a format statement, '(/','//','/)' are valid sequences of '(','/',')'.
-               Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'.
+[ 2018-06-27 ] Bug (free form): In a format stmt, '(/','//','/)' are valid sequences of '(','/',')'. (done)
+[ 2018-06-27 ] Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'. 
+               It returns the label of the format stmt, instead of a '(' !!!
 [ 2018-06-27 ] Bug: The parser hangs in Linux due to a '”', and '–' vs '-' in the first comments of
                "src/adas/fsl2snd.f90".
                Sometimes the following two lines show up:
@@ -123,4 +125,8 @@ Hand coded File Reader
 
      The first large test suite (fcvs21) successfully passed by this Fortran parser can be found at:
 [*4] https://www.itl.nist.gov/div897/ctg/fortran_form.htm
+
+     In Windows & macOS, the Legacy Parser can parse the ARPS Model System (5.3.4) which can be found at:
+[*5] http://www.caps.ou.edu/ARPS/arpsdown.html
+     
 
