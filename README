@@ -25,9 +25,13 @@ Apr 24, 2018
  [2] Default actions don't overwrite the reduce actions on keywords "FUNCTION" & "SUBROUTINE" because
      the token "<name-f>" depends on them. In the serialised version of the grammar the directive ie
      "#reductions FUNCTION" indicates exactly this restriction. 
- [3] The syntax notation is almost pure BNF, with "Follow Restrictions" ( "+:", "-:", and "~:") and "Error Productions" ("::~"). 
+ [3] The syntax notation is almost pure BNF, with "Follow Restrictions" ( "+:", "-:", and "~:") and
+     "Error Productions" ("::~"). 
  [4] Definitely, this non LR(k) grammar is ambiguous (see: users.otenet.gr/~drikosev/miscellaneous.html).
- 
+ [5] Since July 6, 2018, the ENLALR parser supports the SMA technique selectively on individual tokens,
+     which is required in free form Fortran because a "(/" in example is in a format statement a valid 
+     sequence of a '(' and a '/'. 
+
 
  Files
  -----
