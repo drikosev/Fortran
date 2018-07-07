@@ -128,7 +128,8 @@ Hand coded File Reader
      The first large test suite (fcvs21) successfully passed by this Fortran parser can be found at:
 [*4] https://www.itl.nist.gov/div897/ctg/fortran_form.htm
 
-     In Windows & macOS, the Legacy Parser can parse the ARPS Model System (5.3.4) which can be found at:
+     In Windows & macOS, the Legacy Parser can parse the ARPS Model System (5.3.4), but not the file
+     "wrf-phdf5support.F90" which requires a C preprocessor. The source code of the ARPS can be found at:
 [*5] http://www.caps.ou.edu/ARPS/arpsdown.html
      
 
