@@ -110,15 +110,17 @@ Hand coded File Reader
                terminate called after throwing an instance of 'std::bad_alloc' 
                what(): std::bad_alloc
 
-               The wifstream::eof() returns true at first non ASCII char (ie smart quotes '”').
+               The wifstream::eof() returns true at the first non ASCII char (ie smart quotes '”'). 
+               It might be relevant (maybe not) that on this Linux box I cannot build the Fortran 
+               scanner as Syntaxis also hangs when it tries to save some data on disk.
 
                When the legacy parser has been compiled in Windows (8.1) by the VS-2015 Native Tools
                (cl.exe) or in macOS (10.13) either by clang (9.1) or by GNU gcc (4.8) the program
                fsl2snd.f90 is parsed successfully. Also, GNU Fortran (4.8 & 8.1) compiles this file in
                Linux without any problems.
 
-[ 2018-07-07 ] Bug: The hand coded file reader cannot invoke the C preprocessor, which is required by
-               several Fortran programs, ie by the program "src/external/io_phdf5/wrf-phdf5support.F90". 
+[ 2018-07-07 ] Bug: The hand coded file reader cannot invoke the C preprocessor, which is sometimes
+               required by Fortran programs, ie by the program "external/io_phdf5/wrf-phdf5support.F90". 
 
 
 
@@ -130,7 +132,8 @@ Hand coded File Reader
      The first large test suite (fcvs21) successfully passed by this Fortran parser can be found at:
 [*4] https://www.itl.nist.gov/div897/ctg/fortran_form.htm
 
-     In Windows & macOS, the Legacy Parser can parse the ARPS Model System (5.3.4), which can be found at
+     In Windows & macOS, the Legacy Parser can parse the ARPS Model System (5.3.4), except one file
+     that requires the C preprocessor. The source of ARPS can be found at
 [*5] http://www.caps.ou.edu/ARPS/arpsdown.html
      
 
