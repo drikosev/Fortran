@@ -86,19 +86,6 @@ Legacy parser Issues
                See he directive "#sma" in the serialised version of the grammar (ie legacy_parser.txt).
 [ 2018-06-27 ] Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'. 
                It returns the label of the format stmt, instead of a '(' !!!
-[ 2018-06-27 ] Bug: The parser hangs in Linux due to a '”', and '–' vs '-' in the first comments of
-               "src/adas/fsl2snd.f90".
-               Sometimes the following two lines show up:
-               terminate called after throwing an instance of 'std::bad_alloc' 
-               what(): std::bad_alloc
-
-
-               When the legacy parser has been compiled in Windows (8.1) by the VS-2015 Native Tools
-               (cl.exe) or in macOS (10.13) either by clang (9.1) or by GNU gcc (4.8) the program
-               fsl2snd.f90 is parsed successfully. Also, GNU Fortran (4.8 & 8.1) compiles this file in
-               Linux without any problems.
-
-
 [ 2018-07-03 ] Bug: The legacy parser rejects this: "REAL :: trigs1(3*(nx-1)/2+1)". (done)
                The bug has been introduced by one of the changes made between 2017-07-08 and 2018-07-03.
                If the error production <p-array-spec-buggy> is removed, then the problem is solved. In
@@ -117,6 +104,21 @@ Hand coded File Reader
 ----------------------
 [ 2018-06-26 ] Bug (free form): The hand coded file reader was returning Hollerith constants within
                names (ie real x1h ;). (done)
+[ 2018-06-27 ] Bug: The legacy parser hangs in Linux due to a '”', and '–' vs '-' in the first comments of
+               "src/adas/fsl2snd.f90".
+               Sometimes the following two lines show up:
+               terminate called after throwing an instance of 'std::bad_alloc' 
+               what(): std::bad_alloc
+
+               The wifstream::eof() returns true at first non ASCII char (ie smart quotes '”').
+
+               When the legacy parser has been compiled in Windows (8.1) by the VS-2015 Native Tools
+               (cl.exe) or in macOS (10.13) either by clang (9.1) or by GNU gcc (4.8) the program
+               fsl2snd.f90 is parsed successfully. Also, GNU Fortran (4.8 & 8.1) compiles this file in
+               Linux without any problems.
+
+[ 2018-07-07 ] Bug: The hand coded file reader cannot invoke the C preprocessor, which is required by
+               several Fortran programs, ie by the program "src/external/io_phdf5/wrf-phdf5support.F90". 
 
 
 
@@ -128,8 +130,7 @@ Hand coded File Reader
      The first large test suite (fcvs21) successfully passed by this Fortran parser can be found at:
 [*4] https://www.itl.nist.gov/div897/ctg/fortran_form.htm
 
-     In Windows & macOS, the Legacy Parser can parse the ARPS Model System (5.3.4), but not the file
-     "wrf-phdf5support.F90" which requires a C preprocessor. The source code of the ARPS can be found at:
+     In Windows & macOS, the Legacy Parser can parse the ARPS Model System (5.3.4), which can be found at
 [*5] http://www.caps.ou.edu/ARPS/arpsdown.html
      
 
