@@ -1,10 +1,24 @@
-<HTML>	<HEAD><META http-equiv=Content-Type content="text/html; charset=utf-8"></HEAD><BODY><BR><BR><STRONG>#disambiguate</STRONG>&nbsp;<A href="#<bug-end-stmt>">&lt;bug-end-stmt&gt;</A><BR>
+<HTML>	<HEAD><META http-equiv=Content-Type content="text/html; charset=utf-8"></HEAD><BODY><STRONG>#disambiguate</STRONG>&nbsp;<A href="#<bug-end-stmt>">&lt;bug-end-stmt&gt;</A><BR>
 
 <STRONG>#disambiguate</STRONG>&nbsp;<A href="#<expr>">&lt;expr&gt;</A><BR>
 
 <STRONG>#disambiguate</STRONG>&nbsp;<A href="#<part-name-p-section-subscript-list-l>">&lt;part-name-p-section-subscript-list-l&gt;</A><BR>
 
-<BR><BR><BR><BR><BR><BR><STRONG><A name="<grm>">&lt;grm&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<program>">&lt;program&gt;</A>&nbsp;
+<BR><STRONG>#reductions</STRONG>&nbsp;FUNCTION<BR>
+
+<STRONG>#reductions</STRONG>&nbsp;SUBROUTINE<BR>
+
+<BR><STRONG>#sma</STRONG>&nbsp;&lt;(/&gt;<BR>
+
+<STRONG>#sma</STRONG>&nbsp;&lt;/)&gt;<BR>
+
+<STRONG>#sma</STRONG>&nbsp;&lt;concat-op&gt;<BR>
+
+<STRONG>#sma</STRONG>&nbsp;&lt;defined-binary-op&gt;<BR>
+
+<STRONG>#sma</STRONG>&nbsp;&lt;defined-unary-op&gt;<BR>
+
+<BR><STRONG><A name="<grm>">&lt;grm&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<program>">&lt;program&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<program>">&lt;program&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<program-units>">&lt;program-units&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;;&gt;&nbsp;<A href="#<program-units>">&lt;program-units&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<program-units>">&lt;program-units&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<program-units>">&lt;program-units&gt;</A>&nbsp;<A href="#<program-unit>">&lt;program-unit&gt;</A>&nbsp;
@@ -1464,7 +1478,7 @@
 <BR><BR><STRONG><A name="<io-implied-do-control>">&lt;io-implied-do-control&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<do-variable>">&lt;do-variable&gt;</A>&nbsp;=&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<do-variable>">&lt;do-variable&gt;</A>&nbsp;=&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<do-variable>">&lt;do-variable&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<p-io-implied-do-object-list>">&lt;p-io-implied-do-object-list&gt;</A></STRONG><FONT color="#cc3300"> ::? </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<io-implied-do-object-list>">&lt;io-implied-do-object-list&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<p-io-implied-do-object-list>">&lt;p-io-implied-do-object-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<io-implied-do-object-list>">&lt;io-implied-do-object-list&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<lock-stmt>">&lt;lock-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOCK&nbsp;<A href="#<p-variable>">&lt;p-variable&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;LOCK&nbsp;<A href="#<p-lock-arguments>">&lt;p-lock-arguments&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<p-variable>">&lt;p-variable&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<variable>">&lt;variable&gt;</A>&nbsp;)&nbsp;

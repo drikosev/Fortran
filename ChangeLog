@@ -38,6 +38,7 @@ Fortran parser Issues
                & <computed-goto-stmt>. (done)
 [ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
 [ 2018-06-27 ] Bug (free form): In a format stmt, '(/','//','/)' are valid sequences of '(','/',')'. (done)
+               See he directive "#sma" in the serialised version of the grammar (ie fortran_parser.txt).
 [ 2018-06-27 ] Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'. 
                It returns the label of the format stmt, instead of a '(' !!!
 [ 2018-07-03 ] Bug: The parser rejects this: "REAL :: trigs1(3*(nx-1)/2+1)". (done)
@@ -82,6 +83,7 @@ Legacy parser Issues
                <computed-goto-stmt>. (done)
 [ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
 [ 2018-06-27 ] Bug (free form): In a format stmt, '(/','//','/)' are valid sequences of '(','/',')'. (done)
+               See he directive "#sma" in the serialised version of the grammar (ie legacy_parser.txt).
 [ 2018-06-27 ] Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'. 
                It returns the label of the format stmt, instead of a '(' !!!
 [ 2018-06-27 ] Bug: The parser hangs in Linux due to a '”', and '–' vs '-' in the first comments of

@@ -1,13 +1,13 @@
-
-
 #disambiguate <bug-end-stmt>
 #disambiguate <expr>
 #disambiguate <part-name-p-section-subscript-list-l>
 
+#reductions FUNCTION
+#reductions SUBROUTINE
 
-
-
-
+#sma <(/>
+#sma </)>
+#sma <concat-op>
 
 <grm> ::= 
            <program> 

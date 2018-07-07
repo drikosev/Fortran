@@ -1,13 +1,15 @@
-
-
 #disambiguate <bug-end-stmt>
 #disambiguate <expr>
 #disambiguate <part-name-p-section-subscript-list-l>
 
+#reductions FUNCTION
+#reductions SUBROUTINE
 
-
-
-
+#sma <(/>
+#sma </)>
+#sma <concat-op>
+#sma <defined-binary-op>
+#sma <defined-unary-op>
 
 <grm> ::= 
            <program> 
@@ -2519,7 +2521,7 @@ subroutine-stmt ::=
 <do-variable> ::= 
            <name> 
 
-<p-io-implied-do-object-list> ::? 
+<p-io-implied-do-object-list> ::= 
            ( <io-implied-do-object-list> ) 
 
 <lock-stmt> ::= 
