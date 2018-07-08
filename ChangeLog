@@ -98,26 +98,18 @@ Free Form Preprocessor
 ----------------------
 [ 2018-07-01 ] Bug: The preprocessor was accepting a line comment after a '&' in a character context (done).
 [ 2018-07-03 ] todo: Add semantic actions that strip out statement continuation patters from quoted literals.
+[ 2018-07-08 ] Bug: The line comment characters were limited up to "\u00FF", instead of "\uFFFD" ie. (done).
+               This value changed also in the scanner and in the (double) quoted literals.
 
 
 Hand coded File Reader
 ----------------------
 [ 2018-06-26 ] Bug (free form): The hand coded file reader was returning Hollerith constants within
                names (ie real x1h ;). (done)
-[ 2018-06-27 ] Bug: The legacy parser hangs in Linux due to a '”', and '–' vs '-' in the first comments of
-               "src/adas/fsl2snd.f90".
-               Sometimes the following two lines show up:
-               terminate called after throwing an instance of 'std::bad_alloc' 
-               what(): std::bad_alloc
-
-               The wifstream::eof() returns true at the first non ASCII char (ie smart quotes '”'). BTW,
-               it might be relevant (maybe not) that on this Linux box I cannot generate the Fortran 
-               scanner as Syntaxis (java code) also hangs when it tries to save some data on disk.
-
-               When the legacy parser has been compiled in Windows (8.1) by the VS-2015 Native Tools
-               (cl.exe) or in macOS (10.13) either by clang (9.1) or by GNU gcc (4.8) the program
-               fsl2snd.f90 is parsed successfully. Also, GNU Fortran (4.8 & 8.1) compiles this file in
-               Linux without any problems.
+[ 2018-06-27 ] Bug: The legacy parser hangs in Linux due to a '”' ie in the comments of "fsl2snd.f90". (done)
+               
+               In Xcode this statement works but not in the Terminal.app: setlocale(LC_CTYPE,"en_US.UTF-8");
+               It turns out that I've to build "fcheck" from the command line with "make ...", not in Xcode.
 
 [ 2018-07-07 ] Bug: The hand coded file reader cannot invoke the C preprocessor, which is sometimes
                required by Fortran programs, ie by the program "external/io_phdf5/wrf-phdf5support.F90". 
@@ -132,8 +124,8 @@ Hand coded File Reader
      The first large test suite (fcvs21) successfully passed by this Fortran parser can be found at:
 [*4] https://www.itl.nist.gov/div897/ctg/fortran_form.htm
 
-     In Windows & macOS, the Legacy Parser can parse the ARPS Model System (5.3.4), except one file
-     that requires the C preprocessor. The source of ARPS can be found at
+     In Windows, macOS, and Linux, the Legacy Parser can parse the ARPS Model System (5.3.4), except one
+     file that requires the C preprocessor. The source of ARPS can be found at
 [*5] http://www.caps.ou.edu/ARPS/arpsdown.html
      
 
