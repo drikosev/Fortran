@@ -108,11 +108,8 @@ Hand coded File Reader
                names (ie real x1h ;). (done)
 [ 2018-06-27 ] Bug: The legacy parser hangs in Linux due to a '”' ie in the comments of "fsl2snd.f90". (done)
                This happened because the File Reader wasn't handling properly UTF-8 files.
-
                It turns out that I've to build "fcheck" from the command line with "make ...", not in Xcode
                because this statement doesn't then works in the Terminal.app: setlocale(LC_CTYPE,"en_US.UTF-8");
-
-
 [ 2018-07-07 ] Bug: The hand coded file reader cannot invoke the C preprocessor, which is sometimes
                required by Fortran programs, ie by the program "external/io_phdf5/wrf-phdf5support.F90". 
 
