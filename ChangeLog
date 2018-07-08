@@ -127,7 +127,7 @@ Hand coded File Reader
 [*4] https://www.itl.nist.gov/div897/ctg/fortran_form.htm
 
      In Windows, macOS, and Linux, the Legacy Parser can parse the ARPS Model System (5.3.4), except one
-     file that requires the C preprocessor. The source of ARPS can be found at
+     file that requires the C preprocessor. The source of ARPS can be found at:
 [*5] http://www.caps.ou.edu/ARPS/arpsdown.html
      
 
