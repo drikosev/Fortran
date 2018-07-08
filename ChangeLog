@@ -110,9 +110,9 @@ Hand coded File Reader
                terminate called after throwing an instance of 'std::bad_alloc' 
                what(): std::bad_alloc
 
-               The wifstream::eof() returns true at the first non ASCII char (ie smart quotes '”'). 
-               It might be relevant (maybe not) that on this Linux box I cannot build the Fortran 
-               scanner as Syntaxis also hangs when it tries to save some data on disk.
+               The wifstream::eof() returns true at the first non ASCII char (ie smart quotes '”'). BTW,
+               it might be relevant (maybe not) that on this Linux box I cannot generate the Fortran 
+               scanner as Syntaxis (java code) also hangs when it tries to save some data on disk.
 
                When the legacy parser has been compiled in Windows (8.1) by the VS-2015 Native Tools
                (cl.exe) or in macOS (10.13) either by clang (9.1) or by GNU gcc (4.8) the program
