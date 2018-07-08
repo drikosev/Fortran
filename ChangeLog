@@ -38,7 +38,7 @@ Fortran parser Issues
                & <computed-goto-stmt>. (done)
 [ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
 [ 2018-06-27 ] Bug (free form): In a format stmt, '(/','//','/)' are valid sequences of '(','/',')'. (done)
-               See he directive "#sma" in the serialised version of the grammar (ie fortran_parser.txt).
+               See the directive "#sma" in the serialised version of the grammar (ie fortran_parser.txt).
 [ 2018-06-27 ] Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'. 
                It returns the label of the format stmt, instead of a '(' !!!
 [ 2018-07-03 ] Bug: The parser rejects this: "REAL :: trigs1(3*(nx-1)/2+1)". (done)
@@ -99,7 +99,7 @@ Free Form Preprocessor
 [ 2018-07-01 ] Bug: The preprocessor was accepting a line comment after a '&' in a character context (done).
 [ 2018-07-03 ] todo: Add semantic actions that strip out statement continuation patters from quoted literals.
 [ 2018-07-08 ] Bug: The line comment characters were limited up to "\u00FF", instead of "\uFFFD" ie. (done).
-               This value changed also in the scanner and in the (double) quoted literals.
+               This value changed also in the scanner including all the (double) quoted literals.
 
 
 Hand coded File Reader
