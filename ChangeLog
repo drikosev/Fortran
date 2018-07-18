@@ -111,10 +111,10 @@ Hand coded File Reader
                It turns out that I've to build "fcheck" from the command line with "make ...", not with 
                the Xcode building system because this statement doesn't then works in the Terminal.app:
                setlocale(LC_ALL,"en_US.UTF-8");
-[ 2018-07-07 ] Bug: The hand coded file reader cannot invoke the C preprocessor, which is sometimes
+[ 2018-07-07 ] Feature: The hand coded file reader cannot invoke the C preprocessor, which is sometimes
                required by Fortran programs, ie by the program "external/io_phdf5/wrf-phdf5support.F90". 
-
-
+[ 2018-07-18 ] Feature: A tab instead of six spaces is likely a common extension in fixed form programs.
+               (see ie src/skewt/indices.f:701)
 
      Some legacy code examples have been found at: 
 [*1] http://fortranwiki.org/fortran/show/Modernizing+Old+Fortran
@@ -124,8 +124,8 @@ Hand coded File Reader
      The first large test suite (fcvs21) successfully passed by this Fortran parser can be found at:
 [*4] https://www.itl.nist.gov/div897/ctg/fortran_form.htm
 
-     In Windows, macOS, and Linux, the Legacy Parser can parse the ARPS Model System (5.3.4), except one
-     file that requires the C preprocessor. The source of ARPS can be found at:
+     In Windows, macOS, and Linux, the Legacy Parser can parse all the free form code of the ARPS Model
+     System (5.3.4), except one file that requires the C preprocessor. The source of ARPS can be found at:
 [*5] http://www.caps.ou.edu/ARPS/arpsdown.html
      
 
