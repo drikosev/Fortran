@@ -116,7 +116,7 @@ Hand coded File Reader
 [ 2018-07-18 ] Feature: The FORTRAN 77 Tab-Format extension is not supported. Read more at:
                https://docs.oracle.com/cd/E19957-01/805-4939/z40007331ff1/index.html
                (see ie source file src/skewt/indices.f:701)
-[ 2018-07-18 ] Feature: Mid line comments in fixed form programs aren't supported.
+[ 2018-07-18 ] Bug: Mid-line comments in fixed form programs aren't handled properly.
 
 
      Some legacy code examples have been found at: 
