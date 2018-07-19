@@ -113,10 +113,11 @@ Hand coded File Reader
                setlocale(LC_ALL,"en_US.UTF-8");
 [ 2018-07-07 ] Feature: The hand coded file reader cannot invoke the C preprocessor, which is sometimes
                required by Fortran programs, ie by the program "external/io_phdf5/wrf-phdf5support.F90". 
-[ 2018-07-18 ] Feature: The FORTRAN 77 Tab-Format extension is not supported. Read more at:
+[ 2018-07-18 ] Feature(fixed form): The FORTRAN 77 Tab-Format extension is not supported. Read more at:
                https://docs.oracle.com/cd/E19957-01/805-4939/z40007331ff1/index.html
                (see ie source file src/skewt/indices.f:701)
-[ 2018-07-18 ] Bug: Mid-line comments in fixed form programs aren't handled properly.
+[ 2018-07-18 ] Bug (fixed form): Mid-line comments in continued lines aren't handled properly.
+               (see ie source file src/skewt/indices.f:281)
 
 
      Some legacy code examples have been found at: 
