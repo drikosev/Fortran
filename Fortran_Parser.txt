@@ -541,6 +541,11 @@ keyword ::=
 <char-length> ::= 
            ( <type-param-value> ) 
      |     <int-literal-constant> 
+     |     <LABEL> 
+
+<LABEL> ::= 
+           <label> 
+     |     <label-do> 
 
 <p-char-selector-pair> ::= 
            ( <char-selector-pair> ) -: { ( } 
@@ -2045,10 +2050,6 @@ subroutine-stmt ::=
 
 <assign-stmt> ::= 
            ASSIGN <LABEL> TO <name> 
-
-<LABEL> ::= 
-           <label> 
-     |     <label-do> 
 
 <assignment-stmt> ::= 
            <designator-l> = <expr> 

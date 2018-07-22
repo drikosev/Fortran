@@ -331,6 +331,9 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;COMPLEX&nbsp;*&nbsp;<A href="#<char-length>">&lt;char-length&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<char-length>">&lt;char-length&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<type-param-value>">&lt;type-param-value&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<LABEL>">&lt;LABEL&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;label-do&gt;&nbsp;
 <BR><BR><STRONG><A name="<p-char-selector-pair>">&lt;p-char-selector-pair&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<char-selector-pair>">&lt;char-selector-pair&gt;</A>&nbsp;)&nbsp;<FONT color="#cc3300">-:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;(&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<type-param-value>">&lt;type-param-value&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<kind-set-expr>">&lt;kind-set-expr&gt;</A>&nbsp;)&nbsp;<FONT color="#cc3300">-:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;(&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR><BR><STRONG><A name="<char-selector-pair>">&lt;char-selector-pair&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<type-param-value>">&lt;type-param-value&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<scalar-int-constant-expr>">&lt;scalar-int-constant-expr&gt;</A>&nbsp;
@@ -1193,8 +1196,6 @@
 <BR><BR><STRONG><A name="<type-allocation-list>">&lt;type-allocation-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<type-spec>">&lt;type-spec&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<allocation>">&lt;allocation&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<type-allocation-list>">&lt;type-allocation-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<allocation>">&lt;allocation&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<assign-stmt>">&lt;assign-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;TO&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<LABEL>">&lt;LABEL&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;label-do&gt;&nbsp;
 <BR><BR><STRONG><A name="<assignment-stmt>">&lt;assignment-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<designator-l>">&lt;designator-l&gt;</A>&nbsp;=&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<designator-l>">&lt;designator-l&gt;</A>&nbsp;=&nbsp;<A href="#<bug-in-stmt>">&lt;bug-in-stmt&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<designator-l>">&lt;designator-l&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<data-ref-l>">&lt;data-ref-l&gt;</A>&nbsp;

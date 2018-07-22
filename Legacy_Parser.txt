@@ -571,6 +571,11 @@ keyword ::=
 <char-length> ::= 
            ( <type-param-value> ) 
      |     <int-literal-constant> 
+     |     <LABEL> 
+
+<LABEL> ::= 
+           <label> 
+     |     <label-do> 
 
 <p-char-selector-pair> ::= 
            ( <char-selector-pair> ) -: { ( } 
@@ -1968,14 +1973,12 @@ subroutine-stmt ::=
 
 <type-declaration-stmt> ::= 
            <declaration-type-spec> <entity-decl-list> 
+     |     <declaration-type-spec> , <entity-decl-list> 
      |     <declaration-type-spec> <::> <entity-decl-init-list> 
      |     <declaration-type-spec> , <attr-spec-list> <::> <entity-decl-init-list> 
      |     <record-type-spec> <entity-decl-list> 
      |     <record-type-spec> <::> <entity-decl-init-list> 
      |     <record-type-spec> , <attr-spec-list> <::> <entity-decl-init-list> 
-     |     <character*length> , <entity-decl-list> 
-     |     <character*length> <::> <entity-decl-init-list> 
-     |     <character*length> , <attr-spec-list> <::> <entity-decl-init-list> 
      |     <type-declaration-error> 
 
 <entity-decl-list> ::= 
@@ -2191,10 +2194,6 @@ subroutine-stmt ::=
 
 <assign-stmt> ::= 
            ASSIGN <LABEL> TO <name> 
-
-<LABEL> ::= 
-           <label> 
-     |     <label-do> 
 
 <assignment-stmt> ::= 
            <designator-l> = <expr> 

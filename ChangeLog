@@ -20,10 +20,11 @@ Fortran parser Issues
                allow a follow "=" that could be proved too restrictive for future requirements.
 [ 2017-07-07 ] A awkward name rule "actual-arg-low-priority" has been replaced by "actual-arg".
 [ 2017-07-08 ] The "do-block" should be optional in a "block-do-construct".
-[ 2018-04-16 ] Segmentation fault on an extra comma in a type declaration stmt (ie: "real, x").
+[ 2018-04-16 ] Segmentation fault on an extra comma in a type declaration stmt (ie: "real, x"). (done)
+               [22/7] pgfortran accepts the above declaration but gfortran only "character*4,x".
 [ 2018-04-19 ] Found an undefined <-name> instead of a <name> in <suffix> (after a <language-bindic-spec>).
-[ 2018-04-21 ] Extension: Allow old style initialisation with slahses ("real pi / 3.14159 /") (undo).
-[ 2018-04-21 ] Extension: Allow Dec style length specification "real x*8 (2)" 
+[ 2018-04-21 ] Extension: Allow old style initialisation with slashes ("real pi / 3.14159 /") (done).
+[ 2018-04-21 ] Extension: Allow Dec style length specification "real x*8 (2)"  (done) 
                (in addition to "real x(2) * 8").
                It doesn't allow such a length specification in a function name, ie:
                "INTEGER FUNCTION FCN*2 ( A, B, C )", see [*2].
@@ -57,10 +58,10 @@ Fortran scanner Issues
 [ 2018-05-04 ] Undefined Lexical Rule "ID::=I D" (ie: write (iu, rec=n, asynchronous="YES", id=id) buffer;)
 [ 2018-06-26 ] Extension: Keywords STATIC/AUTOMATIC (done)
 [ 2018-06-27 ] Bug: Added the keyword GOTO (done)
-[ 2018-07-03 ] Extension: added <octal-legacy> as an alternative that accepts an old style constant
-              (ie n=1B). Without the tricky lookahead operator (+:) the FM901.FOR (fcvs21) would fail. 
-               See in ARPS model, source file src/arpsagr/packcray.f90:284
-
+[ 2018-07-03 ] Extension: added <octal-legacy> as an alternative that accepts some old style constants.  (done)
+               (ie n=1B as in the ARPS model src/arpsagr/packcray.f90:284). Yet see fcvs21/FM901.FOR:54
+               [22/7] <char-length> ::= <LABEL> and activated semantic actions on SMA due to "do-labels". 
+     
 
 Legacy parser Issues
 --------------------
@@ -83,7 +84,7 @@ Legacy parser Issues
                <computed-goto-stmt>. (done)
 [ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
 [ 2018-06-27 ] Bug (free form): In a format stmt, '(/','//','/)' are valid sequences of '(','/',')'. (done)
-               See he directive "#sma" in the serialised version of the grammar (ie legacy_parser.txt).
+               See the directive "#sma" in the serialised version of the grammar (ie legacy_parser.txt).
 [ 2018-06-27 ] Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'. 
                It returns the label of the format stmt, instead of a '(' !!!
 [ 2018-07-03 ] Bug: The legacy parser rejects this: "REAL :: trigs1(3*(nx-1)/2+1)". (done)
@@ -107,17 +108,22 @@ Hand coded File Reader
 [ 2018-06-26 ] Bug (free form): The hand coded file reader was returning Hollerith constants within
                names (ie real x1h ;). (done)
 [ 2018-06-27 ] Bug: The legacy parser hangs in Linux due to a '”' ie in the comments of "fsl2snd.f90". (done)
-               This happened because the File Reader wasn't handling properly UTF-8 files.
-               It turns out that I've to build "fcheck" from the command line with "make ...", not with 
-               the Xcode building system because this statement doesn't then works in the Terminal.app:
-               setlocale(LC_ALL,"en_US.UTF-8");
+               This happened because the File Reader wasn't handling properly UTF-8 files. The locale 
+               passed to "wifstream.imbue(locale)" requires different arguments in Win,Mac, and Linux.
 [ 2018-07-07 ] Feature: The hand coded file reader cannot invoke the C preprocessor, which is sometimes
-               required by Fortran programs, ie by the program "external/io_phdf5/wrf-phdf5support.F90". 
-[ 2018-07-18 ] Feature(fixed form): The FORTRAN 77 Tab-Format extension is not supported. Read more at:
+               required by Fortran programs, ie by the program "external/io_phdf5/wrf-phdf5support.F90".
+
+The Following three new features/bug-fixes have not been tested very well yet:
+ 
+[ 2018-07-18 ] GNU/Ora/PGI Extension (fixed form): Support the FORTRAN 77 Tab-Format. Read more at: (done)
                https://docs.oracle.com/cd/E19957-01/805-4939/z40007331ff1/index.html
                (see ie source file src/skewt/indices.f:701)
-[ 2018-07-18 ] Bug (fixed form): Mid-line comments in continued lines aren't handled properly.
-               (see ie source file src/skewt/indices.f:281)
+               As GNU Fortran does, fixed form continuation lines with a '&' in column 1 are rejected,
+               and longer lines are truncated as usual (g77 doesn't truncate tabbed lines).                
+[ 2018-07-18 ] Bug (fixed form): Mid-line comments in continued lines aren't handled properly.   (done)
+               (see ie source file src/skewt/indices.f:281)             
+[ 2018-07-22 ] GNU/PGI Extension: space padding in fixed form lines up to 72 columns.  (done)
+
 
 
      Some legacy code examples have been found at: 
