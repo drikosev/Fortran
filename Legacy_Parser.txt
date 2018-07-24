@@ -62,7 +62,6 @@ end-program-stmt ::=
 <name> ::= 
            <name-l> 
      |     <name-r> 
-     |     <name-f> 
 
 <bug-end-stmt> ::~ 
            end-associate-stmt   /* Tr.error( L"Unexpected end-associate-stmt");*/
@@ -253,20 +252,15 @@ end-where-stmt ::=
      |     function-stmt +: EOF 
 
 function-stmt ::= 
-           FUNCTION <f-name> <(> <)> 
-     |     FUNCTION <f-name> <(> <)> <sufix> 
-     |     FUNCTION <f-name> <(> <name-list> <)> 
-     |     FUNCTION <f-name> <(> <name-list> <)> <sufix> 
-     |     <prefix> FUNCTION <f-name> <(> <)> 
-     |     <prefix> FUNCTION <f-name> <(> <)> <sufix> 
-     |     <prefix> FUNCTION <f-name> <(> <name-list> <)> 
-     |     <prefix> FUNCTION <f-name> <(> <name-list> <)> <sufix> 
+           FUNCTION <name> <(> <)> 
+     |     FUNCTION <name> <(> <)> <sufix> 
+     |     FUNCTION <name> <(> <name-list> <)> 
+     |     FUNCTION <name> <(> <name-list> <)> <sufix> 
+     |     <prefix> FUNCTION <name> <(> <)> 
+     |     <prefix> FUNCTION <name> <(> <)> <sufix> 
+     |     <prefix> FUNCTION <name> <(> <name-list> <)> 
+     |     <prefix> FUNCTION <name> <(> <name-list> <)> <sufix> 
      |     FUNCTION <bug-in-stmt> 
-
-<f-name> ::= 
-           <name-f> 
-     |     <name-r> 
-     |     <name-l> 
 
 <(> ::= 
            ( 
@@ -1539,16 +1533,16 @@ keyword ::=
      |     subroutine-stmt +: EOF 
 
 subroutine-stmt ::= 
-           SUBROUTINE <f-name> 
-     |     SUBROUTINE <f-name> <(> <)> 
-     |     SUBROUTINE <f-name> <(> <)> <language-binding-spec> 
-     |     SUBROUTINE <f-name> <(> <dummy-arg-list> <)> 
-     |     SUBROUTINE <f-name> <(> <dummy-arg-list> <)> <language-binding-spec> 
-     |     <prefix> SUBROUTINE <f-name> 
-     |     <prefix> SUBROUTINE <f-name> <(> <)> 
-     |     <prefix> SUBROUTINE <f-name> <(> <)> <language-binding-spec> 
-     |     <prefix> SUBROUTINE <f-name> <(> <dummy-arg-list> <)> 
-     |     <prefix> SUBROUTINE <f-name> <(> <dummy-arg-list> <)> <language-binding-spec> 
+           SUBROUTINE <name> 
+     |     SUBROUTINE <name> <(> <)> 
+     |     SUBROUTINE <name> <(> <)> <language-binding-spec> 
+     |     SUBROUTINE <name> <(> <dummy-arg-list> <)> 
+     |     SUBROUTINE <name> <(> <dummy-arg-list> <)> <language-binding-spec> 
+     |     <prefix> SUBROUTINE <name> 
+     |     <prefix> SUBROUTINE <name> <(> <)> 
+     |     <prefix> SUBROUTINE <name> <(> <)> <language-binding-spec> 
+     |     <prefix> SUBROUTINE <name> <(> <dummy-arg-list> <)> 
+     |     <prefix> SUBROUTINE <name> <(> <dummy-arg-list> <)> <language-binding-spec> 
 
 <end-subroutine-stmt> ::= 
            <end-subroutine-stmt;> 

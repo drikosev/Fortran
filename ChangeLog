@@ -61,6 +61,14 @@ Fortran scanner Issues
 [ 2018-07-03 ] Extension: added <octal-legacy> as an alternative that accepts some old style constants.  (done)
                (ie n=1B as in the ARPS model src/arpsagr/packcray.f90:284). Yet see fcvs21/FM901.FOR:54
                [22/7] <char-length> ::= <LABEL> and activated semantic actions on SMA due to "do-labels". 
+
+
+The Following bug-fix has not been tested very well yet:
+
+[ 2018-07-24 ] The Lexical Rule <name-f> fails when the following three conditions are met:              (done)
+               (1) A Function is an external subprogram (2) with a prefix that is a type, ie "real", and    
+               (3) the function name contains an underscore (see ie src/skewt/misc_kb.f:227).
+
      
 
 Legacy parser Issues
@@ -122,8 +130,7 @@ The Following three new features/bug-fixes have not been tested very well yet:
                and longer lines are truncated as usual (g77 doesn't truncate tabbed lines).                
 [ 2018-07-18 ] Bug (fixed form): Mid-line comments in continued lines aren't handled properly.   (done)
                (see ie source file src/skewt/indices.f:281)             
-[ 2018-07-22 ] GNU/PGI Extension: space padding in fixed form lines up to 72 columns.  (done)
-
+[ 2018-07-22 ] GNU/PGI Extension: Space padding in fixed form lines up to 72 columns.     (done)
 
 
      Some legacy code examples have been found at: 
@@ -134,8 +141,8 @@ The Following three new features/bug-fixes have not been tested very well yet:
      The first large test suite (fcvs21) successfully passed by this Fortran parser can be found at:
 [*4] https://www.itl.nist.gov/div897/ctg/fortran_form.htm
 
-     In Windows, macOS, and Linux, the Legacy Parser can parse all the free form code of the ARPS Model
-     System (5.3.4) except one file that requires the C preprocessor. The source of ARPS can be found at:
+     In Windows, macOS, and Linux, the Legacy Parser can parse the source of the ARPS Model System (5.3.4) 
+     except those files that require the C preprocessor (18 *.F and 1 *.F90). The source of ARPS is here:
 [*5] http://www.caps.ou.edu/ARPS/arpsdown.html
      
 

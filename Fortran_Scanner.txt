@@ -255,7 +255,7 @@
      |     <label>   /* return Tr.ReturnLabel( lex() , 65588, 65888); */
      |     <int-literal-constant> 
      |     <letter> 
-     |     <name-f>   /* if ( Tr.shorter_match(65761) == false ) return 66106; */
+     |     <name-f>   /* return Tr.sma_a_b_else_c(65754,65761,66106) ; */
      |     <name-l> 
      |     <name-r> 
      |     <real-literal-constant> 
