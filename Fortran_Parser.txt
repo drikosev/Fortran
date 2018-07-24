@@ -1881,7 +1881,7 @@ subroutine-stmt ::=
 <initialization~> ::= 
            <initialization-error> 
 
-<initialization-error> ::= 
+<initialization-error> ::~ 
            <initialization>   /* Tr.error(L"Initialization without ::"); */
 
 <entity-decl-init-list> ::= 
