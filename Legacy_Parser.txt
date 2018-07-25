@@ -514,6 +514,8 @@ keyword ::=
      |     COMPLEX 
      |     COMPLEX <p-expr> 
      |     COMPLEX <p-kind-set-expr> 
+     |     DOUBLE COMPLEX 
+     |     DOUBLE_COMPLEX 
      |     CHARACTER 
      |     CHARACTER <p-type-param-value> 
      |     CHARACTER <p-len-type-param-value> 
@@ -662,6 +664,7 @@ keyword ::=
 <imag-part> ::= 
            <signed-int-literal-constant> 
      |     <signed-real-literal-constant> 
+     |     <named-constant> 
 
 <signed-int-literal-constant> ::= 
            <int-literal-constant> 
@@ -670,6 +673,9 @@ keyword ::=
 <signed-real-literal-constant> ::= 
            <real-literal-constant> 
      |     <sign> <real-literal-constant> 
+
+<named-constant> ::= 
+           <name> 
 
 <name-list> ::= 
            <name-list> <comma> <name> 
@@ -1573,9 +1579,6 @@ subroutine-stmt ::=
 
 <named-constant-def> ::= 
            <named-constant> = <constant-expr> 
-
-<named-constant> ::= 
-           <name> 
 
 <procedure-declaration-stmt> ::= 
            PROCEDURE ( ) <proc-decl-list> 

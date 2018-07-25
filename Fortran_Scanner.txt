@@ -71,6 +71,7 @@
      |     DIMENSION 
      |     DIRECT 
      |     DO 
+     |     DOUBLE_COMPLEX 
      |     DOUBLE_PRECISION 
      |     ELEMENTAL 
      |     ELSE 
@@ -532,6 +533,9 @@ DIRECT ::=
 
 DO ::= 
            D O 
+
+DOUBLE_COMPLEX ::= 
+           D O U B L E C O M P L E X 
 
 DOUBLE_PRECISION ::= 
            D O U B L E P R E C I S I O N 
@@ -1232,6 +1236,7 @@ key ::=
      |     DIMENSION 
      |     DIRECT 
      |     DO 
+     |     DOUBLE_COMPLEX 
      |     DOUBLE_PRECISION 
      |     ELEMENTAL 
      |     ELSE 
@@ -1453,6 +1458,7 @@ cons_key_begin ::=
      |     DOUBLE 
      |     DOUBLE_PRECISION 
      |     COMPLEX 
+     |     DOUBLE_COMPLEX 
      |     CHARACTER 
      |     LOGICAL 
      |     ELEMENTAL 

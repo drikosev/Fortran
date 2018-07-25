@@ -320,6 +320,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;COMPLEX&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;COMPLEX&nbsp;<A href="#<p-expr>">&lt;p-expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;COMPLEX&nbsp;<A href="#<p-kind-set-expr>">&lt;p-kind-set-expr&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DOUBLE&nbsp;COMPLEX&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DOUBLE_COMPLEX&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;CHARACTER&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;CHARACTER&nbsp;<A href="#<p-type-param-value>">&lt;p-type-param-value&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;CHARACTER&nbsp;<A href="#<p-len-type-param-value>">&lt;p-len-type-param-value&gt;</A>&nbsp;
@@ -394,10 +396,12 @@
 <BR><BR><STRONG><A name="<real-part>">&lt;real-part&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<imag-part>">&lt;imag-part&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<imag-part>">&lt;imag-part&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<signed-int-literal-constant>">&lt;signed-int-literal-constant&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<signed-real-literal-constant>">&lt;signed-real-literal-constant&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<named-constant>">&lt;named-constant&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<signed-int-literal-constant>">&lt;signed-int-literal-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;sign&gt;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR><BR><STRONG><A name="<signed-real-literal-constant>">&lt;signed-real-literal-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;real-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;sign&gt;&nbsp;&lt;real-literal-constant&gt;&nbsp;
+<BR><BR><STRONG><A name="<named-constant>">&lt;named-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<name-list>">&lt;name-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;<A href="#<comma>">&lt;comma&gt;</A>&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<comma>">&lt;comma&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;
@@ -939,7 +943,6 @@
 <BR><BR><STRONG><A name="<named-constant-def-list>">&lt;named-constant-def-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<named-constant-def-list>">&lt;named-constant-def-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<named-constant-def>">&lt;named-constant-def&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<named-constant-def>">&lt;named-constant-def&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<named-constant-def>">&lt;named-constant-def&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<named-constant>">&lt;named-constant&gt;</A>&nbsp;=&nbsp;<A href="#<constant-expr>">&lt;constant-expr&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<named-constant>">&lt;named-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<procedure-declaration-stmt>">&lt;procedure-declaration-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PROCEDURE&nbsp;(&nbsp;)&nbsp;<A href="#<proc-decl-list>">&lt;proc-decl-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;PROCEDURE&nbsp;(&nbsp;)&nbsp;&lt;::&gt;&nbsp;<A href="#<proc-decl-list>">&lt;proc-decl-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;PROCEDURE&nbsp;(&nbsp;)&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<proc-attr-spec-list>">&lt;proc-attr-spec-list&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<proc-decl-list>">&lt;proc-decl-list&gt;</A>&nbsp;

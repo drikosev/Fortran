@@ -484,6 +484,8 @@ keyword ::=
      |     COMPLEX 
      |     COMPLEX <p-expr> 
      |     COMPLEX <p-kind-set-expr> 
+     |     DOUBLE COMPLEX 
+     |     DOUBLE_COMPLEX 
      |     CHARACTER 
      |     CHARACTER <p-type-param-value> 
      |     CHARACTER <p-len-type-param-value> 

@@ -46,6 +46,8 @@ Fortran parser Issues
                The bug has been introduced by one of the changes made between 2017-07-08 and 2018-07-03.
                The problem is solved if the <p-array-spec-buggy> or <initialization-obsolete> is
                removed. In this parser I've removed the latter (in the legacy parser below the former).
+[ 2018-07-25 ] Bug: Missing named constants in complex constants (see ie lapack/src/zsyrfsx.f:601) (done)
+[ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
 
 
 Fortran scanner Issues
@@ -61,6 +63,7 @@ Fortran scanner Issues
 [ 2018-07-03 ] Extension: added <octal-legacy> as an alternative that accepts some old style constants.  (done)
                (ie n=1B as in the ARPS model src/arpsagr/packcray.f90:284). Yet see fcvs21/FM901.FOR:54
                [22/7] <char-length> ::= <LABEL> and activated semantic actions on SMA due to "do-labels". 
+[ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
 
 
 The Following bug-fix has not been tested very well yet:
@@ -101,6 +104,9 @@ Legacy parser Issues
                addition the Shift/Reduce conflict with the <p-io-implied-do-object-list> disappeared.
 [ 2018-07-04 ] GNU Extension: Allow a missing ',' in a <format-stmt> between a <control-edit-desc> that is
                a <position-edit-desc> and a <data-edit-desc> (see src/arpsverif/arpshis2ver.f90:4785)  (done)
+[ 2018-07-25 ] Bug: Missing named constants in complex constants (see ie lapack/src/zsyrfsx.f:601) (done)
+[ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
+
 
 
 Free Form Preprocessor
@@ -146,5 +152,9 @@ The Following three new features/bug-fixes have not been tested very well yet:
      The Legacy Parser can parse the source code of the ARPS Model System (5.3.4) except those files 
      that require the C preprocessor (18 *.F and 1 *.F90). The ARPS Model System can be found at:
 [*5] http://www.caps.ou.edu/ARPS/arpsdown.html
-     
+
+     The Legacy Parser can parse the source code of LAPACK (3.8.0) except those files that require 
+     the C preprocessor (5 *.F). The source code of LAPACK can be found at:
+[*6] http://www.netlib.org/lapack/    
+
 
