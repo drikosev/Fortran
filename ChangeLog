@@ -68,7 +68,7 @@ The Following bug-fix has not been tested very well yet:
 [ 2018-07-24 ] The Lexical Rule <name-f> fails when the following three conditions are met:              (done)
                (1) A Function is an external subprogram (2) with a prefix that is a type, ie "real", and    
                (3) the function name contains an underscore (see ie src/skewt/misc_kb.f:227).
-
+               Now, the semantic action takes full control and returns either a FUNCTION or a <name-l>.
      
 
 Legacy parser Issues
@@ -118,8 +118,10 @@ Hand coded File Reader
 [ 2018-06-27 ] Bug: The legacy parser hangs in Linux due to a '”' ie in the comments of "fsl2snd.f90". (done)
                This happened because the File Reader wasn't handling properly UTF-8 files. The locale 
                passed to "wifstream.imbue(locale)" requires different arguments in Win,Mac, and Linux.
-[ 2018-07-07 ] Feature: The hand coded file reader cannot invoke the C preprocessor, which is sometimes
-               required by Fortran programs, ie by the program "external/io_phdf5/wrf-phdf5support.F90".
+        note:  If the command "fcheck /debug x.f90" is run in Windows (8.1), one has to start it in a
+               PowerShell Console, else some Unicode characters (ie a '–') aren't rendered properly. 
+[ 2018-07-07 ] Feature: The hand coded file reader cannot invoke the C preprocessor which is sometimes
+               required by Fortran programs, ie by the program "wrf-phdf5support.F90".
 
 The Following three new features/bug-fixes have not been tested very well yet:
  
@@ -141,8 +143,8 @@ The Following three new features/bug-fixes have not been tested very well yet:
      The first large test suite (fcvs21) successfully passed by this Fortran parser can be found at:
 [*4] https://www.itl.nist.gov/div897/ctg/fortran_form.htm
 
-     In Windows, macOS, and Linux, the Legacy Parser can parse the source of the ARPS Model System (5.3.4) 
-     except those files that require the C preprocessor (18 *.F and 1 *.F90). The source of ARPS is here:
+     The Legacy Parser can parse the source code of the ARPS Model System (5.3.4) except those files 
+     that require the C preprocessor (18 *.F and 1 *.F90). The ARPS Model System can be found at:
 [*5] http://www.caps.ou.edu/ARPS/arpsdown.html
      
 
