@@ -329,9 +329,6 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;COMPLEX&nbsp;*&nbsp;<A href="#<char-length>">&lt;char-length&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<char-length>">&lt;char-length&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<type-param-value>">&lt;type-param-value&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<LABEL>">&lt;LABEL&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;label-do&gt;&nbsp;
 <BR><BR><STRONG><A name="<p-char-selector-pair>">&lt;p-char-selector-pair&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<char-selector-pair>">&lt;char-selector-pair&gt;</A>&nbsp;)&nbsp;<FONT color="#cc3300">-:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;(&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<type-param-value>">&lt;type-param-value&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<kind-set-expr>">&lt;kind-set-expr&gt;</A>&nbsp;)&nbsp;<FONT color="#cc3300">-:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;(&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR><BR><STRONG><A name="<char-selector-pair>">&lt;char-selector-pair&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<type-param-value>">&lt;type-param-value&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<scalar-int-constant-expr>">&lt;scalar-int-constant-expr&gt;</A>&nbsp;
@@ -374,10 +371,12 @@
 <BR><BR><STRONG><A name="<real-part>">&lt;real-part&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<imag-part>">&lt;imag-part&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<imag-part>">&lt;imag-part&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<signed-int-literal-constant>">&lt;signed-int-literal-constant&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<signed-real-literal-constant>">&lt;signed-real-literal-constant&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<named-constant>">&lt;named-constant&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<signed-int-literal-constant>">&lt;signed-int-literal-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;sign&gt;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR><BR><STRONG><A name="<signed-real-literal-constant>">&lt;signed-real-literal-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;real-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;sign&gt;&nbsp;&lt;real-literal-constant&gt;&nbsp;
+<BR><BR><STRONG><A name="<named-constant>">&lt;named-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<name-list>">&lt;name-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;<A href="#<comma>">&lt;comma&gt;</A>&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<comma>">&lt;comma&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;
@@ -773,7 +772,7 @@
 <BR><BR><STRONG><A name="<char-string-edit-desc>">&lt;char-string-edit-desc&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;char-literal-constant&gt;&nbsp;
 <BR><BR><STRONG><A name="<r>">&lt;r&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;sign&gt;&nbsp;&lt;int-literal-constant&gt;&nbsp;
-<BR><BR><STRONG><A name="<control-edit-desc>">&lt;control-edit-desc&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<position-edit-desc>">&lt;position-edit-desc&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;:&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;/&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
+<BR><BR><STRONG><A name="<control-edit-desc>">&lt;control-edit-desc&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<position-edit-desc>">&lt;position-edit-desc&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;:&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;/&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;<A href="#<data-edit-desc-first>">&lt;data-edit-desc-first&gt;</A>&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<sign-edit-desc>">&lt;sign-edit-desc&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;:&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;/&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<blank-interp-edit-desc>">&lt;blank-interp-edit-desc&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;:&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;/&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<round-edit-desc>">&lt;round-edit-desc&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;:&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;/&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
@@ -786,6 +785,17 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<n>">&lt;n&gt;</A>&nbsp;X&nbsp;
 <BR><BR><STRONG><A name="<n>">&lt;n&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;sign&gt;&nbsp;&lt;int-literal-constant&gt;&nbsp;
+<BR><BR><STRONG><A name="<data-edit-desc-first>">&lt;data-edit-desc-first&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;fmt{G}w&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{I,B,O,Z,G,L,A}w&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{I,B,O,Z}w . d&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{F,E,EN,ES,G,D}w . d&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{E,EN,ES,G}w . d E e&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;A&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt dt & char-literal-constant&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DT&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;$&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;\&nbsp;
 <BR><BR><STRONG><A name="<sign-edit-desc>">&lt;sign-edit-desc&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SS&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;SP&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;S&nbsp;
@@ -845,7 +855,6 @@
 <BR><BR><STRONG><A name="<named-constant-def-list>">&lt;named-constant-def-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<named-constant-def-list>">&lt;named-constant-def-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<named-constant-def>">&lt;named-constant-def&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<named-constant-def>">&lt;named-constant-def&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<named-constant-def>">&lt;named-constant-def&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<named-constant>">&lt;named-constant&gt;</A>&nbsp;=&nbsp;<A href="#<constant-expr>">&lt;constant-expr&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<named-constant>">&lt;named-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<procedure-declaration-stmt>">&lt;procedure-declaration-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PROCEDURE&nbsp;(&nbsp;)&nbsp;<A href="#<proc-decl-list>">&lt;proc-decl-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;PROCEDURE&nbsp;(&nbsp;)&nbsp;&lt;::&gt;&nbsp;<A href="#<proc-decl-list>">&lt;proc-decl-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;PROCEDURE&nbsp;(&nbsp;)&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<proc-attr-spec-list>">&lt;proc-attr-spec-list&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<proc-decl-list>">&lt;proc-decl-list&gt;</A>&nbsp;
@@ -1113,8 +1122,9 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;VOLATILE&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<keyword-l>">&lt;keyword-l&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Expecting an Attribute Specification but read:", str(1)); */</FONT></EM>
 <BR><BR><STRONG><A name="<keyword-l>">&lt;keyword-l&gt;</A></STRONG><FONT color="#cc3300"> ::? </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#keyword">keyword</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* $$(0).synthesized=new wstring(str(1)); */</FONT></EM>
-<BR><BR><STRONG><A name="<type-declaration-error>">&lt;type-declaration-error&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<declaration-type-spec>">&lt;declaration-type-spec&gt;</A>&nbsp;,&nbsp;<A href="#<attr-spec-list>">&lt;attr-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<character*length>">&lt;character*length&gt;</A>&nbsp;,&nbsp;<A href="#<attr-spec-list>">&lt;attr-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
+<BR><BR><STRONG><A name="<type-declaration-error>">&lt;type-declaration-error&gt;</A></STRONG><FONT color="#cc3300"> ::~ </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<declaration-type-spec>">&lt;declaration-type-spec&gt;</A>&nbsp;,&nbsp;<A href="#<attr-spec-list>">&lt;attr-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"A '::' must follow an attributes list."); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<character*length>">&lt;character*length&gt;</A>&nbsp;,&nbsp;<A href="#<attr-spec-list>">&lt;attr-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"A '::' must follow an attributes list."); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;record-type-spec&gt;&nbsp;,&nbsp;<A href="#<attr-spec-list>">&lt;attr-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"A '::' must follow an attributes list."); */</FONT></EM>
 <BR><BR><STRONG><A name="<stmt-function-stmt>">&lt;stmt-function-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<function-declaration>">&lt;function-declaration&gt;</A>&nbsp;=&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<function-declaration>">&lt;function-declaration&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<part-name-l>">&lt;part-name-l&gt;</A>&nbsp;<A href="#<p-name-list-l>">&lt;p-name-list-l&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;=&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR><BR><STRONG><A name="<part-name-l>">&lt;part-name-l&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;name-l&gt;&nbsp;
@@ -1194,6 +1204,8 @@
 <BR><BR><STRONG><A name="<type-allocation-list>">&lt;type-allocation-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<type-spec>">&lt;type-spec&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<allocation>">&lt;allocation&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<type-allocation-list>">&lt;type-allocation-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<allocation>">&lt;allocation&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<assign-stmt>">&lt;assign-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;TO&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<LABEL>">&lt;LABEL&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;label-do&gt;&nbsp;
 <BR><BR><STRONG><A name="<assignment-stmt>">&lt;assignment-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<designator-l>">&lt;designator-l&gt;</A>&nbsp;=&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<designator-l>">&lt;designator-l&gt;</A>&nbsp;=&nbsp;<A href="#<bug-in-stmt>">&lt;bug-in-stmt&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<designator-l>">&lt;designator-l&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<data-ref-l>">&lt;data-ref-l&gt;</A>&nbsp;
@@ -1426,8 +1438,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;TYPE&nbsp;
 <BR><BR><STRONG><A name="<pause-stmt>">&lt;pause-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAUSE&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;PAUSE&nbsp;<A href="#<stop-code>">&lt;stop-code&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<print-stmt>">&lt;print-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRINT&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;PRINT&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<output-item-list>">&lt;output-item-list&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<print-stmt>">&lt;print-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRINT&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/*Tr.onPrint($$(0),$$(2)); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;PRINT&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<output-item-list>">&lt;output-item-list&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/*Tr.onPrint($$(0),$$(2),$$(4)); */</FONT></EM>
 <BR><BR><STRONG><A name="<format>">&lt;format&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<char-expr>">&lt;char-expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;label&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;label-do&gt;&nbsp;

@@ -537,11 +537,6 @@ keyword ::=
 <char-length> ::= 
            ( <type-param-value> ) 
      |     <int-literal-constant> 
-     |     <LABEL> 
-
-<LABEL> ::= 
-           <label> 
-     |     <label-do> 
 
 <p-char-selector-pair> ::= 
            ( <char-selector-pair> ) -: { ( } 
@@ -634,6 +629,7 @@ keyword ::=
 <imag-part> ::= 
            <signed-int-literal-constant> 
      |     <signed-real-literal-constant> 
+     |     <named-constant> 
 
 <signed-int-literal-constant> ::= 
            <int-literal-constant> 
@@ -642,6 +638,9 @@ keyword ::=
 <signed-real-literal-constant> ::= 
            <real-literal-constant> 
      |     <sign> <real-literal-constant> 
+
+<named-constant> ::= 
+           <name> 
 
 <name-list> ::= 
            <name-list> <comma> <name> 
@@ -1333,7 +1332,7 @@ keyword ::=
      |     <sign> <int-literal-constant> 
 
 <control-edit-desc> ::= 
-           <position-edit-desc> +: { <,> | : | / | ) } 
+           <position-edit-desc> +: { <,> | : | / | ) | <data-edit-desc-first> } 
      |     <sign-edit-desc> +: { <,> | : | / | ) } 
      |     <blank-interp-edit-desc> +: { <,> | : | / | ) } 
      |     <round-edit-desc> +: { <,> | : | / | ) } 
@@ -1350,6 +1349,19 @@ keyword ::=
 <n> ::= 
            <int-literal-constant> 
      |     <sign> <int-literal-constant> 
+
+<data-edit-desc-first> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D}w . d> 
+     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     A 
+     |     <fmt dt & char-literal-constant> 
+     |     DT 
+     |     $ 
+     |     \ 
 
 <sign-edit-desc> ::= 
            SS 
@@ -1445,9 +1457,6 @@ subroutine-stmt ::=
 
 <named-constant-def> ::= 
            <named-constant> = <constant-expr> 
-
-<named-constant> ::= 
-           <name> 
 
 <procedure-declaration-stmt> ::= 
            PROCEDURE ( ) <proc-decl-list> 
@@ -1920,9 +1929,10 @@ subroutine-stmt ::=
 <keyword-l> ::? 
            keyword   /* $$(0).synthesized=new wstring(str(1)); */
 
-<type-declaration-error> ::= 
-           <declaration-type-spec> , <attr-spec-list> +: { <;> } 
-     |     <character*length> , <attr-spec-list> +: { <;> } 
+<type-declaration-error> ::~ 
+           <declaration-type-spec> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
+     |     <character*length> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
+     |     <record-type-spec> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
 
 <stmt-function-stmt> ::= 
            <function-declaration> = <expr> 
@@ -2046,6 +2056,10 @@ subroutine-stmt ::=
 
 <assign-stmt> ::= 
            ASSIGN <LABEL> TO <name> 
+
+<LABEL> ::= 
+           <label> 
+     |     <label-do> 
 
 <assignment-stmt> ::= 
            <designator-l> = <expr> 
@@ -2456,8 +2470,8 @@ subroutine-stmt ::=
      |     PAUSE <stop-code> 
 
 <print-stmt> ::= 
-           PRINT <format> 
-     |     PRINT <format> <,> <output-item-list> 
+           PRINT <format>   /*Tr.onPrint($$(0),$$(2)); */
+     |     PRINT <format> <,> <output-item-list>   /*Tr.onPrint($$(0),$$(2),$$(4)); */
 
 <format> ::= 
            <char-expr> 
