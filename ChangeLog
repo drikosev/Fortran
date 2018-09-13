@@ -118,6 +118,8 @@ Free Form Preprocessor
 [ 2018-07-03 ] todo: Add semantic actions that strip out statement continuation patters from quoted literals.
 [ 2018-07-08 ] Enhancement: Allow line comment characters up to "\uFFFD", instead of "\u00FF".    (done).
                This value changed also in the scanner including all the (double) quoted literals.
+[ 2018-09-13 ] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF), hasn't assigned
+               characters by the Unicode Consortium (https://en.wikipedia.org/wiki/Private_Use_Areas).
 
 
 Hand coded File Reader
