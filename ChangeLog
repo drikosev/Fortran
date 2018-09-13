@@ -118,7 +118,7 @@ Free Form Preprocessor
 [ 2018-07-03 ] todo: Add semantic actions that strip out statement continuation patters from quoted literals.
 [ 2018-07-08 ] Enhancement: Allow line comment characters up to "\uFFFD", instead of "\u00FF".    (done).
                This value changed also in the scanner including all the (double) quoted literals.
-[ 2018-09-13 ] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF), hasn't assigned
+[ 2018-09-13 ] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF) hasn't assigned
                characters. (see https://en.wikipedia.org/wiki/Private_Use_Areas).
 
 
@@ -162,11 +162,11 @@ The Following three new features/bug-fixes have not been tested very well yet:
 [*4] https://www.itl.nist.gov/div897/ctg/fortran_form.htm
 
      The Legacy Parser can parse the source code of the ARPS Model System (5.3.4) except those files 
-     that require the C preprocessor (18 *.F and 1 *.F90). The ARPS Model System can be found at:
+     that require C preprocessing (18 *.F and 1 *.F90). The ARPS Model System can be found at:
 [*5] http://www.caps.ou.edu/ARPS/arpsdown.html
 
      The Legacy Parser can parse the source code of LAPACK (3.8.0) except those files that require 
-     the C preprocessor (5 *.F). The source code of LAPACK can be found at:
+     C preprocessing (5 *.F). The source code of LAPACK can be found at:
 [*6] http://www.netlib.org/lapack/    
 
 
