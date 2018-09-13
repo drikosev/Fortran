@@ -1,6 +1,9 @@
 #ignore <line-comment>
 #ignore <spaces>
 
+#sma <letter>
+#sma <name-l>
+
 <token> ::= 
            <fmt{G}w> 
      |     <fmt{I,B,O,Z,G,L,A}w> 
@@ -265,7 +268,7 @@
      |     <char-literal-constant> 
      |     <boz-literal-constant> 
      |     <spaces> 
-     |     <line-comment> 
+     |     <line-comment>   /* Tr.ScannedLineComment(); */
      |     <::> 
      |     <lbracket> 
      |     <rbracket> 
@@ -296,19 +299,21 @@
      |     <equiv-op> 
      |     <concat-op> 
      |     <**> 
-     |     <repeated> 
      |     + 
      |     - 
      |     <sign> 
      |     <add-op> 
      |     <(/> 
      |     </)> 
-     |     <;> 
+     |     ( 
+     |     ) 
+     |     <;>   /* Tr.EndOfStmt(); */
      |     , 
      |     <..> 
      |     . 
      |     $ 
      |     \ 
+     |     # 
 
 <fmt{G}w> ::= 
            G { 0 .. 9 }... 
@@ -364,7 +369,7 @@ scalar-int-constant-name ::=
 
 <dquoted_char> ::= 
            " " 
-     |     { \u0001 .. \uFFFD } -= { " | \n } 
+     |     { \u0001 .. \uFFFD } -= { " | \n | \r } 
 
 <fmt{T|TL|TR}n> ::= 
            { T | T L | T R } { 0 .. 9 }... 
@@ -685,13 +690,13 @@ assign_no ::=
            rest_line -= { [ ch ... ] = [ ch1 ... ] } 
 
 rest_line ::= 
-           { <char-literal-constant2> | <boz-literal-constant2> | <quoted-literal2> | <dquoted-literal2> | { { \u0001 .. \ufffe } -= { \r | \n | ; | = | ! } } }... { \r | \n | ; | = | ! } 
+           { <char-literal-constant2> | <boz-literal-constant2> | <quoted-literal2> | <dquoted-literal2> | { { \u0001 .. \ufffe } -= { \n | \r | ; | = | ! } } }... { \n | \r | ; | = | ! } 
 
 <quoted-literal2> ::= 
-           ' [ { ' ' | { \u0001 .. \uFFFD } -= { ' | \n } }... ] ' 
+           ' [ { ' ' | { \u0001 .. \uFFFD } -= { ' | \n | \r } }... ] ' 
 
 <dquoted-literal2> ::= 
-           " [ { " " | { \u0001 .. \uFFFD } -= { " | \n } }... ] " 
+           " [ { " " | { \u0001 .. \uFFFD } -= { " | \n | \r } }... ] " 
 
 ch ::= 
            \u0001 .. \ufffe 
@@ -708,10 +713,10 @@ ch1 ::=
      |     <dquoted-literal1> 
 
 <quoted-literal1> ::= 
-           ' [ { ' ' | { \u0001 .. \uFFFD } -= { ' | \n } }... ] ' 
+           ' [ { ' ' | { \u0001 .. \uFFFD } -= { ' | \n | \r } }... ] ' 
 
 <dquoted-literal1> ::= 
-           " [ { " " | { \u0001 .. \uFFFD } -= { " | \n } }... ] " 
+           " [ { " " | { \u0001 .. \uFFFD } -= { " | \n | \r } }... ] " 
 
 FORMATTED ::= 
            F O R M A T T E D 
@@ -1141,7 +1146,7 @@ name_f_begin ::=
            { { [ { \t | \s }... ] ( [ { \t | \s }... ] <lch> ... } } += { p_name_list_or_bind_result } 
 
 <lch> ::= 
-           { { \u0001 .. \ufffe } -= { \n | ; } } 
+           { { \u0001 .. \ufffe } -= { \r | \n | ; } } 
 
 p_name_list_or_bind_result ::= 
            [ { \t | \s }... ] ( [ { \t | \s }... ] [ name [ { [ { \t | \s }... ] , [ { \t | \s }... ] name [ { \t | \s }... ] }... ] ] [ { \t | \s }... ] ) [ { \t | \s }... ] 
@@ -1474,29 +1479,29 @@ DO_KEY ::=
            D O { A .. Z | 0 .. 9 | _ }... 
 
 <lvalue-context> ::= 
-           { [ { \t | \s }... ] = [ { \t | \s }... ] { { \u0001 .. \ufffe } -= { \n | ; } }... { \n | ; } } -= { [ { \t | \s }... ] = [ { \t | \s }... ] <balanced-chars-lvalue> <do-loop-next> [ { \u0001 .. \ufffe }... ] } 
+           { [ { \t | \s }... ] = [ { \t | \s }... ] { { \u0001 .. \ufffe } -= { \n | \r | ; } }... { \n | \r | ; } } -= { [ { \t | \s }... ] = [ { \t | \s }... ] <balanced-chars-lvalue> <do-loop-next> [ { \u0001 .. \ufffe }... ] } 
 
 <balanced-chars-lvalue> ::= 
            <balanced-lvalue> ... 
 
 <balanced-lvalue> ::= 
-           { \u0001 .. \ufffe } -= { ( | , | \n | ; } 
+           { \u0001 .. \ufffe } -= { ( | , | \n | \r | ; } 
      |     ( [ <balanced2-lvalue> ... ] ) 
 
 <balanced2-lvalue> ::= 
-           { \u0001 .. \ufffe } -= { ( | ) | \n | ; } 
+           { \u0001 .. \ufffe } -= { ( | ) | \n | \r | ; } 
      |     ( [ <balanced3-lvalue> ... ] ) 
 
 <balanced3-lvalue> ::= 
-           { \u0001 .. \ufffe } -= { ( | ) | \n | ; } 
+           { \u0001 .. \ufffe } -= { ( | ) | \n | \r | ; } 
      |     ( [ <balanced4-lvalue> ... ] ) 
 
 <balanced4-lvalue> ::= 
-           { \u0001 .. \ufffe } -= { ( | ) | \n | ; } 
+           { \u0001 .. \ufffe } -= { ( | ) | \n | \r | ; } 
      |     ( [ <balanced5-lvalue> ... ] ) 
 
 <balanced5-lvalue> ::= 
-           { \u0001 .. \ufffe } -= { ( | ) | \n | ; } 
+           { \u0001 .. \ufffe } -= { ( | ) | \n | \r | ; } 
 
 <do-loop-next> ::= 
            , [ { \t | \s }... ] <id-start> [ <id-part> ... ] [ { \t | \s }... ] { <ch> -= { \t | \s | = | <id-part> } } 
@@ -1632,22 +1637,14 @@ exponent ::=
            <octal_char> ... B 
 
 <spaces> ::= 
-           { \t | \s | \r | \u000B | \x000C | \x0085 | \x2028 | \x2029 | \x00a0 | \x1680 | \x2000 | \x2001 | \x2002 | \x2003 | \x2004 | \x2005 | \x2006 | \x2007 | \x2008 | \x2009 | \x200a | \x202f | \x3000 | <line-comment2> | <stmt-cont> }... 
+           \n [ { \t | \r | \s | ; | \n | ! [ { { \u0001 .. \t } | { \u000B .. \uFFFD } }... ] }... ] 
+     |     { \t | \s | \u000B | \x000C | \x0085 | \x2028 | \x2029 | \x00a0 | \x1680 | \x2000 | \x2001 | \x2002 | \x2003 | \x2004 | \x2005 | \x2006 | \x2007 | \x2008 | \x2009 | \x200a | \x202f | \x3000 | <line-comment2> }... 
 
 <line-comment2> ::= 
-           ! [ { { \u0001 .. \t } | { \u000B .. \uFFFD } }... ] 
-
-<stmt-cont> ::= 
-           & [ { \t | \r | \s }... ][ <line-comment3> ] \n [ { [ { \t | \r | \s }... ][ <line-comment4> ] \n }... ] [ { \t | \r | \s }... ][ & ] 
-
-<line-comment3> ::= 
-           ! [ { { \u0001 .. \t } | { \u000B .. \uFFFD } }... ] 
-
-<line-comment4> ::= 
-           ! [ { { \u0001 .. \t } | { \u000B .. \uFFFD } }... ] 
+           ! [ { { \u0001 .. \t } | { \u000B .. \x000C } | { \u000E .. \uFFFD } }... ] 
 
 <line-comment> ::= 
-           ! [ { { \u0001 .. \t } | { \u000B .. \uFFFD } }... ] 
+           ! [ { { \u0001 .. \t } | { \u000B .. \x000C } | { \u000E .. \uFFFD } }... ] 
 
 <::> ::= 
            : : 
@@ -1759,10 +1756,6 @@ exponent ::=
 <**> ::= 
            * * 
 
-<repeated> ::= 
-           <rel-op> [ { \t | \n | \r | \s }... ] { . NOT . } 
-     |     . NOT . [ { \t | \n | \r | \s }... ] { . NOT . } 
-
 <sign> ::= 
            + 
      |     - 
@@ -1778,7 +1771,7 @@ exponent ::=
            / ) 
 
 <;> ::= 
-           { ; | \n } [ { \t | \r | \s | ; | \n | ! [ { { \u0001 .. \t } | { \u000B .. \uFFFD } }... ] }... ] 
+           { \r | ; } [ { \t | \s | \r | ; }... ] [ <line-comment3> \r ] 
 
 <..> ::= 
            . . 
