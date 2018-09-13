@@ -64,7 +64,7 @@ Fortran scanner Issues
 [ 2018-07-03 ] Extension: added <octal-legacy> as an alternative that accepts some old style constants.  (done)
                (ie n=1B as in the ARPS model src/arpsagr/packcray.f90:284). Yet see fcvs21/FM901.FOR:54
                [22/7] <char-length> ::= <LABEL> and activated semantic actions on SMA due to "do-labels".
-               [27/8] undo the above as the scanner returns on SMA all the alternative tokens.
+               [27/8] undo the above as the scanner now returns on SMA all the alternative tokens.
 [ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
 
 
@@ -128,7 +128,7 @@ Hand coded File Reader
                passed to "wifstream.imbue(locale)" requires different arguments in Win,Mac, and Linux.
         note:  To run the command "fcheck /debug x.f90" in Windows (8.1), I've to start it in a Blue,
                Pinned PowerShell Console, else some Unicode chars (ie a '–') aren't rendered properly.
-               [09/05] In RedHat 9 also, I pass a custom "codecvt" utf8 converter to the locale.
+               [05/09] In RedHat 9 also, I pass a custom "codecvt" utf8 converter to the locale.
 [ 2018-07-07 ] Feature: The hand coded file reader cannot invoke the C preprocessor which is sometimes
                required by Fortran programs, ie by the program "wrf-phdf5support.F90".
 
