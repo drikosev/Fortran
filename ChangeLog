@@ -1,4 +1,3 @@
-
 Fortran parser Issues
 ---------------------
 
@@ -31,10 +30,11 @@ Fortran parser Issues
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
 [ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in a <write-stmt>. ie:
                write (*,*), "handler";
-[ 2018-06-26 ] Bug: The following erroneous 2 line program sends the generated parser
+[ 2018-06-26 ] Bug: The following erroneous 2 line program sends the generated parser          (done)
                (not the simulator) to an infinitive loop:
                READ(nunit(k),'(6e17.6)')((xtrajc0(i,k),ytrajc0(i,k),ztrajc0(i,k)),i=1,ntrajcs)
                END
+               [13/9] No longer hangs but I don't remember how it has been solved. 	
 [ 2018-06-27 ] Bug: Added the keyword GOTO as an alternative to "Go To" in  <goto-stmt> 
                & <computed-goto-stmt>. (done)
 [ 2018-06-27 ] Bug: It fails to parse an empty CASE DEFAULT, due to a wrong <case-block>. (done)
@@ -42,11 +42,12 @@ Fortran parser Issues
                See the directive "#sma" in the serialised version of the grammar (ie fortran_parser.txt).
 [ 2018-06-27 ] Also, the Simulator (not the generated parser) fails to return a shorter match for '(/'. 
                It returns the label of the format stmt, instead of a '(' !!!
+               [24/8] It fails if the shorter match hasn't been declared as a lexical token.
 [ 2018-07-03 ] Bug: The parser rejects this: "REAL :: trigs1(3*(nx-1)/2+1)". (done)
                The bug has been introduced by one of the changes made between 2017-07-08 and 2018-07-03.
                The problem is solved if the <p-array-spec-buggy> or <initialization-obsolete> is
                removed. In this parser I've removed the latter (in the legacy parser below the former).
-[ 2018-07-25 ] Bug: Missing named constants in complex constants (see ie lapack/src/zsyrfsx.f:601) (done)
+[ 2018-07-25 ] [8/9] Missing named constants in complex constants (see ie lapack/src/zsyrfsx.f:601) (done)
 [ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
 
 
@@ -62,7 +63,8 @@ Fortran scanner Issues
 [ 2018-06-27 ] Bug: Added the keyword GOTO (done)
 [ 2018-07-03 ] Extension: added <octal-legacy> as an alternative that accepts some old style constants.  (done)
                (ie n=1B as in the ARPS model src/arpsagr/packcray.f90:284). Yet see fcvs21/FM901.FOR:54
-               [22/7] <char-length> ::= <LABEL> and activated semantic actions on SMA due to "do-labels". 
+               [22/7] <char-length> ::= <LABEL> and activated semantic actions on SMA due to "do-labels".
+               [27/8] undo the above as the scanner returns on SMA all the alternative tokens.
 [ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
 
 
@@ -124,8 +126,9 @@ Hand coded File Reader
 [ 2018-06-27 ] Bug: The legacy parser hangs in Linux due to a '”' ie in the comments of "fsl2snd.f90". (done)
                This happened because the File Reader wasn't handling properly UTF-8 files. The locale 
                passed to "wifstream.imbue(locale)" requires different arguments in Win,Mac, and Linux.
-        note:  If the command "fcheck /debug x.f90" is run in Windows (8.1), one has to start it in a
-               PowerShell Console, else some Unicode characters (ie a '–') aren't rendered properly. 
+        note:  To run the command "fcheck /debug x.f90" in Windows (8.1), I've to start it in a Blue,
+               Pinned PowerShell Console, else some Unicode chars (ie a '–') aren't rendered properly.
+               [09/05] In RedHat 9 also, I pass a custom "codecvt" utf8 converter to the locale.
 [ 2018-07-07 ] Feature: The hand coded file reader cannot invoke the C preprocessor which is sometimes
                required by Fortran programs, ie by the program "wrf-phdf5support.F90".
 
@@ -139,6 +142,12 @@ The Following three new features/bug-fixes have not been tested very well yet:
 [ 2018-07-18 ] Bug (fixed form): Mid-line comments in continued lines aren't handled properly.   (done)
                (see ie source file src/skewt/indices.f:281)             
 [ 2018-07-22 ] GNU/PGI Extension: Space padding in fixed form lines up to 72 columns.     (done)
+[ 2018-08-27 ] This reader now converts line endings to CR-LF's & the scanners have been adjusted. (done)
+[ 2018-09-04 ] In windows 8.1, the filename "GEMINC:GEMPRM.PRM" used in the ARPS project is rejected
+               and likely this isn't an error of the hand coded file reader (yet the line was wrong): (done)
+               src\ext2arps\getgempak3d.f90:93: error: semantic:Cannot include file GEMINC:GEMPRM.PRM
+[ 2018-09-07 ] Hollerith Constants that exceed a free form continued line aren't parsed properly.  (todo)
+
 
 
      Some legacy code examples have been found at: 

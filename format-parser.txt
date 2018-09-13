@@ -1,0 +1,148 @@
+<grm> ::= 
+           <format-string> 
+
+<format-string> ::= 
+           <format-specification> 
+
+<format-specification> ::= 
+           ( ) 
+     |     ( <format-items> ) 
+     |     ( <unlimited-format-item> ) 
+     |     ( <format-items> , <unlimited-format-item> ) 
+
+<format-items> ::= 
+           <format-items> , <format-item> 
+     |     <format-items> <format-item> 
+     |     <format-item> 
+
+<format-item> ::= 
+           <char-or-edit-desc> +: { , | : | / | ) } 
+     |     <r> <data-edit-desc> +: { , | : | / | ) } 
+     |     <control-edit-desc> 
+     |     ( <format-items> ) +: { , | : | / | ) } 
+     |     <r> ( <format-items> ) +: { , | : | / | ) } 
+     |     <char-or-edit-desc> +: { <follow-data-edit-desc> }   /* Tr.warning( L"No Comma after the data-edit-descriptor: ", str(1) ); */
+     |     <r> <data-edit-desc> +: { <follow-data-edit-desc> }   /* Tr.warning( L"No Comma after the data-edit-descriptor: ", str(2) ); */
+
+<char-or-edit-desc> ::= 
+           <data-edit-desc> 
+     |     <char-string-edit-desc> 
+
+<data-edit-desc> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D}w . d> 
+     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     A 
+     |     <fmt dt & char-literal-constant> <p-v-list> 
+     |     <fmt dt & char-literal-constant> 
+     |     DT <p-v-list> 
+     |     DT 
+     |     $ 
+     |     \ 
+
+<p-v-list> ::= 
+           ( <v-list> ) 
+
+<v-list> ::= 
+           <v-list> , <v> 
+     |     <v> 
+
+<v> ::= 
+           <signed-int-literal-constant> 
+
+<signed-int-literal-constant> ::= 
+           <int-literal-constant> 
+     |     <sign> <int-literal-constant> 
+
+<char-string-edit-desc> ::= 
+           <char-literal-constant> 
+
+<r> ::= 
+           <int-literal-constant> 
+     |     <sign> <int-literal-constant> 
+
+<control-edit-desc> ::= 
+           <position-edit-desc> +: { <,> | : | / | ) | <data-edit-desc-first> } 
+     |     <sign-edit-desc> +: { <,> | : | / | ) } 
+     |     <blank-interp-edit-desc> +: { <,> | : | / | ) } 
+     |     <round-edit-desc> +: { <,> | : | / | ) } 
+     |     <decimal-edit-desc> +: { <,> | : | / | ) } 
+     |     <control-edit-descr-no-comma> 
+
+<position-edit-desc> ::= 
+           T <n> 
+     |     TL <n> 
+     |     TR <n> 
+     |     <fmt{T|TL|TR}n> 
+     |     <n> X 
+
+<n> ::= 
+           <int-literal-constant> 
+     |     <sign> <int-literal-constant> 
+
+<,> ::= 
+           , 
+
+<data-edit-desc-first> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D}w . d> 
+     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     A 
+     |     <fmt dt & char-literal-constant> 
+     |     DT 
+     |     $ 
+     |     \ 
+
+<sign-edit-desc> ::= 
+           SS 
+     |     SP 
+     |     S 
+
+<blank-interp-edit-desc> ::= 
+           BN 
+     |     BZ 
+
+<round-edit-desc> ::= 
+           RU 
+     |     RD 
+     |     RZ 
+     |     RN 
+     |     RC 
+     |     RP 
+
+<decimal-edit-desc> ::= 
+           DC 
+     |     DP 
+
+<control-edit-descr-no-comma> ::= 
+           / 
+     |     <r> / 
+     |     : 
+     |     <k> P 
+
+<k> ::= 
+           <int-literal-constant> 
+     |     <sign> <int-literal-constant> 
+
+<follow-data-edit-desc> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D}w . d> 
+     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     A 
+     |     <fmt dt & char-literal-constant> 
+     |     <fmt dt & char-literal-constant> 
+     |     DT 
+     |     <char-string-edit-desc> 
+
+<unlimited-format-item> ::= 
+           * ( <format-items> ) 
+

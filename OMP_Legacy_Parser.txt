@@ -1,0 +1,4155 @@
+#disambiguate <expr>
+#disambiguate <part-name-p-section-subscript-list-l>
+#disambiguate <unexpected-end-stmt>
+
+#reductions FUNCTION
+#reductions SUBROUTINE
+
+#sma <(/>
+#sma </)>
+#sma <concat-op>
+#sma <defined-binary-op>
+#sma <defined-unary-op>
+#sma <omp-compound>
+#sma OMP-END-ATOMIC
+#sma OMP-END-DO
+#sma OMP-END-PARALLEL-DO
+#sma OMP-END-TASKLOOP
+
+<grm> ::= 
+           <program> 
+
+<program> ::= 
+           <program-units> 
+     |     <;> <program-units> 
+
+<program-units> ::= 
+           <program-units> <program-unit> 
+     |     <program-unit> 
+
+<program-unit> ::= 
+           <main-program> 
+     |     <external-subprogram> 
+     |     <module> 
+     |     <submodule> 
+     |     <block-data> 
+
+<main-program> ::= 
+           <end-program-stmt;> 
+     |     <internal-subprogram-part> <end-program-stmt;> 
+     |     <stmts> <end-program-stmt;> 
+     |     <stmts> <internal-subprogram-part> <end-program-stmt;> 
+     |     <program-stmt> <end-program-stmt;> 
+     |     <program-stmt> <internal-subprogram-part> <end-program-stmt;> 
+     |     <program-stmt> <stmts> <end-program-stmt;> 
+     |     <program-stmt> <stmts> <internal-subprogram-part> <end-program-stmt;> 
+
+<end-program-stmt;> ::= 
+           <end-program-stmt> <;> 
+     |     <end-program-stmt> +: EOF 
+
+<end-program-stmt> ::= 
+           end-program-stmt 
+     |     <label> end-program-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-program-stmt",1,true);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-program-stmt",1,true);*/
+
+end-program-stmt ::= 
+           END 
+     |     END PROGRAM +: { <;> | EOF } 
+     |     END_PROGRAM +: { <;> | EOF } 
+     |     END PROGRAM <program_name> +: { <;> | EOF } 
+     |     END_PROGRAM <program_name> +: { <;> | EOF } 
+
+<program_name> ::= 
+           <name> 
+
+<name> ::= 
+           <name-l> 
+     |     <name-r> 
+
+<unexpected-end-stmt> ::~ 
+           end-associate-stmt   /* Tr.Unexpected( L"end-associate-stmt",11,false);*/
+     |     end-block-stmt   /* Tr.Unexpected(L"end-block-stmt",12,false);*/
+     |     end-block-data-stmt   /* Tr.Unexpected($$(1),true);*/
+     |     end-critical-stmt   /* Tr.Unexpected(L"end-critical-stmt",33,false);*/
+     |     end-do-stmt   /* Tr.Unexpected(L"end-do-stmt",13,false);*/
+     |     end-enum-stmt   /* Tr.Unexpected(L"end-enum-stmt",29,false);*/
+     |     end-forall-stmt   /* Tr.Unexpected(L"end-forall-stmt",10,false);*/
+     |     end-function-stmt   /* Tr.Unexpected($$(1),true);*/
+     |     end-if-stmt   /* Tr.Unexpected(L"end-if-stmt",14,false);*/
+     |     end-interface-stmt   /* Tr.Unexpected(L"end-interface-stmt",30,false);*/
+     |     end-module-stmt   /* Tr.Unexpected($$(1),true);*/
+     |     end-mp-subprogram-stmt   /* Tr.Unexpected($$(1),true);*/
+     |     end-program-stmt   /* Tr.Unexpected($$(1),true);*/
+     |     end-select-stmt   /* Tr.Unexpected(L"end-select-stmt",15,false);*/
+     |     end-submodule-stmt   /* Tr.Unexpected($$(1),true);*/
+     |     end-subroutine-stmt   /* Tr.Unexpected($$(1),true);*/
+     |     end-type-stmt   /* Tr.Unexpected(L"end-type-stmt",16,false);*/
+     |     end-structure-stmt   /* Tr.Unexpected(L"end-structure-stmt",17,false);*/
+     |     end-union-stmt   /* Tr.Unexpected(L"end-union-stmt",18,false);*/
+     |     end-map-stmt   /* Tr.Unexpected(L"end-map-stmt",19,false);*/
+     |     end-where-stmt   /* Tr.Unexpected(L"end-where-stmt",20,false);*/
+     |     <missing-end-statement>   /* Tr.Unexpected(L"contains-stmt",21,false);*/
+     |     END <name> +: { <;> }   /* Tr.Unexpected(L"name",str(2),1001,false);*/
+     |     END <name> <name> +: { <;> }   /* Tr.Unexpected(L"name",str(2),1001,false);*/
+     |     omp-end-atomic-stmt   /* Tr.Unexpected(L"omp-end-atomic-stmt",51,false);*/
+     |     OMP-END-DISTRIBUTE +: { <;> }   /* Tr.Unexpected(L"OMP-END-DISTRIBUTE",23,false);*/
+     |     omp-end-do-stmt   /* Tr.Unexpected(L"omp-end-do-stmt",53,false);*/
+     |     OMP-END-TARGET +: { <;> }   /* Tr.Unexpected(L"OMP-END-TARGET",25,false);*/
+     |     omp-end-taskloop-stmt   /* Tr.Unexpected(L"omp-end-taskloop-stmt",26,false);*/
+     |     OMP-END-TEAMS +: { <;> }   /* Tr.Unexpected(L"OMP-END-TEAMS",27,false);*/
+     |     omp-end-parallel-do-stmt   /* Tr.Unexpected(L"omp-end-parallel-do-stmt",28,false);*/
+     |     OMP-END-DISTRIBUTE <erroneous-stmt>   /* Tr.error(L"Erroneous OMP-END-DISTRIBUTE. ");*/
+     |     OMP-END-TARGET <erroneous-stmt>   /* Tr.error(L"Erroneous OMP-END-TARGET. ");*/
+     |     OMP-END-TEAMS <erroneous-stmt>   /* Tr.error(L"Erroneous OMP-END-TEAMS. ");*/
+     |     OMP END <erroneous-stmt>   /* Tr.Unexpected(L"Unsupported/Erroneous OpenMP End Statement",1002,false);*/
+
+end-associate-stmt ::= 
+           END ASSOCIATE 
+     |     END ASSOCIATE <construct-name> 
+     |     END_ASSOCIATE 
+     |     END_ASSOCIATE <construct-name> 
+
+<construct-name> ::= 
+           <name> 
+
+end-block-stmt ::= 
+           END BLOCK 
+     |     END BLOCK <construct-name> 
+     |     END_BLOCK 
+     |     END_BLOCK <construct-name> 
+
+end-block-data-stmt ::= 
+           END 
+     |     END BLOCK DATA 
+     |     END BLOCK DATA <block-data-name> 
+     |     END_BLOCK 
+     |     END_BLOCK DATA 
+     |     END_BLOCK DATA <block-data-name> 
+     |     END_BLOCK_DATA 
+     |     END_BLOCK_DATA <block-data-name> 
+
+<block-data-name> ::= 
+           <name> 
+
+end-critical-stmt ::= 
+           END CRITICAL 
+     |     END CRITICAL <construct-name> 
+     |     END_CRITICAL 
+     |     END_CRITICAL <construct-name> 
+
+end-do-stmt ::= 
+           END DO 
+     |     END DO <construct-name> 
+     |     END_DO 
+     |     END_DO <construct-name> 
+
+end-enum-stmt ::= 
+           END ENUM 
+     |     END_ENUM 
+
+end-forall-stmt ::= 
+           END FORALL 
+     |     END_FORALL 
+     |     END FORALL <construct-name> 
+     |     END_FORALL <construct-name> 
+
+end-function-stmt ::= 
+           END 
+     |     END FUNCTION +: { <;> | EOF } 
+     |     END FUNCTION <name> +: { <;> | EOF } 
+     |     END_FUNCTION +: { <;> | EOF } 
+     |     END_FUNCTION <name> +: { <;> | EOF } 
+
+end-if-stmt ::= 
+           END IF 
+     |     END IF <construct-name> 
+     |     END_IF 
+     |     END_IF <construct-name> 
+
+end-interface-stmt ::= 
+           END INTERFACE 
+     |     END INTERFACE <generic-spec> 
+     |     END_INTERFACE 
+     |     END_INTERFACE <generic-spec> 
+
+<generic-spec> ::= 
+           <generic-name> 
+     |     OPERATOR <p-defined-operator> 
+     |     ASSIGNMENT <p-equal> 
+     |     <defined-io-generic-spec> 
+
+<generic-name> ::= 
+           <name> 
+
+<p-defined-operator> ::= 
+           ( <defined-operator> ) 
+
+<defined-operator> ::= 
+           <defined-op> 
+     |     <extended-intrinsic-op> 
+
+<defined-op> ::= 
+           <defined-binary-op> 
+     |     <defined-unary-op> 
+
+<extended-intrinsic-op> ::= 
+           <intrinsic-operator> 
+
+<intrinsic-operator> ::= 
+           <power-op> 
+     |     <mult-op> 
+     |     <add-op> 
+     |     <concat-op> 
+     |     <rel-op> 
+     |     <not-op> 
+     |     <and-op> 
+     |     <or-op> 
+     |     <equiv-op> 
+
+<power-op> ::= 
+           <**> 
+
+<not-op> ::= 
+           <.NOT.> 
+
+<and-op> ::= 
+           <.AND.> 
+
+<or-op> ::= 
+           <.OR.> 
+
+<p-equal> ::= 
+           ( = ) 
+
+<defined-io-generic-spec> ::= 
+           READ ( FORMATTED ) 
+     |     READ ( UNFORMATTED ) 
+     |     WRITE ( FORMATTED ) 
+     |     WRITE ( UNFORMATTED ) 
+
+end-module-stmt ::= 
+           END 
+     |     END MODULE +: { <;> | EOF } 
+     |     END MODULE <module-name> +: { <;> | EOF } 
+     |     END_MODULE +: { <;> | EOF } 
+     |     END_MODULE <module-name> +: { <;> | EOF } 
+
+<module-name> ::= 
+           <name> 
+     |     <erroneous-stmt> 
+
+<erroneous-stmt> ::~ 
+           ERROR <rest-line> 
+
+<rest-line> ::= 
+           NONE +: { <;> } 
+
+end-mp-subprogram-stmt ::= 
+           END 
+     |     END PROCEDURE +: { <;> } 
+     |     END PROCEDURE <procedure-name> +: { <;> } 
+     |     END_PROCEDURE +: { <;> } 
+     |     END_PROCEDURE <procedure-name> +: { <;> } 
+
+<procedure-name> ::= 
+           <name> 
+
+end-select-stmt ::= 
+           END SELECT 
+     |     END SELECT <construct-name> 
+     |     END_SELECT 
+     |     END_SELECT <construct-name> 
+
+end-submodule-stmt ::= 
+           END 
+     |     END SUBMODULE 
+     |     END SUBMODULE <module-name> 
+     |     END_SUBMODULE 
+     |     END_SUBMODULE <module-name> 
+
+end-subroutine-stmt ::= 
+           END 
+     |     END SUBROUTINE +: { <;> | EOF } 
+     |     END SUBROUTINE <name> +: { <;> | EOF } 
+     |     END_SUBROUTINE +: { <;> | EOF } 
+     |     END_SUBROUTINE <name> +: { <;> | EOF } 
+
+end-type-stmt ::= 
+           END TYPE 
+     |     END TYPE <type-name> 
+     |     END_TYPE 
+     |     END_TYPE <type-name> 
+
+<type-name> ::= 
+           <name> 
+
+end-structure-stmt ::= 
+           END STRUCTURE 
+     |     END STRUCTURE <type-name> 
+     |     END_STRUCTURE 
+     |     END_STRUCTURE <type-name> 
+
+end-union-stmt ::= 
+           END UNION 
+     |     END UNION <type-name> 
+     |     END_UNION 
+     |     END_UNION <type-name> 
+
+end-map-stmt ::= 
+           END MAP 
+     |     END MAP <type-name> 
+     |     END_MAP 
+     |     END_MAP <type-name> 
+
+end-where-stmt ::= 
+           END WHERE 
+     |     END WHERE <construct-name> 
+     |     END_WHERE 
+     |     END_WHERE <construct-name> 
+
+<missing-end-statement> ::~ 
+           CONTAINS +: { <;> } 
+
+omp-end-atomic-stmt ::= 
+           OMP-END-ATOMIC +: { <;> } 
+     |     OMP-END-ATOMIC <erroneous-stmt>   /* Tr.error(L"Erroneous omp-end-atomic-stmt. ");*/
+
+omp-end-do-stmt ::= 
+           OMP-END-DO +: { <;> } 
+     |     OMP-END-DO NOWAIT +: { <;> } 
+     |     OMP-END-DO <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
+
+omp-end-taskloop-stmt ::= 
+           OMP-END-TASKLOOP +: { <;> } 
+     |     OMP-END-TASKLOOP <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
+
+omp-end-parallel-do-stmt ::= 
+           OMP-END-PARALLEL-DO +: { <;> } 
+     |     OMP-END-PARALLEL-DO <erroneous-stmt>   /* Tr.error(L"Expected an OpenMP end-parallel-do-stmt. ");*/
+
+<internal-subprogram-part> ::= 
+           <internal-subprograms> 
+
+<internal-subprograms> ::= 
+           <internal-subprograms> <internal-subprogram> 
+     |     <contains-stmt> 
+
+<internal-subprogram> ::= 
+           <function-subprogram> 
+     |     <subroutine-subprogram> 
+     |     ERROR <;> 
+
+<function-subprogram> ::= 
+           <function-stmt> <end-function-stmt;> 
+     |     <function-stmt> <internal-subprogram-part> <end-function-stmt;> 
+     |     <function-stmt> <stmts> <end-function-stmt;> 
+     |     <function-stmt> <stmts> <internal-subprogram-part> <end-function-stmt;> 
+     |     <label> <function-stmt> <end-function-stmt;> 
+     |     <label> <function-stmt> <internal-subprogram-part> <end-function-stmt;> 
+     |     <label> <function-stmt> <stmts> <end-function-stmt;> 
+     |     <label> <function-stmt> <stmts> <internal-subprogram-part> <end-function-stmt;> 
+
+<function-stmt> ::= 
+           <function-stmt;> 
+
+<function-stmt;> ::= 
+           function-stmt <;> 
+     |     function-stmt +: EOF 
+
+function-stmt ::= 
+           FUNCTION <name> <(> <)> 
+     |     FUNCTION <name> <(> <)> <sufix> 
+     |     FUNCTION <name> <(> <name-list> <)> 
+     |     FUNCTION <name> <(> <name-list> <)> <sufix> 
+     |     <prefix> FUNCTION <name> <(> <)> 
+     |     <prefix> FUNCTION <name> <(> <)> <sufix> 
+     |     <prefix> FUNCTION <name> <(> <name-list> <)> 
+     |     <prefix> FUNCTION <name> <(> <name-list> <)> <sufix> 
+     |     FUNCTION <erroneous-stmt> 
+
+<(> ::= 
+           ( 
+     |     <no (> 
+
+<no (> ::~ 
+           NONE -: { ( | <;> | ) } 
+
+<)> ::= 
+           ) 
+     |     <no )> 
+
+<no )> ::~ 
+           NONE -: { ) | <name> } 
+
+<sufix> ::= 
+           <language-binding-spec> 
+     |     <language-binding-spec> RESULT <(> <name> <)> 
+     |     RESULT <(> <name> <)> 
+     |     RESULT <(> <name> <)> <language-binding-spec> 
+
+<language-binding-spec> ::= 
+           BIND <p-C> 
+     |     BIND <p-c , name = expr> 
+
+<p-C> ::= 
+           <(> C <)> 
+
+<p-c , name = expr> ::= 
+           <(> C <,> <name = expr> <)> 
+
+<,> ::= 
+           , 
+
+<name = expr> ::= 
+           NAME = <default-char-expr> 
+
+<default-char-expr> ::= 
+           <expr> 
+
+<expr> ::= 
+           <expr> <defined-binary-op> <expr> 
+     |     <expr> <equiv-op> <expr> 
+     |     <expr> <or-op> <expr> 
+     |     <expr> <and-op> <expr> 
+     |     <not-op> <expr> 
+     |     <expr> <rel-op> <expr> ~: <rel-op> 
+     |     <expr> <concat-op> <expr> 
+     |     <expr> <add-op> <expr> 
+     |     <expr> <mult-op> <expr> 
+     |     <expr> <power-op> <expr> -: { <power-op> } 
+     |     <unary-op> <expr> -: { <power-op> | <mult-op> } 
+     |     <primary> 
+     |     <defined-unary-op> <primary> 
+
+<unary-op> ::= 
+           <sign> 
+
+<primary> ::= 
+           <constant> 
+     |     <real-literal-constant> 
+     |     <designator> 
+     |     <array-constructor> 
+     |     <structure-constructor> 
+     |     <p-expr> 
+     |     <p-complex-literal-pair> 
+
+<constant> ::= 
+           <int-literal-constant> 
+     |     <logical-literal-constant> 
+     |     <char-literal-constant> 
+     |     <boz-literal-constant> 
+
+<designator> ::= 
+           <data-ref> 
+
+<data-ref> ::= 
+           <part-ref> <%> <data-ref> -: { <%> } 
+     |     <part-ref> <.> <data-ref> -: { <.> } 
+     |     <part-ref> 
+
+<part-ref> ::= 
+           <part-name> 
+     |     <part-name> <image-selector> -: { ( } 
+     |     <part-name> <image-selector> <p-substring-range> 
+     |     <part-name-p-section-subscript-list> 
+     |     <part-name-p-section-subscript-list> <p-substring-range> 
+     |     <part-name-p-section-subscript-list> <image-selector> -: { ( } 
+     |     <part-name-p-section-subscript-list> <image-selector> <p-substring-range> 
+
+<part-name> ::= 
+           <name> 
+
+<image-selector> ::= 
+           <lbracket> <cosubscript-list> <rbracket> 
+
+<cosubscript-list> ::= 
+           <cosubscript-list> <,> <cosubscript> 
+     |     <cosubscript> 
+
+<cosubscript> ::= 
+           <scalar-int-expr> 
+     |     <scalar-int-expr> : <scalar-int-expr> 
+
+<scalar-int-expr> ::= 
+           <expr> 
+
+<p-substring-range> ::= 
+           ( <substring-range> ) 
+
+<substring-range> ::= 
+           : 
+     |     : <scalar-int-expr> 
+     |     <scalar-int-expr> : 
+     |     <scalar-int-expr> : <scalar-int-expr> 
+
+<part-name-p-section-subscript-list> ::= 
+           <part-name> <p-section-subscript-list> 
+     |     <procedure-name> <p-actual-arg-spec-list> -: { ( | <lbracket> } 
+     |     <procedure-name> ( ) -: { ( | <%> | <lbracket> } 
+
+<p-section-subscript-list> ::= 
+           ( <section-subscript-list> ) 
+
+<section-subscript-list> ::= 
+           <section-subscript-list> <,> <section-subscript> 
+     |     <section-subscript-list> <,> <::> <stride> 
+     |     <section-subscript> 
+     |     <::> <stride> 
+
+<section-subscript> ::= 
+           <subscript> 
+     |     <subscript-triplet> 
+
+<subscript> ::= 
+           <scalar-int-expr> 
+
+<subscript-triplet> ::= 
+           : 
+     |     : <subscript> 
+     |     : <subscript> : <stride> 
+     |     <subscript> : 
+     |     <subscript> <::> <stride> 
+     |     <subscript> : <subscript> 
+     |     <subscript> : <subscript> : <stride> 
+
+<stride> ::= 
+           <scalar-int-expr> 
+
+<p-actual-arg-spec-list> ::= 
+           ( <actual-arg-spec-list> ) 
+     |     ( <actual-arg-spec-list> <,> <named-arg-spec-list> ) 
+     |     ( <named-arg-spec-list> ) 
+
+<actual-arg-spec-list> ::= 
+           <actual-arg-spec-list> <,> <actual-arg-spec> 
+     |     <actual-arg-spec> 
+
+<actual-arg-spec> ::= 
+           <actual-arg> 
+
+<actual-arg> ::= 
+           <expr> 
+     |     <alt-return-spec> 
+     |     * 
+
+<alt-return-spec> ::= 
+           * <label> 
+
+<named-arg-spec-list> ::= 
+           <named-arg-spec-list> <,> <named-arg-spec> 
+     |     <named-arg-spec> 
+
+<named-arg-spec> ::= 
+           keyword = <actual-arg> 
+
+keyword ::= 
+           <name> 
+
+<%> ::= 
+           % 
+
+<.> ::= 
+           . 
+
+<array-constructor> ::= 
+           <array--constructor> 
+     |     <array-constructor-bracketed> -: { ( } 
+
+<array--constructor> ::= 
+           <(/> <ac-spec> </)> 
+
+<ac-spec> ::= 
+           <ac-value-list> 
+     |     <type-spec> <::> 
+     |     <type-spec> <::> <ac-value-list> 
+     |     <ac-value-list> <,> 
+     |     <type-spec> <::> <ac-value-list> <,> 
+
+<ac-value-list> ::= 
+           <ac-value-list> <,> <ac-value> 
+     |     <ac-value> 
+
+<ac-value> ::= 
+           <expr> 
+     |     <ac-implied-do> 
+
+<ac-implied-do> ::= 
+           ( <ac-implied-do-list> , <ac-implied-do-cntrl> ) 
+
+<ac-implied-do-list> ::= 
+           <ac-implied-do-list> <,> <ac-implied-do-object> 
+     |     <ac-implied-do-object> 
+
+<ac-implied-do-object> ::= 
+           <expr> 
+     |     <ac-implied-do> 
+
+<ac-implied-do-cntrl> ::= 
+           <key = expr> <,> <expr> 
+     |     <key = expr> <,> <expr> <,> <expr> 
+
+<key = expr> ::= 
+           <name> = <expr> 
+
+<type-spec> ::= 
+           <intrinsic-type-spec> 
+     |     <derived-type-spec> 
+
+<intrinsic-type-spec> ::= 
+           BYTE 
+     |     BYTE <p-expr> 
+     |     BYTE <p-kind-set-expr> 
+     |     INTEGER 
+     |     INTEGER <p-expr> 
+     |     INTEGER <p-kind-set-expr> 
+     |     REAL 
+     |     REAL <p-expr> 
+     |     REAL <p-kind-set-expr> 
+     |     DOUBLE PRECISION 
+     |     DOUBLE_PRECISION 
+     |     COMPLEX 
+     |     COMPLEX <p-expr> 
+     |     COMPLEX <p-kind-set-expr> 
+     |     DOUBLE COMPLEX 
+     |     DOUBLE_COMPLEX 
+     |     CHARACTER 
+     |     CHARACTER <p-type-param-value> 
+     |     CHARACTER <p-len-type-param-value> 
+     |     <character*length> 
+     |     CHARACTER <p-kind-set-expr> 
+     |     CHARACTER <p-char-selector-pair> 
+     |     LOGICAL 
+     |     LOGICAL <p-expr> 
+     |     LOGICAL <p-kind-set-expr> 
+
+<p-expr> ::= 
+           ( <expr> ) 
+     |     <bug-expr> 
+
+<bug-expr> ::~ 
+           ( <expr> +: { THEN | FUNCTION | <;> | <name> | = }   /* printf ( " Unbalanced ( needs ) " ) ; */
+
+<p-kind-set-expr> ::= 
+           ( <kind-set-expr> ) 
+
+<kind-set-expr> ::= 
+           KIND = <scalar-int-constant-expr> 
+
+<scalar-int-constant-expr> ::= 
+           <expr> 
+
+<p-type-param-value> ::= 
+           ( <type-param-value> ) 
+
+<type-param-value> ::= 
+           <scalar-int-expr> 
+     |     * 
+     |     : 
+
+<p-len-type-param-value> ::= 
+           ( <len-type-param-value> ) 
+
+<len-type-param-value> ::= 
+           LEN = <type-param-value> 
+
+<character*length> ::= 
+           CHARACTER * <char-length> 
+     |     REAL * <char-length> 
+     |     BYTE * <char-length> 
+     |     INTEGER * <char-length> 
+     |     LOGICAL * <char-length> 
+     |     DOUBLE PRECISION * <char-length> 
+     |     COMPLEX * <char-length> 
+
+<char-length> ::= 
+           ( <type-param-value> ) 
+     |     <int-literal-constant> 
+
+<p-char-selector-pair> ::= 
+           ( <char-selector-pair> ) -: { ( } 
+     |     ( <type-param-value> <,> <kind-set-expr> ) -: { ( } 
+
+<char-selector-pair> ::= 
+           <type-param-value> <,> <scalar-int-constant-expr> 
+     |     <kind-set-expr> <,> <len-type-param-value> 
+     |     <len-type-param-value> <,> <kind-set-expr> 
+
+<derived-type-spec> ::= 
+           <type-name> 
+     |     <type-name> <p-type-param-spec-list> 
+
+<p-type-param-spec-list> ::= 
+           ( <type-param-spec-list> ) 
+     |     ( <type-param-spec-list> <,> <type-param-spec-named-list> ) 
+     |     ( <type-param-spec-named-list> ) 
+
+<type-param-spec-list> ::= 
+           <type-param-spec-list> <,> <type-param-spec> 
+     |     <type-param-spec> 
+
+<type-param-spec> ::= 
+           <type-param-value> 
+
+<type-param-spec-named-list> ::= 
+           <type-param-spec-named-list> <,> <type-param-named-spec> 
+     |     <type-param-named-spec> 
+
+<type-param-named-spec> ::= 
+           <keyword> = <type-param-value> 
+
+<keyword> ::= 
+           <name> 
+
+<array-constructor-bracketed> ::= 
+           <lbracket-rule> <ac-spec> <rbracket> 
+
+<lbracket-rule> ::? 
+           <lbracket>   /* //disable ERSP for this rule*/
+
+<structure-constructor> ::= 
+           <derived-type-spec> ( ) 
+     |     <derived-type-spec> <p-component-spec-list> 
+
+<p-component-spec-list> ::= 
+           ( <component-spec-list> ) 
+     |     ( <component-spec-list> <,> <component-spec-named-list> ) 
+     |     ( <component-spec-named-list> ) 
+
+<component-spec-list> ::= 
+           <component-spec-list> <,> <component-spec> 
+     |     <component-spec> 
+
+<component-spec> ::= 
+           <component-data-source> 
+
+<component-data-source> ::= 
+           <expr> 
+     |     <data-target> 
+     |     <proc-target> 
+
+<data-target> ::= 
+           <variable> 
+
+<variable> ::= 
+           <designator> 
+     |     <expr> 
+
+<proc-target> ::= 
+           <data-ref> 
+
+<component-spec-named-list> ::= 
+           <component-spec-named-list> <,> <component-named-spec> 
+     |     <component-named-spec> 
+
+<component-named-spec> ::= 
+           <keyword> = <component-data-source> 
+
+<p-complex-literal-pair> ::= 
+           ( <complex-literal-pair> ) 
+
+<complex-literal-pair> ::= 
+           <real-part> <,> <imag-part> 
+
+<real-part> ::= 
+           <imag-part> 
+
+<imag-part> ::= 
+           <signed-int-literal-constant> 
+     |     <signed-real-literal-constant> 
+     |     <named-constant> 
+
+<signed-int-literal-constant> ::= 
+           <int-literal-constant> 
+     |     <sign> <int-literal-constant> 
+
+<signed-real-literal-constant> ::= 
+           <real-literal-constant> 
+     |     <sign> <real-literal-constant> 
+
+<named-constant> ::= 
+           <name> 
+
+<name-list> ::= 
+           <name-list> <comma> <name> 
+     |     <name> 
+
+<comma> ::= 
+           , 
+     |     <no , or )> 
+
+<no , or )> ::~ 
+           NONE -: { , | ) | BIND | RESULT } 
+
+<prefix> ::= 
+           <prefix> <prefix1> 
+     |     <prefix1> 
+
+<prefix1> ::= 
+           ELEMENTAL 
+     |     IMPURE 
+     |     MODULE 
+     |     PURE 
+     |     RECURSIVE 
+     |     <declaration-type-spec> 
+     |     <record-type-spec> 
+
+<declaration-type-spec> ::= 
+           <intrinsic-type-spec> 
+     |     TYPE <p-intrinsic-type-spec> 
+     |     TYPE <p-derived-type-spec> 
+     |     CLASS <p-derived-type-spec> 
+     |     CLASS <p-star> 
+
+<p-intrinsic-type-spec> ::= 
+           ( <intrinsic-type-spec> ) 
+
+<p-derived-type-spec> ::= 
+           ( <derived-type-spec> ) 
+
+<p-star> ::= 
+           ( * ) 
+
+<record-type-spec> ::= 
+           RECORD / <type-name> / 
+
+<end-function-stmt;> ::= 
+           <end-function-stmt> <;> 
+     |     <end-function-stmt> +: EOF 
+
+<end-function-stmt> ::= 
+           end-function-stmt 
+     |     <label> end-function-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-function-stmt",1,true);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-function-stmt",1,true);*/
+
+<stmts> ::= 
+           <stmts> <stmt> 
+     |     <stmts> <format-stmt;> 
+     |     <stmts> <omp-directive> 
+     |     <stmt> 
+     |     <format-stmt;> 
+     |     <omp-directive> 
+     |     <stmts> <label> <stmt> 
+     |     <label> <stmt> 
+
+<stmt> ::= 
+           <declaration-construct> 
+     |     <execution-part-construct> 
+     |     <implicit-part-stmt> 
+     |     <import-part-stmt> 
+     |     <use-part-stmt> 
+
+<declaration-construct> ::= 
+           <derived-type-def> <;> 
+     |     <enum-def> <;> 
+     |     <interface-block> <;> 
+     |     <parameter-stmt> <;> 
+     |     <procedure-declaration-stmt> <;> 
+     |     <other-specification-stmt> <;> 
+     |     <type-declaration-stmt> <;> 
+     |     <stmt-function-stmt> <;> 
+
+<derived-type-def> ::= 
+           <derived-type-stmt> <end-type-stmt> 
+     |     <derived-type-stmt> <type-bound-procedure-part> <end-type-stmt> 
+     |     <derived-type-stmt> <component-part> <end-type-stmt> 
+     |     <derived-type-stmt> <component-part> <type-bound-procedure-part> <end-type-stmt> 
+     |     <derived-type-stmt> <private-or-sequence-stmts> <end-type-stmt> 
+     |     <derived-type-stmt> <private-or-sequence-stmts> <type-bound-procedure-part> <end-type-stmt> 
+     |     <derived-type-stmt> <private-or-sequence-stmts> <component-part> <end-type-stmt> 
+     |     <derived-type-stmt> <private-or-sequence-stmts> <component-part> <type-bound-procedure-part> <end-type-stmt> 
+     |     <derived-type-stmt> <type-param-def-stmts> <end-type-stmt> 
+     |     <derived-type-stmt> <type-param-def-stmts> <type-bound-procedure-part> <end-type-stmt> 
+     |     <derived-type-stmt> <type-param-def-stmts> <component-part> <end-type-stmt> 
+     |     <derived-type-stmt> <type-param-def-stmts> <component-part> <type-bound-procedure-part> <end-type-stmt> 
+     |     <derived-type-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <end-type-stmt> 
+     |     <derived-type-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <type-bound-procedure-part> <end-type-stmt> 
+     |     <derived-type-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <component-part> <end-type-stmt> 
+     |     <derived-type-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <component-part> <type-bound-procedure-part> <end-type-stmt> 
+     |     <derived-structure-stmt> <end-structure-stmt> 
+     |     <derived-structure-stmt> <type-bound-procedure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <component-structure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <component-structure-part> <type-bound-procedure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <private-or-sequence-stmts> <end-structure-stmt> 
+     |     <derived-structure-stmt> <private-or-sequence-stmts> <type-bound-procedure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <private-or-sequence-stmts> <component-structure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <private-or-sequence-stmts> <component-structure-part> <type-bound-procedure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <type-param-def-stmts> <end-structure-stmt> 
+     |     <derived-structure-stmt> <type-param-def-stmts> <type-bound-procedure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <type-param-def-stmts> <component-structure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <type-param-def-stmts> <component-structure-part> <type-bound-procedure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <end-structure-stmt> 
+     |     <derived-structure-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <type-bound-procedure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <component-structure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <component-structure-part> <type-bound-procedure-part> <end-structure-stmt> 
+
+<derived-type-stmt> ::= 
+           TYPE <type-name> <;> 
+     |     TYPE <type-name> ( <name-list> ) <;> 
+     |     TYPE <::> <type-name> <;> 
+     |     TYPE <::> <type-name> ( <name-list> ) <;> 
+     |     TYPE <,> <type-attr-spec-list> <::> <type-name> <;> 
+     |     TYPE <,> <type-attr-spec-list> <::> <type-name> ( <name-list> ) <;> 
+
+<type-attr-spec-list> ::= 
+           <type-attr-spec-list> <,> <type-attr-spec> 
+     |     <type-attr-spec> 
+
+<type-attr-spec> ::= 
+           ABSTRACT 
+     |     <access-spec> 
+     |     BIND <p-C> 
+     |     EXTENDS ( <name> ) 
+
+<access-spec> ::= 
+           PUBLIC 
+     |     PRIVATE 
+
+<end-type-stmt> ::= 
+           end-type-stmt 
+     |     <label> end-type-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-type-stmt",16,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-type-stmt",16,false);*/
+
+<type-bound-procedure-part> ::= 
+           <contains-stmt> 
+     |     <contains-stmt> <private-components-stmt> 
+     |     <contains-stmt> <label> <private-components-stmt> 
+     |     <type-bound-procedure-part> <type-bound-proc-binding> 
+     |     <type-bound-procedure-part> <label> <type-bound-proc-binding> 
+
+<contains-stmt> ::= 
+           CONTAINS <;> 
+     |     <label> CONTAINS <;> 
+
+<private-components-stmt> ::= 
+           PRIVATE <;> 
+
+<type-bound-proc-binding> ::= 
+           <type-bound-procedure-stmt;> 
+     |     <type-bound-generic-stmt;> 
+     |     <final-procedure-stmt;> 
+
+<type-bound-procedure-stmt;> ::= 
+           <type-bound-procedure-stmt> <;> 
+
+<type-bound-procedure-stmt> ::= 
+           PROCEDURE <type-bound-proc-decl-list> 
+     |     PROCEDURE <::> <type-bound-proc-decl-list> 
+     |     PROCEDURE <,> <binding-attr-list> <::> <type-bound-proc-decl-list> 
+     |     PROCEDURE ( <interface-name> ) <,> <binding-attr-list> <::> <binding-name-list> 
+
+<type-bound-proc-decl-list> ::= 
+           <type-bound-proc-decl-list> <,> <type-bound-proc-decl> 
+     |     <type-bound-proc-decl> 
+
+<type-bound-proc-decl> ::= 
+           <binding-name> 
+     |     <binding-name> <=rangle> <procedure-name> 
+
+<binding-name> ::= 
+           <name> 
+
+<binding-attr-list> ::= 
+           <binding-attr-list> <,> <binding-attr> 
+     |     <binding-attr> 
+
+<binding-attr> ::= 
+           PASS 
+     |     PASS ( <arg-name> ) 
+     |     NOPASS 
+     |     NON OVERRIDABLE 
+     |     NON_OVERRIDABLE 
+     |     DEFERRED 
+     |     <access-spec> 
+
+<arg-name> ::= 
+           <name> 
+
+<interface-name> ::= 
+           <name> 
+
+<binding-name-list> ::= 
+           <name-list> 
+
+<type-bound-generic-stmt;> ::= 
+           <type-bound-generic-stmt> <;> 
+
+<type-bound-generic-stmt> ::= 
+           <GENERIC> <::> <generic-spec> <=rangle> <binding-name-list> 
+     |     <GENERIC> <,> <access-spec> <::> <generic-spec> <=rangle> <binding-name-list> 
+
+<final-procedure-stmt;> ::= 
+           <final-procedure-stmt> <;> 
+
+<final-procedure-stmt> ::= 
+           FINAL <final-subroutine-name-list> 
+     |     FINAL <::> <final-subroutine-name-list> 
+
+<final-subroutine-name-list> ::= 
+           <name-list> 
+
+<component-part> ::= 
+           <component-part> <component-def-stmt> 
+     |     <component-def-stmt> 
+     |     <component-part> <label> <component-def-stmt> 
+     |     <label> <component-def-stmt> 
+
+<component-def-stmt> ::= 
+           <data-component-def-stmt> 
+     |     <proc-component-def-stmt> 
+
+<data-component-def-stmt> ::= 
+           <declaration-type-spec> <component-decl-list> <;> 
+     |     <declaration-type-spec> <::> <component-decl-list> <;> 
+     |     <declaration-type-spec> <,> <component-attr-spec-list> <::> <component-decl-list> <;> 
+     |     <record-type-spec> <component-decl-list> <;> 
+     |     <record-type-spec> <::> <component-decl-list> <;> 
+     |     <record-type-spec> <,> <component-attr-spec-list> <::> <component-decl-list> <;> 
+
+<component-decl-list> ::= 
+           <component-decl-list> <,> <component-decl> 
+     |     <component-decl> 
+
+<component-decl> ::= 
+           <name> 
+     |     <name> <component-initialization> 
+     |     <name> * <char-length> 
+     |     <name> * <char-length> <component-initialization> 
+     |     <name> <[coarray-spec]> 
+     |     <name> <[coarray-spec]> <component-initialization> 
+     |     <name> <[coarray-spec]> * <char-length> 
+     |     <name> <[coarray-spec]> * <char-length> <component-initialization> 
+     |     <name> ( <component-array-spec> ) 
+     |     <name> ( <component-array-spec> ) <component-initialization> 
+     |     <name> ( <component-array-spec> ) * <char-length> 
+     |     <name> ( <component-array-spec> ) * <char-length> <component-initialization> 
+     |     <name> ( <component-array-spec> ) <[coarray-spec]> 
+     |     <name> ( <component-array-spec> ) <[coarray-spec]> <component-initialization> 
+     |     <name> ( <component-array-spec> ) <[coarray-spec]> * <char-length> 
+     |     <name> ( <component-array-spec> ) <[coarray-spec]> * <char-length> <component-initialization> 
+
+<component-initialization> ::= 
+           <initialization> 
+
+<initialization> ::= 
+           = <constant-expr> 
+     |     <=rangle> <null-init> 
+     |     <=rangle> <designator> 
+
+<constant-expr> ::= 
+           <expr> 
+
+<null-init> ::= 
+           <function-reference> 
+
+<function-reference> ::= 
+           <data-ref> 
+
+<[coarray-spec]> ::= 
+           <lbracket> <coarray-spec> <rbracket> 
+
+<coarray-spec> ::= 
+           <deferred-shape-spec-list> 
+     |     <explicit-coshape-spec> 
+
+<deferred-shape-spec-list> ::= 
+           <deferred-shape-spec-list> <,> <deferred-shape-spec> 
+     |     <deferred-shape-spec> 
+
+<deferred-shape-spec> ::= 
+           : 
+
+<explicit-coshape-spec> ::= 
+           <explicit-coshape-spec-list> 
+
+<explicit-coshape-spec-list> ::= 
+           <explicit-coshape-spec-list> <,> <explicit-shape-spec> 
+     |     <explicit-shape-spec> 
+     |     <explicit-coshape-spec-list> <,> <explicit-coshape-spec-item-last> -: <,> 
+     |     <explicit-coshape-spec-item-last> -: <,> 
+
+<explicit-shape-spec> ::= 
+           <upper-bound> 
+     |     <lower-bound> : <upper-bound> 
+
+<upper-bound> ::= 
+           <expr> 
+
+<lower-bound> ::= 
+           <expr> 
+
+<explicit-coshape-spec-item-last> ::= 
+           * 
+     |     <lower-bound> : * 
+
+<component-array-spec> ::= 
+           <explicit-shape-spec-list> 
+     |     <deferred-shape-spec-list> 
+
+<explicit-shape-spec-list> ::= 
+           <explicit-shape-spec-list> <,> <explicit-shape-spec> 
+     |     <explicit-shape-spec> 
+
+<component-attr-spec-list> ::= 
+           <component-attr-spec-list> <,> <component-attr-spec> 
+     |     <component-attr-spec> 
+
+<component-attr-spec> ::= 
+           <access-spec> 
+     |     ALLOCATABLE 
+     |     CODIMENSION <[coarray-spec]> 
+     |     CONTIGUOUS 
+     |     DIMENSION ( <component-array-spec> ) 
+     |     POINTER 
+
+<proc-component-def-stmt> ::= 
+           PROCEDURE ( ) <,> <proc-component-attr-spec-list> <::> <proc-decl-list> <;> 
+     |     PROCEDURE <p-proc-interface> <,> <proc-component-attr-spec-list> <::> <proc-decl-list> <;> 
+
+<proc-component-attr-spec-list> ::= 
+           <proc-component-attr-spec-list> <,> <proc-component-attr-spec> 
+     |     <proc-component-attr-spec> 
+
+<proc-component-attr-spec> ::= 
+           POINTER 
+     |     PASS 
+     |     PASS ( <arg-name> ) 
+     |     NOPASS 
+     |     <access-spec> 
+
+<proc-decl-list> ::= 
+           <proc-decl-list> <,> <proc-decl> 
+     |     <proc-decl> 
+
+<proc-decl> ::= 
+           <procedure-entity-name> 
+     |     <procedure-entity-name> <=rangle> <proc-pointer-init> 
+
+<procedure-entity-name> ::= 
+           <name> 
+
+<proc-pointer-init> ::= 
+           <null-init> 
+     |     <initial-proc-target> 
+
+<initial-proc-target> ::= 
+           <procedure-name> 
+
+<p-proc-interface> ::= 
+           ( <proc-interface> ) 
+
+<proc-interface> ::= 
+           <interface-name> 
+     |     <declaration-type-spec> 
+     |     <record> / 
+
+<record> ::= 
+           RECORD / <type-name> 
+
+<private-or-sequence-stmts> ::= 
+           <private-or-sequence-stmts> <private-or-sequence> 
+     |     <private-or-sequence> 
+     |     <private-or-sequence-stmts> <label> <private-or-sequence> 
+     |     <label> <private-or-sequence> 
+
+<private-or-sequence> ::= 
+           <private-components-stmt> 
+     |     <sequence-stmt> 
+
+<sequence-stmt> ::= 
+           SEQUENCE <;> 
+
+<type-param-def-stmts> ::= 
+           <type-param-def-stmts> <label> <type-param-def-stmt> 
+     |     <label> <type-param-def-stmt> 
+     |     <type-param-def-stmts> <type-param-def-stmt> 
+     |     <type-param-def-stmt> 
+
+<type-param-def-stmt> ::= 
+           <integer-type> <,> <type-param-attr-spec> <::> <type-param-decl-list> <;> 
+
+<integer-type> ::= 
+           BYTE 
+     |     INTEGER 
+     |     INTEGER <p-expr> 
+     |     INTEGER <p-kind-set-expr> 
+
+<type-param-attr-spec> ::= 
+           KIND 
+     |     LEN 
+
+<type-param-decl-list> ::= 
+           <type-param-decl-list> <,> <type-param-decl> 
+     |     <type-param-decl> 
+
+<type-param-decl> ::= 
+           <name> 
+     |     <name> = <expr> 
+
+<derived-structure-stmt> ::= 
+           STRUCTURE / <type-name> / <;> 
+     |     STRUCTURE / <type-name> / ( <name-list> ) <;> 
+     |     STRUCTURE <::> / <type-name> / <;> 
+     |     STRUCTURE <::> / <type-name> / ( <name-list> ) <;> 
+     |     STRUCTURE <,> <type-attr-spec-list> <::> / <type-name> / <;> 
+     |     STRUCTURE <,> <type-attr-spec-list> <::> / <type-name> / ( <name-list> ) <;> 
+
+<end-structure-stmt> ::= 
+           end-structure-stmt 
+     |     <label> end-structure-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-structure-stmt",17,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-structure-stmt",17,false);*/
+
+<component-structure-part> ::= 
+           <component-structure-part> <component-def-stmt> 
+     |     <component-def-stmt> 
+     |     <component-structure-part> <label> <component-def-stmt> 
+     |     <label> <component-def-stmt> 
+     |     <component-structure-part> <type-param-union-stmt> 
+     |     <type-param-union-stmt> 
+     |     <component-structure-part> <label> <type-param-union-stmt> 
+     |     <label> <type-param-union-stmt> 
+
+<type-param-union-stmt> ::= 
+           <union-stmt> <end-union-stmt> <;> 
+     |     <union-stmt> <type-param-map-stmts> <end-union-stmt> <;> 
+
+<union-stmt> ::= 
+           UNION <;> 
+
+<end-union-stmt> ::= 
+           end-union-stmt 
+     |     <label> end-union-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-union-stmt",18,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-union-stmt",18,false);*/
+
+<type-param-map-stmts> ::= 
+           <type-param-map-stmts> <label> <derived-map-def> 
+     |     <label> <derived-map-def> 
+     |     <type-param-map-stmts> <derived-map-def> 
+     |     <derived-map-def> 
+
+<derived-map-def> ::= 
+           <map-stmt> <end-map-stmt> <;> 
+     |     <map-stmt> <component-structure-part> <end-map-stmt> <;> 
+
+<map-stmt> ::= 
+           MAP <;> 
+
+<end-map-stmt> ::= 
+           end-map-stmt 
+     |     <label> end-map-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-map-stmt",19,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-map-stmt",19,false);*/
+
+<enum-def> ::= 
+           <enum-def-stmt> <enumerator-def-stmts> <end-enum-stmt> 
+
+<enum-def-stmt> ::= 
+           ENUM <,> BIND ( C ) <;> 
+
+<enumerator-def-stmts> ::= 
+           <enumerator-def-stmts> <label> <enumerator-def-stmt> <;> 
+     |     <label> <enumerator-def-stmt> <;> 
+     |     <enumerator-def-stmts> <enumerator-def-stmt> <;> 
+     |     <enumerator-def-stmt> <;> 
+
+<enumerator-def-stmt> ::= 
+           ENUMERATOR <::> <assign-list> 
+     |     ENUMERATOR <name-list> 
+
+<assign-list> ::= 
+           <assign-list> <,> <assign> 
+     |     <assign> 
+
+<assign> ::= 
+           <name> = <expr> 
+     |     <name> 
+
+<end-enum-stmt> ::= 
+           end-enum-stmt 
+     |     <label> end-enum-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0), L"end-enum-stmt",29,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-enum-stmt",29,false);*/
+
+<interface-block> ::= 
+           <interface-stmt> <end-interface-stmt> 
+     |     <interface-stmt> <interface-specifications> <end-interface-stmt> 
+
+<interface-stmt> ::= 
+           INTERFACE <;> 
+     |     INTERFACE <generic-spec> <;> 
+     |     ABSTRACT INTERFACE <;> 
+
+<end-interface-stmt> ::= 
+           end-interface-stmt 
+     |     <label> end-interface-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-interface-stmt",30,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-interface-stmt",30,false);*/
+
+<interface-specifications> ::= 
+           <interface-specifications> <interface-specification> 
+     |     <interface-specification> 
+     |     <interface-specifications> <label> <interface-specification> 
+     |     <label> <interface-specification> 
+
+<interface-specification> ::= 
+           <interface-body> 
+     |     <procedure-stmt> 
+
+<interface-body> ::= 
+           <function-stmt> <end-function-stmt;> 
+     |     <function-stmt> <spec-stmts> <end-function-stmt;> 
+     |     <subroutine-stmt> <end-subroutine-stmt;> 
+     |     <subroutine-stmt> <spec-stmts> <end-subroutine-stmt;> 
+
+<spec-stmts> ::= 
+           <spec-stmts> <spec-stmt> 
+     |     <spec-stmts> <format-stmt;> 
+     |     <spec-stmt> 
+     |     <format-stmt;> 
+     |     <spec-stmts> <label> <spec-stmt> 
+     |     <label> <spec-stmt> 
+
+<spec-stmt> ::= 
+           <declaration-construct> 
+     |     <implicit-part-stmt> 
+     |     <import-part-stmt> 
+     |     <use-part-stmt> 
+     |     <entry-part-stmt> 
+     |     <omp-declaration> 
+
+<implicit-part-stmt> ::= 
+           <implicit-stmt> <;> 
+
+<implicit-stmt> ::= 
+           IMPLICIT <implicit-spec-list> 
+     |     IMPLICIT <NONE> 
+
+<implicit-spec-list> ::= 
+           <implicit-spec> <,> <implicit-spec-list> 
+     |     <implicit-spec> 
+
+<implicit-spec> ::= 
+           <declaration-type-spec> <p-letter-spec-list> 
+     |     <record-type-spec> <p-letter-spec-list> 
+
+<p-letter-spec-list> ::= 
+           ( <letter-spec-list> ) 
+
+<letter-spec-list> ::= 
+           <letter-spec-list> <,> <letter-spec> 
+     |     <letter-spec> 
+
+<letter-spec> ::= 
+           <letter> 
+     |     <letter> - <letter> 
+
+<import-part-stmt> ::= 
+           <import-stmt> <;> 
+
+<import-stmt> ::= 
+           IMPORT 
+     |     IMPORT <import-name-list> 
+     |     IMPORT <::> <import-name-list> 
+
+<import-name-list> ::= 
+           <name> <,> <import-name-list> 
+     |     <name> 
+
+<use-part-stmt> ::= 
+           <use-stmt> <;> 
+
+<use-stmt> ::= 
+           USE <module-name> 
+     |     USE <module-name> <,> <rename-list> 
+     |     USE <::> <module-name> 
+     |     USE <::> <module-name> <,> <rename-list> 
+     |     USE <,> <module-nature> <::> <module-name> 
+     |     USE <,> <module-nature> <::> <module-name> <,> <rename-list> 
+     |     USE <module-name> <,> ONLY : 
+     |     USE <module-name> <,> ONLY : <only-list> 
+     |     USE <::> <module-name> <,> ONLY : 
+     |     USE <::> <module-name> <,> ONLY : <only-list> 
+     |     USE <,> <module-nature> <::> <module-name> <,> ONLY : 
+     |     USE <,> <module-nature> <::> <module-name> <,> ONLY : <only-list> 
+
+<rename-list> ::= 
+           <rename> <,> <rename-list> 
+     |     <rename> 
+
+<rename> ::= 
+           <local-name> <=rangle> <use-name> 
+     |     <operator-definition> <=rangle> OPERATOR ( <use-defined-operator> ) 
+
+<local-name> ::= 
+           <name> 
+
+<use-name> ::= 
+           <name> 
+
+<operator-definition> ::= 
+           OPERATOR <p-defined-operator> 
+
+<use-defined-operator> ::= 
+           <defined-op> 
+
+<module-nature> ::= 
+           INTRINSIC 
+     |     NON INTRINSIC 
+     |     NON_INTRINSIC 
+
+<only-list> ::= 
+           <only-list> <,> <only> 
+     |     <only> 
+
+<only> ::= 
+           <generic-spec> 
+     |     <only-use-name> 
+     |     <rename> 
+
+<only-use-name> ::= 
+           <name> 
+
+<entry-part-stmt> ::= 
+           <entry-stmt> <;> 
+
+<entry-stmt> ::= 
+           ENTRY <entry-name> 
+     |     ENTRY <entry-name> ( ) 
+     |     ENTRY <entry-name> ( ) <sufix> 
+     |     ENTRY <entry-name> ( <dummy-arg-list> ) 
+     |     ENTRY <entry-name> ( <dummy-arg-list> ) <sufix> 
+
+<entry-name> ::= 
+           <name> 
+
+<dummy-arg-list> ::= 
+           <dummy-arg-list> <comma> <dummy-arg> 
+     |     <dummy-arg> 
+
+<dummy-arg> ::= 
+           <name> 
+     |     * 
+
+<omp-declaration> ::= 
+           <omp-declare-simd> 
+     |     <omp-threadprivate> 
+     |     <ibm-threadlocal> 
+
+<omp-declare-simd> ::= 
+           OMP DECLARE SIMD <\n> 
+     |     OMP DECLARE SIMD ( <procedure-name> ) <\n> 
+     |     OMP DECLARE SIMD <declare-simd-clause-list> <\n> 
+     |     OMP DECLARE SIMD ( <procedure-name> ) <declare-simd-clause-list> <\n> 
+
+<\n> ::= 
+           <;>   /* Tr.ErrorIfStarts( str(1),';', L"Unexpected ';' in OpenMP Directive. Expected New Line. " ) ; */
+
+<declare-simd-clause-list> ::= 
+           <declare-simd-clause-list> , <declare-simd-clause> 
+     |     <declare-simd-clause-list> <declare-simd-clause> 
+     |     <declare-simd-clause> 
+
+<declare-simd-clause> ::= 
+           <omp-simdlen> 
+     |     <omp-linear> 
+     |     <omp-aligned> 
+     |     <omp-uniform> 
+     |     INBRANCH 
+     |     NOTINBRANCH 
+
+<omp-simdlen> ::= 
+           SIMDLEN ( <scalar-int-constant-expr> ) 
+
+<omp-linear> ::= 
+           LINEAR ( <name-list> ) 
+     |     LINEAR ( <name-list> : linear-step ) 
+
+linear-step ::= 
+           <scalar-int-constant-expr> 
+
+<omp-aligned> ::= 
+           ALIGNED ( <name-list> ) 
+     |     ALIGNED ( <name-list> : alignment ) 
+
+alignment ::= 
+           <scalar-int-expr> 
+
+<omp-uniform> ::= 
+           UNIFORM ( <name-list> ) 
+
+<omp-threadprivate> ::= 
+           OMP THREADPRIVATE ( <threadprivate-entity-list> ) <\n> 
+
+<threadprivate-entity-list> ::= 
+           <threadprivate-entity-list> , <omp-name> 
+     |     <omp-name> 
+
+<omp-name> ::= 
+           / <name> / 
+     |     <name> 
+
+<ibm-threadlocal> ::= 
+           IBM THREADLOCAL <threadlocal-entity-list> <\n> 
+     |     IBM THREADLOCAL <::> <threadlocal-entity-list> <\n> 
+
+<threadlocal-entity-list> ::= 
+           <threadlocal-entity-list> , <omp-common-block-name> 
+     |     <omp-common-block-name> 
+
+<omp-common-block-name> ::= 
+           / <name> / 
+
+<format-stmt;> ::= 
+           <format-stmt> <;> 
+
+<format-stmt> ::= 
+           <labeled_FORMAT> <format-specification> 
+
+<format-specification> ::= 
+           ( ) 
+     |     ( <format-items> ) 
+     |     ( <unlimited-format-item> ) 
+     |     ( <format-items> , <unlimited-format-item> ) 
+
+<format-items> ::= 
+           <format-items> , <format-item> 
+     |     <format-items> <format-item> 
+     |     <format-item> 
+
+<format-item> ::= 
+           <char-or-edit-desc> +: { , | : | / | ) } 
+     |     <r> <data-edit-desc> +: { , | : | / | ) } 
+     |     <control-edit-desc> 
+     |     ( <format-items> ) +: { , | : | / | ) } 
+     |     <r> ( <format-items> ) +: { , | : | / | ) } 
+     |     <char-or-edit-desc> +: { <follow-data-edit-desc> }   /* Tr.warning( L"No Comma after the data-edit-descriptor: ", str(1) ); */
+     |     <r> <data-edit-desc> +: { <follow-data-edit-desc> }   /* Tr.warning( L"No Comma after the data-edit-descriptor: ", str(2) ); */
+
+<char-or-edit-desc> ::= 
+           <data-edit-desc> 
+     |     <char-string-edit-desc> 
+
+<data-edit-desc> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D}w . d> 
+     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     A 
+     |     <fmt dt & char-literal-constant> <p-v-list> 
+     |     <fmt dt & char-literal-constant> 
+     |     DT <p-v-list> 
+     |     DT 
+     |     $ 
+     |     \ 
+
+<p-v-list> ::= 
+           ( <v-list> ) 
+
+<v-list> ::= 
+           <v-list> , <v> 
+     |     <v> 
+
+<v> ::= 
+           <signed-int-literal-constant> 
+
+<char-string-edit-desc> ::= 
+           <char-literal-constant> 
+
+<r> ::= 
+           <int-literal-constant> 
+     |     <sign> <int-literal-constant> 
+
+<control-edit-desc> ::= 
+           <position-edit-desc> +: { <,> | : | / | ) | <data-edit-desc-first> } 
+     |     <sign-edit-desc> +: { <,> | : | / | ) } 
+     |     <blank-interp-edit-desc> +: { <,> | : | / | ) } 
+     |     <round-edit-desc> +: { <,> | : | / | ) } 
+     |     <decimal-edit-desc> +: { <,> | : | / | ) } 
+     |     <control-edit-descr-no-comma> 
+
+<position-edit-desc> ::= 
+           T <n> 
+     |     TL <n> 
+     |     TR <n> 
+     |     <fmt{T|TL|TR}n> 
+     |     <n> X 
+
+<n> ::= 
+           <int-literal-constant> 
+     |     <sign> <int-literal-constant> 
+
+<data-edit-desc-first> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D}w . d> 
+     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     A 
+     |     <fmt dt & char-literal-constant> 
+     |     DT 
+     |     $ 
+     |     \ 
+
+<sign-edit-desc> ::= 
+           SS 
+     |     SP 
+     |     S 
+
+<blank-interp-edit-desc> ::= 
+           BN 
+     |     BZ 
+
+<round-edit-desc> ::= 
+           RU 
+     |     RD 
+     |     RZ 
+     |     RN 
+     |     RC 
+     |     RP 
+
+<decimal-edit-desc> ::= 
+           DC 
+     |     DP 
+
+<control-edit-descr-no-comma> ::= 
+           / 
+     |     <r> / 
+     |     : 
+     |     <k> P 
+
+<k> ::= 
+           <int-literal-constant> 
+     |     <sign> <int-literal-constant> 
+
+<follow-data-edit-desc> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D}w . d> 
+     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     A 
+     |     <fmt dt & char-literal-constant> 
+     |     <fmt dt & char-literal-constant> 
+     |     DT 
+     |     <char-string-edit-desc> 
+
+<unlimited-format-item> ::= 
+           * ( <format-items> ) 
+
+<subroutine-stmt> ::= 
+           <subroutine-stmt;> 
+
+<subroutine-stmt;> ::= 
+           subroutine-stmt <;> 
+     |     subroutine-stmt +: EOF 
+
+subroutine-stmt ::= 
+           SUBROUTINE <name> 
+     |     SUBROUTINE <name> <(> <)> 
+     |     SUBROUTINE <name> <(> <)> <language-binding-spec> 
+     |     SUBROUTINE <name> <(> <dummy-arg-list> <)> 
+     |     SUBROUTINE <name> <(> <dummy-arg-list> <)> <language-binding-spec> 
+     |     <prefix> SUBROUTINE <name> 
+     |     <prefix> SUBROUTINE <name> <(> <)> 
+     |     <prefix> SUBROUTINE <name> <(> <)> <language-binding-spec> 
+     |     <prefix> SUBROUTINE <name> <(> <dummy-arg-list> <)> 
+     |     <prefix> SUBROUTINE <name> <(> <dummy-arg-list> <)> <language-binding-spec> 
+
+<end-subroutine-stmt;> ::= 
+           <end-subroutine-stmt> <;> 
+     |     <end-subroutine-stmt> +: EOF 
+
+<end-subroutine-stmt> ::= 
+           end-subroutine-stmt 
+     |     <label> end-subroutine-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-subroutine-stmt",1,true);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-subroutine-stmt",1,true);*/
+
+<procedure-stmt> ::= 
+           PROCEDURE <name-list> <;> 
+     |     PROCEDURE <::> <name-list> <;> 
+     |     MODULE PROCEDURE <name-list> <;> 
+     |     MODULE PROCEDURE <::> <name-list> <;> 
+
+<parameter-stmt> ::= 
+           PARAMETER <p-named-constant-def-list> 
+     |     PARAMETER <named-constant-def-list> 
+
+<p-named-constant-def-list> ::= 
+           ( <named-constant-def-list> ) 
+
+<named-constant-def-list> ::= 
+           <named-constant-def-list> <,> <named-constant-def> 
+     |     <named-constant-def> 
+
+<named-constant-def> ::= 
+           <named-constant> = <constant-expr> 
+
+<procedure-declaration-stmt> ::= 
+           PROCEDURE ( ) <proc-decl-list> 
+     |     PROCEDURE ( ) <::> <proc-decl-list> 
+     |     PROCEDURE ( ) <,> <proc-attr-spec-list> <::> <proc-decl-list> 
+     |     PROCEDURE <p-proc-interface> <proc-decl-list> 
+     |     PROCEDURE <p-proc-interface> <::> <proc-decl-list> 
+     |     PROCEDURE <p-proc-interface> <,> <proc-attr-spec-list> <::> <proc-decl-list> 
+
+<proc-attr-spec-list> ::= 
+           <proc-attr-spec-list> <,> <proc-attr-spec> 
+     |     <proc-attr-spec> 
+
+<proc-attr-spec> ::= 
+           <access-spec> 
+     |     <language-binding-spec> 
+     |     INTENT <p-intent-spec> 
+     |     OPTIONAL 
+     |     POINTER 
+     |     SAVE 
+
+<p-intent-spec> ::= 
+           ( <intent-spec> ) 
+
+<intent-spec> ::= 
+           IN 
+     |     OUT 
+     |     IN_OUT 
+     |     IN OUT 
+
+<other-specification-stmt> ::= 
+           <access-stmt> 
+     |     <allocatable-stmt> 
+     |     <asynchronous-stmt> 
+     |     <bind-stmt> 
+     |     <codimension-stmt> 
+     |     <common-stmt> 
+     |     <data-stmt> 
+     |     <dimension-stmt> 
+     |     <equivalence-stmt> 
+     |     <external-stmt> 
+     |     <intent-stmt> 
+     |     <intrinsic-stmt> 
+     |     <namelist-stmt> 
+     |     <optional-stmt> 
+     |     <pointer-stmt> 
+     |     <cray-pointer-stmt> 
+     |     <protected-stmt> 
+     |     <save-stmt> 
+     |     <target-stmt> 
+     |     <volatile-stmt> 
+     |     <value-stmt> 
+
+<access-stmt> ::= 
+           <access-spec> 
+     |     <access-spec> <access-id-list> 
+     |     <access-spec> <::> <access-id-list> 
+
+<access-id-list> ::= 
+           <access-id-list> <,> <access-id> 
+     |     <access-id> 
+
+<access-id> ::= 
+           <use-name> 
+     |     <generic-spec> 
+
+<allocatable-stmt> ::= 
+           ALLOCATABLE <allocatable-decl-list> 
+     |     ALLOCATABLE <::> <allocatable-decl-list> 
+
+<allocatable-decl-list> ::= 
+           <allocatable-decl-list> <,> <allocatable-decl> 
+     |     <allocatable-decl> 
+
+<allocatable-decl> ::= 
+           <object-name> 
+     |     <object-name> <[coarray-spec]> 
+     |     <object-name> ( <array-spec> ) 
+     |     <object-name> ( <array-spec> ) <[coarray-spec]> 
+
+<object-name> ::= 
+           <name> 
+
+<array-spec> ::= 
+           <explicit-shape-spec-list> 
+     |     <assumed-shape-spec-list> 
+     |     <deferred-shape-spec> 
+     |     <assumed-size-spec-list> 
+     |     <implied-shape-spec-list> 
+     |     <assumed-rank-spec> 
+
+<assumed-shape-spec-list> ::= 
+           <assumed-shape-spec-list> <,> <assumed-shape-spec> 
+     |     <assumed-shape-spec> 
+
+<assumed-shape-spec> ::= 
+           : 
+     |     <lower-bound> : 
+
+<assumed-size-spec-list> ::= 
+           <assumed-size-spec-list> <,> <explicit-shape-spec> +: , 
+     |     <explicit-shape-spec> 
+     |     <assumed-size-spec-list> <,> <implied-shape-spec> -: , 
+     |     <implied-shape-spec> 
+
+<implied-shape-spec> ::= 
+           * 
+     |     <lower-bound> : * 
+
+<implied-shape-spec-list> ::= 
+           <implied-shape-spec-list> <,> <implied-shape-spec> 
+     |     <implied-shape-spec> 
+
+<assumed-rank-spec> ::= 
+           <..> 
+
+<asynchronous-stmt> ::= 
+           ASYNCHRONOUS <name-list> 
+     |     ASYNCHRONOUS <::> <name-list> 
+
+<bind-stmt> ::= 
+           <language-binding-spec> <bind-entity-list> 
+     |     <language-binding-spec> <::> <bind-entity-list> 
+
+<bind-entity-list> ::= 
+           <bind-entity-list> <,> <bind-entity> 
+     |     <bind-entity> 
+
+<bind-entity> ::= 
+           <name> 
+     |     / <common-block-name> / 
+
+<common-block-name> ::= 
+           <name> 
+
+<codimension-stmt> ::= 
+           CODIMENSION <codimension-decl-list> 
+     |     CODIMENSION <::> <codimension-decl-list> 
+
+<codimension-decl-list> ::= 
+           <codimension-decl-list> <,> <codimension-decl> 
+     |     <codimension-decl> 
+
+<codimension-decl> ::= 
+           <name> <[coarray-spec]> 
+
+<common-stmt> ::= 
+           COMMON <common-block-list> 
+
+<common-block-list> ::= 
+           <common-block-list> <,> <common-block> 
+     |     <common-block-list> <common-block> 
+     |     <common-block> 
+
+<common-block> ::= 
+           <common-block-object> 
+     |     / / <common-block-object> 
+     |     / <common-block-name> / <common-block-object> 
+
+<common-block-object> ::= 
+           <variable-name> 
+     |     <variable-name> <p-array-spec> 
+
+<variable-name> ::= 
+           <name> 
+
+<p-array-spec> ::= 
+           ( <array-spec> ) 
+
+<data-stmt> ::= 
+           <data-stmt-sets> 
+
+<data-stmt-sets> ::= 
+           <data-stmt-sets> <,> <data-stmt-set> 
+     |     <data-stmt-sets> <data-stmt-set> 
+     |     <data-stmt-set-first> 
+
+<data-stmt-set> ::= 
+           <data-stmt-object-list> / <data-stmt-value-list> / 
+
+<data-stmt-object-list> ::= 
+           <data-stmt-object-list> <,> <data-stmt-object> 
+     |     <data-stmt-object> 
+
+<data-stmt-object> ::= 
+           <data-ref> 
+     |     <data-implied-do> 
+
+<data-implied-do> ::= 
+           ( <data-i-do-object-list> <,> <data-i-do-cntrl> ) 
+
+<data-i-do-object-list> ::= 
+           <data-i-do-object-list> <,> <data-i-do-object> 
+     |     <data-i-do-object> 
+
+<data-i-do-object> ::= 
+           <data-ref> 
+     |     <data-implied-do> 
+     |     <expr> 
+
+<data-i-do-cntrl> ::= 
+           <key = expr> <,> <expr> 
+     |     <key = expr> <,> <expr> <,> <expr> 
+
+<data-stmt-value-list> ::= 
+           <data-stmt-value-list> <,> <data-stmt-value> 
+     |     <data-stmt-value> 
+
+<data-stmt-value> ::= 
+           <data-stmt-constant> 
+     |     <data-stmt-repeat> * <data-stmt-constant> 
+
+<data-stmt-constant> ::= 
+           <constant> 
+     |     <constant-subobject> 
+     |     <signed-int-literal-constant> 
+     |     <signed-real-literal-constant> 
+     |     <null-init> 
+     |     <initial-data-target> 
+     |     <structure-constructor> 
+     |     <p-complex-literal-pair> 
+
+<constant-subobject> ::= 
+           <designator> 
+
+<initial-data-target> ::= 
+           <designator> 
+
+<data-stmt-repeat> ::= 
+           <constant> 
+     |     <constant-subobject> 
+
+<data-stmt-set-first> ::= 
+           <data-stmt-object-list-first> / <data-stmt-value-list> / 
+
+<data-stmt-object-list-first> ::= 
+           <data-stmt-object-list-first> <,> <data-stmt-object> 
+     |     <data-stmt-object-first> 
+
+<data-stmt-object-first> ::= 
+           DATA <data-ref> 
+     |     DATA <data-implied-do> 
+
+<dimension-stmt> ::= 
+           DIMENSION <array-named-specs> 
+     |     DIMENSION <::> <array-named-specs> 
+
+<array-named-specs> ::= 
+           <array-named-specs> <,> <array-named-spec> 
+     |     <array-named-spec> 
+
+<array-named-spec> ::= 
+           <name> <p-array-spec> 
+
+<equivalence-stmt> ::= 
+           <equivalence-set-list> 
+
+<equivalence-set-list> ::= 
+           <equivalence-set-list> <,> <equivalence-set> 
+     |     <equivalence-set-first> 
+
+<equivalence-set> ::= 
+           ( <equivalence-pair> ) 
+
+<equivalence-pair> ::= 
+           <equivalence-object-list> 
+
+<equivalence-object-list> ::= 
+           <equivalence-object-list> <,> <equivalence-object> 
+     |     <equivalence-object> 
+
+<equivalence-object> ::= 
+           <variable-name> 
+     |     <array-element> 
+
+<array-element> ::= 
+           <data-ref> 
+
+<equivalence-set-first> ::= 
+           EQUIVALENCE <p-equivalence-pair> 
+
+<p-equivalence-pair> ::= 
+           ( <equivalence-pair> ) 
+
+<external-stmt> ::= 
+           EXTERNAL <name-list> 
+     |     EXTERNAL <::> <name-list> 
+
+<intent-stmt> ::= 
+           INTENT <p-intent-spec> <dummy-arg-name-list> 
+     |     INTENT <p-intent-spec> <::> <dummy-arg-name-list> 
+
+<dummy-arg-name-list> ::= 
+           <name-list> 
+
+<intrinsic-stmt> ::= 
+           INTRINSIC <name-list> 
+     |     INTRINSIC <::> <name-list> 
+
+<namelist-stmt> ::= 
+           NAMELIST <name-lists> 
+
+<name-lists> ::= 
+           <name-lists> <,> / <name> / <name> 
+     |     <name-lists> / <name> / <name> 
+     |     <name-lists> <,> <name> 
+     |     / <name> / <name> 
+
+<optional-stmt> ::= 
+           OPTIONAL <dummy-arg-name-list> 
+     |     OPTIONAL <::> <dummy-arg-name-list> 
+
+<pointer-stmt> ::= 
+           POINTER <pointer-decl-list> 
+     |     POINTER <::> <pointer-decl-list> 
+
+<pointer-decl-list> ::= 
+           <pointer-decl-list> <,> <pointer-decl> 
+     |     <pointer-decl> 
+
+<pointer-decl> ::= 
+           <object-name> 
+     |     <object-name> <p-deferred-shape-spec-list> 
+
+<p-deferred-shape-spec-list> ::= 
+           ( <deferred-shape-spec-list> ) 
+
+<cray-pointer-stmt> ::= 
+           POINTER <cray-list> 
+
+<cray-list> ::= 
+           <cray-list> , <p-pointer-pair> 
+     |     <p-pointer-pair> 
+
+<p-pointer-pair> ::= 
+           ( <pointer-pair> ) 
+
+<pointer-pair> ::= 
+           <name> <,> <expr> 
+
+<protected-stmt> ::= 
+           PROTECTED <name-list> 
+     |     PROTECTED <::> <name-list> 
+
+<save-stmt> ::= 
+           SAVE 
+     |     SAVE <saved-entity-list> 
+     |     SAVE <::> <saved-entity-list> 
+     |     <dec-static> <saved-entity-list> 
+     |     <dec-static> <::> <saved-entity-list> 
+
+<saved-entity-list> ::= 
+           <saved-entity-list> <,> <saved-entity> 
+     |     <saved-entity> 
+
+<saved-entity> ::= 
+           <object-name> 
+     |     <object-name> <initialization-in-save-error> 
+     |     / <common-block-name> / 
+
+<initialization-in-save-error> ::~ 
+           <initialization>   /* Tr.error(L"Initialization in a SAVE statement"); */
+
+<dec-static> ::= 
+           AUTOMATIC 
+     |     STATIC 
+
+<target-stmt> ::= 
+           TARGET <target-decl-list> 
+     |     TARGET <::> <target-decl-list> 
+
+<target-decl-list> ::= 
+           <target-decl-list> <,> <target-decl> 
+     |     <target-decl> 
+
+<target-decl> ::= 
+           <object-name> 
+     |     <object-name> <[coarray-spec]> 
+     |     <object-name> <p-array-spec> 
+     |     <object-name> <p-array-spec> <[coarray-spec]> 
+
+<volatile-stmt> ::= 
+           VOLATILE <name-list> 
+     |     VOLATILE <::> <name-list> 
+
+<value-stmt> ::= 
+           VALUE <dummy-arg-name-list> 
+     |     VALUE <::> <dummy-arg-name-list> 
+
+<type-declaration-stmt> ::= 
+           <declaration-type-spec> <entity-decl-list> 
+     |     <declaration-type-spec> , <entity-decl-list>   /* Tr.warning (L" Non Portable ',' between the type and a variable.");*/
+     |     <declaration-type-spec> <::> <entity-decl-init-list> 
+     |     <declaration-type-spec> , <attr-spec-list> <::> <entity-decl-init-list> 
+     |     <declaration-type-spec> , <::> <entity-decl-init-list>   /* Tr.warning (L" Non Portable ',' without an attributes list.");*/
+     |     <record-type-spec> <entity-decl-list> 
+     |     <record-type-spec> <::> <entity-decl-init-list> 
+     |     <record-type-spec> , <attr-spec-list> <::> <entity-decl-init-list> 
+     |     <record-type-spec> , <::> <entity-decl-init-list>   /* Tr.warning (L" Non Portable ',' without an attributes list.");*/
+     |     <type-declaration-error> 
+
+<entity-decl-list> ::= 
+           <entity-decl-list> <,> <entity-decl> 
+     |     <entity-decl-first> 
+     |     <entity-decl-list> <,> <entity-decl> <initialization~> 
+     |     <entity-decl-first> <initialization~> 
+
+<entity-decl> ::= 
+           <name> 
+     |     <name> * <char-length> 
+     |     <name> <[coarray-spec]> 
+     |     <name> <[coarray-spec]> * <char-length> 
+     |     <name> <p-array-spec2> 
+     |     <name> <p-array-spec2> * <char-length> 
+     |     <name> * <char-length> <p-array-spec2>   /* Tr.warning (L" Non Portable array declaration '%s' *<element-size>(dimension)",str(1)); */
+     |     <name> ( <array-spec> ) <[coarray-spec]> 
+     |     <name> ( <array-spec> ) <[coarray-spec]> * <char-length> 
+
+<p-array-spec2> ::= 
+           ( <array-spec> ) 
+
+<entity-decl-first> ::= 
+           <name> 
+     |     <name> * <char-length> 
+     |     <name> <[coarray-spec]> 
+     |     <name> <[coarray-spec]> * <char-length> 
+     |     <name> <p-array-spec2> 
+     |     <name> <p-array-spec2> * <char-length> 
+     |     <name> * <char-length> <p-array-spec2>   /* Tr.warning (L" Non Portable array declaration '%s' *<element-size>(dimension)",str(1)); */
+     |     <name> ( <array-spec> ) <[coarray-spec]> 
+     |     <name> ( <array-spec> ) <[coarray-spec]> * <char-length> 
+
+<initialization~> ::= 
+           <initialization-error> 
+     |     <initialization-obsolete> 
+
+<initialization-error> ::~ 
+           <initialization>   /* Tr.error(L"Initialization without ::"); */
+
+<initialization-obsolete> ::= 
+           / <constant-expr> / 
+
+<entity-decl-init-list> ::= 
+           <entity-decl-init-list> <,> <entity-decl> 
+     |     <entity-decl-first> 
+     |     <entity-decl-init-list> <,> <entity-decl> <initialization> 
+     |     <entity-decl-first> <initialization> 
+
+<attr-spec-list> ::= 
+           <attr-spec-list> <,> <attr-spec> 
+     |     <attr-spec> 
+
+<attr-spec> ::= 
+           <access-spec> 
+     |     ALLOCATABLE 
+     |     ASYNCHRONOUS 
+     |     CODIMENSION <[coarray-spec]> 
+     |     CONTIGUOUS 
+     |     DIMENSION <p-array-spec> 
+     |     EXTERNAL 
+     |     INTENT <p-intent-spec> 
+     |     INTRINSIC 
+     |     <language-binding-spec> 
+     |     OPTIONAL 
+     |     PARAMETER 
+     |     POINTER 
+     |     PROTECTED 
+     |     SAVE 
+     |     TARGET 
+     |     VALUE 
+     |     VOLATILE 
+     |     <dec-static> 
+     |     <keyword-l>   /* Tr.error(L"Expecting an Attribute Specification but read:", str(1)); */
+
+<keyword-l> ::? 
+           keyword   /* $$(0).synthesized=new wstring(str(1)); */
+
+<type-declaration-error> ::~ 
+           <declaration-type-spec> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
+     |     <character*length> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
+     |     <record-type-spec> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
+
+<stmt-function-stmt> ::= 
+           <function-declaration> = <expr> 
+
+<function-declaration> ::= 
+           <part-name-l> <p-name-list-l> +: { = } 
+
+<part-name-l> ::= 
+           <name-l> 
+
+<p-name-list-l> ::= 
+           ( <name-list-l> ) 
+
+<name-list-l> ::= 
+           <name-list-l> , <name> 
+     |     <name> 
+
+<execution-part-construct> ::= 
+           <action-stmt> <;> 
+     |     <associate-construct> <;> 
+     |     <block-construct> <;> 
+     |     <case-construct> <;> 
+     |     <critical-construct> <;> 
+     |     <do-construct> <;> 
+     |     <forall-construct> <;> 
+     |     <if-construct> <;> 
+     |     <select-type-construct> <;> 
+     |     <where-construct> <;> 
+     |     <entry-stmt> <;> 
+     |     <data-stmt> <;> 
+     |     ERROR <;> 
+
+<action-stmt> ::= 
+           <allocate-stmt> 
+     |     <assign-stmt> 
+     |     <assignment-stmt> 
+     |     <backspace-stmt> 
+     |     <call-stmt> 
+     |     <close-stmt> 
+     |     <cycle-stmt> 
+     |     <deallocate-stmt> 
+     |     <define-file-unit-stmt> 
+     |     <endfile-stmt> 
+     |     <error-stop-stmt> 
+     |     <exit-stmt> 
+     |     <flush-stmt> 
+     |     <forall-stmt> 
+     |     <goto-stmt> 
+     |     <if-stmt> 
+     |     <inquire-stmt> 
+     |     <lock-stmt> 
+     |     <nullify-stmt> 
+     |     <open-stmt> 
+     |     <pause-stmt> 
+     |     <pointer-assignment-stmt> 
+     |     <print-stmt> 
+     |     <read-stmt> 
+     |     <return-stmt> 
+     |     <rewind-stmt> 
+     |     <stop-stmt> 
+     |     <sync-all-stmt> 
+     |     <sync-images-stmt> 
+     |     <sync-memory-stmt> 
+     |     <unlock-stmt> 
+     |     <wait-stmt> 
+     |     <where-stmt> 
+     |     <write-stmt> 
+     |     <arithmetic-if-stmt> 
+     |     <computed-goto-stmt> 
+     |     continue-stmt 
+
+<allocate-stmt> ::= 
+           ALLOCATE <p-allocation-list> 
+     |     ALLOCATE <p-type-allocation-list> 
+
+<p-allocation-list> ::= 
+           ( <allocation-list> ) 
+     |     ( <allocation-list> <,> <allocation-option-list> ) 
+
+<allocation-list> ::= 
+           <allocation-list> <,> <allocation> 
+     |     <allocation> 
+
+<allocation> ::= 
+           <allocate-object> 
+
+<allocate-object> ::= 
+           <structure-component> 
+
+<structure-component> ::= 
+           <data-ref> 
+
+<allocation-option-list> ::= 
+           <allocation-option-list> <,> <alloc-opt> 
+     |     <alloc-opt> 
+
+<alloc-opt> ::= 
+           ERRMSG = <errmsg-variable> 
+     |     MOLD = <source-expr> 
+     |     SOURCE = <source-expr> 
+     |     STAT = <stat-variable> 
+
+<errmsg-variable> ::= 
+           <expr> 
+
+<source-expr> ::= 
+           <expr> 
+
+<stat-variable> ::= 
+           <scalar-int-variable> 
+
+<scalar-int-variable> ::= 
+           <expr> 
+
+<p-type-allocation-list> ::= 
+           ( <type-allocation-list> ) 
+     |     ( <type-allocation-list> <,> <allocation-option-list> ) 
+
+<type-allocation-list> ::= 
+           <type-spec> <::> <allocation> 
+     |     <type-allocation-list> <,> <allocation> 
+
+<assign-stmt> ::= 
+           ASSIGN <LABEL> TO <name> 
+
+<LABEL> ::= 
+           <label> 
+     |     <label-do> 
+
+<assignment-stmt> ::= 
+           <designator-l> = <expr> 
+     |     <designator-l> = <erroneous-stmt> 
+
+<designator-l> ::= 
+           <data-ref-l> 
+
+<data-ref-l> ::= 
+           <part-ref-l> <%> <data-ref-l> -: { <%> } 
+     |     <part-ref-l> <.> <data-ref> -: { <.> } 
+     |     <part-ref-l> 
+     |     <function-declaration> 
+
+<part-ref-l> ::= 
+           <part-name-l> 
+     |     <part-name-l> <image-selector-l> -: { ( } 
+     |     <part-name-l> <image-selector-l> <p-substring-range-l> 
+     |     <part-name-p-section-subscript-list-l> 
+     |     <part-name-p-section-subscript-list-l> <p-substring-range-l> 
+     |     <part-name-p-section-subscript-list-l> <image-selector-l> -: { ( } 
+     |     <part-name-p-section-subscript-list-l> <image-selector-l> <p-substring-range-l> 
+
+<image-selector-l> ::= 
+           <lbracket> <cosubscript-list> <rbracket> 
+
+<p-substring-range-l> ::= 
+           ( <substring-range> ) 
+
+<part-name-p-section-subscript-list-l> ::= 
+           <part-name-l> <p-section-subscript-list-l> 
+     |     <procedure-name-l> <p-actual-arg-spec-list-l> -: { ( | <lbracket> } 
+     |     <procedure-name-l> ( ) -: { ( | <%> | <lbracket> } 
+
+<p-section-subscript-list-l> ::= 
+           ( <section-subscript-list> ) 
+
+<procedure-name-l> ::= 
+           <name-l> 
+
+<p-actual-arg-spec-list-l> ::= 
+           ( <actual-arg-spec-list> ) 
+     |     ( <actual-arg-spec-list> <,> <named-arg-spec-list-l> ) 
+     |     ( <named-arg-spec-list-l> ) 
+
+<named-arg-spec-list-l> ::= 
+           <named-arg-spec-list-l> <,> <named-arg-spec-l> 
+     |     <named-arg-spec-l> 
+
+<named-arg-spec-l> ::= 
+           keyword = <actual-arg> 
+
+<backspace-stmt> ::= 
+           BACKSPACE <p-position-spec-list> 
+     |     BACKSPACE <file-unit-number> 
+
+<p-position-spec-list> ::= 
+           ( <file-unit-number> <,> <position-spec-list> ) 
+     |     ( <file-unit-number> ) 
+     |     ( <position-spec-list> ) 
+
+<file-unit-number> ::= 
+           <expr> 
+
+<position-spec-list> ::= 
+           <position-spec-list> <,> <position-spec> 
+     |     <position-spec> 
+
+<position-spec> ::= 
+           UNIT = <file-unit-number> 
+     |     IOMSG = <iomsg-variable> 
+     |     IOSTAT = <scalar-int-variable> 
+     |     ERR = <label> 
+
+<iomsg-variable> ::= 
+           <expr> 
+
+<call-stmt> ::= 
+           CALL <function-reference> 
+
+<close-stmt> ::= 
+           CLOSE <p-close-spec-list> 
+
+<p-close-spec-list> ::= 
+           ( <file-unit-number> ) 
+     |     ( <file-unit-number> <,> <close-spec-list> ) 
+     |     ( <close-spec-list> ) 
+
+<close-spec-list> ::= 
+           <close-spec-list> <,> <close-spec> 
+     |     <close-spec> 
+
+<close-spec> ::= 
+           UNIT = <file-unit-number> 
+     |     IOSTAT = <variable> 
+     |     IOMSG = <iomsg-variable> 
+     |     ERR = <label> 
+     |     STATUS = <expr> 
+
+<cycle-stmt> ::= 
+           CYCLE 
+     |     CYCLE <construct-name> 
+
+<deallocate-stmt> ::= 
+           DEALLOCATE <p-allocation-list> 
+
+<define-file-unit-stmt> ::= 
+           DEFINE FILE UNIT <p-u-control-spec-list> 
+
+<p-u-control-spec-list> ::= 
+           ( <u-control-spec-list> ) 
+
+<u-control-spec-list> ::= 
+           <u-control-spec-list> <,> <u-control-spec> 
+     |     <u-control-spec> 
+
+<u-control-spec> ::= 
+           <expr> 
+
+<endfile-stmt> ::= 
+           ENDFILE <file-unit-number> 
+     |     ENDFILE <p-position-spec-list> 
+
+<error-stop-stmt> ::= 
+           <ERROR> STOP 
+     |     <ERROR> STOP <stop-code> 
+
+<stop-code> ::= 
+           <expr> 
+
+<exit-stmt> ::= 
+           EXIT 
+     |     EXIT <construct-name> 
+
+<flush-stmt> ::= 
+           FLUSH <p-position-spec-list> 
+     |     FLUSH <file-unit-number> 
+
+<forall-stmt> ::= 
+           FORALL <forall-header> <forall-assignment-stmt> 
+
+<forall-header> ::= 
+           ( <forall-triplet-spec-list> ) 
+     |     ( <type-spec> <::> <forall-triplet-spec-list> ) 
+     |     <erroneous-stmt> 
+
+<forall-triplet-spec-list> ::= 
+           <forall-triplet-spec-list> <,> <forall-triplet-spec> 
+     |     <forall-triplet-spec-list> <,> <expr> +: { ) } 
+     |     <forall-triplet-spec> 
+
+<forall-triplet-spec> ::= 
+           <assign> : <upper-bound> 
+     |     <assign> : <upper-bound> : <step> 
+
+<step> ::= 
+           <expr> 
+
+<forall-assignment-stmt> ::= 
+           <assignment-stmt> 
+     |     <pointer-assignment-stmt> 
+
+<pointer-assignment-stmt> ::= 
+           <pointer-object-l> <=rangle> <data-target> 
+
+<pointer-object-l> ::= 
+           <part-ref-l> <%> <pointer-object> -: { <%> } 
+     |     <pointer-ref-l> <%> <pointer-object> -: { <%> } 
+     |     <pointer-ref-l> 
+
+<pointer-object> ::= 
+           <part-ref-l> <%> <pointer-object> -: { <%> } 
+     |     <pointer-ref> <%> <pointer-object> -: { <%> } 
+     |     <pointer-ref> 
+
+<pointer-ref> ::= 
+           <name> 
+     |     <name> <p-bounds-spec-list> 
+     |     <name> <p-bounds-remapping-list> 
+
+<p-bounds-spec-list> ::= 
+           ( <bounds-spec-list> ) 
+
+<bounds-spec-list> ::= 
+           <bounds-spec-list> <,> <bounds-spec> 
+     |     <bounds-spec> 
+
+<bounds-spec> ::= 
+           <expr> : 
+
+<p-bounds-remapping-list> ::= 
+           ( <bounds-remapping-list> ) 
+
+<bounds-remapping-list> ::= 
+           <bounds-remapping-list> <,> <bounds-remapping> 
+     |     <bounds-remapping> 
+
+<bounds-remapping> ::= 
+           <expr> : <expr> 
+
+<pointer-ref-l> ::= 
+           <name-l> 
+     |     <name-l> <p-bounds-spec-list> 
+     |     <name-l> <p-bounds-remapping-list> 
+
+<goto-stmt> ::= 
+           GO TO <LABEL> 
+     |     GOTO <LABEL> 
+
+<if-stmt> ::= 
+           <if-expr> <action-stmt> 
+
+<if-expr> ::= 
+           IF <p-expr> 
+
+<inquire-stmt> ::= 
+           INQUIRE <p-inquire-spec-list> 
+     |     <inquire-p-inquire-length> <output-item-list> 
+
+<p-inquire-spec-list> ::= 
+           ( <inquire-spec-list> ) 
+     |     ( <inquire-spec-list> <,> <inquire-named-spec-list> ) 
+     |     ( <inquire-named-spec-list> ) 
+
+<inquire-spec-list> ::= 
+           <inquire-spec-list> <,> <inquire-spec> 
+     |     <inquire-spec> 
+
+<inquire-spec> ::= 
+           <file-unit-number> 
+
+<inquire-named-spec-list> ::= 
+           <inquire-named-spec-list> <,> <inquire-named-spec> 
+     |     <inquire-named-spec> 
+
+<inquire-named-spec> ::= 
+           UNIT = <file-unit-number> 
+     |     FILE = <file-name-expr> 
+     |     ACCESS = <char-variable> 
+     |     ACTION = <char-variable> 
+     |     ASYNCHRONOUS = <char-variable> 
+     |     BLANK = <char-variable> 
+     |     DECIMAL = <char-variable> 
+     |     DELIM = <char-variable> 
+     |     DIRECT = <char-variable> 
+     |     ENCODING = <char-variable> 
+     |     ERR = <LABEL> 
+     |     EXIST = <logical-variable> 
+     |     FORM = <char-variable> 
+     |     FORMATTED = <char-variable> 
+     |     ID = <int-variable> 
+     |     IOMSG = <iomsg-variable> 
+     |     IOSTAT = <int-variable> 
+     |     NAME = <char-variable> 
+     |     NAMED = <logical-variable> 
+     |     NEXTREC = <int-variable> 
+     |     NUMBER = <int-variable> 
+     |     OPENED = <logical-variable> 
+     |     PAD = <char-variable> 
+     |     PENDING = <logical-variable> 
+     |     POS = <int-variable> 
+     |     POSITION = <char-variable> 
+     |     READ = <char-variable> 
+     |     READWRITE = <char-variable> 
+     |     RECL = <int-variable> 
+     |     ROUND = <char-variable> 
+     |     SEQUENTIAL = <char-variable> 
+     |     SIGN = <char-variable> 
+     |     SIZE = <int-variable> 
+     |     STREAM = <char-variable> 
+     |     UNFORMATTED = <char-variable> 
+     |     WRITE = <char-variable> 
+
+<file-name-expr> ::= 
+           <expr> 
+
+<char-variable> ::= 
+           <variable> 
+
+<logical-variable> ::= 
+           <variable> 
+
+<int-variable> ::= 
+           <variable> 
+
+<inquire-p-inquire-length> ::= 
+           INQUIRE <p-inquire-length> 
+
+<p-inquire-length> ::= 
+           ( <inquire-length> ) 
+
+<inquire-length> ::= 
+           IOLENGTH = <variable> 
+
+<output-item-list> ::= 
+           <output-item-list> <,> <output-item> 
+     |     <output-item> 
+     |     <output-item> 
+
+<output-item> ::= 
+           <expr> 
+     |     <io-implied-do> 
+
+<io-implied-do> ::= 
+           ( <io-implied-do-object-list> <,> <io-implied-do-control> ) 
+     |     ( <p-io-implied-do-object-list> <,> <io-implied-do-control> ) 
+
+<io-implied-do-object-list> ::= 
+           <io-implied-do-object-list> <,> <io-implied-do-object> 
+     |     <io-implied-do-object> 
+
+<io-implied-do-object> ::= 
+           <input-item> 
+     |     <output-item> 
+
+<input-item> ::= 
+           <variable> 
+     |     <io-implied-do> 
+
+<io-implied-do-control> ::= 
+           <do-variable> = <scalar-int-expr> <,> <scalar-int-expr> 
+     |     <do-variable> = <scalar-int-expr> <,> <scalar-int-expr> <,> <scalar-int-expr> 
+
+<do-variable> ::= 
+           <name> 
+
+<p-io-implied-do-object-list> ::= 
+           ( <io-implied-do-object-list> ) 
+
+<lock-stmt> ::= 
+           LOCK <p-variable> 
+     |     LOCK <p-lock-arguments> 
+
+<p-variable> ::= 
+           ( <variable> ) 
+
+<p-lock-arguments> ::= 
+           ( <variable> ) 
+     |     ( <variable> <,> <lock-stat-list> ) 
+
+<lock-stat-list> ::= 
+           <lock-stat-list> <,> <lock-stat> 
+     |     <lock-stat> 
+
+<lock-stat> ::= 
+           ACQUIRED_LOCK = <variable> 
+     |     <sync-stat> 
+
+<sync-stat> ::= 
+           STAT = <int-variable> 
+     |     ERRMSG = <char-variable> 
+
+<nullify-stmt> ::= 
+           NULLIFY <p-pointer-object-list> 
+
+<p-pointer-object-list> ::= 
+           <p-object-list> 
+
+<p-object-list> ::= 
+           ( <object-list> ) 
+
+<object-list> ::= 
+           <object-list> <,> <object> 
+     |     <object> 
+
+<object> ::= 
+           <structure-component> 
+
+<open-stmt> ::= 
+           OPEN <p-connect-spec-list> 
+
+<p-connect-spec-list> ::= 
+           ( <file-unit-number> ) 
+     |     ( <file-unit-number> <,> <connect-spec-list> ) 
+     |     ( <connect-spec-list> ) 
+
+<connect-spec-list> ::= 
+           <connect-spec-list> <,> <connect-spec> 
+     |     <connect-spec> 
+
+<connect-spec> ::= 
+           UNIT = <file-unit-number> 
+     |     ACCESS = <expr> 
+     |     ACTION = <expr> 
+     |     ASYNCHRONOUS = <expr> 
+     |     BLANK = <expr> 
+     |     DECIMAL = <expr> 
+     |     DELIM = <expr> 
+     |     ENCODING = <expr> 
+     |     ERR = <label> 
+     |     FILE = <expr> 
+     |     FORM = <expr> 
+     |     IOMSG = <variable> 
+     |     IOSTAT = <variable> 
+     |     NEWUNIT = <variable> 
+     |     PAD = <expr> 
+     |     POSITION = <expr> 
+     |     RECL = <expr> 
+     |     ROUND = <expr> 
+     |     SIGN = <expr> 
+     |     STATUS = <expr> 
+     |     <connect-extension> = <expr> 
+
+<connect-extension> ::= 
+           ASSOCIATEVARIABLE 
+     |     BLOCKSIZE 
+     |     BUFFERCOUNT 
+     |     CARRIAGECONTROL 
+     |     DEFAULTFILE 
+     |     DISPOSE 
+     |     EXTENDSIZE 
+     |     INITIALSIZE 
+     |     <KEY> 
+     |     MAXREC 
+     |     NAME 
+     |     NOSPANBLOCKS 
+     |     ORGANIZATION 
+     |     READONLY 
+     |     RECORDTYPE 
+     |     RECORDSIZE 
+     |     SHARED 
+     |     USEROPEN 
+     |     TYPE 
+
+<pause-stmt> ::= 
+           PAUSE 
+     |     PAUSE <stop-code> 
+
+<print-stmt> ::= 
+           PRINT <format>   /*Tr.onPrint($$(0),$$(2)); */
+     |     PRINT <format> <,> <output-item-list>   /*Tr.onPrint($$(0),$$(2),$$(4)); */
+
+<format> ::= 
+           <char-expr> 
+     |     <label> 
+     |     <label-do> 
+     |     * 
+
+<char-expr> ::= 
+           <expr> 
+
+<read-stmt> ::= 
+           <read-control> 
+     |     <read-control> <input-item-list> 
+     |     <read-format> 
+     |     <read-format> <,> <input-item-list> 
+
+<read-control> ::= 
+           READ <p-i-control-spec-list> -: { <unary-op> } 
+
+<p-i-control-spec-list> ::= 
+           ( <i-control-spec-list> ) 
+     |     ( <i-control-spec-list> <,> <i-control-named-spec-list> ) 
+     |     ( <i-control-named-spec-list> ) 
+
+<i-control-spec-list> ::= 
+           <i-control-spec-list> <,> <i-control-spec> 
+     |     <i-control-spec> 
+
+<i-control-spec> ::= 
+           <io-unit> 
+     |     <format> 
+     |     <namelist-group-name> 
+
+<io-unit> ::= 
+           <file-unit-number> 
+     |     * 
+
+<namelist-group-name> ::= 
+           <name> 
+
+<i-control-named-spec-list> ::= 
+           <i-control-named-spec-list> <,> <i-control-named-spec> 
+     |     <i-control-named-spec> 
+
+<i-control-named-spec> ::= 
+           UNIT = <io-unit> 
+     |     FMT = <format> 
+     |     NML = <namelist-group-name> 
+     |     ADVANCE = <char-expr> 
+     |     ASYNCHRONOUS = <char-expr> 
+     |     BLANK = <char-expr> 
+     |     DECIMAL = <char-expr> 
+     |     DELIM = <char-expr> 
+     |     END = <label> 
+     |     EOR = <label> 
+     |     ERR = <label> 
+     |     ID = <int-variable> 
+     |     IOMSG = <iomsg-variable> 
+     |     IOSTAT = <int-variable> 
+     |     PAD = <char-expr> 
+     |     POS = <int-expr> 
+     |     REC = <int-expr> 
+     |     ROUND = <char-expr> 
+     |     SIGN = <char-expr> 
+     |     SIZE = <int-variable> 
+
+<int-expr> ::= 
+           <expr> 
+
+<input-item-list> ::= 
+           <input-item-list> <,> <input-item> 
+     |     <input-item> 
+
+<read-format> ::= 
+           READ <format> -: { <unary-op> } 
+
+<return-stmt> ::= 
+           RETURN 
+     |     RETURN <int-expr> 
+
+<rewind-stmt> ::= 
+           REWIND <p-position-spec-list> 
+     |     REWIND <file-unit-number> 
+
+<stop-stmt> ::= 
+           STOP 
+     |     STOP <stop-code> 
+
+<sync-all-stmt> ::= 
+           SYNC ALL 
+     |     SYNC ALL ( ) 
+     |     SYNC ALL <p-sync-stat-list> 
+
+<p-sync-stat-list> ::= 
+           ( <sync-stat-list> ) 
+
+<sync-stat-list> ::= 
+           <sync-stat-list> <,> <sync-stat> 
+     |     <sync-stat> 
+
+<sync-images-stmt> ::= 
+           SYNC IMAGES ( <sync-image-stat-list> ) 
+
+<sync-image-stat-list> ::= 
+           <sync-image-stat-list> <,> <sync-stat> 
+     |     <image-set> 
+
+<image-set> ::= 
+           <int-expr> 
+     |     * 
+
+<sync-memory-stmt> ::= 
+           SYNC MEMORY 
+     |     SYNC MEMORY ( ) 
+     |     SYNC MEMORY ( <sync-stat-list> ) 
+
+<unlock-stmt> ::= 
+           UNLOCK <p-sync-unlock-stat-list> 
+
+<p-sync-unlock-stat-list> ::= 
+           ( <variable> ) 
+     |     ( <variable> <,> <sync-stat-list> ) 
+
+<wait-stmt> ::= 
+           WAIT <p-wait-spec-list> 
+
+<p-wait-spec-list> ::= 
+           ( <file-unit-number> ) 
+     |     ( <file-unit-number> <,> <wait-spec-list> ) 
+     |     ( <wait-spec-list> ) 
+
+<wait-spec-list> ::= 
+           <wait-spec-list> <,> <wait-spec> 
+     |     <wait-spec> 
+
+<wait-spec> ::= 
+           UNIT = <file-unit-number> 
+     |     END = <label> 
+     |     EOR = <label> 
+     |     ERR = <label> 
+     |     ID = <scalar-int-expr> 
+     |     IOMSG = <variable> 
+     |     IOSTAT = <variable> 
+
+<where-stmt> ::= 
+           <where-p-expr> <assignment-stmt> 
+
+<where-p-expr> ::= 
+           WHERE <p-expr> 
+
+<write-stmt> ::= 
+           <write-control> 
+     |     <write-control> <output-item-list> 
+     |     <write-control> <,> <output-item-list> 
+
+<write-control> ::= 
+           WRITE <p-o-control-spec-list> 
+
+<p-o-control-spec-list> ::= 
+           ( <o-control-spec-list> ) 
+     |     ( <o-control-spec-list> <,> <o-control-named-spec-list> ) 
+     |     ( <o-control-named-spec-list> ) 
+
+<o-control-spec-list> ::= 
+           <o-control-spec-list> <,> <o-control-spec> 
+     |     <o-control-spec> 
+
+<o-control-spec> ::= 
+           <io-unit> 
+     |     <format> 
+     |     <namelist-group-name> 
+
+<o-control-named-spec-list> ::= 
+           <o-control-named-spec-list> <,> <o-control-named-spec> 
+     |     <o-control-named-spec> 
+
+<o-control-named-spec> ::= 
+           UNIT = <io-unit> 
+     |     FMT = <format> 
+     |     NML = <namelist-group-name> 
+     |     ADVANCE = <char-expr> 
+     |     ASYNCHRONOUS = <char-expr> 
+     |     DECIMAL = <char-expr> 
+     |     DELIM = <char-expr> 
+     |     ERR = <label> 
+     |     ID = <int-variable> 
+     |     IOMSG = <iomsg-variable> 
+     |     IOSTAT = <int-variable> 
+     |     POS = <int-expr> 
+     |     REC = <int-expr> 
+     |     ROUND = <char-expr> 
+     |     SIGN = <char-expr> 
+
+<arithmetic-if-stmt> ::= 
+           <if-expr>
+           <LABEL>
+           <,>
+           <LABEL>
+           <,>
+           <LABEL>
+           
+
+<computed-goto-stmt> ::= 
+           GO TO <p-label-list> <int-expr> 
+     |     GO TO <p-label-list> <,> <int-expr> 
+     |     GO TO <name> 
+     |     GO TO <name> <p-label-list> 
+     |     GO TO <name> <,> <p-label-list> 
+     |     <goto-p-label-list> <int-expr> 
+     |     <goto-p-label-list> <,> <int-expr> 
+     |     GOTO <name> 
+     |     GOTO <name> <p-label-list> 
+     |     GOTO <name> <,> <p-label-list> 
+
+<p-label-list> ::= 
+           ( <label-list> ) 
+
+<label-list> ::= 
+           <label-list> <,> <LABEL> 
+     |     <LABEL> 
+
+<goto-p-label-list> ::= 
+           GOTO <p-label-list> 
+
+continue-stmt ::= 
+           CONTINUE 
+
+<associate-construct> ::= 
+           <associate-stmt> <block> <end-associate-stmt> 
+
+<associate-stmt> ::= 
+           ASSOCIATE <p-association-list> <;> 
+     |     <construct-name-l> : ASSOCIATE <p-association-list> <;> 
+
+<p-association-list> ::= 
+           ( <association-list> ) 
+
+<association-list> ::= 
+           <association-list> <,> <association> 
+     |     <association> 
+
+<association> ::= 
+           <associate-name> <=rangle> <expr> 
+
+<associate-name> ::= 
+           <name> 
+
+<construct-name-l> ::= 
+           <name-l> 
+
+<block> ::= 
+           <block> <executable-construct;> 
+     |     <block> <omp-directive> 
+     |     <block> <format-stmt;> 
+     |     <executable-construct;> 
+     |     <omp-directive> 
+     |     <format-stmt;> 
+     |     <block> <label> <executable-construct;> 
+     |     <label> <executable-construct;> 
+
+<executable-construct;> ::= 
+           <execution-part-construct> 
+
+<omp-directive> ::= 
+           <omp-atomic-construct> 
+     |     <omp-barrier> 
+     |     <omp-critical-construct> 
+     |     <omp-declare-simd> 
+     |     <omp-do-construct> 
+     |     <omp-do-simd-construct> 
+     |     <smp-do-serial> 
+     |     <omp-flush-stmt> 
+     |     <omp-master-construct> 
+     |     <omp-ordered-construct> 
+     |     <omp-parallel-construct> 
+     |     <omp-parallel-workshare-construct> 
+     |     <omp-parallel-do-construct> 
+     |     <omp-parallel-sections-construct> 
+     |     <ibm-schedule-stmt> 
+     |     <omp-sections-construct> 
+     |     <omp-simd-construct> 
+     |     <omp-single-construct> 
+     |     <omp-task-construct> 
+     |     <omp-taskloop-construct> 
+     |     <omp-taskwait-stmt> 
+     |     <omp-taskyield-stmt> 
+     |     <omp-threadprivate> 
+     |     <ibm-threadlocal> 
+     |     <omp-workshare-construct> 
+     |     <dec-ivdep-directive> 
+     |     <omp-unknown-construct> 
+
+<omp-atomic-construct> ::= 
+           <omp-atomic-update-construct> 
+     |     <omp-atomic-capture-construct> 
+
+<omp-atomic-update-construct> ::= 
+           <omp-atomic-update-stmt> update-statement <omp-end-atomic-stmt> 
+     |     <omp-atomic-update-stmt> update-statement -: { OMP-END-ATOMIC } 
+
+<omp-atomic-update-stmt> ::= 
+           OMP ATOMIC <atomic-update-clause> <\n> 
+     |     OMP ATOMIC <atomic-update-clause> seq_cst <\n> 
+     |     OMP ATOMIC <atomic-update-clause> , seq_cst <\n> 
+     |     OMP ATOMIC seq_cst <atomic-update-clause> <\n> 
+     |     OMP ATOMIC seq_cst , <atomic-update-clause> <\n> 
+     |     OMP ATOMIC <atomic-update-clause> seq_cst <\n> 
+     |     OMP ATOMIC <atomic-update-clause> , seq_cst <\n> 
+     |     OMP ATOMIC <\n> 
+     |     OMP ATOMIC seq_cst <\n> 
+     |     OMP ATOMIC , seq_cst <\n> 
+
+<atomic-update-clause> ::= 
+           READ 
+     |     UPDATE 
+     |     WRITE 
+
+seq_cst ::= 
+           SEQ_CST 
+
+update-statement ::= 
+           <assignment-stmt> <;> 
+
+<omp-end-atomic-stmt> ::= 
+           omp-end-atomic-stmt <\n> 
+
+<omp-atomic-capture-construct> ::= 
+           <omp-atomic-capture-stmt>
+           update-statement
+           update-statement
+           <omp-end-atomic-stmt>
+           
+
+<omp-atomic-capture-stmt> ::= 
+           OMP ATOMIC CAPTURE <\n> 
+     |     OMP ATOMIC CAPTURE seq_cst <\n> 
+     |     OMP ATOMIC CAPTURE , seq_cst <\n> 
+     |     OMP ATOMIC seq_cst CAPTURE <\n> 
+     |     OMP ATOMIC seq_cst , CAPTURE <\n> 
+     |     OMP ATOMIC CAPTURE seq_cst <\n> 
+     |     OMP ATOMIC CAPTURE , seq_cst <\n> 
+
+<omp-barrier> ::= 
+           OMP BARRIER <\n> 
+
+<omp-critical-construct> ::= 
+           <omp-critical-stmt> structured-block <omp-end-critical> 
+
+<omp-critical-stmt> ::= 
+           OMP CRITICAL <\n> 
+     |     OMP CRITICAL ( <name> ) <\n> 
+
+structured-block ::= 
+           <block> 
+
+<omp-end-critical> ::= 
+           omp-end-critical <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-critical",52,false);*/
+
+omp-end-critical ::= 
+           OMP END CRITICAL +: { <;> } 
+     |     OMP END CRITICAL ( <name> ) +: { <;> } 
+     |     OMP END CRITICAL ( <name> ) HINT ( hint-expression ) +: { <;> } 
+     |     OMP END_CRITICAL +: { <;> } 
+     |     OMP END_CRITICAL ( <name> ) +: { <;> } 
+     |     OMP END_CRITICAL ( <name> ) HINT ( hint-expression ) +: { <;> } 
+
+hint-expression ::= 
+           <scalar-int-expr> 
+
+<omp-do-construct> ::= 
+           <omp-do-stmt> <do-loop> <omp-end-do-stmt> 
+     |     <omp-do-stmt> <do-loop> -: { OMP-END-DO } 
+
+<omp-do-stmt> ::= 
+           OMP DO <\n> 
+     |     OMP DO <do-clause-list> <\n> 
+
+<do-clause-list> ::= 
+           <do-clause-list> , <omp-do-clause> 
+     |     <do-clause-list> <omp-do-clause> 
+     |     <omp-do-clause> 
+
+<omp-do-clause> ::= 
+           <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-lastprivate> 
+     |     <omp-linear> 
+     |     <omp-reduction> 
+     |     <omp-schedule> 
+     |     <omp-collapse> 
+     |     <omp-ordered> 
+
+<omp-private> ::= 
+           PRIVATE ( <name-list> ) 
+
+<omp-firstprivate> ::= 
+           FIRSTPRIVATE ( <name-list> ) 
+
+<omp-lastprivate> ::= 
+           LASTPRIVATE ( <name-list> ) 
+
+<omp-reduction> ::= 
+           REDUCTION ( <reduction-identifier> : <name-list> ) 
+
+<reduction-identifier> ::= 
+           <name> 
+     |     IAND 
+     |     IEOR 
+     |     IOR 
+     |     MIN 
+     |     MAX 
+     |     <equiv-op> 
+     |     <or-op> 
+     |     <and-op> 
+     |     <not-op> 
+     |     <add-op> 
+     |     <mult-op> 
+
+<omp-schedule> ::= 
+           SCHEDULE ( <omp-schedule-kind> ) 
+     |     SCHEDULE ( <omp-schedule-kind> , <scalar-int-expr> ) 
+     |     SCHEDULE ( <omp-schedule-midifiers> : <omp-schedule-kind> ) 
+     |     SCHEDULE ( <omp-schedule-midifiers> : <omp-schedule-kind> , <scalar-int-expr> ) 
+
+<omp-schedule-kind> ::= 
+           STATIC 
+     |     DYNAMIC 
+     |     GUIDED 
+     |     AUTO 
+     |     AFFINITY   /* Tr.warning(L"Affinity is a vendor specific, deprecated schedule kind."); */
+     |     RUNTIME 
+
+<omp-schedule-midifiers> ::= 
+           <omp-schedule-midifier> 
+     |     <omp-schedule-midifier> , <omp-schedule-midifier> 
+
+<omp-schedule-midifier> ::= 
+           MONOTONIC 
+     |     NONMONOTONIC 
+     |     SIMD 
+
+<omp-collapse> ::= 
+           COLLAPSE ( <scalar-int-constant-expr> ) 
+
+<omp-ordered> ::= 
+           ORDERED ( <scalar-int-constant-expr> ) 
+     |     ORDERED 
+
+<do-loop> ::= 
+           <do-construct> <;> 
+     |     <label> <do-construct> <;> 
+     |     ERROR <;>   /* Tr.error(L"Expected immediatelly only a DO Construct."); */
+
+<do-construct> ::= 
+           <block-do-construct> 
+     |     <nonblock-do-construct> 
+
+<block-do-construct> ::= 
+           <nonlabel-do-stmt> <do-block> <end-do-stmt> 
+     |     <nonlabel-do-stmt> <end-do-stmt> 
+
+<nonlabel-do-stmt> ::= 
+           nonlabel-do-stmt <;> 
+
+nonlabel-do-stmt ::= 
+           DO 
+     |     DO <loop-control> 
+     |     <construct-name-l> : DO 
+     |     <construct-name-l> : DO <loop-control> 
+
+<loop-control> ::= 
+           loop-control 
+     |     <,> loop-control 
+
+loop-control ::= 
+           <do-variable> = <expr> <,> <expr> 
+     |     <do-variable> = <expr> <,> <expr> <,> <expr> 
+     |     WHILE <p-expr> 
+     |     CONCURRENT <forall-header> 
+
+<do-block> ::= 
+           <do-block> <executable-construct;> 
+     |     <do-block> <omp-directive> 
+     |     <do-block> <format-stmt;> 
+     |     <executable-construct;> 
+     |     <omp-directive> 
+     |     <format-stmt;> 
+     |     <do-block> <label> <executable-construct;> 
+     |     <label> <executable-construct;> 
+
+<end-do-stmt> ::= 
+           end-do-stmt 
+     |     <label> end-do-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-do-stmt",13,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-do-stmt",13,false);*/
+
+<nonblock-do-construct> ::= 
+           <action-term-do-construct> 
+     |     <outer-shared-do-construct> 
+
+<action-term-do-construct> ::= 
+           <label-do-stmt> <do-body> <do-term-action-stmt> 
+     |     <label-do-stmt> <do-term-action-stmt> 
+
+<label-do-stmt> ::= 
+           label-do-stmt <;> 
+
+label-do-stmt ::= 
+           DO <label>   /* Tr.doLabelsPush( str(2) ) ; */
+     |     DO <label> <loop-control>   /* Tr.doLabelsPush( str(2) ) ; */
+     |     <construct-name-l> : DO <label>   /* Tr.doLabelsPush( str(4) ) ; */
+     |     <construct-name-l> : DO <label> <loop-control>   /* Tr.doLabelsPush( str(4) ); */
+
+<do-body> ::= 
+           <do-block> 
+
+<do-term-action-stmt> ::= 
+           <label-do> <labeled-do-action-stmt>   /* Tr.doLabelsPop(str(1) ); */
+     |     <label-do> end-do-stmt   /* Tr.doLabelsPop(str(1) ); */
+     |     <label-do-format> 
+
+<labeled-do-action-stmt> ::= 
+           <allocate-stmt> 
+     |     <assignment-stmt> 
+     |     <backspace-stmt> 
+     |     <call-stmt> 
+     |     <close-stmt> 
+     |     <deallocate-stmt> 
+     |     <define-file-unit-stmt> 
+     |     <endfile-stmt> 
+     |     <flush-stmt> 
+     |     <forall-stmt> 
+     |     <goto-stmt> 
+     |     <if-stmt> 
+     |     <inquire-stmt> 
+     |     <lock-stmt> 
+     |     <nullify-stmt> 
+     |     <open-stmt> 
+     |     <pointer-assignment-stmt> 
+     |     <print-stmt> 
+     |     <read-stmt> 
+     |     <rewind-stmt> 
+     |     <sync-all-stmt> 
+     |     <sync-images-stmt> 
+     |     <sync-memory-stmt> 
+     |     <unlock-stmt> 
+     |     <wait-stmt> 
+     |     <where-stmt> 
+     |     <write-stmt> 
+     |     <computed-goto-stmt> 
+     |     continue-stmt 
+     |     ERROR <;> 
+
+<outer-shared-do-construct> ::= 
+           <label-do-stmt> <do-body> <inner-shared-do-construct> 
+     |     <label-do-stmt> <inner-shared-do-construct> 
+
+<inner-shared-do-construct> ::= 
+           <label-do-shared-stmt> <do-body> <shared-term-do-construct> 
+     |     <label-do-shared-stmt> <shared-term-do-construct> 
+
+<label-do-shared-stmt> ::= 
+           label-do-shared-stmt <;> 
+     |     <label> label-do-shared-stmt <;> 
+     |     <label-do> label-do-shared-stmt <;>   /* Tr.doLabelsPop(str(1) ); */
+
+label-do-shared-stmt ::= 
+           DO <label-do>   /* Tr.doLabelsPush( str(2) ) ; */
+     |     DO <label-do> <loop-control>   /* Tr.doLabelsPush( str(2) ) ; */
+     |     <construct-name-l> : DO <label-do>   /* Tr.doLabelsPush( str(4) ) ; */
+     |     <construct-name-l> : DO <label-do> <loop-control>   /* Tr.doLabelsPush( str(4) ) ; */
+
+<shared-term-do-construct> ::= 
+           <do-term-shared-stmt> 
+     |     <inner-shared-do-construct> 
+
+<do-term-shared-stmt> ::= 
+           <do-term-action-stmt> 
+
+<omp-end-do-stmt> ::= 
+           omp-end-do-stmt <\n> 
+
+<omp-do-simd-construct> ::= 
+           <omp-do-simd-stmt> <do-loop> <omp-end-do-simd-stmt> 
+     |     <omp-do-simd-stmt> <do-loop> -: { OMP-END-DO-SIMD } 
+
+<omp-do-simd-stmt> ::= 
+           OMP DO SIMD <\n> 
+     |     OMP DO SIMD <do-simd-clause-list> <\n> 
+
+<do-simd-clause-list> ::= 
+           <do-simd-clause-list> , <omp-do-simd-clause> 
+     |     <do-simd-clause-list> <omp-do-simd-clause> 
+     |     <omp-do-simd-clause> 
+
+<omp-do-simd-clause> ::= 
+           <omp-do-clause> 
+     |     <simd-clause> 
+
+<simd-clause> ::= 
+           <omp-safelen> 
+     |     <omp-simdlen> 
+     |     <omp-linear> 
+     |     <omp-aligned> 
+     |     <omp-private> 
+     |     <omp-lastprivate> 
+     |     <omp-reduction> 
+     |     <omp-collapse> 
+     |     EARLY_EXIT 
+
+<omp-safelen> ::= 
+           SAFELEN ( <scalar-int-constant-expr> ) 
+
+<omp-end-do-simd-stmt> ::= 
+           omp-end-do-simd-stmt <\n> 
+
+omp-end-do-simd-stmt ::= 
+           OMP-END-DO-SIMD +: { <;> } 
+     |     OMP-END-DO-SIMD NOWAIT +: { <;> } 
+     |     OMP-END-DO-SIMD <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
+
+<smp-do-serial> ::= 
+           <smp-do-serial-stmt> <do-loop> 
+
+<smp-do-serial-stmt> ::= 
+           SMP-DO-SERIAL <\n> 
+
+<omp-flush-stmt> ::= 
+           OMP FLUSH <\n> 
+     |     OMP FLUSH ( <name-list> ) <\n> 
+
+<omp-master-construct> ::= 
+           <omp-master-stmt> structured-block <omp-end-master-stmt> 
+
+<omp-master-stmt> ::= 
+           OMP MASTER <\n> 
+
+<omp-end-master-stmt> ::= 
+           omp-end-master-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-master-stmt",54,false);*/
+
+omp-end-master-stmt ::= 
+           OMP END MASTER +: { <;> } 
+
+<omp-ordered-construct> ::= 
+           <omp-ordered-stmt> structured-block <omp-end-ordered-stmt> 
+
+<omp-ordered-stmt> ::= 
+           OMP ORDERED <\n> 
+     |     OMP ORDERED <ordered-clause-list> <\n> 
+
+<ordered-clause-list> ::= 
+           <ordered-clause-list> , <ordered-clause> 
+     |     <ordered-clause-list> <ordered-clause> 
+     |     <ordered-clause> 
+
+<ordered-clause> ::= 
+           DEPEND ( SOURCE ) 
+     |     DEPEND ( SINK : <name> ) 
+     |     SIMD 
+     |     THREADS 
+
+<omp-end-ordered-stmt> ::= 
+           omp-end-ordered-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-ordered-stmt",55,false);*/
+
+omp-end-ordered-stmt ::= 
+           OMP END ORDERED +: { <;> } 
+
+<omp-parallel-construct> ::= 
+           <parallel-stmt> structured-block <omp-end-parallel-stmt> 
+
+<parallel-stmt> ::= 
+           OMP PARALLEL <\n> 
+     |     OMP PARALLEL <parallel-clause-list> <\n> 
+
+<parallel-clause-list> ::= 
+           <parallel-clause-list> , <parallel-clause> 
+     |     <parallel-clause-list> <parallel-clause> 
+     |     <parallel-clause> 
+
+<parallel-clause> ::= 
+           IF ( <scalar-logical-expression> ) 
+     |     IF ( PARALLEL : <scalar-logical-expression> ) 
+     |     <omp-num-threads> 
+     |     <omp-default> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-shared> 
+     |     COPYIN ( <name-list> ) 
+     |     <omp-reduction> 
+     |     <omp-procedure-bind> 
+
+<scalar-logical-expression> ::= 
+           <expr> 
+
+<omp-num-threads> ::= 
+           NUM_THREADS ( <scalar-int-expr> ) 
+
+<omp-default> ::= 
+           DEFAULT ( <default-parallel> ) 
+
+<default-parallel> ::= 
+           PRIVATE 
+     |     FIRSTPRIVATE 
+     |     SHARED 
+     |     <NONE> 
+
+<omp-shared> ::= 
+           SHARED ( <name-list> ) 
+
+<omp-procedure-bind> ::= 
+           PROC_BIND ( <proc-bind-argument> ) 
+
+<proc-bind-argument> ::= 
+           MASTER 
+     |     CLOSE 
+     |     SPREAD 
+
+<omp-end-parallel-stmt> ::= 
+           omp-end-parallel-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-stmt",58,false);*/
+
+omp-end-parallel-stmt ::= 
+           OMP END PARALLEL +: { <;> } 
+
+<omp-parallel-workshare-construct> ::= 
+           <parallel-workshare-stmt> structured-block <omp-end-parallel-workshare-stmt> 
+
+<parallel-workshare-stmt> ::= 
+           OMP PARALLEL WORKSHARE <\n> 
+     |     OMP PARALLEL WORKSHARE <parallel-clause-list> <\n> 
+
+<omp-end-parallel-workshare-stmt> ::= 
+           omp-end-parallel-workshare-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-workshare-stmt",59,false);*/
+
+omp-end-parallel-workshare-stmt ::= 
+           OMP END PARALLEL WORKSHARE +: { <;> } 
+
+<omp-parallel-do-construct> ::= 
+           <parallel-do-stmt> <do-loop> <omp-end-parallel-do-stmt> 
+     |     <parallel-do-stmt> <do-loop> -: { OMP-END-PARALLEL-DO } 
+
+<parallel-do-stmt> ::= 
+           OMP PARALLEL DO <\n> 
+     |     OMP PARALLEL DO <parallel-do-clause-list> <\n> 
+
+<parallel-do-clause-list> ::= 
+           <parallel-do-clause-list> , <parallel-do-clause> 
+     |     <parallel-do-clause-list> <parallel-do-clause> 
+     |     <parallel-do-clause> 
+
+<parallel-do-clause> ::= 
+           <parallel-clause> 
+     |     <omp-lastprivate> 
+     |     <omp-linear> 
+     |     <omp-schedule> 
+     |     <omp-collapse> 
+     |     <omp-ordered> 
+
+<omp-end-parallel-do-stmt> ::= 
+           omp-end-parallel-do-stmt <\n> 
+
+<omp-parallel-sections-construct> ::= 
+           <omp-parallel-sections-stmt> <block> <omp-sections> <omp-end-parallel-sections-stmt> 
+     |     <omp-parallel-sections-stmt> <omp-sections> <omp-end-parallel-sections-stmt> 
+
+<omp-parallel-sections-stmt> ::= 
+           OMP PARALLEL SECTIONS <\n> 
+     |     OMP PARALLEL SECTIONS <parallel-sections-clause-list> <\n> 
+
+<parallel-sections-clause-list> ::= 
+           <parallel-sections-clause-list> , <parallel-sections-clause> 
+     |     <parallel-sections-clause-list> <parallel-sections-clause> 
+     |     <parallel-sections-clause> 
+
+<parallel-sections-clause> ::= 
+           <parallel-clause> 
+     |     <omp-lastprivate> 
+     |     <omp-reduction> 
+
+<omp-sections> ::= 
+           <omp-sections> <executable-construct;> 
+     |     <omp-sections> <omp-directive> 
+     |     <omp-sections> <format-stmt;> 
+     |     <omp-sections> <label> <executable-construct;> 
+     |     <omp-sections> <section-stmt> 
+     |     <section-stmt> 
+
+<section-stmt> ::= 
+           OMP SECTION <\n> 
+
+<omp-end-parallel-sections-stmt> ::= 
+           omp-end-parallel-sections-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-sections-stmt",57,false);*/
+
+omp-end-parallel-sections-stmt ::= 
+           OMP END PARALLEL SECTIONS +: { <;> } 
+     |     OMP END PARALLEL SECTIONS NOWAIT +: { <;> } 
+
+<ibm-schedule-stmt> ::= 
+           OMP <omp-schedule> <\n>   /* Tr.warning(L"The Schedule Statement is vendor specific & deprecated."); */
+
+<omp-sections-construct> ::= 
+           <omp-sections-stmt> <block> <omp-sections> <end-sections-stmt> 
+     |     <omp-sections-stmt> <omp-sections> <end-sections-stmt> 
+
+<omp-sections-stmt> ::= 
+           OMP SECTIONS <\n> 
+     |     OMP SECTIONS <sections-clause-list> <\n> 
+
+<sections-clause-list> ::= 
+           <sections-clause-list> , <sections-clause> 
+     |     <sections-clause-list> <sections-clause> 
+     |     <sections-clause> 
+
+<sections-clause> ::= 
+           <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-lastprivate> 
+     |     <omp-reduction> 
+
+<end-sections-stmt> ::= 
+           OMP END SECTIONS <\n> 
+     |     OMP END SECTIONS NOWAIT <\n> 
+
+<omp-simd-construct> ::= 
+           <omp-simd-stmt> <do-loop> <omp-end-simd-stmt> 
+     |     <omp-simd-stmt> <do-loop> -: { OMP-END-SIMD } 
+
+<omp-simd-stmt> ::= 
+           OMP SIMD <\n> 
+     |     OMP SIMD <simd-clause-list> <\n> 
+
+<simd-clause-list> ::= 
+           <simd-clause-list> , <simd-clause> 
+     |     <simd-clause-list> <simd-clause> 
+     |     <simd-clause> 
+
+<omp-end-simd-stmt> ::= 
+           omp-end-simd-stmt <\n> 
+
+omp-end-simd-stmt ::= 
+           OMP-END-SIMD +: { <;> } 
+     |     OMP-END-SIMD <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
+
+<omp-single-construct> ::= 
+           <omp-single-stmt> structured-block <omp-end-single-stmt> 
+
+<omp-single-stmt> ::= 
+           OMP SINGLE <\n> 
+     |     OMP SINGLE <single-clause-list> <\n> 
+
+<single-clause-list> ::= 
+           <single-clause-list> , <single-clause> 
+     |     <single-clause-list> <single-clause> 
+     |     <single-clause> 
+
+<single-clause> ::= 
+           <omp-private> 
+     |     <omp-firstprivate> 
+
+<omp-end-single-stmt> ::= 
+           omp-end-single-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-single-stmt",60,false);*/
+
+omp-end-single-stmt ::= 
+           OMP END SINGLE +: { <;> } 
+     |     OMP END SINGLE <end-single-clause-list> +: { <;> } 
+
+<end-single-clause-list> ::= 
+           <end-single-clause-list> , <end-single-clause> 
+     |     <end-single-clause-list> <end-single-clause> 
+     |     <end-single-clause> 
+
+<end-single-clause> ::= 
+           <omp-copyprivate> 
+     |     NOWAIT 
+
+<omp-copyprivate> ::= 
+           COPYPRIVATE ( <name-list> ) 
+
+<omp-task-construct> ::= 
+           <omp-task-stmt> structured-block <omp-end-task-stmt> 
+
+<omp-task-stmt> ::= 
+           OMP TASK <\n> 
+     |     OMP TASK <task-clause-list> <\n> 
+
+<task-clause-list> ::= 
+           <task-clause-list> , <task-clause> 
+     |     <task-clause-list> <task-clause> 
+     |     <task-clause> 
+
+<task-clause> ::= 
+           <omp-if-task> 
+     |     <omp-final> 
+     |     UNTIED 
+     |     <omp-default> 
+     |     MERGEABLE 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-shared> 
+     |     <omp-depend> 
+     |     <omp-priority> 
+
+<omp-if-task> ::= 
+           IF ( <scalar-logical-expression> ) 
+     |     IF ( <name> : <scalar-logical-expression> ) 
+
+<omp-final> ::= 
+           FINAL ( <scalar-logical-expression> ) 
+
+<omp-depend> ::= 
+           DEPEND ( <intent-spec> : <actual-arg-spec-list> ) 
+     |     DEPEND ( SOURCE ) 
+     |     DEPEND ( SINK : <name> ) 
+
+<omp-end-task-stmt> ::= 
+           omp-end-task-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-task-stmt",61,false);*/
+
+omp-end-task-stmt ::= 
+           OMP END TASK +: { <;> } 
+
+<omp-taskloop-construct> ::= 
+           <omp-taskloop-stmt> <do-loop> <omp-end-taskloop-stmt> 
+     |     <omp-taskloop-stmt> <do-loop> -: { OMP-END-TASKLOOP } 
+
+<omp-taskloop-stmt> ::= 
+           OMP TASKLOOP <\n> 
+     |     OMP TASKLOOP <taskloop-clause-list> <\n> 
+
+<taskloop-clause-list> ::= 
+           <taskloop-clause-list> , <taskloop-clause> 
+     |     <taskloop-clause-list> <taskloop-clause> 
+     |     <taskloop-clause> 
+
+<taskloop-clause> ::= 
+           <omp-if-task> 
+     |     <omp-shared> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-lastprivate> 
+     |     <omp-default> 
+     |     <omp-grainsize> 
+     |     <omp-num-tasks> 
+     |     <omp-collapse> 
+     |     <omp-final> 
+     |     <omp-priority> 
+     |     UNTIED 
+     |     MERGEABLE 
+     |     NOGROUP 
+
+<omp-grainsize> ::= 
+           GRAINSIZE ( <scalar-int-expr> ) 
+
+<omp-num-tasks> ::= 
+           NUM_TASKS ( <scalar-int-expr> ) 
+
+<omp-end-taskloop-stmt> ::= 
+           omp-end-taskloop-stmt <\n> 
+
+<omp-taskwait-stmt> ::= 
+           OMP TASKWAIT <\n> 
+
+<omp-taskyield-stmt> ::= 
+           OMP TASKYIELD <\n> 
+
+<omp-workshare-construct> ::= 
+           <omp-workshare-stmt> <workshare-block> <omp-end-workshare-stmt> 
+
+<omp-workshare-stmt> ::= 
+           OMP WORKSHARE <\n> 
+
+<workshare-block> ::= 
+           <workshare-block> <workshare-part-construct> 
+     |     <workshare-block> <workshare-part-directive> 
+     |     <workshare-part-construct> 
+     |     <workshare-part-directive> 
+     |     <workshare-block> <label> <workshare-part-construct> 
+     |     <label> <workshare-part-construct> 
+
+<workshare-part-construct> ::= 
+           <workshare-action-stmt> <;> 
+     |     <forall-construct> <;> 
+     |     <where-construct> <;> 
+     |     ERROR <;> 
+
+<workshare-action-stmt> ::= 
+           <assignment-stmt> 
+     |     <forall-stmt> 
+     |     <where-stmt> 
+
+<forall-construct> ::= 
+           <forall-construct-stmt> <end-forall-stmt> 
+     |     <forall-construct-stmt> <forall-body-constructs> <end-forall-stmt> 
+
+<forall-construct-stmt> ::= 
+           forall-construct-stmt <;> 
+
+forall-construct-stmt ::= 
+           FORALL <forall-header> 
+     |     <construct-name-l> : FORALL <forall-header> 
+
+<end-forall-stmt> ::= 
+           end-forall-stmt 
+     |     <label> end-forall-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-forall-stmt",10,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-forall-stmt",10,false);*/
+
+<forall-body-constructs> ::= 
+           <forall-body-constructs> <forall-body-construct> 
+     |     <forall-body-constructs> <label> <forall-body-construct> 
+     |     <forall-body-construct> 
+
+<forall-body-construct> ::= 
+           <forall-assignment-stmt> <;> 
+     |     <where-stmt> <;> 
+     |     <where-construct> <;> 
+     |     <forall-construct> <;> 
+     |     <forall-stmt> <;> 
+
+<where-construct> ::= 
+           <where-construct-stmts> <end-where-stmt> 
+     |     <where-construct-stmts> <elsewhere-stmts> <end-where-stmt> 
+     |     <where-construct-stmts> <masked-elsewhere-stmts> <end-where-stmt> 
+     |     <where-construct-stmts> <masked-elsewhere-stmts> <elsewhere-stmts> <end-where-stmt> 
+
+<where-construct-stmts> ::= 
+           <where-construct-stmts> <where-body-construct;> 
+     |     <where-construct-stmts> <label> <where-body-construct;> 
+     |     <where-construct-stmt> 
+
+<where-body-construct;> ::= 
+           <assignment-stmt> <;> 
+     |     <where-stmt> <;> 
+     |     <where-construct> <;> 
+
+<where-construct-stmt> ::= 
+           WHERE <p-expr> <;> 
+     |     <construct-name-l> : WHERE <p-expr> <;> 
+
+<end-where-stmt> ::= 
+           end-where-stmt 
+     |     <label> end-where-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-where-stmt",20,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-where-stmt",20,false);*/
+
+<elsewhere-stmts> ::= 
+           <elsewhere-stmts> <where-body-construct;> 
+     |     <elsewhere-stmts> <label> <where-body-construct;> 
+     |     <elsewhere-stmt> 
+
+<elsewhere-stmt> ::= 
+           elsewhere-stmt <;> 
+     |     <label> elsewhere-stmt <;> 
+
+elsewhere-stmt ::= 
+           ELSE_WHERE 
+     |     ELSE_WHERE <construct-name> 
+
+<masked-elsewhere-stmts> ::= 
+           <masked-elsewhere-stmts> <where-body-construct;> 
+     |     <masked-elsewhere-stmts> <label> <where-body-construct;> 
+     |     <masked-elsewhere-stmt> 
+
+<masked-elsewhere-stmt> ::= 
+           masked-elsewhere-stmt <;> 
+     |     <label> masked-elsewhere-stmt <;> 
+
+masked-elsewhere-stmt ::= 
+           ELSE_WHERE ( <expr> ) 
+     |     ELSE_WHERE ( <expr> ) <construct-name> 
+
+<workshare-part-directive> ::= 
+           <omp-atomic-construct> 
+     |     <omp-critical-construct> 
+     |     <omp-parallel-construct> 
+     |     <omp-parallel-workshare-construct> 
+     |     <omp-parallel-do-construct> 
+     |     <omp-parallel-sections-construct> 
+
+<omp-end-workshare-stmt> ::= 
+           omp-end-workshare-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-workshare-stmt",63,false);*/
+
+omp-end-workshare-stmt ::= 
+           OMP END WORKSHARE +: { <;> } 
+     |     OMP END WORKSHARE NOWAIT +: { <;> } 
+
+<dec-ivdep-directive> ::= 
+           <dec-ivdep-stmt> <do-loop> 
+
+<dec-ivdep-stmt> ::= 
+           DEC IVDEP <\n> 
+     |     DEC IVDEP : LOOP <\n> 
+     |     DEC IVDEP : BACK <\n> 
+     |     INIT_DEP_FWD <\n> 
+
+<omp-unknown-construct> ::~ 
+           <omp-unknown-stmt> structured-block <omp-end-unknown-stmt> 
+
+<omp-unknown-stmt> ::~ 
+           OMP <erroneous-stmt> <;>   /* Tr.OMP_ERROR=Tr.OMP_ERROR+1;*/
+
+<omp-end-unknown-stmt> ::~ 
+           <unexpected-end-stmt> <;>   /* //a msg issued on header*/
+
+<end-associate-stmt> ::= 
+           end-associate-stmt 
+     |     <label> end-associate-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0), L"end-associate-stmt",11,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0), L"end-associate-stmt",11,false);*/
+
+<block-construct> ::= 
+           <block-stmt> <stmts> <end-block-stmt> 
+
+<block-stmt> ::= 
+           BLOCK <;> 
+     |     <construct-name-l> : BLOCK <;> 
+
+<end-block-stmt> ::= 
+           end-block-stmt 
+     |     <label> end-block-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-block-stmt",12,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-block-stmt",12,false);*/
+
+<case-construct> ::= 
+           <select-case-stmt> <end-select-stmt> 
+     |     <select-case-stmt> <case-blocks> <end-select-stmt> 
+
+<select-case-stmt> ::= 
+           select-case-stmt <;> 
+     |     <construct-name-l> : select-case-stmt <;> 
+
+select-case-stmt ::= 
+           SELECT CASE <p-expr> 
+     |     SELECT_CASE <p-expr> 
+
+<end-select-stmt> ::= 
+           end-select-stmt 
+     |     <label> end-select-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-select-stmt",15,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-select-stmt",15,false);*/
+
+<case-blocks> ::= 
+           <case-block> 
+
+<case-block> ::= 
+           <case-block> <format-stmt;> 
+     |     <case-block> <executable-construct;> 
+     |     <case-block> <label> <executable-construct;> 
+     |     <case-block> <omp-directive> 
+     |     <case-block> <case-stmt> 
+     |     <case-block> <label> <case-stmt> 
+     |     <label> <case-stmt> 
+     |     <case-stmt> 
+
+<case-stmt> ::= 
+           case-stmt <;> 
+
+case-stmt ::= 
+           CASE <case-selector> 
+     |     CASE <case-selector> <name> 
+
+<case-selector> ::= 
+           <p-case-value-range-list> 
+     |     DEFAULT 
+
+<p-case-value-range-list> ::= 
+           ( <case-value-range-list> ) 
+
+<case-value-range-list> ::= 
+           <case-value-range-list> <,> <case-value-range> 
+     |     <case-value-range> 
+
+<case-value-range> ::= 
+           <case-value> 
+     |     <case-value> : 
+     |     : <case-value> 
+     |     <case-value> : <case-value> 
+
+<case-value> ::= 
+           <expr> 
+
+<critical-construct> ::= 
+           <critical-stmt> <block> <end-critical-stmt> 
+
+<critical-stmt> ::= 
+           CRITICAL <;> 
+     |     <construct-name-l> : CRITICAL <;> 
+
+<end-critical-stmt> ::= 
+           end-critical-stmt 
+     |     <label> end-critical-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-critical-stmt",33,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-critical-stmt",33,false);*/
+
+<if-construct> ::= 
+           <if-then-stmts> <end-if-stmt> 
+     |     <if-then-stmts> <else-stmts> <end-if-stmt> 
+     |     <if-then-stmts> <else-if-stmts> <end-if-stmt> 
+     |     <if-then-stmts> <else-if-stmts> <else-stmts> <end-if-stmt> 
+
+<if-then-stmts> ::= 
+           <if-then-stmts> <executable-construct;> 
+     |     <if-then-stmts> <omp-directive> 
+     |     <if-then-stmts> <label> <executable-construct;> 
+     |     <if-then-stmt> 
+     |     <if-then-stmts> <format-stmt;> 
+
+<if-then-stmt> ::= 
+           <if-expr> THEN <;> 
+     |     <construct-name-l> : <if-expr> THEN <;> 
+
+<end-if-stmt> ::= 
+           end-if-stmt 
+     |     <label> end-if-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-if-stmt",14,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-if-stmt",14,false);*/
+
+<else-stmts> ::= 
+           <else-stmts> <executable-construct;> 
+     |     <else-stmts> <omp-directive> 
+     |     <else-stmts> <format-stmt;> 
+     |     <else-stmts> <label> <executable-construct;> 
+     |     <else-stmt> 
+     |     <label> <else-stmt> 
+
+<else-stmt> ::= 
+           ELSE <;> 
+     |     ELSE <construct-name> <;> 
+
+<else-if-stmts> ::= 
+           <else-if-stmts> <executable-construct;> 
+     |     <else-if-stmts> <omp-directive> 
+     |     <else-if-stmts> <format-stmt;> 
+     |     <else-if-stmts> <label> <executable-construct;> 
+     |     <else-if-stmt> 
+     |     <label> <else-if-stmt> 
+     |     <else-if-stmts> <else-if-stmt> 
+     |     <else-if-stmts> <label> <else-if-stmt> 
+
+<else-if-stmt> ::= 
+           ELSE IF <p-expr> THEN <;> 
+     |     ELSE IF <p-expr> THEN <construct-name> <;> 
+     |     ELSE_IF <p-expr> THEN <;> 
+     |     ELSE_IF <p-expr> THEN <construct-name> <;> 
+
+<select-type-construct> ::= 
+           <select-type-stmt> <end-select-stmt> 
+     |     <select-type-stmt> <type-guard-stmt-blocks> <end-select-stmt> 
+
+<select-type-stmt> ::= 
+           select-type-stmt <;> 
+     |     <construct-name-l> : select-type-stmt <;> 
+
+select-type-stmt ::= 
+           SELECT TYPE <p-expr> 
+     |     SELECT TYPE ( <associate-name> <=rangle> <expr> ) 
+     |     SELECT_TYPE <p-expr> 
+     |     SELECT_TYPE ( <associate-name> <=rangle> <expr> ) 
+
+<type-guard-stmt-blocks> ::= 
+           <type-guard-stmt-blocks> <execution-part-construct> 
+     |     <type-guard-stmt-blocks> <omp-directive> 
+     |     <type-guard-stmt-blocks> <label> <execution-part-construct> 
+     |     <type-guard-stmt-blocks> <type-guard-stmt;> 
+     |     <type-guard-stmt-blocks> <label> <type-guard-stmt;> 
+     |     <type-guard-stmt-blocks> <format-stmt;> 
+     |     <label> <type-guard-stmt;> 
+     |     <type-guard-stmt;> 
+
+<type-guard-stmt;> ::= 
+           type-guard-stmt <;> 
+
+type-guard-stmt ::= 
+           TYPE IS <p-type-spec> 
+     |     TYPE IS <p-type-spec> <construct-name> 
+     |     CLASS IS <p-derived-type-spec> 
+     |     CLASS IS <p-derived-type-spec> <construct-name> 
+     |     CLASS DEFAULT 
+     |     CLASS DEFAULT <construct-name> 
+
+<p-type-spec> ::= 
+           ( <type-spec> ) 
+
+<subroutine-subprogram> ::= 
+           <subroutine-stmt> <end-subroutine-stmt;> 
+     |     <subroutine-stmt> <internal-subprogram-part> <end-subroutine-stmt;> 
+     |     <subroutine-stmt> <stmts> <end-subroutine-stmt;> 
+     |     <subroutine-stmt> <stmts> <internal-subprogram-part> <end-subroutine-stmt;> 
+     |     <label> <subroutine-stmt> <end-subroutine-stmt;> 
+     |     <label> <subroutine-stmt> <internal-subprogram-part> <end-subroutine-stmt;> 
+     |     <label> <subroutine-stmt> <stmts> <end-subroutine-stmt;> 
+     |     <label> <subroutine-stmt> <stmts> <internal-subprogram-part> <end-subroutine-stmt;> 
+
+<program-stmt> ::= 
+           PROGRAM <program_name> <;> 
+     |     <label> PROGRAM <program_name> <;> 
+
+<external-subprogram> ::= 
+           <function-subprogram> 
+     |     <subroutine-subprogram> 
+
+<module> ::= 
+           <module-stmt> <end-module-stmt;> 
+     |     <module-stmt> <module-subprogram-part> <end-module-stmt;> 
+     |     <module-stmt> <spec-stmts> <end-module-stmt;> 
+     |     <module-stmt> <spec-stmts> <module-subprogram-part> <end-module-stmt;> 
+
+<module-stmt> ::= 
+           MODULE <module-name> <;> 
+     |     <label> MODULE <module-name> <;> 
+
+<end-module-stmt;> ::= 
+           <end-module-stmt> <;> 
+     |     <end-module-stmt> +: EOF 
+
+<end-module-stmt> ::= 
+           end-module-stmt 
+     |     <label> end-module-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-module-stmt",1,true);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-module-stmt",1,true);*/
+
+<module-subprogram-part> ::= 
+           <module-subprograms> 
+
+<module-subprograms> ::= 
+           <module-subprograms> <module-subprogram> 
+     |     <contains-stmt> 
+
+<module-subprogram> ::= 
+           <function-subprogram> 
+     |     <subroutine-subprogram> 
+     |     <separate-module-subprogram> 
+
+<separate-module-subprogram> ::= 
+           <mp-subprogram-stmt> <end-mp-subprogram-stmt;> 
+     |     <mp-subprogram-stmt> <internal-subprogram-part> <end-mp-subprogram-stmt;> 
+     |     <mp-subprogram-stmt> <stmts> <end-mp-subprogram-stmt;> 
+     |     <mp-subprogram-stmt> <stmts> <internal-subprogram-part> <end-mp-subprogram-stmt;> 
+     |     <label> <mp-subprogram-stmt> <end-mp-subprogram-stmt;> 
+     |     <label> <mp-subprogram-stmt> <internal-subprogram-part> <end-mp-subprogram-stmt;> 
+     |     <label> <mp-subprogram-stmt> <stmts> <end-mp-subprogram-stmt;> 
+     |     <label> <mp-subprogram-stmt> <stmts> <internal-subprogram-part> <end-mp-subprogram-stmt;> 
+
+<mp-subprogram-stmt> ::= 
+           <mp-subprogram-stmt;> 
+
+<mp-subprogram-stmt;> ::= 
+           MODULE PROCEDURE <procedure-name> <;> 
+
+<end-mp-subprogram-stmt;> ::= 
+           <end-mp-subprogram-stmt> <;> 
+     |     <end-mp-subprogram-stmt> +: EOF 
+
+<end-mp-subprogram-stmt> ::= 
+           end-mp-subprogram-stmt 
+     |     <label> end-mp-subprogram-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-mp-subprogram-stmt",1,true);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-mp-subprogram-stmt",1,true);*/
+
+<submodule> ::= 
+           <submodule-stmt> <end-submodule-stmt;> 
+     |     <submodule-stmt> <module-subprogram-part> <end-submodule-stmt;> 
+     |     <submodule-stmt> <spec-stmts> <end-submodule-stmt;> 
+     |     <submodule-stmt> <spec-stmts> <module-subprogram-part> <end-submodule-stmt;> 
+
+<submodule-stmt> ::= 
+           SUBMODULE <(> <parent-identifier> <)> <module-name> <;> 
+     |     <label> SUBMODULE <(> <parent-identifier> <)> <module-name> <;> 
+
+<parent-identifier> ::= 
+           <ancestor-module-name> 
+     |     <ancestor-module-name> : <parent-submodule-name> 
+
+<ancestor-module-name> ::= 
+           <name> 
+
+<parent-submodule-name> ::= 
+           <name> 
+
+<end-submodule-stmt;> ::= 
+           <end-submodule-stmt> <;> 
+     |     <end-submodule-stmt> +: EOF 
+
+<end-submodule-stmt> ::= 
+           end-submodule-stmt 
+     |     <label> end-submodule-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-submodule-stmt",1,true);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-submodule-stmt",1,true);*/
+
+<block-data> ::= 
+           <block-data-stmt> <end-block-data-stmt;> 
+     |     <block-data-stmt> <spec-stmts> <end-block-data-stmt;> 
+
+<block-data-stmt> ::= 
+           BLOCK DATA <;> 
+     |     BLOCK DATA <block-data-name> <;> 
+     |     <label> BLOCK DATA <;> 
+     |     <label> BLOCK DATA <block-data-name> <;> 
+     |     BLOCK_DATA <;> 
+     |     BLOCK_DATA <block-data-name> <;> 
+     |     <label> BLOCK_DATA <;> 
+     |     <label> BLOCK_DATA <block-data-name> <;> 
+
+<end-block-data-stmt;> ::= 
+           <end-block-data-stmt> <;> 
+     |     <end-block-data-stmt> +: EOF 
+
+<end-block-data-stmt> ::= 
+           end-block-data-stmt 
+     |     <label> end-block-data-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-block-data-stmt",1,true);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-block-data-stmt",1,true);*/
+

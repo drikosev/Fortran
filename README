@@ -1,5 +1,5 @@
 
-Apr 24, 2018
+Sep 13, 2018
 
 
  
@@ -10,8 +10,10 @@ Apr 24, 2018
 
  The Fortran Grammar
  -------------------
+ [2018-04-24]
+ This grammar is based on a Fortran 2003 draft ("N1601.pdf.gz") and has been transformed as needed to allow an Enhanced LALR Builder (Syntaxis.jar) to process it and create a conflicts-free parser that accepts in addition deprecated Fortran 77 features. Over the time, features of newer drafts have been added as well along with common extensions supported by various vendors.
 
- This grammar is based on a Fortran 2003 draft ("N1601.pdf.gz") and has been transformed as needed to allow an Enhanced LALR Builder (Syntaxis.jar) to process it and create a conflicts-free parser that accepts in addition deprecated Fortran 77 features. Over the time, features of newer drafts have been added as well.
+Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.txt") and later OpenMP extensions in the newer one ("OMP_Legacy_Parser.txt") which is the grammar being extended now on. 
 
  The transformed grammar is supposed to describe accurately array elements and function references. In other words, it isn't a covering grammar. Further, it is also complete in the sense that we fully parse constructs (e.g. non-block do construct ). In other words, we don't parse one statement at a time.
 
@@ -27,10 +29,16 @@ Apr 24, 2018
      "#reductions FUNCTION" indicates exactly this restriction. 
  [3] The syntax notation is almost pure BNF, with "Follow Restrictions" ( "+:", "-:", and "~:") and
      "Error Productions" ("::~"). 
- [4] Definitely, this non LR(k) grammar is ambiguous (see: users.otenet.gr/~drikosev/miscellaneous.html).
- [5] Since July 6, 2018, the ENLALR parser supports the SMA technique selectively on individual tokens,
-     which is required in our free form Fortran parser because a "(/" in example is in a format statement
-     a valid sequence of a '(' and a '/'. 
+ [4] Definitely this non LR(k) grammar is ambiguous (see users.otenet.gr/~drikosev/miscellaneous.html).
+ [5] The ENLALR builder is capable ie to generate a deterministic parser that could parse intrinsic 
+     operators without dots in free form Fortran. This includes the intrinsic operator ".not." which
+     should split to an intrinsic function that takes an argument and an operator for arguments without
+     parentheses.
+ [6] The ENLALR parser supports the SMA technique selectively on individual tokens, which is required 
+     in our free form Fortran parser, as a "(/" ie is in a format statement a valid sequence of a '(' 
+     and a '/' (2018-06-06). The scanners support the directive with an "inversed" logic (2018-09-01).
+ [7] One can safely assume that any recent changes in the ChangeLog haven't been tested thoroughly.
+
 
 
  Files
@@ -38,13 +46,13 @@ Apr 24, 2018
 
  1) The Fortran Parser
     1.1) The "Fortran_Parser.txt" contains the syntax rules of the Fortran parser.
-    1.2) The "Fortran_Parser.html" has the same content with the "Fortran_Parser.txt" but in HTML
-         format.
+    1.2) The "Fortran_Parser.html" has the same content with the "Fortran_Parser.txt" in HTML format.
 
  2) The Fortran Scanner
     2.1) The "Fortran_Scanner.txt" contains the lexical rules of a Fortran scanner that is shared
-         by several Fortran parsers. 
-    2.1) The "Fortran_Scanner.html" has the same content with the "fortran_scanner.txt" but in HTML
+         by several Fortran parsers. Now it uses a carriage return ('\r') as a statement terminator. 
+         
+    2.2) The "Fortran_Scanner.html" has the same content with the "Fortran_Scanner.txt" but in HTML
          format.
 
  3) A Legacy Parser
@@ -68,6 +76,95 @@ Apr 24, 2018
 
     3.2) The "Legacy_Parser.html" has the same content with the "Legacy_Parser.txt" but in HTML format.
 
- 4) ChangeLog
-    4.1) The file "ChangeLog" contains known or solved bugs along with various supported extensions.
+
+ 4) OMP (Legacy) Parser
+    -------------------
+    [2018-08-27]
+
+    4.1) The "OMP_Legacy_Parser.txt" contains the syntax rules of a Fortran parser, which in addition
+         to the above mentioned Fortran (Legacy) parser, accepts the following OMP directives:
+
+         - ATOMIC
+         - BARRIER
+         - CRITICAL
+         - DECLARE SIMD
+         - DO, DO SERIAL (*), DO SIMD
+         - FLUSH
+         - MASTER
+         - ORDERED 
+         - PARALLEL, PARALLEL DO, PARALLEL SECTIONS, PARALLEL WORKSHARE
+         - SCHEDULE (* deprecated) 
+         - SECTIONS
+         - SIMD
+         - SINGLE
+         - TASK, TASKLOOP, TASKWAIT, TASKYIELD
+         - THREADPRIVATE, THREADLOCAL (*)
+         - WORKSHARE
+
+
+         This parser is work in progress as many directives (ie DISTRIBUTE, TEAMS) aren't supported yet.
+
+         Note that the literal "!$OMP", which is parsed by the Hand Coded File Reader, introduces an OMP 
+         directive and is also required in both fixed & free form continuation lines. Whereas the literal
+         "!$" is used for conditional compilation. 
+
+         Note also that these syntax rules describe features that needed special handling:
+         (a) A ';' isn't allowed as an OMP Directive terminator, which is handled by a semantic action.
+         (b) An OMP Directive cannot have a label.
+         (c) Optional spacing between keywords in OMP headers/footers but not in clauses (ie private).
+             Some OMP keywords are already Fortran keywords, which makes this problem harder. So, there
+             is a chance that the parser accepts more optional spaces than it should, always between
+             tokens. In alternative, I should create ie one token per OMP header/footer but this would
+             make the scanner even larger; this burden applies only to free form programs.
+         (d) Optional OMP END directives after Fortran DO constructs. My solution was one token per 
+             optional directive.
+         (e) This grammar makes no distinction between update/capture statements in Atomic Constructs.
+
+         (*) Some vendor specific directives (i.e. THREAD LOCAL & DO SERIAL) may not be very accurate.
+
+    4.2) The "OMP_Legacy_Parser.html" has the same content with the "OMP_Legacy_Parser.txt" but in HTML
+         format.
+
+
+ 5) OMP Fortran Scanner
+    -------------------
+    [2018-08-27]
+
+    5.1) The "OMP_Fortran_Scanner.txt" contains the lexical rules of the Fortran scanner that is used
+         by the  OMP (Legacy) Parser. 
+         
+         This scanner uses a carriage return ('\r') as a statement terminator. Such a change however
+         has various implications. Several corner cases, ie "do5i=1,2", haven't been tested very well.
+
+    5.2) The "OMP_Fortran_Scanner.html" has the same content with the "OMP_Fortran_Scanner.txt" but in
+         HTML format.
+
+
+ 6) Format Parser
+    -------------
+    [2018-09-02]
+
+    6.1) The "format-parser.txt" contains the syntax rules of the Format Specification string.
+         (a) It's an embedded parser currently called in a '<print-stmt>' by the function 'onPrint'. 
+         (b) The following 3 lines show how it's been linked in the grammar "OMP_Legacy_Parser.txt": 
+             <print-stmt> ::= 
+                 |     PRINT <format>                          /*Tr.onPrint($$(0),$$(2)); */
+                 |     PRINT <format> <,> <output-item-list>   /*Tr.onPrint($$(0),$$(2),$$(4)); */
+ 
+         (c) Embedding in the Translator a fully functional generated parser to validate a format
+             string that usually has less than 10 characters may be superfluous. Yet, one goal of
+             this project is to demonstrate the capabilities of "Syntaxis". 
+
+    6.2) The "format-parser.html" has the same content with the "format-parser.txt" in HTML format.
+
+
+ 7) Format Scanner
+    --------------
+    [2018-09-02]
+    7.1) The "format-scanner.txt" contains the lexical rules used in the Format Specification string. 
+    7.2) The "format-scanner.html" has the same content with the "format-scanner.txt" in HTML format.
+
+
+ 8) ChangeLog
+    8.1) The file "ChangeLog" contains known or solved bugs along with various supported extensions.
 
