@@ -567,11 +567,6 @@ keyword ::=
 <char-length> ::= 
            ( <type-param-value> ) 
      |     <int-literal-constant> 
-     |     <LABEL> 
-
-<LABEL> ::= 
-           <label> 
-     |     <label-do> 
 
 <p-char-selector-pair> ::= 
            ( <char-selector-pair> ) -: { ( } 
@@ -2064,9 +2059,9 @@ subroutine-stmt ::=
            keyword   /* $$(0).synthesized=new wstring(str(1)); */
 
 <type-declaration-error> ::~ 
-           <declaration-type-spec> , <attr-spec-list> +: { <;> } 
-     |     <character*length> , <attr-spec-list> +: { <;> } 
-     |     <record-type-spec> , <attr-spec-list> +: { <;> } 
+           <declaration-type-spec> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
+     |     <character*length> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
+     |     <record-type-spec> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
 
 <stmt-function-stmt> ::= 
            <function-declaration> = <expr> 
@@ -2191,6 +2186,10 @@ subroutine-stmt ::=
 
 <assign-stmt> ::= 
            ASSIGN <LABEL> TO <name> 
+
+<LABEL> ::= 
+           <label> 
+     |     <label-do> 
 
 <assignment-stmt> ::= 
            <designator-l> = <expr> 
@@ -2620,8 +2619,8 @@ subroutine-stmt ::=
      |     PAUSE <stop-code> 
 
 <print-stmt> ::= 
-           PRINT <format> 
-     |     PRINT <format> <,> <output-item-list> 
+           PRINT <format>   /*Tr.onPrint($$(0),$$(2)); */
+     |     PRINT <format> <,> <output-item-list>   /*Tr.onPrint($$(0),$$(2),$$(4)); */
 
 <format> ::= 
            <char-expr> 
