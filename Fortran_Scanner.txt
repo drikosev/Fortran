@@ -2,7 +2,7 @@
 #ignore <spaces>
 
 #sma <letter>
-#sma <name-l>
+#sma <name-r>
 
 <token> ::= 
            <fmt{G}w> 

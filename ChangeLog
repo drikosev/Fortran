@@ -74,7 +74,9 @@ The Following bug-fix has not been tested very well yet:
                (1) A Function is an external subprogram (2) with a prefix that is a type, ie "real", and    
                (3) the function name contains an underscore (see ie src/skewt/misc_kb.f:227).
                Now, the semantic action takes full control and returns either a FUNCTION or a <name-l>.
-     
+        note:  [1/9] The scanners are now capable not to return specific tokens as a shorter match, in 
+                     this case a <name-r> which the parser could shift.      
+
 
 Legacy parser Issues
 --------------------
