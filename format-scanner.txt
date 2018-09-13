@@ -1,0 +1,381 @@
+#ignore <spaces>
+
+<token> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D}w . d> 
+     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     <fmt dt & char-literal-constant> 
+     |     <fmt{T|TL|TR}n> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     A 
+     |     C 
+     |     X 
+     |     P 
+     |     DT 
+     |     DC 
+     |     DP 
+     |     BN 
+     |     BZ 
+     |     RU 
+     |     RD 
+     |     RZ 
+     |     RN 
+     |     RC 
+     |     RP 
+     |     SS 
+     |     SP 
+     |     S 
+     |     T 
+     |     TL 
+     |     TR 
+     |     <int-literal-constant> 
+     |     <real-literal-constant> 
+     |     <int-literal-constant> 
+     |     <logical-literal-constant> 
+     |     <char-literal-constant> 
+     |     <boz-literal-constant> 
+     |     <::> 
+     |     <lbracket> 
+     |     <rbracket> 
+     |     <.EQ.> 
+     |     <.NE.> 
+     |     <.LT.> 
+     |     <.LE.> 
+     |     <.GT.> 
+     |     <.GE.> 
+     |     <.NOT.> 
+     |     <.AND.> 
+     |     <.OR.> 
+     |     <.EQV.> 
+     |     <.NEQV.> 
+     |     <==> 
+     |     <=rangle> 
+     |     </=> 
+     |     <langle> 
+     |     <langle=> 
+     |     <rangle> 
+     |     <rangle=> 
+     |     <rel-op> 
+     |     * 
+     |     / 
+     |     <mult-op> 
+     |     <equiv-op> 
+     |     <concat-op> 
+     |     <**> 
+     |     <sign> 
+     |     ( 
+     |     ) 
+     |     , 
+     |     <..> 
+     |     . 
+     |     $ 
+     |     \ 
+     |     <spaces> 
+
+<fmt{G}w> ::= 
+           G { 0 .. 9 }... 
+
+<fmt{I,B,O,Z,G,L,A}w> ::= 
+           { I | B | O | Z | G | L | A } { 0 .. 9 }... 
+
+<fmt{I,B,O,Z}w . d> ::= 
+           { I | B | O | Z } { 0 .. 9 }... { . } { 0 .. 9 }... 
+
+<fmt{F,E,EN,ES,G,D}w . d> ::= 
+           { F |[ P ] E |[ P ] E N |[ P ] E S |[ P ] G |[ P ] D } { 0 .. 9 }... { . } { 0 .. 9 }... 
+
+<fmt{E,EN,ES,G}w . d E e> ::= 
+           {[ P ] E |[ P ] EN |[ P ] ES |[ P ] G } { 0 .. 9 }... { . } { 0 .. 9 }... E { 0 .. 9 }... 
+
+EN ::= 
+           E N 
+
+ES ::= 
+           E S 
+
+<fmt dt & char-literal-constant> ::= 
+           DT <char-literal-constant> 
+
+DT ::= 
+           D T 
+
+<char-literal-constant> ::= 
+           [ kind-param _ ] <quoted-literal> 
+     |     [ kind-param _ ] <dquoted-literal> 
+     |     <char-literal-constant2> 
+
+kind-param ::= 
+           digit-string 
+     |     scalar-int-constant-name 
+
+digit-string ::= 
+           { 0 .. 9 }... 
+
+scalar-int-constant-name ::= 
+           { A .. Z } { A .. Z | 0 .. 9 | _ }... 
+
+<quoted-literal> ::= 
+           ' [ <quoted_char> ... ] ' 
+
+<quoted_char> ::= 
+           ' ' 
+     |     { \u0001 .. \uFFFD } -= { ' | \n | \r } 
+
+<dquoted-literal> ::= 
+           " [ <dquoted_char> ... ] " 
+
+<dquoted_char> ::= 
+           " " 
+     |     { \u0001 .. \uFFFD } -= { " | \n | \r } 
+
+<fmt{T|TL|TR}n> ::= 
+           { T | T L | T R } { 0 .. 9 }... 
+
+<fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> ::= 
+           { I | B | O | Z |[ P ] F |[ P ] E |[ P ] E N |[ P ] E S |[ P ] G |[ P ] D } { 0 .. 9 }... { . } { 0 .. 9 }... 
+
+DC ::= 
+           D C 
+
+DP ::= 
+           D P 
+
+BN ::= 
+           B N 
+
+BZ ::= 
+           B Z 
+
+RU ::= 
+           R U 
+
+RD ::= 
+           R D 
+
+RZ ::= 
+           R Z 
+
+RN ::= 
+           R N 
+
+RC ::= 
+           R C 
+
+RP ::= 
+           R P 
+
+SS ::= 
+           S S 
+
+SP ::= 
+           S P 
+
+TL ::= 
+           T L 
+
+TR ::= 
+           T R 
+
+<int-literal-constant> ::= 
+           <digit> ... [ _ kind-param ] 
+
+<digit> ::= 
+           0 .. 9 
+
+<real-literal-constant> ::= 
+           <digit-string .> +: <non-letter> 
+     |     digit-string . digit-string 
+     |     . digit-string 
+     |     significand _ kind-param 
+     |     significand exponent-letter exponent 
+     |     significand exponent-letter exponent _ kind-param 
+     |     <digit-string exponent-letter exponent> +: <not-dot> 
+     |     digit-string exponent-letter exponent _ kind-param 
+
+<digit-string .> ::= 
+           digit-string . 
+
+<non-letter> ::= 
+           { \u0001 .. \ufffe } -= { A .. Z } 
+
+significand ::= 
+           digit-string .[ digit-string ] 
+     |     . digit-string 
+
+exponent-letter ::= 
+           E 
+     |     D 
+
+exponent ::= 
+           [ + | - ] digit-string 
+
+<digit-string exponent-letter exponent> ::= 
+           digit-string exponent-letter exponent 
+
+<not-dot> ::= 
+           { \u0001 .. \ufffe } -= { . | A .. Z | 0 .. 9 } 
+
+<logical-literal-constant> ::= 
+           . T R U E .[ kind-param ] 
+     |     . F A L S E .[ kind-param ] 
+
+<boz-literal-constant> ::= 
+           <binary-constant> 
+     |     <octal-constant> 
+     |     <hex-constant> 
+     |     <boz-literal-constant2> 
+     |     <octal-legacy> 
+
+<binary-constant> ::= 
+           B <quoted-binary> 
+     |     B <dquoted-binary> 
+
+<quoted-binary> ::= 
+           ' [ <binary_char> ... ] ' 
+
+<binary_char> ::= 
+           0 
+     |     1 
+
+<dquoted-binary> ::= 
+           " [ <binary_char> ... ] " 
+
+<octal-constant> ::= 
+           O <quoted-octal> 
+     |     O <dquoted-octal> 
+
+<quoted-octal> ::= 
+           ' [ <octal_char> ... ] ' 
+
+<octal_char> ::= 
+           { 0 .. 7 } 
+
+<dquoted-octal> ::= 
+           " [ <octal_char> ... ] " 
+
+<hex-constant> ::= 
+           Z <quoted-hex> 
+     |     Z <dquoted-hex> 
+     |     X <quoted-hex> 
+     |     X <dquoted-hex> 
+
+<quoted-hex> ::= 
+           ' [ <hex_char> ... ] ' 
+
+<hex_char> ::= 
+           { 0 .. 9 } 
+     |     { A .. F } 
+
+<dquoted-hex> ::= 
+           " [ <hex_char> ... ] " 
+
+<octal-legacy> ::= 
+           <octal_char> ... B 
+
+<::> ::= 
+           : : 
+
+<lbracket> ::= 
+           \u005b 
+
+<rbracket> ::= 
+           \u005d 
+
+<.EQ.> ::= 
+           . E Q . 
+
+<.NE.> ::= 
+           . N E . 
+
+<.LT.> ::= 
+           . L T . 
+
+<.LE.> ::= 
+           . L E . 
+
+<.GT.> ::= 
+           . G T . 
+
+<.GE.> ::= 
+           . G E . 
+
+<.NOT.> ::= 
+           . N O T . 
+
+<.AND.> ::= 
+           . A N D . 
+
+<.OR.> ::= 
+           . O R . 
+
+<.EQV.> ::= 
+           . E Q V . 
+
+<.NEQV.> ::= 
+           . N E Q V . 
+
+<==> ::= 
+           = = 
+
+<=rangle> ::= 
+           = <rangle> 
+
+<rangle> ::= 
+           > 
+
+</=> ::= 
+           / = 
+
+<langle> ::= 
+           < 
+
+<langle=> ::= 
+           <langle> = 
+
+<rangle=> ::= 
+           <rangle> = 
+
+<rel-op> ::= 
+           <.EQ.> 
+     |     <.NE.> 
+     |     <.LT.> 
+     |     <.LE.> 
+     |     <.GT.> 
+     |     <.GE.> 
+     |     <==> 
+     |     </=> 
+     |     <langle> 
+     |     <langle=> 
+     |     <rangle> 
+     |     <rangle=> 
+
+<mult-op> ::= 
+           / 
+     |     * 
+
+<equiv-op> ::= 
+           <.EQV.> 
+     |     <.NEQV.> 
+
+<concat-op> ::= 
+           / / 
+
+<**> ::= 
+           * * 
+
+<sign> ::= 
+           + 
+     |     - 
+
+<..> ::= 
+           . . 
+
+<spaces> ::= 
+           \n [ { \t | \r | \s | ; | \n | ! [ { { \u0001 .. \t } | { \u000B .. \uFFFD } }... ] }... ] 
+     |     { \t | \s | \u000B | \x000C | \x0085 | \x2028 | \x2029 | \x00a0 | \x1680 | \x2000 | \x2001 | \x2002 | \x2003 | \x2004 | \x2005 | \x2006 | \x2007 | \x2008 | \x2009 | \x200a | \x202f | \x3000 | <line-comment2> }... 
+
+<line-comment2> ::= 
+           ! [ { { \u0001 .. \t } | { \u000B .. \x000C } | { \u000E .. \uFFFD } }... ] 
+
