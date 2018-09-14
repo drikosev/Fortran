@@ -3294,6 +3294,8 @@ label-do-stmt ::=
 <inner-shared-do-construct> ::= 
            <label-do-shared-stmt> <do-body> <shared-term-do-construct> 
      |     <label-do-shared-stmt> <shared-term-do-construct> 
+     |     <omp-do-for-shared-term> <label-do-shared-stmt> <do-body> <shared-term-do-construct> 
+     |     <omp-do-for-shared-term> <label-do-shared-stmt> <shared-term-do-construct> 
 
 <label-do-shared-stmt> ::= 
            label-do-shared-stmt <;> 
@@ -3313,24 +3315,117 @@ label-do-shared-stmt ::=
 <do-term-shared-stmt> ::= 
            <do-term-action-stmt> 
 
-<omp-end-do-stmt> ::= 
-           omp-end-do-stmt <\n> 
+<omp-do-for-shared-term> ::= 
+           <omp-taskloop-stmt> 
+     |     <smp-do-serial-stmt> 
+     |     <omp-do-stmt> 
+     |     <parallel-do-stmt> 
+     |     <omp-simd-stmt> 
+     |     <omp-do-simd-stmt> 
 
-<omp-do-simd-construct> ::= 
-           <omp-do-simd-stmt> <do-loop> <omp-end-do-simd-stmt> 
-     |     <omp-do-simd-stmt> <do-loop> -: { OMP-END-DO-SIMD } 
+<omp-taskloop-stmt> ::= 
+           OMP TASKLOOP <\n> 
+     |     OMP TASKLOOP <taskloop-clause-list> <\n> 
 
-<omp-do-simd-stmt> ::= 
-           OMP DO SIMD <\n> 
-     |     OMP DO SIMD <do-simd-clause-list> <\n> 
+<taskloop-clause-list> ::= 
+           <taskloop-clause-list> , <taskloop-clause> 
+     |     <taskloop-clause-list> <taskloop-clause> 
+     |     <taskloop-clause> 
 
-<do-simd-clause-list> ::= 
-           <do-simd-clause-list> , <omp-do-simd-clause> 
-     |     <do-simd-clause-list> <omp-do-simd-clause> 
-     |     <omp-do-simd-clause> 
+<taskloop-clause> ::= 
+           <omp-if-task> 
+     |     <omp-shared> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-lastprivate> 
+     |     <omp-default> 
+     |     <omp-grainsize> 
+     |     <omp-num-tasks> 
+     |     <omp-collapse> 
+     |     <omp-final> 
+     |     <omp-priority> 
+     |     UNTIED 
+     |     MERGEABLE 
+     |     NOGROUP 
 
-<omp-do-simd-clause> ::= 
-           <omp-do-clause> 
+<omp-if-task> ::= 
+           IF ( <scalar-logical-expression> ) 
+     |     IF ( <name> : <scalar-logical-expression> ) 
+
+<scalar-logical-expression> ::= 
+           <expr> 
+
+<omp-shared> ::= 
+           SHARED ( <name-list> ) 
+
+<omp-default> ::= 
+           DEFAULT ( <default-parallel> ) 
+
+<default-parallel> ::= 
+           PRIVATE 
+     |     FIRSTPRIVATE 
+     |     SHARED 
+     |     <NONE> 
+
+<omp-grainsize> ::= 
+           GRAINSIZE ( <scalar-int-expr> ) 
+
+<omp-num-tasks> ::= 
+           NUM_TASKS ( <scalar-int-expr> ) 
+
+<omp-final> ::= 
+           FINAL ( <scalar-logical-expression> ) 
+
+<smp-do-serial-stmt> ::= 
+           SMP-DO-SERIAL <\n> 
+
+<parallel-do-stmt> ::= 
+           OMP PARALLEL DO <\n> 
+     |     OMP PARALLEL DO <parallel-do-clause-list> <\n> 
+
+<parallel-do-clause-list> ::= 
+           <parallel-do-clause-list> , <parallel-do-clause> 
+     |     <parallel-do-clause-list> <parallel-do-clause> 
+     |     <parallel-do-clause> 
+
+<parallel-do-clause> ::= 
+           <parallel-clause> 
+     |     <omp-lastprivate> 
+     |     <omp-linear> 
+     |     <omp-schedule> 
+     |     <omp-collapse> 
+     |     <omp-ordered> 
+
+<parallel-clause> ::= 
+           IF ( <scalar-logical-expression> ) 
+     |     IF ( PARALLEL : <scalar-logical-expression> ) 
+     |     <omp-num-threads> 
+     |     <omp-default> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-shared> 
+     |     COPYIN ( <name-list> ) 
+     |     <omp-reduction> 
+     |     <omp-procedure-bind> 
+
+<omp-num-threads> ::= 
+           NUM_THREADS ( <scalar-int-expr> ) 
+
+<omp-procedure-bind> ::= 
+           PROC_BIND ( <proc-bind-argument> ) 
+
+<proc-bind-argument> ::= 
+           MASTER 
+     |     CLOSE 
+     |     SPREAD 
+
+<omp-simd-stmt> ::= 
+           OMP SIMD <\n> 
+     |     OMP SIMD <simd-clause-list> <\n> 
+
+<simd-clause-list> ::= 
+           <simd-clause-list> , <simd-clause> 
+     |     <simd-clause-list> <simd-clause> 
      |     <simd-clause> 
 
 <simd-clause> ::= 
@@ -3347,6 +3442,26 @@ label-do-shared-stmt ::=
 <omp-safelen> ::= 
            SAFELEN ( <scalar-int-constant-expr> ) 
 
+<omp-do-simd-stmt> ::= 
+           OMP DO SIMD <\n> 
+     |     OMP DO SIMD <do-simd-clause-list> <\n> 
+
+<do-simd-clause-list> ::= 
+           <do-simd-clause-list> , <omp-do-simd-clause> 
+     |     <do-simd-clause-list> <omp-do-simd-clause> 
+     |     <omp-do-simd-clause> 
+
+<omp-do-simd-clause> ::= 
+           <omp-do-clause> 
+     |     <simd-clause> 
+
+<omp-end-do-stmt> ::= 
+           omp-end-do-stmt <\n> 
+
+<omp-do-simd-construct> ::= 
+           <omp-do-simd-stmt> <do-loop> <omp-end-do-simd-stmt> 
+     |     <omp-do-simd-stmt> <do-loop> -: { OMP-END-DO-SIMD } 
+
 <omp-end-do-simd-stmt> ::= 
            omp-end-do-simd-stmt <\n> 
 
@@ -3357,9 +3472,6 @@ omp-end-do-simd-stmt ::=
 
 <smp-do-serial> ::= 
            <smp-do-serial-stmt> <do-loop> 
-
-<smp-do-serial-stmt> ::= 
-           SMP-DO-SERIAL <\n> 
 
 <omp-flush-stmt> ::= 
            OMP FLUSH <\n> 
@@ -3405,6 +3517,7 @@ omp-end-ordered-stmt ::=
 
 <omp-parallel-construct> ::= 
            <parallel-stmt> structured-block <omp-end-parallel-stmt> 
+     |     <parallel-stmt> <omp-end-parallel-stmt> 
 
 <parallel-stmt> ::= 
            OMP PARALLEL <\n> 
@@ -3415,44 +3528,6 @@ omp-end-ordered-stmt ::=
      |     <parallel-clause-list> <parallel-clause> 
      |     <parallel-clause> 
 
-<parallel-clause> ::= 
-           IF ( <scalar-logical-expression> ) 
-     |     IF ( PARALLEL : <scalar-logical-expression> ) 
-     |     <omp-num-threads> 
-     |     <omp-default> 
-     |     <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-shared> 
-     |     COPYIN ( <name-list> ) 
-     |     <omp-reduction> 
-     |     <omp-procedure-bind> 
-
-<scalar-logical-expression> ::= 
-           <expr> 
-
-<omp-num-threads> ::= 
-           NUM_THREADS ( <scalar-int-expr> ) 
-
-<omp-default> ::= 
-           DEFAULT ( <default-parallel> ) 
-
-<default-parallel> ::= 
-           PRIVATE 
-     |     FIRSTPRIVATE 
-     |     SHARED 
-     |     <NONE> 
-
-<omp-shared> ::= 
-           SHARED ( <name-list> ) 
-
-<omp-procedure-bind> ::= 
-           PROC_BIND ( <proc-bind-argument> ) 
-
-<proc-bind-argument> ::= 
-           MASTER 
-     |     CLOSE 
-     |     SPREAD 
-
 <omp-end-parallel-stmt> ::= 
            omp-end-parallel-stmt <\n> 
      |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-stmt",58,false);*/
@@ -3462,6 +3537,7 @@ omp-end-parallel-stmt ::=
 
 <omp-parallel-workshare-construct> ::= 
            <parallel-workshare-stmt> structured-block <omp-end-parallel-workshare-stmt> 
+     |     <parallel-workshare-stmt> <omp-end-parallel-workshare-stmt> 
 
 <parallel-workshare-stmt> ::= 
            OMP PARALLEL WORKSHARE <\n> 
@@ -3476,24 +3552,8 @@ omp-end-parallel-workshare-stmt ::=
 
 <omp-parallel-do-construct> ::= 
            <parallel-do-stmt> <do-loop> <omp-end-parallel-do-stmt> 
+     |     <parallel-do-stmt> <omp-end-parallel-do-stmt> 
      |     <parallel-do-stmt> <do-loop> -: { OMP-END-PARALLEL-DO } 
-
-<parallel-do-stmt> ::= 
-           OMP PARALLEL DO <\n> 
-     |     OMP PARALLEL DO <parallel-do-clause-list> <\n> 
-
-<parallel-do-clause-list> ::= 
-           <parallel-do-clause-list> , <parallel-do-clause> 
-     |     <parallel-do-clause-list> <parallel-do-clause> 
-     |     <parallel-do-clause> 
-
-<parallel-do-clause> ::= 
-           <parallel-clause> 
-     |     <omp-lastprivate> 
-     |     <omp-linear> 
-     |     <omp-schedule> 
-     |     <omp-collapse> 
-     |     <omp-ordered> 
 
 <omp-end-parallel-do-stmt> ::= 
            omp-end-parallel-do-stmt <\n> 
@@ -3501,6 +3561,8 @@ omp-end-parallel-workshare-stmt ::=
 <omp-parallel-sections-construct> ::= 
            <omp-parallel-sections-stmt> <block> <omp-sections> <omp-end-parallel-sections-stmt> 
      |     <omp-parallel-sections-stmt> <omp-sections> <omp-end-parallel-sections-stmt> 
+     |     <omp-parallel-sections-stmt> <block> <omp-end-parallel-sections-stmt> 
+     |     <omp-parallel-sections-stmt> <omp-end-parallel-sections-stmt> 
 
 <omp-parallel-sections-stmt> ::= 
            OMP PARALLEL SECTIONS <\n> 
@@ -3564,15 +3626,6 @@ omp-end-parallel-sections-stmt ::=
 <omp-simd-construct> ::= 
            <omp-simd-stmt> <do-loop> <omp-end-simd-stmt> 
      |     <omp-simd-stmt> <do-loop> -: { OMP-END-SIMD } 
-
-<omp-simd-stmt> ::= 
-           OMP SIMD <\n> 
-     |     OMP SIMD <simd-clause-list> <\n> 
-
-<simd-clause-list> ::= 
-           <simd-clause-list> , <simd-clause> 
-     |     <simd-clause-list> <simd-clause> 
-     |     <simd-clause> 
 
 <omp-end-simd-stmt> ::= 
            omp-end-simd-stmt <\n> 
@@ -3641,13 +3694,6 @@ omp-end-single-stmt ::=
      |     <omp-depend> 
      |     <omp-priority> 
 
-<omp-if-task> ::= 
-           IF ( <scalar-logical-expression> ) 
-     |     IF ( <name> : <scalar-logical-expression> ) 
-
-<omp-final> ::= 
-           FINAL ( <scalar-logical-expression> ) 
-
 <omp-depend> ::= 
            DEPEND ( <intent-spec> : <actual-arg-spec-list> ) 
      |     DEPEND ( SOURCE ) 
@@ -3663,37 +3709,6 @@ omp-end-task-stmt ::=
 <omp-taskloop-construct> ::= 
            <omp-taskloop-stmt> <do-loop> <omp-end-taskloop-stmt> 
      |     <omp-taskloop-stmt> <do-loop> -: { OMP-END-TASKLOOP } 
-
-<omp-taskloop-stmt> ::= 
-           OMP TASKLOOP <\n> 
-     |     OMP TASKLOOP <taskloop-clause-list> <\n> 
-
-<taskloop-clause-list> ::= 
-           <taskloop-clause-list> , <taskloop-clause> 
-     |     <taskloop-clause-list> <taskloop-clause> 
-     |     <taskloop-clause> 
-
-<taskloop-clause> ::= 
-           <omp-if-task> 
-     |     <omp-shared> 
-     |     <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-lastprivate> 
-     |     <omp-default> 
-     |     <omp-grainsize> 
-     |     <omp-num-tasks> 
-     |     <omp-collapse> 
-     |     <omp-final> 
-     |     <omp-priority> 
-     |     UNTIED 
-     |     MERGEABLE 
-     |     NOGROUP 
-
-<omp-grainsize> ::= 
-           GRAINSIZE ( <scalar-int-expr> ) 
-
-<omp-num-tasks> ::= 
-           NUM_TASKS ( <scalar-int-expr> ) 
 
 <omp-end-taskloop-stmt> ::= 
            omp-end-taskloop-stmt <\n> 
