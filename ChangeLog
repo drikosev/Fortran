@@ -113,6 +113,10 @@ Legacy parser Issues
 [ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
 
 
+ OMP Parser Issues
+ -----------------
+ [2018-09-14] The grammar can't parse the example "fort_do.1.f" in document "openmp-examples-4.5.0.pdf".
+
 
 Free Form Preprocessor
 ----------------------
