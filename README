@@ -59,7 +59,7 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
     3.1) The "Legacy_Parser.txt" contains the syntax rules of a Fortran parser, which in addition to
          the above mentioned Fortran parser, accepts structures, unions, maps, and records. These
          extensions originate from VAX/DEC Fortran and are supported by the Intel® Fortran Compiler.
-         Many of these extensions are also supported by GNU Fortran (gfortran version 7 or newer). 
+         Many of these extensions are also supported by GNU Fortran (ie in version 7). 
 
          At the moment, this grammar is just informative because one needs to implement semantic 
          actions that can distinguish a dotted operator from members of nested structures. This
@@ -105,8 +105,9 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
          This parser is work in progress as many directives (ie DISTRIBUTE, TEAMS) aren't supported yet.
 
          Note that the literal "!$OMP", which is parsed by the Hand Coded File Reader, introduces an OMP 
-         directive and is also required in both fixed & free form continuation lines. Whereas the literal
-         "!$" is used for conditional compilation. 
+         directive and is also required in both fixed & free form continuation lines; in fixed form also
+         "*$OMP" or "c$OMP", always at first column. Whereas the literal "!$" is used for conditional
+         compilation. 
 
          Note also that these syntax rules describe features that needed special handling:
          (a) A ';' isn't allowed as an OMP Directive terminator, which is handled by a semantic action.

@@ -116,7 +116,7 @@ Legacy parser Issues
  OMP (Legacy) Parser Issues
  --------------------------
  [2018-09-14] It can't parse the example "fort_do.1.f" in document "openmp-examples-4.5.0.pdf".   (done)
-              Added prefix <omp-do-for-shared-term> in <inner-shared-do-construct>.
+              Added prefix <omp-do-for-shared-term> to <inner-shared-do-construct>.
  [2018-09-14] The example 'nthrs_dynamic.1.f' in document "openmp-examples-4.5.0.pdf is rejected. (done)
 
 
