@@ -117,6 +117,10 @@ Legacy parser Issues
  --------------------------
  [2018-09-14] It can't parse the example "fort_do.1.f" in document "openmp-examples-4.5.0.pdf".   (done)
               Added prefix <omp-do-for-shared-term> to <inner-shared-do-construct>.
+        Note: In the OpenMP (4.5) draft we read that a "do-loop" can be either a "do-construct"
+              or an "inner-shared-do-construct". Conceptually, it's understoodable. Yet I can't
+              write a rule of the form "do-loop ::= do-construct | inner-shared-do-construct" as
+              the generated parser would pop the wrong number of elements on that reduction.
  [2018-09-14] The example 'nthrs_dynamic.1.f' in document "openmp-examples-4.5.0.pdf is rejected. (done)
 
 
