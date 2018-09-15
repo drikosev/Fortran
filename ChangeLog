@@ -122,8 +122,9 @@ Legacy parser Issues
               write a rule of the form "do-loop ::= do-construct | inner-shared-do-construct" as
               the generated parser would pop the wrong number of elements on that reduction.
  [2018-09-14] The example 'nthrs_dynamic.1.f' in document "openmp-examples-4.5.0.pdf is rejected. (done)
+ [2018-09-15] Similarly, an omitted "structured-block" in a task is rejected ("tasking.7.f").     (done)
 
-
+ 
 Free Form Preprocessor
 ----------------------
 [ 2018-07-01 ] Bug: The preprocessor was accepting a line comment after a '&' in a character context (done).

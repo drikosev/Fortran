@@ -3080,6 +3080,7 @@ update-statement ::=
 
 <omp-critical-construct> ::= 
            <omp-critical-stmt> structured-block <omp-end-critical> 
+     |     <omp-critical-stmt> <omp-end-critical> 
 
 <omp-critical-stmt> ::= 
            OMP CRITICAL <\n> 
@@ -3479,6 +3480,7 @@ omp-end-do-simd-stmt ::=
 
 <omp-master-construct> ::= 
            <omp-master-stmt> structured-block <omp-end-master-stmt> 
+     |     <omp-master-stmt> <omp-end-master-stmt> 
 
 <omp-master-stmt> ::= 
            OMP MASTER <\n> 
@@ -3492,6 +3494,7 @@ omp-end-master-stmt ::=
 
 <omp-ordered-construct> ::= 
            <omp-ordered-stmt> structured-block <omp-end-ordered-stmt> 
+     |     <omp-ordered-stmt> <omp-end-ordered-stmt> 
 
 <omp-ordered-stmt> ::= 
            OMP ORDERED <\n> 
@@ -3636,6 +3639,7 @@ omp-end-simd-stmt ::=
 
 <omp-single-construct> ::= 
            <omp-single-stmt> structured-block <omp-end-single-stmt> 
+     |     <omp-single-stmt> <omp-end-single-stmt> 
 
 <omp-single-stmt> ::= 
            OMP SINGLE <\n> 
@@ -3672,6 +3676,7 @@ omp-end-single-stmt ::=
 
 <omp-task-construct> ::= 
            <omp-task-stmt> structured-block <omp-end-task-stmt> 
+     |     <omp-task-stmt> <omp-end-task-stmt> 
 
 <omp-task-stmt> ::= 
            OMP TASK <\n> 
