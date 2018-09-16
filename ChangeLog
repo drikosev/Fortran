@@ -123,6 +123,7 @@ Legacy parser Issues
               the generated parser would pop the wrong number of elements on that reduction.
  [2018-09-14] The example 'nthrs_dynamic.1.f' in document "openmp-examples-4.5.0.pdf is rejected. (done)
  [2018-09-15] Similarly, an omitted "structured-block" in a task is rejected ("tasking.7.f").     (done)
+ [2018-09-16] The example "task_priority.1.f90" is rejected (undefined "<omp-priority>").         (done)
 
  
 Free Form Preprocessor

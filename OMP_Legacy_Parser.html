@@ -1997,7 +1997,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-num-tasks>">&lt;omp-num-tasks&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-collapse>">&lt;omp-collapse&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-final>">&lt;omp-final&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;omp-priority&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-priority>">&lt;omp-priority&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;UNTIED&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;MERGEABLE&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;NOGROUP&nbsp;
@@ -2013,6 +2013,8 @@
 <BR><BR><STRONG><A name="<omp-grainsize>">&lt;omp-grainsize&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GRAINSIZE&nbsp;(&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<omp-num-tasks>">&lt;omp-num-tasks&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUM_TASKS&nbsp;(&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<omp-final>">&lt;omp-final&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FINAL&nbsp;(&nbsp;<A href="#<scalar-logical-expression>">&lt;scalar-logical-expression&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<omp-priority>">&lt;omp-priority&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRIORITY&nbsp;(&nbsp;<A href="#<omp-priority-value>">&lt;omp-priority-value&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<omp-priority-value>">&lt;omp-priority-value&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<smp-do-serial-stmt>">&lt;smp-do-serial-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SMP-DO-SERIAL&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<parallel-do-stmt>">&lt;parallel-do-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OMP&nbsp;PARALLEL&nbsp;DO&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;OMP&nbsp;PARALLEL&nbsp;DO&nbsp;<A href="#<parallel-do-clause-list>">&lt;parallel-do-clause-list&gt;</A>&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
@@ -2184,13 +2186,15 @@
 <BR><BR><STRONG><A name="<task-clause>">&lt;task-clause&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<omp-if-task>">&lt;omp-if-task&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-final>">&lt;omp-final&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;UNTIED&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-default>">&lt;omp-default&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<task-default>">&lt;task-default&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;MERGEABLE&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-private>">&lt;omp-private&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-firstprivate>">&lt;omp-firstprivate&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-shared>">&lt;omp-shared&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-depend>">&lt;omp-depend&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;omp-priority&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-priority>">&lt;omp-priority&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<task-default>">&lt;task-default&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFAULT&nbsp;(&nbsp;SHARED&nbsp;)&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DEFAULT&nbsp;(&nbsp;&lt;NONE&gt;&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<omp-depend>">&lt;omp-depend&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEPEND&nbsp;(&nbsp;<A href="#<intent-spec>">&lt;intent-spec&gt;</A>&nbsp;:&nbsp;<A href="#<actual-arg-spec-list>">&lt;actual-arg-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DEPEND&nbsp;(&nbsp;SOURCE&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DEPEND&nbsp;(&nbsp;SINK&nbsp;:&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;)&nbsp;

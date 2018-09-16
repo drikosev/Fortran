@@ -3377,6 +3377,12 @@ label-do-shared-stmt ::=
 <omp-final> ::= 
            FINAL ( <scalar-logical-expression> ) 
 
+<omp-priority> ::= 
+           PRIORITY ( <omp-priority-value> ) 
+
+<omp-priority-value> ::= 
+           <scalar-int-expr> 
+
 <smp-do-serial-stmt> ::= 
            SMP-DO-SERIAL <\n> 
 
@@ -3691,13 +3697,17 @@ omp-end-single-stmt ::=
            <omp-if-task> 
      |     <omp-final> 
      |     UNTIED 
-     |     <omp-default> 
+     |     <task-default> 
      |     MERGEABLE 
      |     <omp-private> 
      |     <omp-firstprivate> 
      |     <omp-shared> 
      |     <omp-depend> 
      |     <omp-priority> 
+
+<task-default> ::= 
+           DEFAULT ( SHARED ) 
+     |     DEFAULT ( <NONE> ) 
 
 <omp-depend> ::= 
            DEPEND ( <intent-spec> : <actual-arg-spec-list> ) 
