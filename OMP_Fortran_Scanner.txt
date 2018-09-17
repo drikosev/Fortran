@@ -323,6 +323,7 @@
      |     OMP-END-PARALLEL-DO 
      |     OMP-END-PARALLEL-DO-SIMD 
      |     OMP-TARGET 
+     |     OMP-TARGET-EXIT 
      |     ORDERED 
      |     PRIORITY 
      |     RELEASE 
@@ -1419,6 +1420,9 @@ OMP-END-PARALLEL-DO-SIMD ::=
 OMP-TARGET ::= 
            OMP [ { \s | \t }... ] T A R G E T 
 
+OMP-TARGET-EXIT ::= 
+           <!$OMP> [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] E X I T 
+
 ORDERED ::= 
            O R D E R E D 
 
@@ -1509,7 +1513,6 @@ WORKSHARE ::=
 <omp-stmt-prefix> ::= 
            E N D 
      |     E N T E R 
-     |     E X I T 
      |     D E C L A R E 
      |     D I S T R I B U T E 
      |     M A S T E R 

@@ -3871,8 +3871,8 @@ omp-end-target-data-stmt ::=
      |     IF ( TARGET ENTER DATA : <scalar-logical-expression> ) 
 
 <omp-target-exit-data-stmt> ::= 
-           OMP-TARGET EXIT DATA <\n> 
-     |     OMP-TARGET EXIT DATA <target-exit-data-clause-list> <\n> 
+           OMP-TARGET-EXIT DATA <\n> 
+     |     OMP-TARGET-EXIT DATA <target-exit-data-clause-list> <\n> 
 
 <target-exit-data-clause-list> ::= 
            <target-exit-data-clause-list> , <target-exit-data-clause> 

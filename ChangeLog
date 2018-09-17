@@ -76,6 +76,8 @@ The Following bug-fix has not been tested very well yet:
                Now, the semantic action takes full control and returns either a FUNCTION or a <name-l>.
         note:  [1/9] The scanners are now capable not to return specific tokens as a shorter match, in 
                      this case a <name-r> which the parser could shift.      
+ [2018-09-17]  The <omp-compound> shouldn't begin with "EXIT" because the parser then accepts           (done)
+               in free form the invalid statement "exitcn", where "cn" is the name of a construct.  
 
 
 Legacy parser Issues
@@ -127,6 +129,7 @@ Legacy parser Issues
  [2018-09-17] Likely, the "list" used in OpenMP clauses isn't a "<named-list>" as this grammar,
               assumes. At the moment, I've changed it in map/to/from with a data-reference list.
               Todo: figure it in which syntax rules this change should be applied to.  	
+ [2018-09-17] In "<omp-target-exit-data-stmt>", use the new keyword "OMP-TARGET-EXIT".            (done)
 
 
 Free Form Preprocessor
