@@ -76,6 +76,10 @@ The Following bug-fix has not been tested very well yet:
                Now, the semantic action takes full control and returns either a FUNCTION or a <name-l>.
         note:  [1/9] The scanners are now capable not to return specific tokens as a shorter match, in 
                      this case a <name-r> which the parser could shift.      
+
+
+ OMP (Legacy) Scanner Issues
+ ---------------------------
  [2018-09-17]  The <omp-compound> shouldn't begin with "EXIT" because the parser then accepts           (done)
                in free form the invalid statement "exitcn", where "cn" is the name of a construct.  
 
