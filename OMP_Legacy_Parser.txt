@@ -1437,6 +1437,7 @@ keyword ::=
 
 <omp-declaration> ::= 
            <omp-declare-simd> 
+     |     <omp-declare-target-stmt> 
      |     <omp-threadprivate> 
      |     <ibm-threadlocal> 
 
@@ -1481,6 +1482,33 @@ alignment ::=
 
 <omp-uniform> ::= 
            UNIFORM ( <name-list> ) 
+
+<omp-declare-target-stmt> ::= 
+           OMP DECLARE TARGET <\n> 
+     |     OMP DECLARE TARGET <declare-target-clause-list> <\n> 
+     |     OMP DECLARE TARGET <omp-extended-list> <\n> 
+
+<declare-target-clause-list> ::= 
+           <declare-target-clause-list> , <declare-target-clause> 
+     |     <declare-target-clause-list> <declare-target-clause> 
+     |     <declare-target-clause> 
+
+<declare-target-clause> ::= 
+           <omp-to> 
+     |     <omp-link> 
+
+<omp-to> ::= 
+           TO ( <omp-list> ) 
+
+<omp-list> ::= 
+           <omp-list> , <data-ref> 
+     |     <data-ref> 
+
+<omp-link> ::= 
+           LINK ( <name-list> ) 
+
+<omp-extended-list> ::= 
+           ( <name-list> ) 
 
 <omp-threadprivate> ::= 
            OMP THREADPRIVATE ( <threadprivate-entity-list> ) <\n> 
@@ -2129,7 +2157,7 @@ subroutine-stmt ::=
            <initialization-error> 
      |     <initialization-obsolete> 
 
-<initialization-error> ::~ 
+<initialization-error> ::= 
            <initialization>   /* Tr.error(L"Initialization without ::"); */
 
 <initialization-obsolete> ::= 
@@ -3001,6 +3029,7 @@ continue-stmt ::=
      |     <omp-barrier> 
      |     <omp-critical-construct> 
      |     <omp-declare-simd> 
+     |     <omp-declare-target-stmt> 
      |     <omp-do-construct> 
      |     <omp-do-simd-construct> 
      |     <smp-do-serial> 
@@ -3010,11 +3039,22 @@ continue-stmt ::=
      |     <omp-parallel-construct> 
      |     <omp-parallel-workshare-construct> 
      |     <omp-parallel-do-construct> 
+     |     <omp-parallel-do-simd-construct> 
      |     <omp-parallel-sections-construct> 
      |     <ibm-schedule-stmt> 
      |     <omp-sections-construct> 
      |     <omp-simd-construct> 
      |     <omp-single-construct> 
+     |     <omp-target-construct> 
+     |     <omp-target-data-construct> 
+     |     <omp-target-enter-data-stmt> 
+     |     <omp-target-exit-data-stmt> 
+     |     <omp-target-parallel-construct> 
+     |     <omp-target-parallel-do-construct> 
+     |     <omp-target-parallel-do-simd-construct> 
+     |     <omp-target-simd-construct> 
+     |     <omp-target-update-stmt> 
+     |     <omp-taskgroup-construct> 
      |     <omp-task-construct> 
      |     <omp-taskloop-construct> 
      |     <omp-taskwait-stmt> 
@@ -3321,6 +3361,8 @@ label-do-shared-stmt ::=
      |     <smp-do-serial-stmt> 
      |     <omp-do-stmt> 
      |     <parallel-do-stmt> 
+     |     <parallel-do-simd-stmt> 
+     |     <target-parallel-do-simd-stmt> 
      |     <omp-simd-stmt> 
      |     <omp-do-simd-stmt> 
 
@@ -3426,13 +3468,17 @@ label-do-shared-stmt ::=
      |     CLOSE 
      |     SPREAD 
 
-<omp-simd-stmt> ::= 
-           OMP SIMD <\n> 
-     |     OMP SIMD <simd-clause-list> <\n> 
+<parallel-do-simd-stmt> ::= 
+           OMP PARALLEL DO SIMD <\n> 
+     |     OMP PARALLEL DO SIMD <parallel-do-simd-clause-list> <\n> 
 
-<simd-clause-list> ::= 
-           <simd-clause-list> , <simd-clause> 
-     |     <simd-clause-list> <simd-clause> 
+<parallel-do-simd-clause-list> ::= 
+           <parallel-do-simd-clause-list> , <parallel-do-simd-clause> 
+     |     <parallel-do-simd-clause-list> <parallel-do-simd-clause> 
+     |     <parallel-do-simd-clause> 
+
+<parallel-do-simd-clause> ::= 
+           <parallel-clause> 
      |     <simd-clause> 
 
 <simd-clause> ::= 
@@ -3448,6 +3494,37 @@ label-do-shared-stmt ::=
 
 <omp-safelen> ::= 
            SAFELEN ( <scalar-int-constant-expr> ) 
+
+<target-parallel-do-simd-stmt> ::= 
+           OMP-TARGET PARALLEL DO SIMD <\n> 
+     |     OMP-TARGET PARALLEL DO SIMD <target-parallel-do-simd-clause-list> <\n> 
+
+<target-parallel-do-simd-clause-list> ::= 
+           <target-parallel-do-simd-clause-list> , <target-parallel-do-simd-clause> 
+     |     <target-parallel-do-simd-clause-list> <target-parallel-do-simd-clause> 
+     |     <target-parallel-do-simd-clause> 
+
+<target-parallel-do-simd-clause> ::= 
+           IF ( <scalar-logical-expression> ) 
+     |     IF ( PARALLEL : <scalar-logical-expression> ) 
+     |     <omp-num-threads> 
+     |     <omp-default> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-shared> 
+     |     COPYIN ( <name-list> ) 
+     |     <omp-reduction> 
+     |     <omp-procedure-bind> 
+     |     <simd-clause> 
+
+<omp-simd-stmt> ::= 
+           OMP SIMD <\n> 
+     |     OMP SIMD <simd-clause-list> <\n> 
+
+<simd-clause-list> ::= 
+           <simd-clause-list> , <simd-clause> 
+     |     <simd-clause-list> <simd-clause> 
+     |     <simd-clause> 
 
 <omp-do-simd-stmt> ::= 
            OMP DO SIMD <\n> 
@@ -3567,6 +3644,18 @@ omp-end-parallel-workshare-stmt ::=
 <omp-end-parallel-do-stmt> ::= 
            omp-end-parallel-do-stmt <\n> 
 
+<omp-parallel-do-simd-construct> ::= 
+           <parallel-do-simd-stmt> <do-loop> <omp-end-parallel-do-simd-stmt> 
+     |     <parallel-do-simd-stmt> <omp-end-parallel-do-simd-stmt> 
+     |     <parallel-do-simd-stmt> <do-loop> -: { OMP-END-PARALLEL-DO-SIMD } 
+
+<omp-end-parallel-do-simd-stmt> ::= 
+           omp-end-parallel-do-simd-stmt <\n> 
+
+omp-end-parallel-do-simd-stmt ::= 
+           OMP-END-PARALLEL-DO-SIMD +: { <;> } 
+     |     OMP-END-PARALLEL-DO-SIMD <erroneous-stmt>   /* Tr.error(L"Expected an OpenMP end-parallel-do-simd-stmt. ");*/
+
 <omp-parallel-sections-construct> ::= 
            <omp-parallel-sections-stmt> <block> <omp-sections> <omp-end-parallel-sections-stmt> 
      |     <omp-parallel-sections-stmt> <omp-sections> <omp-end-parallel-sections-stmt> 
@@ -3680,6 +3769,271 @@ omp-end-single-stmt ::=
 <omp-copyprivate> ::= 
            COPYPRIVATE ( <name-list> ) 
 
+<omp-target-construct> ::= 
+           <omp-target-stmt> structured-block <omp-end-target-stmt> 
+     |     <omp-target-stmt> <omp-end-target-stmt> 
+
+<omp-target-stmt> ::= 
+           OMP-TARGET <\n> 
+     |     OMP-TARGET <target-clause-list> <\n> 
+
+<target-clause-list> ::= 
+           <target-clause-list> , <target-clause> 
+     |     <target-clause-list> <target-clause> 
+     |     <target-clause> 
+
+<target-clause> ::= 
+           <omp-if-target> 
+     |     <omp-device> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-map> 
+     |     <omp-is-device-ptr> 
+     |     <omp-defaultmap> 
+     |     NOWAIT 
+     |     <omp-depend> 
+
+<omp-if-target> ::= 
+           IF ( <scalar-logical-expression> ) 
+     |     IF ( TARGET : <scalar-logical-expression> ) 
+
+<omp-device> ::= 
+           DEVICE ( <scalar-int-expr> ) 
+
+<omp-map> ::= 
+           MAP ( <omp-list> ) 
+     |     MAP ( <omp-map-type> : <omp-list> ) 
+     |     MAP ( <map-type-modifier> <omp-map-type> : <omp-list> ) 
+     |     MAP ( <map-type-modifier> , <omp-map-type> : <omp-list> ) 
+
+<omp-map-type> ::= 
+           TO 
+     |     FROM 
+     |     TOFROM 
+     |     ALLOC 
+     |     RELEASE 
+     |     DELETE 
+
+<map-type-modifier> ::= 
+           ALWAYS 
+
+<omp-is-device-ptr> ::= 
+           IS_DEVICE_PTR ( <name-list> ) 
+
+<omp-defaultmap> ::= 
+           DEFAULTMAP ( tofrom : scalar ) 
+
+<omp-depend> ::= 
+           DEPEND ( <intent-spec> : <actual-arg-spec-list> ) 
+     |     DEPEND ( SOURCE ) 
+     |     DEPEND ( SINK : <name> ) 
+
+<omp-end-target-stmt> ::= 
+           omp-end-target-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-target-stmt",63,false);*/
+
+omp-end-target-stmt ::= 
+           OMP-END-TARGET +: { <;> } 
+
+<omp-target-data-construct> ::= 
+           <omp-target-data-stmt> structured-block <omp-end-target-data-stmt> 
+     |     <omp-target-data-stmt> <omp-end-target-data-stmt> 
+
+<omp-target-data-stmt> ::= 
+           OMP-TARGET DATA <\n> 
+     |     OMP-TARGET DATA <target-clause-list> <\n> 
+
+<omp-end-target-data-stmt> ::= 
+           omp-end-target-data-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-target-data-stmt",64,false);*/
+
+omp-end-target-data-stmt ::= 
+           OMP-END-TARGET DATA +: { <;> } 
+
+<omp-target-enter-data-stmt> ::= 
+           OMP-TARGET ENTER DATA <\n> 
+     |     OMP-TARGET ENTER DATA <target-enter-data-clause-list> <\n> 
+
+<target-enter-data-clause-list> ::= 
+           <target-enter-data-clause-list> , <target-enter-data-clause> 
+     |     <target-enter-data-clause-list> <target-enter-data-clause> 
+     |     <target-enter-data-clause> 
+
+<target-enter-data-clause> ::= 
+           <omp-if-target-enter-data> 
+     |     <omp-device> 
+     |     <omp-map> 
+     |     <omp-depend> 
+     |     NOWAIT 
+
+<omp-if-target-enter-data> ::= 
+           IF ( <scalar-logical-expression> ) 
+     |     IF ( TARGET ENTER DATA : <scalar-logical-expression> ) 
+
+<omp-target-exit-data-stmt> ::= 
+           OMP-TARGET EXIT DATA <\n> 
+     |     OMP-TARGET EXIT DATA <target-exit-data-clause-list> <\n> 
+
+<target-exit-data-clause-list> ::= 
+           <target-exit-data-clause-list> , <target-exit-data-clause> 
+     |     <target-exit-data-clause-list> <target-exit-data-clause> 
+     |     <target-exit-data-clause> 
+
+<target-exit-data-clause> ::= 
+           <omp-if-target-exit-data> 
+     |     <omp-device> 
+     |     <omp-map> 
+     |     <omp-depend> 
+     |     NOWAIT 
+
+<omp-if-target-exit-data> ::= 
+           IF ( <scalar-logical-expression> ) 
+     |     IF ( TARGET EXIT DATA : <scalar-logical-expression> ) 
+
+<omp-target-parallel-construct> ::= 
+           <target-parallel-stmt> structured-block <omp-end-target-parallel-stmt> 
+     |     <target-parallel-stmt> <omp-end-target-parallel-stmt> 
+
+<target-parallel-stmt> ::= 
+           OMP-TARGET PARALLEL <\n> 
+     |     OMP-TARGET PARALLEL <target-parallel-clause-list> <\n> 
+
+<target-parallel-clause-list> ::= 
+           <target-parallel-clause-list> , <target-parallel-clause> 
+     |     <target-parallel-clause-list> <target-parallel-clause> 
+     |     <target-parallel-clause> 
+
+<target-parallel-clause> ::= 
+           IF ( <scalar-logical-expression> ) 
+     |     IF ( PARALLEL : <scalar-logical-expression> ) 
+     |     IF ( TARGET : <scalar-logical-expression> ) 
+     |     <omp-num-threads> 
+     |     <omp-default> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-shared> 
+     |     <omp-reduction> 
+     |     <omp-procedure-bind> 
+     |     <omp-device> 
+     |     <omp-map> 
+     |     <omp-is-device-ptr> 
+     |     <omp-defaultmap> 
+     |     NOWAIT 
+     |     <omp-depend> 
+
+<omp-end-target-parallel-stmt> ::= 
+           omp-end-target-parallel-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-stmt",66,false);*/
+
+omp-end-target-parallel-stmt ::= 
+           OMP END TARGET PARALLEL +: { <;> } 
+
+<omp-target-parallel-do-construct> ::= 
+           <target-parallel-do-stmt> <do-loop> <omp-end-target-parallel-do-stmt> 
+     |     <target-parallel-do-stmt> <omp-end-target-parallel-do-stmt> 
+     |     <target-parallel-do-stmt> <do-loop> -: { OMP-END-TARGET-PARALLEL-DO } 
+
+<target-parallel-do-stmt> ::= 
+           OMP-TARGET PARALLEL DO <\n> 
+     |     OMP-TARGET PARALLEL DO <target-parallel-do-clause-list> <\n> 
+
+<target-parallel-do-clause-list> ::= 
+           <target-parallel-do-clause-list> , <target-parallel-do-clause> 
+     |     <target-parallel-do-clause-list> <target-parallel-do-clause> 
+     |     <target-parallel-do-clause> 
+
+<target-parallel-do-clause> ::= 
+           <target-parallel-clause> 
+     |     <omp-lastprivate> 
+     |     <omp-linear> 
+     |     <omp-schedule> 
+     |     <omp-collapse> 
+     |     <omp-ordered> 
+
+<omp-end-target-parallel-do-stmt> ::= 
+           omp-end-target-parallel-do-stmt <\n> 
+
+omp-end-target-parallel-do-stmt ::= 
+           OMP-END-TARGET-PARALLEL-DO +: { <;> } 
+     |     OMP-END-TARGET-PARALLEL-DO <erroneous-stmt>   /* Tr.error(L"Expected an OpenMP end-target-parallel-do-stmt. ");*/
+
+<omp-target-parallel-do-simd-construct> ::= 
+           <target-parallel-do-simd-stmt> <do-loop> <omp-end-target-parallel-do-simd-stmt> 
+     |     <target-parallel-do-simd-stmt> <omp-end-target-parallel-do-simd-stmt> 
+     |     <target-parallel-do-simd-stmt> <do-loop> -: { OMP-END-TARGET-PARALLEL-DO-SIMD } 
+
+<omp-end-target-parallel-do-simd-stmt> ::= 
+           omp-end-target-parallel-do-simd-stmt <\n> 
+
+omp-end-target-parallel-do-simd-stmt ::= 
+           OMP-END-TARGET-PARALLEL-DO-SIMD +: { <;> } 
+     |     OMP-END-TARGET-PARALLEL-DO-SIMD <erroneous-stmt>   /* Tr.error(L"Expected an OpenMP end-target-parallel-do-simd-stmt. ");*/
+
+<omp-target-simd-construct> ::= 
+           <omp-target-simd-stmt> <do-loop> <omp-end-target-simd-stmt> 
+     |     <omp-target-simd-stmt> <do-loop> -: { OMP-END-TARGET-SIMD } 
+
+<omp-target-simd-stmt> ::= 
+           OMP-TARGET SIMD <\n> 
+     |     OMP-TARGET SIMD <target-simd-clause-list> <\n> 
+
+<target-simd-clause-list> ::= 
+           <target-simd-clause-list> , <target-simd-clause> 
+     |     <target-simd-clause-list> <target-simd-clause> 
+     |     <target-simd-clause> 
+
+<target-simd-clause> ::= 
+           <target-clause> 
+     |     <simd-clause> 
+
+<omp-end-target-simd-stmt> ::= 
+           omp-end-target-simd-stmt <\n> 
+
+omp-end-target-simd-stmt ::= 
+           OMP-END-TARGET-SIMD +: { <;> } 
+     |     OMP-END-TARGET-SIMD <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
+
+<omp-target-update-stmt> ::= 
+           OMP-TARGET UPDATE <\n> 
+     |     OMP-TARGET UPDATE <target-update-clause-list> <\n> 
+
+<target-update-clause-list> ::= 
+           <target-update-clause-list> , <target-update-clause> 
+     |     <target-update-clause-list> <target-update-clause> 
+     |     <target-update-clause> 
+
+<target-update-clause> ::= 
+           <omp-if-target-update> 
+     |     <omp-device> 
+     |     NOWAIT 
+     |     <omp-depend> 
+     |     <omp-motion-clause> 
+
+<omp-if-target-update> ::= 
+           IF ( <scalar-logical-expression> ) 
+     |     IF ( TARGET UPDATE : <scalar-logical-expression> ) 
+
+<omp-motion-clause> ::= 
+           <omp-to> 
+     |     <omp-from> 
+
+<omp-from> ::= 
+           FROM ( <omp-list> ) 
+
+<omp-taskgroup-construct> ::= 
+           <omp-taskgroup-stmt> structured-block <omp-end-taskgroup-stmt> 
+     |     <omp-taskgroup-stmt> <omp-end-taskgroup-stmt> 
+
+<omp-taskgroup-stmt> ::= 
+           OMP TASKGROUP <\n> 
+
+<omp-end-taskgroup-stmt> ::= 
+           omp-end-taskgroup-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-taskgroup-stmt",62,false);*/
+
+omp-end-taskgroup-stmt ::= 
+           OMP END TASKGROUP +: { <;> } 
+
 <omp-task-construct> ::= 
            <omp-task-stmt> structured-block <omp-end-task-stmt> 
      |     <omp-task-stmt> <omp-end-task-stmt> 
@@ -3708,11 +4062,6 @@ omp-end-single-stmt ::=
 <task-default> ::= 
            DEFAULT ( SHARED ) 
      |     DEFAULT ( <NONE> ) 
-
-<omp-depend> ::= 
-           DEPEND ( <intent-spec> : <actual-arg-spec-list> ) 
-     |     DEPEND ( SOURCE ) 
-     |     DEPEND ( SINK : <name> ) 
 
 <omp-end-task-stmt> ::= 
            omp-end-task-stmt <\n> 

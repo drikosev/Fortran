@@ -87,17 +87,19 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
          - ATOMIC
          - BARRIER
          - CRITICAL
-         - DECLARE SIMD
+         - DECLARE SIMD, DECLARE TARGET
          - DO, DO SERIAL (*), DO SIMD
          - FLUSH
          - MASTER
          - ORDERED 
-         - PARALLEL, PARALLEL DO, PARALLEL SECTIONS, PARALLEL WORKSHARE
+         - PARALLEL, PARALLEL DO, PARALLEL DO SIMD, PARALLEL SECTIONS, PARALLEL WORKSHARE
          - SCHEDULE (* deprecated) 
          - SECTIONS
          - SIMD
          - SINGLE
-         - TASK, TASKLOOP, TASKWAIT, TASKYIELD
+         - TARGET, TARGET DATA, TARGET ENTER DATA, TARGET EXIT DATA, TARGET PARALLEL, 
+           TARGET PARALLEL DO, TARGET PARALLEL DO SIMD, TARGET SIMD, TARGET UPDATE
+         - TASK, TASKGROUP, TASKLOOP, TASKWAIT, TASKYIELD
          - THREADPRIVATE, THREADLOCAL (*)
          - WORKSHARE
 
