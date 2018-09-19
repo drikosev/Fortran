@@ -3143,6 +3143,10 @@ update-statement ::=
 <omp-critical-stmt> ::= 
            OMP CRITICAL <\n> 
      |     OMP CRITICAL ( <name> ) <\n> 
+     |     OMP CRITICAL ( <name> ) HINT ( hint-expression ) <\n> 
+
+hint-expression ::= 
+           <scalar-int-expr> 
 
 structured-block ::= 
            <block> 
@@ -3154,13 +3158,8 @@ structured-block ::=
 omp-end-critical ::= 
            OMP END CRITICAL +: { <;> } 
      |     OMP END CRITICAL ( <name> ) +: { <;> } 
-     |     OMP END CRITICAL ( <name> ) HINT ( hint-expression ) +: { <;> } 
      |     OMP END_CRITICAL +: { <;> } 
      |     OMP END_CRITICAL ( <name> ) +: { <;> } 
-     |     OMP END_CRITICAL ( <name> ) HINT ( hint-expression ) +: { <;> } 
-
-hint-expression ::= 
-           <scalar-int-expr> 
 
 <omp-distribute-construct> ::= 
            <omp-distribute-stmt> <do-loop> <omp-end-distribute-stmt> 

@@ -141,7 +141,7 @@ Legacy parser Issues
 
                Parsed with Errors: teams.1.f90
                $
- [2018-09-19]  The program "critical.2.f' is rejected (the HINT should be in the header).           
+ [2018-09-19]  The program "critical.2.f' is rejected (the HINT clause should be in the header). (done)
 
 
 Free Form Preprocessor
