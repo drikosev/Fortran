@@ -88,6 +88,7 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
          - BARRIER
          - CRITICAL
          - DECLARE SIMD, DECLARE TARGET
+         - DISTRIBUTE, DISTRIBUTE PARALLEL DO, DISTRIBUTE PARALLEL DO SIMD, DISTRIBUTE SIMD
          - DO, DO SERIAL (*), DO SIMD
          - FLUSH
          - MASTER
@@ -98,13 +99,15 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
          - SIMD
          - SINGLE
          - TARGET, TARGET DATA, TARGET ENTER DATA, TARGET EXIT DATA, TARGET PARALLEL, 
-           TARGET PARALLEL DO, TARGET PARALLEL DO SIMD, TARGET SIMD, TARGET UPDATE
+           TARGET PARALLEL DO, TARGET PARALLEL DO SIMD, TARGET SIMD, 
+           TARGET TEAMS, TARGET TEAMS DISTRIBUTE PARALLEL DO, TARGET UPDATE
          - TASK, TASKGROUP, TASKLOOP, TASKWAIT, TASKYIELD
+         - TEAMS, TEAMS DISTRIBUTE, TEAMS DISTRIBUTE PARALLEL DO, TEAMS DISTRIBUTE SIMD
          - THREADPRIVATE, THREADLOCAL (*)
          - WORKSHARE
 
 
-         This parser is work in progress as many directives (ie DISTRIBUTE, TEAMS) aren't supported yet.
+         This parser is work in progress as some directives (ie DISTRIBUTE, TEAMS) aren't supported yet.
 
          Note that the literal "!$OMP", which is parsed by the Hand Coded File Reader, introduces an OMP 
          directive and is also required in both fixed & free form continuation lines; in fixed form also

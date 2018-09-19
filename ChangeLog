@@ -82,6 +82,7 @@ The Following bug-fix has not been tested very well yet:
  ---------------------------
  [2018-09-17]  The <omp-compound> shouldn't begin with "EXIT" because the parser then accepts           (done)
                in free form the invalid statement "exitcn", where "cn" is the name of a construct.  
+ [2018-09-18]  Likely the scanner won't accept in free form an omitted space between "DO" and "SIMD".
 
 
 Legacy parser Issues
@@ -134,6 +135,12 @@ Legacy parser Issues
               assumes. At the moment, I've changed it in map/to/from with a data-reference list.
               Todo: figure it in which syntax rules this change should be applied to.  	
  [2018-09-17] In "<omp-target-exit-data-stmt>", use the new keyword "OMP-TARGET-EXIT".            (done)
+ [2018-09-18] On a unknown OpenMP Directive, the error message is empty:
+               $ fcheck -fopenmp teams.1.f90
+               teams.1.f90:8: error: syntax:
+
+               Parsed with Errors: teams.1.f90
+               $
 
 
 Free Form Preprocessor

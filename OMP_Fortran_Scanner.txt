@@ -277,14 +277,17 @@
      |     COLLAPSE 
      |     COPYPRIVATE 
      |     DECLARE 
+     |     DEFAULTMAP 
      |     DELETE 
      |     DEPEND 
      |     DEVICE 
      |     DISTRIBUTE 
+     |     DIST_SCHEDULE 
      |     DO-SIMD 
      |     DYNAMIC 
      |     EARLY_EXIT 
      |     ENTER 
+     |     FIRST 
      |     FROM 
      |     GRAINSIZE 
      |     GUIDED 
@@ -306,20 +309,27 @@
      |     NOTINBRANCH 
      |     NOWAIT 
      |     NUM_TASKS 
+     |     NUM_TEAMS 
      |     IBM 
      |     SMP-DO-SERIAL 
      |     OMP 
      |     OMP-END-ATOMIC 
      |     OMP-END-DISTRIBUTE 
+     |     OMP-END-DISTRIBUTE-PARALLEL-DO 
+     |     OMP-END-DISTRIBUTE-PARALLEL-DO-SIMD 
+     |     OMP-END-DISTRIBUTE-SIMD 
      |     OMP-END-DO 
      |     OMP-END-DO-SIMD 
      |     OMP-END-SIMD 
      |     OMP-END-TARGET 
      |     OMP-END-TARGET-PARALLEL-DO 
      |     OMP-END-TARGET-PARALLEL-DO-SIMD 
+     |     OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO 
      |     OMP-END-TARGET-SIMD 
      |     OMP-END-TASKLOOP 
-     |     OMP-END-TEAMS 
+     |     OMP-END-TEAMS-DISTRIBUTE 
+     |     OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO 
+     |     OMP-END-TEAMS-DISTRIBUTE-SIMD 
      |     OMP-END-PARALLEL-DO 
      |     OMP-END-PARALLEL-DO-SIMD 
      |     OMP-TARGET 
@@ -329,6 +339,7 @@
      |     RELEASE 
      |     RUNTIME 
      |     SAFELEN 
+     |     SCALAR 
      |     SCHEDULE 
      |     SECTION 
      |     SECTIONS 
@@ -343,6 +354,7 @@
      |     TASKWAIT 
      |     TASKYIELD 
      |     TEAMS 
+     |     THREAD_LIMIT 
      |     THREADPRIVATE 
      |     THREADLOCAL 
      |     TOFROM 
@@ -1279,6 +1291,9 @@ COPYPRIVATE ::=
 DECLARE ::= 
            D E C L A R E 
 
+DEFAULTMAP ::= 
+           D E F A U L T M A P 
+
 DELETE ::= 
            D E L E T E 
 
@@ -1291,6 +1306,9 @@ DEVICE ::=
 DISTRIBUTE ::= 
            D I S T R I B U T E 
 
+DIST_SCHEDULE ::= 
+           D I S T _ S C H E D U L E 
+
 DO-SIMD ::= 
            D O S I M D 
 
@@ -1302,6 +1320,9 @@ EARLY_EXIT ::=
 
 ENTER ::= 
            E N T E R 
+
+FIRST ::= 
+           F I R S T 
 
 FROM ::= 
            F R O M 
@@ -1366,6 +1387,9 @@ NOWAIT ::=
 NUM_TASKS ::= 
            N U M _ T A S K S 
 
+NUM_TEAMS ::= 
+           N U M _ T E A M S 
+
 IBM ::= 
            <!IBM*> 
 
@@ -1383,6 +1407,15 @@ OMP-END-ATOMIC ::=
 
 OMP-END-DISTRIBUTE ::= 
            OMP [ { \s | \t }... ] E N D [ { \s | \t }... ] D I S T R I B U T E 
+
+OMP-END-DISTRIBUTE-PARALLEL-DO ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O 
+
+OMP-END-DISTRIBUTE-PARALLEL-DO-SIMD ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O [ { \t | \s }... ] S I M D 
+
+OMP-END-DISTRIBUTE-SIMD ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] S I M D 
 
 OMP-END-DO ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] D O 
@@ -1402,14 +1435,23 @@ OMP-END-TARGET-PARALLEL-DO ::=
 OMP-END-TARGET-PARALLEL-DO-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O [ { \t | \s }... ] S I M D 
 
+OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O 
+
 OMP-END-TARGET-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] S I M D 
 
 OMP-END-TASKLOOP ::= 
            OMP [ { \s | \t }... ] E N D [ { \s | \t }... ] T A S K L O O P 
 
-OMP-END-TEAMS ::= 
-           OMP [ { \s | \t }... ] E N D [ { \s | \t }... ] T E A M S 
+OMP-END-TEAMS-DISTRIBUTE ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E 
+
+OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O 
+
+OMP-END-TEAMS-DISTRIBUTE-SIMD ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] S I M D 
 
 OMP-END-PARALLEL-DO ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O 
@@ -1437,6 +1479,9 @@ RUNTIME ::=
 
 SAFELEN ::= 
            S A F E L E N 
+
+SCALAR ::= 
+           S C A L A R 
 
 SCHEDULE ::= 
            S C H E D U L E 
@@ -1479,6 +1524,9 @@ TASKYIELD ::=
 
 TEAMS ::= 
            T E A M S 
+
+THREAD_LIMIT ::= 
+           T H R E A D _ L I M I T 
 
 THREADPRIVATE ::= 
            T H R E A D P R I V A T E 
@@ -1851,14 +1899,17 @@ key ::=
      |     COLLAPSE 
      |     COPYPRIVATE 
      |     DECLARE 
+     |     DEFAULTMAP 
      |     DELETE 
      |     DEPEND 
      |     DEVICE 
      |     DISTRIBUTE 
+     |     DIST_SCHEDULE 
      |     DO-SIMD 
      |     DYNAMIC 
      |     EARLY_EXIT 
      |     ENTER 
+     |     FIRST 
      |     FROM 
      |     GRAINSIZE 
      |     GUIDED 
@@ -1880,11 +1931,13 @@ key ::=
      |     NOTINBRANCH 
      |     NOWAIT 
      |     NUM_TASKS 
+     |     NUM_TEAMS 
      |     ORDERED 
      |     PRIORITY 
      |     RELEASE 
      |     RUNTIME 
      |     SAFELEN 
+     |     SCALAR 
      |     SCHEDULE 
      |     SECTION 
      |     SECTIONS 
@@ -1899,6 +1952,7 @@ key ::=
      |     TASKWAIT 
      |     TASKYIELD 
      |     TEAMS 
+     |     THREAD_LIMIT 
      |     THREADLOCAL 
      |     THREADPRIVATE 
      |     TOFROM 
