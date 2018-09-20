@@ -3036,6 +3036,8 @@ continue-stmt ::=
 <omp-directive> ::= 
            <omp-atomic-construct> 
      |     <omp-barrier> 
+     |     <omp-cancel-stmt> 
+     |     <omp-cancellation-point-stmt> 
      |     <omp-critical-construct> 
      |     <omp-declare-simd> 
      |     <omp-declare-target-stmt> 
@@ -3136,6 +3138,26 @@ update-statement ::=
 <omp-barrier> ::= 
            OMP BARRIER <\n> 
 
+<omp-cancel-stmt> ::= 
+           OMP CANCEL <omp-construct-type-clause> <\n> 
+     |     OMP CANCEL <omp-construct-type-clause> <cancel-if-clause> <\n> 
+     |     OMP CANCEL <omp-construct-type-clause> , <cancel-if-clause> <\n> 
+
+<omp-construct-type-clause> ::= 
+           PARALLEL 
+     |     SECTIONS 
+     |     DO 
+     |     TASKGROUP 
+
+<cancel-if-clause> ::= 
+           IF ( <scalar-logical-expression> ) 
+
+<scalar-logical-expression> ::= 
+           <expr> 
+
+<omp-cancellation-point-stmt> ::= 
+           OMP CANCELLATION POINT <omp-construct-type-clause> <\n> 
+
 <omp-critical-construct> ::= 
            <omp-critical-stmt> structured-block <omp-end-critical> 
      |     <omp-critical-stmt> <omp-end-critical> 
@@ -3183,7 +3205,10 @@ omp-end-critical ::=
      |     <omp-dest-schedule> 
 
 <omp-private> ::= 
-           PRIVATE ( <name-list> ) 
+           PRIVATE ( <private-list> ) 
+
+<private-list> ::= 
+           <threadprivate-entity-list> 
 
 <omp-firstprivate> ::= 
            FIRSTPRIVATE ( <name-list> ) 
@@ -3391,11 +3416,11 @@ label-do-shared-stmt ::=
            IF ( <scalar-logical-expression> ) 
      |     IF ( <name> : <scalar-logical-expression> ) 
 
-<scalar-logical-expression> ::= 
-           <expr> 
-
 <omp-shared> ::= 
-           SHARED ( <name-list> ) 
+           SHARED ( <shared-list> ) 
+
+<shared-list> ::= 
+           <threadprivate-entity-list> 
 
 <omp-default> ::= 
            DEFAULT ( <default-parallel> ) 
@@ -3504,12 +3529,15 @@ label-do-shared-stmt ::=
      |     <omp-private> 
      |     <omp-firstprivate> 
      |     <omp-shared> 
-     |     COPYIN ( <name-list> ) 
+     |     COPYIN ( <copyin-list> ) 
      |     <omp-reduction> 
      |     <omp-procedure-bind> 
 
 <omp-num-threads> ::= 
            NUM_THREADS ( <scalar-int-expr> ) 
+
+<copyin-list> ::= 
+           <threadprivate-entity-list> 
 
 <omp-procedure-bind> ::= 
            PROC_BIND ( <proc-bind-argument> ) 
@@ -3711,7 +3739,7 @@ label-do-shared-stmt ::=
      |     <omp-private> 
      |     <omp-firstprivate> 
      |     <omp-shared> 
-     |     COPYIN ( <name-list> ) 
+     |     COPYIN ( <copyin-list> ) 
      |     <omp-reduction> 
      |     <omp-procedure-bind> 
      |     <simd-clause> 
@@ -4100,7 +4128,7 @@ omp-end-single-stmt ::=
      |     NOWAIT 
 
 <omp-copyprivate> ::= 
-           COPYPRIVATE ( <name-list> ) 
+           COPYPRIVATE ( <private-list> ) 
 
 <omp-target-construct> ::= 
            <omp-target-stmt> structured-block <omp-end-target-stmt> 

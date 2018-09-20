@@ -133,7 +133,11 @@ Legacy parser Issues
  [2018-09-16] The example "task_priority.1.f90" is rejected (undefined "<omp-priority>").         (done)
  [2018-09-17] Likely, the "list" used in OpenMP clauses isn't a "<named-list>" as this grammar,
               assumes. At the moment, I've changed it in map/to/from with a data-reference list.
-              Todo: figure it in which syntax rules this change should be applied to.  	
+              [20/9] Defined also " <omp-vec>     ::= <expr-list> ".
+              [20/9] Defined also " <copyin-list> ::= <threadprivate-entity-list> ".
+              [20/9] Defined also "<private-list> ::= <threadprivate-entity-list> ".
+              [20/9] Defined also " <shared-list> ::= <threadprivate-entity-list> ".
+              Todo: figure it in which syntax rules these changes should be applied to.  	
  [2018-09-17] In "<omp-target-exit-data-stmt>", use the new keyword "OMP-TARGET-EXIT".            (done)
  [2018-09-18] On an unknown OpenMP Directive, the error message is empty:
                $ fcheck -fopenmp teams.1.f90
@@ -145,9 +149,8 @@ Legacy parser Issues
  [2018-09-20]  The parser rejects the examples "doacross.1.f90", ..., "doacross.4.f90".          (done)
                The ordered directive may be stand alone if the "depend" clause is present.       
                Now I've set also: "<omp-vec> ::= <expr-list>".
-              
 
-
+             
 Free Form Preprocessor
 ----------------------
 [ 2018-07-01 ] Bug: The preprocessor was accepting a line comment after a '&' in a character context (done).

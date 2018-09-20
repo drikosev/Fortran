@@ -273,6 +273,8 @@
      |     ATOMIC 
      |     AUTO 
      |     BARRIER 
+     |     CANCEL 
+     |     CANCELLATION 
      |     CAPTURE 
      |     COLLAPSE 
      |     COPYPRIVATE 
@@ -335,6 +337,7 @@
      |     OMP-TARGET 
      |     OMP-TARGET-EXIT 
      |     ORDERED 
+     |     POINT 
      |     PRIORITY 
      |     RELEASE 
      |     RUNTIME 
@@ -1279,6 +1282,12 @@ AUTO ::=
 BARRIER ::= 
            B A R R I E R 
 
+CANCEL ::= 
+           C A N C E L 
+
+CANCELLATION ::= 
+           C A N C E L L A T I O N 
+
 CAPTURE ::= 
            C A P T U R E 
 
@@ -1467,6 +1476,9 @@ OMP-TARGET-EXIT ::=
 
 ORDERED ::= 
            O R D E R E D 
+
+POINT ::= 
+           P O I N T 
 
 PRIORITY ::= 
            P R I O R I T Y 
@@ -1895,6 +1907,8 @@ key ::=
      |     ATOMIC 
      |     AUTO 
      |     BARRIER 
+     |     CANCEL 
+     |     CANCELLATION 
      |     CAPTURE 
      |     COLLAPSE 
      |     COPYPRIVATE 
@@ -1933,6 +1947,7 @@ key ::=
      |     NUM_TASKS 
      |     NUM_TEAMS 
      |     ORDERED 
+     |     POINT 
      |     PRIORITY 
      |     RELEASE 
      |     RUNTIME 

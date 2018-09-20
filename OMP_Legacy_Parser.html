@@ -1793,6 +1793,8 @@
 <BR><BR><STRONG><A name="<executable-construct;>">&lt;executable-construct;&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<execution-part-construct>">&lt;execution-part-construct&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-directive>">&lt;omp-directive&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<omp-atomic-construct>">&lt;omp-atomic-construct&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-barrier>">&lt;omp-barrier&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-cancel-stmt>">&lt;omp-cancel-stmt&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-cancellation-point-stmt>">&lt;omp-cancellation-point-stmt&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-critical-construct>">&lt;omp-critical-construct&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-declare-simd>">&lt;omp-declare-simd&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-declare-target-stmt>">&lt;omp-declare-target-stmt&gt;</A>&nbsp;
@@ -1868,6 +1870,16 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;OMP&nbsp;ATOMIC&nbsp;CAPTURE&nbsp;<A href="#seq_cst">seq_cst</A>&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;OMP&nbsp;ATOMIC&nbsp;CAPTURE&nbsp;,&nbsp;<A href="#seq_cst">seq_cst</A>&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-barrier>">&lt;omp-barrier&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OMP&nbsp;BARRIER&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<omp-cancel-stmt>">&lt;omp-cancel-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OMP&nbsp;CANCEL&nbsp;<A href="#<omp-construct-type-clause>">&lt;omp-construct-type-clause&gt;</A>&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;OMP&nbsp;CANCEL&nbsp;<A href="#<omp-construct-type-clause>">&lt;omp-construct-type-clause&gt;</A>&nbsp;<A href="#<cancel-if-clause>">&lt;cancel-if-clause&gt;</A>&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;OMP&nbsp;CANCEL&nbsp;<A href="#<omp-construct-type-clause>">&lt;omp-construct-type-clause&gt;</A>&nbsp;,&nbsp;<A href="#<cancel-if-clause>">&lt;cancel-if-clause&gt;</A>&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<omp-construct-type-clause>">&lt;omp-construct-type-clause&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARALLEL&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;SECTIONS&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DO&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;TASKGROUP&nbsp;
+<BR><BR><STRONG><A name="<cancel-if-clause>">&lt;cancel-if-clause&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;(&nbsp;<A href="#<scalar-logical-expression>">&lt;scalar-logical-expression&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<scalar-logical-expression>">&lt;scalar-logical-expression&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<omp-cancellation-point-stmt>">&lt;omp-cancellation-point-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OMP&nbsp;CANCELLATION&nbsp;POINT&nbsp;<A href="#<omp-construct-type-clause>">&lt;omp-construct-type-clause&gt;</A>&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-critical-construct>">&lt;omp-critical-construct&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<omp-critical-stmt>">&lt;omp-critical-stmt&gt;</A>&nbsp;<A href="#structured-block">structured-block</A>&nbsp;<A href="#<omp-end-critical>">&lt;omp-end-critical&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-critical-stmt>">&lt;omp-critical-stmt&gt;</A>&nbsp;<A href="#<omp-end-critical>">&lt;omp-end-critical&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-critical-stmt>">&lt;omp-critical-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OMP&nbsp;CRITICAL&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
@@ -1894,7 +1906,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-lastprivate>">&lt;omp-lastprivate&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-collapse>">&lt;omp-collapse&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-dest-schedule>">&lt;omp-dest-schedule&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<omp-private>">&lt;omp-private&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRIVATE&nbsp;(&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<omp-private>">&lt;omp-private&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRIVATE&nbsp;(&nbsp;<A href="#<private-list>">&lt;private-list&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<private-list>">&lt;private-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<threadprivate-entity-list>">&lt;threadprivate-entity-list&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-firstprivate>">&lt;omp-firstprivate&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FIRSTPRIVATE&nbsp;(&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<omp-lastprivate>">&lt;omp-lastprivate&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LASTPRIVATE&nbsp;(&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<omp-collapse>">&lt;omp-collapse&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COLLAPSE&nbsp;(&nbsp;<A href="#<scalar-int-constant-expr>">&lt;scalar-int-constant-expr&gt;</A>&nbsp;)&nbsp;
@@ -2035,8 +2048,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;NOGROUP&nbsp;
 <BR><BR><STRONG><A name="<omp-if-task>">&lt;omp-if-task&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;(&nbsp;<A href="#<scalar-logical-expression>">&lt;scalar-logical-expression&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;IF&nbsp;(&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;:&nbsp;<A href="#<scalar-logical-expression>">&lt;scalar-logical-expression&gt;</A>&nbsp;)&nbsp;
-<BR><BR><STRONG><A name="<scalar-logical-expression>">&lt;scalar-logical-expression&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<omp-shared>">&lt;omp-shared&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SHARED&nbsp;(&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<omp-shared>">&lt;omp-shared&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SHARED&nbsp;(&nbsp;<A href="#<shared-list>">&lt;shared-list&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<shared-list>">&lt;shared-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<threadprivate-entity-list>">&lt;threadprivate-entity-list&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-default>">&lt;omp-default&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFAULT&nbsp;(&nbsp;<A href="#<default-parallel>">&lt;default-parallel&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<default-parallel>">&lt;default-parallel&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRIVATE&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;FIRSTPRIVATE&nbsp;
@@ -2103,10 +2116,11 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-private>">&lt;omp-private&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-firstprivate>">&lt;omp-firstprivate&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-shared>">&lt;omp-shared&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;COPYIN&nbsp;(&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;)&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;COPYIN&nbsp;(&nbsp;<A href="#<copyin-list>">&lt;copyin-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-reduction>">&lt;omp-reduction&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-procedure-bind>">&lt;omp-procedure-bind&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-num-threads>">&lt;omp-num-threads&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUM_THREADS&nbsp;(&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<copyin-list>">&lt;copyin-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<threadprivate-entity-list>">&lt;threadprivate-entity-list&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-procedure-bind>">&lt;omp-procedure-bind&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PROC_BIND&nbsp;(&nbsp;<A href="#<proc-bind-argument>">&lt;proc-bind-argument&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<proc-bind-argument>">&lt;proc-bind-argument&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MASTER&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;CLOSE&nbsp;
@@ -2232,7 +2246,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-private>">&lt;omp-private&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-firstprivate>">&lt;omp-firstprivate&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-shared>">&lt;omp-shared&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;COPYIN&nbsp;(&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;)&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;COPYIN&nbsp;(&nbsp;<A href="#<copyin-list>">&lt;copyin-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-reduction>">&lt;omp-reduction&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-procedure-bind>">&lt;omp-procedure-bind&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<simd-clause>">&lt;simd-clause&gt;</A>&nbsp;
@@ -2437,7 +2451,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<end-single-clause>">&lt;end-single-clause&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<end-single-clause>">&lt;end-single-clause&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<omp-copyprivate>">&lt;omp-copyprivate&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;NOWAIT&nbsp;
-<BR><BR><STRONG><A name="<omp-copyprivate>">&lt;omp-copyprivate&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COPYPRIVATE&nbsp;(&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;)&nbsp;
+<BR><BR><STRONG><A name="<omp-copyprivate>">&lt;omp-copyprivate&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COPYPRIVATE&nbsp;(&nbsp;<A href="#<private-list>">&lt;private-list&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<omp-target-construct>">&lt;omp-target-construct&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<omp-target-stmt>">&lt;omp-target-stmt&gt;</A>&nbsp;<A href="#structured-block">structured-block</A>&nbsp;<A href="#<omp-end-target-stmt>">&lt;omp-end-target-stmt&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-target-stmt>">&lt;omp-target-stmt&gt;</A>&nbsp;<A href="#<omp-end-target-stmt>">&lt;omp-end-target-stmt&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-target-stmt>">&lt;omp-target-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OMP-TARGET&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;

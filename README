@@ -1,5 +1,5 @@
 
-Sep 13, 2018
+Sep 21, 2018
 
 
  
@@ -79,14 +79,14 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
 
  4) OMP (Legacy) Parser
     -------------------
-    [2018-08-27]
+    [2018-09-21]
 
     4.1) The "OMP_Legacy_Parser.txt" contains the syntax rules of a Fortran parser, which in addition
          to the above mentioned Fortran (Legacy) parser, accepts the following OMP directives:
 
          - ATOMIC
          - BARRIER
-         - CRITICAL
+         - CANCEL, CANCELLATION POINT, CRITICAL
          - DECLARE SIMD, DECLARE TARGET
          - DISTRIBUTE, DISTRIBUTE PARALLEL DO, DISTRIBUTE PARALLEL DO SIMD, DISTRIBUTE SIMD
          - DO, DO SERIAL (*), DO SIMD
@@ -107,7 +107,11 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
          - WORKSHARE
 
 
-         This parser is work in progress as some directives (ie DISTRIBUTE, TEAMS) aren't supported yet.
+         This parser can parse the Fortran examples found in file "openmp-examples-4.5.0.pdf" (SHA1
+         b49451455b32dd6f1b31450d774476d4d1f74708), except the "standalone.1.f90" which is an example
+         of syntactically invalid directives that an OpenMP-compliant tool has to reject. Nonetheless,
+         this is a relatively fresh parser, likely not stable yet; ie, the BNF Rule "list" hasn't been
+         finalized. So, this parser is in essence work in progress until such issues are solved.
 
          Note that the literal "!$OMP", which is parsed by the Hand Coded File Reader, introduces an OMP 
          directive and is also required in both fixed & free form continuation lines; in fixed form also

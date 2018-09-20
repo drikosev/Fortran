@@ -274,6 +274,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#ATOMIC">ATOMIC</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#AUTO">AUTO</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#BARRIER">BARRIER</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#CANCEL">CANCEL</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#CANCELLATION">CANCELLATION</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#CAPTURE">CAPTURE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#COLLAPSE">COLLAPSE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#COPYPRIVATE">COPYPRIVATE</A>&nbsp;
@@ -336,6 +338,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#OMP-TARGET">OMP-TARGET</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#OMP-TARGET-EXIT">OMP-TARGET-EXIT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#ORDERED">ORDERED</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#POINT">POINT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#PRIORITY">PRIORITY</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#RELEASE">RELEASE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#RUNTIME">RUNTIME</A>&nbsp;
@@ -717,6 +720,8 @@
 <BR><BR><STRONG><A name="ATOMIC">ATOMIC</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;T&nbsp;O&nbsp;M&nbsp;I&nbsp;C&nbsp;
 <BR><BR><STRONG><A name="AUTO">AUTO</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;U&nbsp;T&nbsp;O&nbsp;
 <BR><BR><STRONG><A name="BARRIER">BARRIER</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B&nbsp;A&nbsp;R&nbsp;R&nbsp;I&nbsp;E&nbsp;R&nbsp;
+<BR><BR><STRONG><A name="CANCEL">CANCEL</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;A&nbsp;N&nbsp;C&nbsp;E&nbsp;L&nbsp;
+<BR><BR><STRONG><A name="CANCELLATION">CANCELLATION</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;A&nbsp;N&nbsp;C&nbsp;E&nbsp;L&nbsp;L&nbsp;A&nbsp;T&nbsp;I&nbsp;O&nbsp;N&nbsp;
 <BR><BR><STRONG><A name="CAPTURE">CAPTURE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;A&nbsp;P&nbsp;T&nbsp;U&nbsp;R&nbsp;E&nbsp;
 <BR><BR><STRONG><A name="COLLAPSE">COLLAPSE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;O&nbsp;L&nbsp;L&nbsp;A&nbsp;P&nbsp;S&nbsp;E&nbsp;
 <BR><BR><STRONG><A name="COPYPRIVATE">COPYPRIVATE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;O&nbsp;P&nbsp;Y&nbsp;P&nbsp;R&nbsp;I&nbsp;V&nbsp;A&nbsp;T&nbsp;E&nbsp;
@@ -780,6 +785,7 @@
 <BR><BR><STRONG><A name="OMP-TARGET">OMP-TARGET</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#OMP">OMP</A>&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;T&nbsp;A&nbsp;R&nbsp;G&nbsp;E&nbsp;T&nbsp;
 <BR><BR><STRONG><A name="OMP-TARGET-EXIT">OMP-TARGET-EXIT</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!$OMP&gt;&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;T&nbsp;A&nbsp;R&nbsp;G&nbsp;E&nbsp;T&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;X&nbsp;I&nbsp;T&nbsp;
 <BR><BR><STRONG><A name="ORDERED">ORDERED</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O&nbsp;R&nbsp;D&nbsp;E&nbsp;R&nbsp;E&nbsp;D&nbsp;
+<BR><BR><STRONG><A name="POINT">POINT</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P&nbsp;O&nbsp;I&nbsp;N&nbsp;T&nbsp;
 <BR><BR><STRONG><A name="PRIORITY">PRIORITY</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P&nbsp;R&nbsp;I&nbsp;O&nbsp;R&nbsp;I&nbsp;T&nbsp;Y&nbsp;
 <BR><BR><STRONG><A name="RELEASE">RELEASE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R&nbsp;E&nbsp;L&nbsp;E&nbsp;A&nbsp;S&nbsp;E&nbsp;
 <BR><BR><STRONG><A name="RUNTIME">RUNTIME</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R&nbsp;U&nbsp;N&nbsp;T&nbsp;I&nbsp;M&nbsp;E&nbsp;
@@ -1112,6 +1118,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#ATOMIC">ATOMIC</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#AUTO">AUTO</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#BARRIER">BARRIER</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#CANCEL">CANCEL</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#CANCELLATION">CANCELLATION</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#CAPTURE">CAPTURE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#COLLAPSE">COLLAPSE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#COPYPRIVATE">COPYPRIVATE</A>&nbsp;
@@ -1150,6 +1158,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NUM_TASKS">NUM_TASKS</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NUM_TEAMS">NUM_TEAMS</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#ORDERED">ORDERED</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#POINT">POINT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#PRIORITY">PRIORITY</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#RELEASE">RELEASE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#RUNTIME">RUNTIME</A>&nbsp;
