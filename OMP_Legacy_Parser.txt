@@ -3892,6 +3892,7 @@ omp-end-master-stmt ::=
 <omp-ordered-construct> ::= 
            <omp-ordered-stmt> structured-block <omp-end-ordered-stmt> 
      |     <omp-ordered-stmt> <omp-end-ordered-stmt> 
+     |     <omp-ordered-depend-stmt> 
 
 <omp-ordered-stmt> ::= 
            OMP ORDERED <\n> 
@@ -3903,9 +3904,7 @@ omp-end-master-stmt ::=
      |     <ordered-clause> 
 
 <ordered-clause> ::= 
-           DEPEND ( SOURCE ) 
-     |     DEPEND ( SINK : <name> ) 
-     |     SIMD 
+           SIMD 
      |     THREADS 
 
 <omp-end-ordered-stmt> ::= 
@@ -3914,6 +3913,25 @@ omp-end-master-stmt ::=
 
 omp-end-ordered-stmt ::= 
            OMP END ORDERED +: { <;> } 
+
+<omp-ordered-depend-stmt> ::= 
+           OMP ORDERED <ordered-depend-clause-list> <\n> 
+
+<ordered-depend-clause-list> ::= 
+           <ordered-depend-clause-list> , <ordered-depend-clause> 
+     |     <ordered-depend-clause-list> <ordered-depend-clause> 
+     |     <ordered-depend-clause> 
+
+<ordered-depend-clause> ::= 
+           DEPEND ( SOURCE ) 
+     |     DEPEND ( SINK : <omp-vec> ) 
+
+<omp-vec> ::= 
+           <expr-list> 
+
+<expr-list> ::= 
+           <expr-list> , <expr> 
+     |     <expr> 
 
 <omp-parallel-construct> ::= 
            <parallel-stmt> structured-block <omp-end-parallel-stmt> 

@@ -142,6 +142,10 @@ Legacy parser Issues
                Parsed with Errors: teams.1.f90
                $
  [2018-09-19]  The program "critical.2.f' is rejected (the HINT clause should be in the header). (done)
+ [2018-09-20]  The parser rejects the examples "doacross.1.f90", ..., "doacross.4.f90".          (done)
+               The ordered directive may be stand alone if the "depend" clause is present.       
+               Now I've set also: "<omp-vec> ::= <expr-list>".
+              
 
 
 Free Form Preprocessor
