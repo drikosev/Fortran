@@ -1445,19 +1445,52 @@ keyword ::=
      |     * 
 
 <omp-declaration> ::= 
-           <omp-declare-simd> 
+           <omp-declare-reduction> 
+     |     <omp-declare-simd> 
      |     <omp-declare-target-stmt> 
      |     <omp-threadprivate> 
      |     <ibm-threadlocal> 
+
+<omp-declare-reduction> ::= 
+           OMP DECLARE REDUCTION ( <reduction-identifier> : <omp-type-list> : <omp-combiner> ) <\n> 
+     |     OMP DECLARE REDUCTION ( <reduction-identifier> : <omp-type-list> : <omp-combiner> ) <omp-initializer-clause> <\n> 
+
+<reduction-identifier> ::= 
+           <name> 
+     |     IAND 
+     |     IEOR 
+     |     IOR 
+     |     MIN 
+     |     MAX 
+     |     <equiv-op> 
+     |     <or-op> 
+     |     <and-op> 
+     |     <not-op> 
+     |     <add-op> 
+     |     <mult-op> 
+
+<omp-type-list> ::= 
+           <omp-type-list> , <type-spec> 
+     |     <type-spec> 
+
+<omp-combiner> ::= 
+           <designator> = <expr> 
+     |     <designator> -: { = } 
+
+<\n> ::= 
+           <;>   /* Tr.ErrorIfStarts( str(1),';', L"Unexpected ';' in OpenMP Directive. Expected New Line. " ) ; */
+
+<omp-initializer-clause> ::= 
+           INITIALIZER ( <omp-initializer-expr> ) 
+
+<omp-initializer-expr> ::= 
+           OMP_PRIV = <expr> 
 
 <omp-declare-simd> ::= 
            OMP DECLARE SIMD <\n> 
      |     OMP DECLARE SIMD ( <procedure-name> ) <\n> 
      |     OMP DECLARE SIMD <declare-simd-clause-list> <\n> 
      |     OMP DECLARE SIMD ( <procedure-name> ) <declare-simd-clause-list> <\n> 
-
-<\n> ::= 
-           <;>   /* Tr.ErrorIfStarts( str(1),';', L"Unexpected ';' in OpenMP Directive. Expected New Line. " ) ; */
 
 <declare-simd-clause-list> ::= 
            <declare-simd-clause-list> , <declare-simd-clause> 
@@ -1476,26 +1509,37 @@ keyword ::=
            SIMDLEN ( <scalar-int-constant-expr> ) 
 
 <omp-linear> ::= 
-           LINEAR ( <name-list> ) 
-     |     LINEAR ( <name-list> : linear-step ) 
+           LINEAR ( <omp-list> ) 
+     |     LINEAR ( <omp-list> : linear-step ) 
+
+<omp-list> ::= 
+           <omp-list> , <omp-item> 
+     |     <omp-item> 
+
+<omp-item> ::= 
+           <variable> 
+     |     <slashed-name> 
+
+<slashed-name> ::= 
+           / <name> / 
 
 linear-step ::= 
            <scalar-int-constant-expr> 
 
 <omp-aligned> ::= 
-           ALIGNED ( <name-list> ) 
-     |     ALIGNED ( <name-list> : alignment ) 
+           ALIGNED ( <omp-list> ) 
+     |     ALIGNED ( <omp-list> : alignment ) 
 
 alignment ::= 
            <scalar-int-expr> 
 
 <omp-uniform> ::= 
-           UNIFORM ( <name-list> ) 
+           UNIFORM ( <omp-list> ) 
 
 <omp-declare-target-stmt> ::= 
            OMP DECLARE TARGET <\n> 
      |     OMP DECLARE TARGET <declare-target-clause-list> <\n> 
-     |     OMP DECLARE TARGET <omp-extended-list> <\n> 
+     |     OMP DECLARE TARGET ( <omp-extended-list> ) <\n> 
 
 <declare-target-clause-list> ::= 
            <declare-target-clause-list> , <declare-target-clause> 
@@ -1509,26 +1553,14 @@ alignment ::=
 <omp-to> ::= 
            TO ( <omp-list> ) 
 
-<omp-list> ::= 
-           <omp-list> , <data-ref> 
-     |     <data-ref> 
-
 <omp-link> ::= 
-           LINK ( <name-list> ) 
+           LINK ( <omp-list> ) 
 
 <omp-extended-list> ::= 
-           ( <name-list> ) 
+           <omp-list> 
 
 <omp-threadprivate> ::= 
-           OMP THREADPRIVATE ( <threadprivate-entity-list> ) <\n> 
-
-<threadprivate-entity-list> ::= 
-           <threadprivate-entity-list> , <omp-name> 
-     |     <omp-name> 
-
-<omp-name> ::= 
-           / <name> / 
-     |     <name> 
+           OMP THREADPRIVATE ( <omp-list> ) <\n> 
 
 <ibm-threadlocal> ::= 
            IBM THREADLOCAL <threadlocal-entity-list> <\n> 
@@ -3039,6 +3071,7 @@ continue-stmt ::=
      |     <omp-cancel-stmt> 
      |     <omp-cancellation-point-stmt> 
      |     <omp-critical-construct> 
+     |     <omp-declare-reduction> 
      |     <omp-declare-simd> 
      |     <omp-declare-target-stmt> 
      |     <omp-distribute-construct> 
@@ -3205,16 +3238,13 @@ omp-end-critical ::=
      |     <omp-dest-schedule> 
 
 <omp-private> ::= 
-           PRIVATE ( <private-list> ) 
-
-<private-list> ::= 
-           <threadprivate-entity-list> 
+           PRIVATE ( <omp-list> ) 
 
 <omp-firstprivate> ::= 
-           FIRSTPRIVATE ( <name-list> ) 
+           FIRSTPRIVATE ( <omp-list> ) 
 
 <omp-lastprivate> ::= 
-           LASTPRIVATE ( <name-list> ) 
+           LASTPRIVATE ( <omp-list> ) 
 
 <omp-collapse> ::= 
            COLLAPSE ( <scalar-int-constant-expr> ) 
@@ -3417,10 +3447,7 @@ label-do-shared-stmt ::=
      |     IF ( <name> : <scalar-logical-expression> ) 
 
 <omp-shared> ::= 
-           SHARED ( <shared-list> ) 
-
-<shared-list> ::= 
-           <threadprivate-entity-list> 
+           SHARED ( <omp-list> ) 
 
 <omp-default> ::= 
            DEFAULT ( <default-parallel> ) 
@@ -3469,21 +3496,7 @@ label-do-shared-stmt ::=
      |     <omp-ordered> 
 
 <omp-reduction> ::= 
-           REDUCTION ( <reduction-identifier> : <name-list> ) 
-
-<reduction-identifier> ::= 
-           <name> 
-     |     IAND 
-     |     IEOR 
-     |     IOR 
-     |     MIN 
-     |     MAX 
-     |     <equiv-op> 
-     |     <or-op> 
-     |     <and-op> 
-     |     <not-op> 
-     |     <add-op> 
-     |     <mult-op> 
+           REDUCTION ( <reduction-identifier> : <omp-list> ) 
 
 <omp-schedule> ::= 
            SCHEDULE ( <omp-schedule-kind> ) 
@@ -3529,15 +3542,12 @@ label-do-shared-stmt ::=
      |     <omp-private> 
      |     <omp-firstprivate> 
      |     <omp-shared> 
-     |     COPYIN ( <copyin-list> ) 
+     |     COPYIN ( <omp-list> ) 
      |     <omp-reduction> 
      |     <omp-procedure-bind> 
 
 <omp-num-threads> ::= 
            NUM_THREADS ( <scalar-int-expr> ) 
-
-<copyin-list> ::= 
-           <threadprivate-entity-list> 
 
 <omp-procedure-bind> ::= 
            PROC_BIND ( <proc-bind-argument> ) 
@@ -3639,7 +3649,7 @@ label-do-shared-stmt ::=
            ALWAYS 
 
 <omp-is-device-ptr> ::= 
-           IS_DEVICE_PTR ( <name-list> ) 
+           IS_DEVICE_PTR ( <omp-list> ) 
 
 <omp-defaultmap> ::= 
            DEFAULTMAP ( TOFROM : SCALAR ) 
@@ -3739,7 +3749,7 @@ label-do-shared-stmt ::=
      |     <omp-private> 
      |     <omp-firstprivate> 
      |     <omp-shared> 
-     |     COPYIN ( <copyin-list> ) 
+     |     COPYIN ( <omp-list> ) 
      |     <omp-reduction> 
      |     <omp-procedure-bind> 
      |     <simd-clause> 
@@ -3784,7 +3794,7 @@ label-do-shared-stmt ::=
 
 <teams-distribute-parallel-do-clause-list> ::= 
            <teams-distribute-parallel-do-clause-list> , <teams-distribute-parallel-do-clause> 
-     |     <teams-distribute-parallel-do-clause-list> teams-distribute-parallel-do-clause > 
+     |     <teams-distribute-parallel-do-clause-list> <teams-distribute-parallel-do-clause> 
      |     <teams-distribute-parallel-do-clause> 
 
 <omp-teams-distribute-simd-stmt> ::= 
@@ -3901,7 +3911,7 @@ omp-end-do-simd-stmt ::=
 
 <omp-flush-stmt> ::= 
            OMP FLUSH <\n> 
-     |     OMP FLUSH ( <name-list> ) <\n> 
+     |     OMP FLUSH ( <omp-list> ) <\n> 
 
 <omp-master-construct> ::= 
            <omp-master-stmt> structured-block <omp-end-master-stmt> 
@@ -3952,14 +3962,7 @@ omp-end-ordered-stmt ::=
 
 <ordered-depend-clause> ::= 
            DEPEND ( SOURCE ) 
-     |     DEPEND ( SINK : <omp-vec> ) 
-
-<omp-vec> ::= 
-           <expr-list> 
-
-<expr-list> ::= 
-           <expr-list> , <expr> 
-     |     <expr> 
+     |     DEPEND ( SINK : <omp-list> ) 
 
 <omp-parallel-construct> ::= 
            <parallel-stmt> structured-block <omp-end-parallel-stmt> 
@@ -4128,7 +4131,7 @@ omp-end-single-stmt ::=
      |     NOWAIT 
 
 <omp-copyprivate> ::= 
-           COPYPRIVATE ( <private-list> ) 
+           COPYPRIVATE ( <omp-list> ) 
 
 <omp-target-construct> ::= 
            <omp-target-stmt> structured-block <omp-end-target-stmt> 
@@ -4156,7 +4159,25 @@ omp-end-target-stmt ::=
 
 <omp-target-data-stmt> ::= 
            OMP-TARGET DATA <\n> 
-     |     OMP-TARGET DATA <target-clause-list> <\n> 
+     |     OMP-TARGET DATA <target-data-clause-list> <\n> 
+
+<target-data-clause-list> ::= 
+           <target-data-clause-list> , <target-data-clause> 
+     |     <target-data-clause-list> <target-data-clause> 
+     |     <target-data-clause> 
+
+<target-data-clause> ::= 
+           <omp-if-target-data> 
+     |     <omp-device> 
+     |     <omp-map> 
+     |     <omp-use-device-ptr> 
+
+<omp-if-target-data> ::= 
+           IF ( <scalar-logical-expression> ) 
+     |     IF ( TARGET DATA : <scalar-logical-expression> ) 
+
+<omp-use-device-ptr> ::= 
+           USE_DEVICE_PTR ( <omp-list> ) 
 
 <omp-end-target-data-stmt> ::= 
            omp-end-target-data-stmt <\n> 

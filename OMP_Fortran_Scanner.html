@@ -298,6 +298,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#IAND">IAND</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#IEOR">IEOR</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#INBRANCH">INBRANCH</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#INITIALIZER">INITIALIZER</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#IOR">IOR</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#IS_DEVICE_PTR">IS_DEVICE_PTR</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#LASTPRIVATE">LASTPRIVATE</A>&nbsp;
@@ -337,6 +338,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#OMP-END-PARALLEL-DO-SIMD">OMP-END-PARALLEL-DO-SIMD</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#OMP-TARGET">OMP-TARGET</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#OMP-TARGET-EXIT">OMP-TARGET-EXIT</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#OMP_PRIV">OMP_PRIV</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#ORDERED">ORDERED</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#POINT">POINT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#PRIORITY">PRIORITY</A>&nbsp;
@@ -744,6 +746,7 @@
 <BR><BR><STRONG><A name="IAND">IAND</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I&nbsp;A&nbsp;N&nbsp;D&nbsp;
 <BR><BR><STRONG><A name="IEOR">IEOR</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I&nbsp;E&nbsp;O&nbsp;R&nbsp;
 <BR><BR><STRONG><A name="INBRANCH">INBRANCH</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I&nbsp;N&nbsp;B&nbsp;R&nbsp;A&nbsp;N&nbsp;C&nbsp;H&nbsp;
+<BR><BR><STRONG><A name="INITIALIZER">INITIALIZER</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I&nbsp;N&nbsp;I&nbsp;T&nbsp;I&nbsp;A&nbsp;L&nbsp;I&nbsp;Z&nbsp;E&nbsp;R&nbsp;
 <BR><BR><STRONG><A name="IOR">IOR</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I&nbsp;O&nbsp;R&nbsp;
 <BR><BR><STRONG><A name="IS_DEVICE_PTR">IS_DEVICE_PTR</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I&nbsp;S&nbsp;_&nbsp;D&nbsp;E&nbsp;V&nbsp;I&nbsp;C&nbsp;E&nbsp;_&nbsp;P&nbsp;T&nbsp;R&nbsp;
 <BR><BR><STRONG><A name="LASTPRIVATE">LASTPRIVATE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L&nbsp;A&nbsp;S&nbsp;T&nbsp;P&nbsp;R&nbsp;I&nbsp;V&nbsp;A&nbsp;T&nbsp;E&nbsp;
@@ -784,6 +787,7 @@
 <BR><BR><STRONG><A name="OMP-END-PARALLEL-DO-SIMD">OMP-END-PARALLEL-DO-SIMD</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!$OMP&gt;&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;N&nbsp;D&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;P&nbsp;A&nbsp;R&nbsp;A&nbsp;L&nbsp;L&nbsp;E&nbsp;L&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;D&nbsp;O&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;S&nbsp;I&nbsp;M&nbsp;D&nbsp;
 <BR><BR><STRONG><A name="OMP-TARGET">OMP-TARGET</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#OMP">OMP</A>&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;T&nbsp;A&nbsp;R&nbsp;G&nbsp;E&nbsp;T&nbsp;
 <BR><BR><STRONG><A name="OMP-TARGET-EXIT">OMP-TARGET-EXIT</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!$OMP&gt;&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;T&nbsp;A&nbsp;R&nbsp;G&nbsp;E&nbsp;T&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;X&nbsp;I&nbsp;T&nbsp;
+<BR><BR><STRONG><A name="OMP_PRIV">OMP_PRIV</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O&nbsp;M&nbsp;P&nbsp;_&nbsp;P&nbsp;R&nbsp;I&nbsp;V&nbsp;
 <BR><BR><STRONG><A name="ORDERED">ORDERED</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O&nbsp;R&nbsp;D&nbsp;E&nbsp;R&nbsp;E&nbsp;D&nbsp;
 <BR><BR><STRONG><A name="POINT">POINT</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P&nbsp;O&nbsp;I&nbsp;N&nbsp;T&nbsp;
 <BR><BR><STRONG><A name="PRIORITY">PRIORITY</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P&nbsp;R&nbsp;I&nbsp;O&nbsp;R&nbsp;I&nbsp;T&nbsp;Y&nbsp;
@@ -816,7 +820,8 @@
 <BR><BR><STRONG><A name="WORKSHARE">WORKSHARE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;W&nbsp;O&nbsp;R&nbsp;K&nbsp;S&nbsp;H&nbsp;A&nbsp;R&nbsp;E&nbsp;
 <BR><BR><STRONG><A name="<omp-compound>">&lt;omp-compound&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<omp-compound-value>">&lt;omp-compound-value&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-compound-value>">&lt;omp-compound-value&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<A href="#<omp-stmt-prefix>">&lt;omp-stmt-prefix&gt;</A>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;A&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;Z&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">-=</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;A&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;Z&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<A href="#<omp-clause-key>">&lt;omp-clause-key&gt;</A>&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
-<BR><BR><STRONG><A name="<omp-stmt-prefix>">&lt;omp-stmt-prefix&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E&nbsp;N&nbsp;D&nbsp;
+<BR><BR><STRONG><A name="<omp-stmt-prefix>">&lt;omp-stmt-prefix&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;A&nbsp;N&nbsp;C&nbsp;E&nbsp;L&nbsp;L&nbsp;A&nbsp;T&nbsp;I&nbsp;O&nbsp;N&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;E&nbsp;N&nbsp;D&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;E&nbsp;N&nbsp;T&nbsp;E&nbsp;R&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;D&nbsp;E&nbsp;C&nbsp;L&nbsp;A&nbsp;R&nbsp;E&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;D&nbsp;I&nbsp;S&nbsp;T&nbsp;R&nbsp;I&nbsp;B&nbsp;U&nbsp;T&nbsp;E&nbsp;
@@ -1142,6 +1147,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#IAND">IAND</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#IEOR">IEOR</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#INBRANCH">INBRANCH</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#INITIALIZER">INITIALIZER</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#IOR">IOR</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#IS_DEVICE_PTR">IS_DEVICE_PTR</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#LASTPRIVATE">LASTPRIVATE</A>&nbsp;
@@ -1157,6 +1163,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NOWAIT">NOWAIT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NUM_TASKS">NUM_TASKS</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NUM_TEAMS">NUM_TEAMS</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#OMP_PRIV">OMP_PRIV</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#ORDERED">ORDERED</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#POINT">POINT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#PRIORITY">PRIORITY</A>&nbsp;

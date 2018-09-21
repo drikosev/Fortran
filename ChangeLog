@@ -82,8 +82,9 @@ The Following bug-fix has not been tested very well yet:
  ---------------------------
  [2018-09-17]  The <omp-compound> shouldn't begin with "EXIT" because the parser then accepts           (done)
                in free form the invalid statement "exitcn", where "cn" is the name of a construct.  
- [2018-09-18]  Likely the scanner won't accept in free form an omitted space between "DO" and "SIMD".
-
+ [2018-09-21]  This scanner doesn't accept in free form an omitted space between "DO" and "SIMD".
+ [2018-09-21]  PGI Extension. Allow in free form an omitted space between "CANCELLATION" and "POINT".   (done) 
+		 
 
 Legacy parser Issues
 --------------------
@@ -131,13 +132,12 @@ Legacy parser Issues
  [2018-09-14] The example 'nthrs_dynamic.1.f' in document "openmp-examples-4.5.0.pdf is rejected. (done)
  [2018-09-15] Similarly, an omitted "structured-block" in a task is rejected ("tasking.7.f").     (done)
  [2018-09-16] The example "task_priority.1.f90" is rejected (undefined "<omp-priority>").         (done)
- [2018-09-17] Likely, the "list" used in OpenMP clauses isn't a "<named-list>" as this grammar,
-              assumes. At the moment, I've changed it in map/to/from with a data-reference list.
-              [20/9] Defined also " <omp-vec>     ::= <expr-list> ".
-              [20/9] Defined also " <copyin-list> ::= <threadprivate-entity-list> ".
-              [20/9] Defined also "<private-list> ::= <threadprivate-entity-list> ".
-              [20/9] Defined also " <shared-list> ::= <threadprivate-entity-list> ".
-              Todo: figure it in which syntax rules these changes should be applied to.  	
+ [2018-09-17] The "list" used in OpenMP clauses isn't a "<named-list>" as this grammar assumed.   (done)
+              In the OpenMP-4.5 draft we read that "a list item is a variable, array section or 
+              common block name (enclosed in slashes). An extended list item is a list item
+              or a procedure name".
+        Note: Since in our Fortran Grammar a Data Reference includes a Procedure Name, the
+              extended-list is simply defined as a list.
  [2018-09-17] In "<omp-target-exit-data-stmt>", use the new keyword "OMP-TARGET-EXIT".            (done)
  [2018-09-18] On an unknown OpenMP Directive, the error message is empty:
                $ fcheck -fopenmp teams.1.f90

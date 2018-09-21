@@ -84,20 +84,16 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
     4.1) The "OMP_Legacy_Parser.txt" contains the syntax rules of a Fortran parser, which in addition
          to the above mentioned Fortran (Legacy) parser, accepts the following OMP directives:
 
-         - ATOMIC
-         - BARRIER
+         - ATOMIC, BARRIER
          - CANCEL, CANCELLATION POINT, CRITICAL
-         - DECLARE SIMD, DECLARE TARGET
+         - DECLARE REDUCTION, DECLARE SIMD, DECLARE TARGET
          - DISTRIBUTE, DISTRIBUTE PARALLEL DO, DISTRIBUTE PARALLEL DO SIMD, DISTRIBUTE SIMD
          - DO, DO SERIAL (*), DO SIMD
          - FLUSH
          - MASTER
          - ORDERED 
          - PARALLEL, PARALLEL DO, PARALLEL DO SIMD, PARALLEL SECTIONS, PARALLEL WORKSHARE
-         - SCHEDULE (* deprecated) 
-         - SECTIONS
-         - SIMD
-         - SINGLE
+         - REDUCTION, SCHEDULE (* deprecated), SECTIONS, SIMD, SINGLE
          - TARGET, TARGET DATA, TARGET ENTER DATA, TARGET EXIT DATA, TARGET PARALLEL, 
            TARGET PARALLEL DO, TARGET PARALLEL DO SIMD, TARGET SIMD, 
            TARGET TEAMS, TARGET TEAMS DISTRIBUTE PARALLEL DO, TARGET UPDATE
@@ -108,10 +104,9 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
 
 
          This parser can parse the Fortran examples found in file "openmp-examples-4.5.0.pdf" (SHA1
-         b49451455b32dd6f1b31450d774476d4d1f74708), except the "standalone.1.f90" which is an example
-         of syntactically invalid directives that an OpenMP-compliant tool has to reject. Nonetheless,
-         this is a relatively fresh parser, likely not stable yet; ie, the BNF Rule "list" hasn't been
-         finalized. So, this parser is in essence work in progress until such issues are solved.
+         b49451455b32dd6f1b31450d774476d4d1f74708), except the "standalone.1.f90" which is supposed
+         to be rejected from an OpenMP-compliant implementation. Nonetheless, this is a relatively
+         fresh parser that hasn't been tested very well. So, one should see it as work in progress.
 
          Note that the literal "!$OMP", which is parsed by the Hand Coded File Reader, introduces an OMP 
          directive and is also required in both fixed & free form continuation lines; in fixed form also
