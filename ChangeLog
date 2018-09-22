@@ -148,7 +148,6 @@ Legacy parser Issues
  [2018-09-19]  The program "critical.2.f' is rejected (the HINT clause should be in the header). (done)
  [2018-09-20]  The parser rejects the examples "doacross.1.f90", ..., "doacross.4.f90".          (done)
                The ordered directive may be stand alone if the "depend" clause is present.       
-               Now I've set also: "<omp-vec> ::= <expr-list>".
  [2018-09-22]  This parser can parse the following OpenMP (4.5) directives:
                - ATOMIC, BARRIER
                - CANCEL, CANCELLATION POINT, CRITICAL
@@ -180,10 +179,10 @@ Free Form Preprocessor
 ----------------------
 [ 2018-07-01 ] Bug: The preprocessor was accepting a line comment after a '&' in a character context (done).
 [ 2018-07-03 ] todo: Add semantic actions that strip out statement continuation patters from quoted literals.
-[ 2018-07-08 ] Enhancement: Allow line comment characters up to "\uFFFD", instead of "\u00FF".    (done).
+[ 2018-07-08 ] Enhancement: Allow line comment characters up to "\uFFFD", instead of "\u00FF".       (done)
                This value changed also in the scanner including all the (double) quoted literals.
-[ 2018-09-13 ] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF) hasn't assigned
-               characters. (see https://en.wikipedia.org/wiki/Private_Use_Areas).
+               [13/9] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF) hasn't 
+               assigned characters. (see https://en.wikipedia.org/wiki/Private_Use_Areas).
 
 
 Hand coded File Reader
@@ -199,7 +198,7 @@ Hand coded File Reader
 [ 2018-07-07 ] Feature: The hand coded file reader cannot invoke the C preprocessor which is sometimes
                required by Fortran programs, ie by the program "wrf-phdf5support.F90".
 
-The Following three new features/bug-fixes have not been tested very well yet:
+The Following four new features/bug-fixes have not been tested very well yet:
  
 [ 2018-07-18 ] GNU/Ora/PGI Extension (fixed form): Support the FORTRAN 77 Tab-Format. Read more at: (done)
                https://docs.oracle.com/cd/E19957-01/805-4939/z40007331ff1/index.html
