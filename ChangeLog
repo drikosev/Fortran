@@ -149,8 +149,33 @@ Legacy parser Issues
  [2018-09-20]  The parser rejects the examples "doacross.1.f90", ..., "doacross.4.f90".          (done)
                The ordered directive may be stand alone if the "depend" clause is present.       
                Now I've set also: "<omp-vec> ::= <expr-list>".
+ [2018-09-22]  This parser can parse the following OpenMP (4.5) directives:
+               - ATOMIC, BARRIER
+               - CANCEL, CANCELLATION POINT, CRITICAL
+               - DECLARE REDUCTION, DECLARE SIMD, DECLARE TARGET
+               - DISTRIBUTE, DISTRIBUTE PARALLEL DO, DISTRIBUTE PARALLEL DO SIMD, DISTRIBUTE SIMD
+               - DO, DO SERIAL (*), DO SIMD
+               - FLUSH
+               - MASTER
+               - ORDERED 
+               - PARALLEL, PARALLEL DO, PARALLEL DO SIMD, PARALLEL SECTIONS, PARALLEL WORKSHARE
+               - REDUCTION, SCHEDULE (* deprecated), SECTIONS, SIMD, SINGLE
+               - TARGET, TARGET DATA, TARGET ENTER DATA, TARGET EXIT DATA, TARGET PARALLEL, 
+                 TARGET PARALLEL DO, TARGET PARALLEL DO SIMD, TARGET SIMD, 
+                 TARGET TEAMS, TARGET TEAMS DISTRIBUTE [PARALLEL DO] [SIMD], TARGET UPDATE
+               - TASK, TASKGROUP, TASKLOOP [SIMD], TASKWAIT, TASKYIELD
+               - TEAMS, TEAMS DISTRIBUTE [SIMD], TEAMS DISTRIBUTE PARALLEL DO [SIMD]
+               - THREADPRIVATE, THREADLOCAL (*)
+               - WORKSHARE
+               (*) Two vendor specific directives may not be very accurate.
+ [2018-09-22]  The following 6 directives haven't been tested yet:
+               (a) DECLARE REDUCTION, 
+               (b-d) TARGET TEAMS DISTRIBUTE [[PARALLEL DO] SIMD], 
+               (e) TASKLOOP SIMD 
+               (f) TEAMS DISTRIBUTE PARALLEL DO SIMD, 
 
-             
+
+
 Free Form Preprocessor
 ----------------------
 [ 2018-07-01 ] Bug: The preprocessor was accepting a line comment after a '&' in a character context (done).
@@ -208,4 +233,8 @@ The Following three new features/bug-fixes have not been tested very well yet:
      C preprocessing (5 *.F). The source code of LAPACK can be found at:
 [*6] http://www.netlib.org/lapack/    
 
+     The OMP (Legacy) Parser can parse the Fortran examples found in file "openmp-examples-4.5.0.pdf"
+     (SHA1 b49451455b32dd6f1b31450d774476d4d1f74708), except the "standalone.1.f90" program which is
+     supposed to be rejected by an OpenMP compliant implementation. This document can be found at:
+[*7] https://www.openmp.org/wp-content/uploads/openmp-examples-4.5.0.pdf
 
