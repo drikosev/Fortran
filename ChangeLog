@@ -168,11 +168,15 @@ Legacy parser Issues
                - WORKSHARE
                (*) Two vendor specific directives may not be very accurate.
  [2018-09-22]  The following 6 directives haven't been tested yet:
-               (a) DECLARE REDUCTION, 
+            v  (a) DECLARE REDUCTION, 
                (b-d) TARGET TEAMS DISTRIBUTE [[PARALLEL DO] SIMD], 
                (e) TASKLOOP SIMD 
                (f) TEAMS DISTRIBUTE PARALLEL DO SIMD, 
-
+ [2018-09-23]  The command "fcheck" fails to parse the following example:                          (done)
+               software.intel.com/en-us/fortran-compiler-developer-guide-and-reference-declare-reduction
+               The error message is: "declare-reduction.1.f90:8: error: syntax:Unexpected: '/'." 
+               If '/0/' is replaced by '0', the directive is parsed (maybe a Fortran extension).                
+               Also, added "<omp-initializer-expr> ::= <procedure-name> <p-actual-arg-spec-list> ". 
 
 
 Free Form Preprocessor

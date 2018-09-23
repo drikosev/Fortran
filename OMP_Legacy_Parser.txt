@@ -1485,6 +1485,7 @@ keyword ::=
 
 <omp-initializer-expr> ::= 
            OMP_PRIV = <expr> 
+     |     <procedure-name> <p-actual-arg-spec-list> 
 
 <omp-declare-simd> ::= 
            OMP DECLARE SIMD <\n> 
