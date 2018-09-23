@@ -145,6 +145,7 @@ Legacy parser Issues
 
                Parsed with Errors: teams.1.f90
                $
+               [23/9] With "gui-less: build & generate" the error messages are spoiled/missing.
  [2018-09-19]  The program "critical.2.f' is rejected (the HINT clause should be in the header). (done)
  [2018-09-20]  The parser rejects the examples "doacross.1.f90", ..., "doacross.4.f90".          (done)
                The ordered directive may be stand alone if the "depend" clause is present.       
@@ -177,6 +178,16 @@ Legacy parser Issues
                The error message is: "declare-reduction.1.f90:8: error: syntax:Unexpected: '/'." 
                If '/0/' is replaced by '0', the directive is parsed (maybe a Fortran extension).                
                Also, added "<omp-initializer-expr> ::= <procedure-name> <p-actual-arg-spec-list> ". 
+ [2018-09-23]  Also with the "gui-less: build & generate" option I don't see the whole error msg: 
+               declare-reduction.1.f90:8: error: syntax:Unexpected: '/'. Expected: "(", "(/", ")",
+                "*", ".NOT.", ":", "::", "[", "binary/octal/hex constant", "char-literal-constant",
+               "logical-literal-constant", "name", "number", "sign", or "user-defined-operator".
+               todo: fix the guiless option as state errors aren't composed at all.
+ [2018-09-23]  Also, I see the following (2 lines) spurius message:                               (done)
+               "declare-reduction.1.f90:17: error: syntax:Unexpected end-module-stmt.
+                Expected: end-program-stmt."
+               Added error recovery on <spec-stmt>; and deleted the rule <omp-unknown-construct>
+               (as all 4.5 directives have been implemented).
 
 
 Free Form Preprocessor

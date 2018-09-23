@@ -813,6 +813,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<use-part-stmt>">&lt;use-part-stmt&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<entry-part-stmt>">&lt;entry-part-stmt&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-declaration>">&lt;omp-declaration&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<FONT color="#cc3300">ERROR</FONT>&nbsp;&lt;;&gt;&nbsp;
 <BR><BR><STRONG><A name="<implicit-part-stmt>">&lt;implicit-part-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<implicit-stmt>">&lt;implicit-stmt&gt;</A>&nbsp;&lt;;&gt;&nbsp;
 <BR><BR><STRONG><A name="<implicit-stmt>">&lt;implicit-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPLICIT&nbsp;<A href="#<implicit-spec-list>">&lt;implicit-spec-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;IMPLICIT&nbsp;&lt;NONE&gt;&nbsp;
@@ -1867,7 +1868,6 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-threadprivate>">&lt;omp-threadprivate&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<ibm-threadlocal>">&lt;ibm-threadlocal&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-workshare-construct>">&lt;omp-workshare-construct&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-unknown-construct>">&lt;omp-unknown-construct&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-atomic-construct>">&lt;omp-atomic-construct&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<omp-atomic-update-construct>">&lt;omp-atomic-update-construct&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-atomic-capture-construct>">&lt;omp-atomic-capture-construct&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-atomic-update-construct>">&lt;omp-atomic-update-construct&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<omp-atomic-update-stmt>">&lt;omp-atomic-update-stmt&gt;</A>&nbsp;<A href="#update-statement">update-statement</A>&nbsp;<A href="#<omp-end-atomic-stmt>">&lt;omp-end-atomic-stmt&gt;</A>&nbsp;
@@ -2769,9 +2769,6 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<unexpected-end-stmt>">&lt;unexpected-end-stmt&gt;</A>&nbsp;&lt;;&gt;&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.UnBalanced( $$(0),L"omp-end-workshare-stmt",63,false);*/</FONT></EM>
 <BR><BR><STRONG><A name="omp-end-workshare-stmt">omp-end-workshare-stmt</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OMP&nbsp;END&nbsp;WORKSHARE&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;OMP&nbsp;END&nbsp;WORKSHARE&nbsp;NOWAIT&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
-<BR><BR><STRONG><A name="<omp-unknown-construct>">&lt;omp-unknown-construct&gt;</A></STRONG><FONT color="#cc3300"> ::~ </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<omp-unknown-stmt>">&lt;omp-unknown-stmt&gt;</A>&nbsp;<A href="#structured-block">structured-block</A>&nbsp;<A href="#<omp-end-unknown-stmt>">&lt;omp-end-unknown-stmt&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<omp-unknown-stmt>">&lt;omp-unknown-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::~ </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OMP&nbsp;<A href="#<erroneous-stmt>">&lt;erroneous-stmt&gt;</A>&nbsp;&lt;;&gt;&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.OMP_ERROR=Tr.OMP_ERROR+1;*/</FONT></EM>
-<BR><BR><STRONG><A name="<omp-end-unknown-stmt>">&lt;omp-end-unknown-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::~ </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<unexpected-end-stmt>">&lt;unexpected-end-stmt&gt;</A>&nbsp;&lt;;&gt;&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* //a msg issued on header*/</FONT></EM>
 <BR><BR><STRONG><A name="<end-associate-stmt>">&lt;end-associate-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#end-associate-stmt">end-associate-stmt</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;label&gt;&nbsp;<A href="#end-associate-stmt">end-associate-stmt</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<unexpected-end-stmt>">&lt;unexpected-end-stmt&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.UnBalanced( $$(0), L"end-associate-stmt",11,false);*/</FONT></EM>

@@ -1330,6 +1330,7 @@ keyword ::=
      |     <use-part-stmt> 
      |     <entry-part-stmt> 
      |     <omp-declaration> 
+     |     ERROR <;> 
 
 <implicit-part-stmt> ::= 
            <implicit-stmt> <;> 
@@ -3122,7 +3123,6 @@ continue-stmt ::=
      |     <omp-threadprivate> 
      |     <ibm-threadlocal> 
      |     <omp-workshare-construct> 
-     |     <omp-unknown-construct> 
 
 <omp-atomic-construct> ::= 
            <omp-atomic-update-construct> 
@@ -4714,15 +4714,6 @@ masked-elsewhere-stmt ::=
 omp-end-workshare-stmt ::= 
            OMP END WORKSHARE +: { <;> } 
      |     OMP END WORKSHARE NOWAIT +: { <;> } 
-
-<omp-unknown-construct> ::~ 
-           <omp-unknown-stmt> structured-block <omp-end-unknown-stmt> 
-
-<omp-unknown-stmt> ::~ 
-           OMP <erroneous-stmt> <;>   /* Tr.OMP_ERROR=Tr.OMP_ERROR+1;*/
-
-<omp-end-unknown-stmt> ::~ 
-           <unexpected-end-stmt> <;>   /* //a msg issued on header*/
 
 <end-associate-stmt> ::= 
            end-associate-stmt 
