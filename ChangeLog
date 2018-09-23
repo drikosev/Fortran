@@ -183,7 +183,7 @@ Legacy parser Issues
                 "*", ".NOT.", ":", "::", "[", "binary/octal/hex constant", "char-literal-constant",
                "logical-literal-constant", "name", "number", "sign", or "user-defined-operator".
                todo: fix the guiless option as state errors aren't composed at all.
- [2018-09-23]  Also, I see the following (2 lines) spurius message:                               (done)
+ [2018-09-23]  Also, I see the following (2 lines) spurious message:                              (done)
                "declare-reduction.1.f90:17: error: syntax:Unexpected end-module-stmt.
                 Expected: end-program-stmt."
                Added error recovery on <spec-stmt>; and deleted the rule <omp-unknown-construct>
