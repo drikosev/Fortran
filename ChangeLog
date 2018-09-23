@@ -139,13 +139,13 @@ Legacy parser Issues
         Note: Since in our Fortran Grammar a Data Reference includes a Procedure Name, the
               extended-list is simply defined as a list.
  [2018-09-17] In "<omp-target-exit-data-stmt>", use the new keyword "OMP-TARGET-EXIT".            (done)
- [2018-09-18] On an unknown OpenMP Directive, the error message is empty:
+ [2018-09-18] On an unknown OpenMP Directive, the error message is empty:                         (done)
                $ fcheck -fopenmp teams.1.f90
                teams.1.f90:8: error: syntax:
 
                Parsed with Errors: teams.1.f90
                $
-               [23/9] With "gui-less: build & generate" the error messages are spoiled/missing.
+               [23/9] Search below the phrase "gui-less: build & generate".
  [2018-09-19]  The program "critical.2.f' is rejected (the HINT clause should be in the header). (done)
  [2018-09-20]  The parser rejects the examples "doacross.1.f90", ..., "doacross.4.f90".          (done)
                The ordered directive may be stand alone if the "depend" clause is present.       
