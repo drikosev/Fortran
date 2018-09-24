@@ -892,6 +892,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<not-op>">&lt;not-op&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;add-op&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;mult-op&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;defined-unary-op&gt;&nbsp;
 <BR><BR><STRONG><A name="<omp-type-list>">&lt;omp-type-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<omp-type-list>">&lt;omp-type-list&gt;</A>&nbsp;,&nbsp;<A href="#<type-spec>">&lt;type-spec&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<type-spec>">&lt;type-spec&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<omp-combiner>">&lt;omp-combiner&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<designator>">&lt;designator&gt;</A>&nbsp;=&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
@@ -2168,7 +2169,7 @@
 <BR><BR><STRONG><A name="<distribute-parallel-do-simd-clause>">&lt;distribute-parallel-do-simd-clause&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<distribute-clause>">&lt;distribute-clause&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<parallel-do-simd-clause>">&lt;parallel-do-simd-clause&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<parallel-do-simd-clause>">&lt;parallel-do-simd-clause&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<parallel-clause>">&lt;parallel-clause&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<simd-clause>">&lt;simd-clause&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-do-simd-clause>">&lt;omp-do-simd-clause&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<distribute-parallel-do-stmt>">&lt;distribute-parallel-do-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OMP&nbsp;DISTRIBUTE&nbsp;PARALLEL&nbsp;DO&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;OMP&nbsp;DISTRIBUTE&nbsp;PARALLEL&nbsp;DO&nbsp;<A href="#<distribute-parallel-do-clause-list>">&lt;distribute-parallel-do-clause-list&gt;</A>&nbsp;<A href="#<\n>">&lt;\n&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<distribute-parallel-do-clause-list>">&lt;distribute-parallel-do-clause-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<distribute-parallel-do-clause-list>">&lt;distribute-parallel-do-clause-list&gt;</A>&nbsp;,&nbsp;<A href="#<distribute-parallel-do-clause>">&lt;distribute-parallel-do-clause&gt;</A>&nbsp;

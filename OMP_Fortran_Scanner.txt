@@ -390,17 +390,9 @@
      |     <::> 
      |     <lbracket> 
      |     <rbracket> 
-     |     <.EQ.> 
-     |     <.NE.> 
-     |     <.LT.> 
-     |     <.LE.> 
-     |     <.GT.> 
-     |     <.GE.> 
      |     <.NOT.> 
      |     <.AND.> 
      |     <.OR.> 
-     |     <.EQV.> 
-     |     <.NEQV.> 
      |     <defined-unary-op> 
      |     <defined-binary-op> 
      |     <==> 
@@ -2242,6 +2234,31 @@ exponent ::=
 <rbracket> ::= 
            \u005d 
 
+<.NOT.> ::= 
+           . N O T . 
+
+<.AND.> ::= 
+           . A N D . 
+
+<.OR.> ::= 
+           . O R . 
+
+<defined-unary-op> ::= 
+           { . <letter> [ <letter> ... ] . } -= { <intrinsic-op> | <logical-literal-constant> } 
+
+<intrinsic-op> ::= 
+           <.EQ.> 
+     |     <.NE.> 
+     |     <.LT.> 
+     |     <.LE.> 
+     |     <.GT.> 
+     |     <.GE.> 
+     |     <.NOT.> 
+     |     <.AND.> 
+     |     <.OR.> 
+     |     <.EQV.> 
+     |     <.NEQV.> 
+
 <.EQ.> ::= 
            . E Q . 
 
@@ -2260,36 +2277,11 @@ exponent ::=
 <.GE.> ::= 
            . G E . 
 
-<.NOT.> ::= 
-           . N O T . 
-
-<.AND.> ::= 
-           . A N D . 
-
-<.OR.> ::= 
-           . O R . 
-
 <.EQV.> ::= 
            . E Q V . 
 
 <.NEQV.> ::= 
            . N E Q V . 
-
-<defined-unary-op> ::= 
-           { . <letter> [ <letter> ... ] . } -= { <intrinsic-op> | <logical-literal-constant> } 
-
-<intrinsic-op> ::= 
-           <.EQ.> 
-     |     <.NE.> 
-     |     <.LT.> 
-     |     <.LE.> 
-     |     <.GT.> 
-     |     <.GE.> 
-     |     <.NOT.> 
-     |     <.AND.> 
-     |     <.OR.> 
-     |     <.EQV.> 
-     |     <.NEQV.> 
 
 <defined-binary-op> ::= 
            { . <letter> [ <letter> ... ] . } -= { <intrinsic-op> | <logical-literal-constant> } 

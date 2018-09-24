@@ -66,6 +66,11 @@ Fortran scanner Issues
                [22/7] <char-length> ::= <LABEL> and activated semantic actions on SMA due to "do-labels".
                [27/8] undo the above as the scanner now returns on SMA all the alternative tokens.
 [ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
+[ 2018-09-24 ] Remove  from token: <.EQ.>,<.NE.>,<.LT.>,<.LE.>,<.GT.>,<.GE.>                       (todo)
+               Only a <rel-op> is known to the parser and on error the "unexpected part" is missing:
+	       $ fcheck -fopenmp ../gomp/udr1.f90
+               ../gomp/udr1.f90:4: error: syntax:Expected: ".AND.", ".NOT.", ".OR.", "IAND", "IEOR",
+               "IOR", "MAX", "MIN", "add-op", "equiv-op", "mult-op", or "name".
 
 
 The Following bug-fix has not been tested very well yet:
@@ -84,7 +89,12 @@ The Following bug-fix has not been tested very well yet:
                in free form the invalid statement "exitcn", where "cn" is the name of a construct.  
  [2018-09-21]  This scanner doesn't accept in free form an omitted space between "DO" and "SIMD".
  [2018-09-21]  PGI Extension. Allow in free form an omitted space between "CANCELLATION" and "POINT".   (done) 
-		 
+ [2018-09-24]  Remove  from token: <.EQ.>,<.NE.>,<.LT.>,<.LE.>,<.GT.>,<.GE.>                            (done) 
+               The parser knows only the <rel-op> and on error the "unexpected part" is missing:
+	       $ fcheck -fopenmp ../gomp/udr1.f90
+               ../gomp/udr1.f90:4: error: syntax:Expected: ".AND.", ".NOT.", ".OR.", "IAND", "IEOR",
+               "IOR", "MAX", "MIN", "add-op", "equiv-op", "mult-op", or "name".
+
 
 Legacy parser Issues
 --------------------
@@ -168,11 +178,12 @@ Legacy parser Issues
                - THREADPRIVATE, THREADLOCAL (*)
                - WORKSHARE
                (*) Two vendor specific directives may not be very accurate.
- [2018-09-22]  The following 6 directives haven't been tested yet:
+ [2018-09-22]  The following 6 directives haven't been tested yet:                                 (done)
             v  (a) DECLARE REDUCTION, 
-               (b-d) TARGET TEAMS DISTRIBUTE [[PARALLEL DO] SIMD], 
-               (e) TASKLOOP SIMD 
-               (f) TEAMS DISTRIBUTE PARALLEL DO SIMD, 
+            v  (b-d) TARGET TEAMS DISTRIBUTE [[PARALLEL DO] SIMD], 
+            v  (f) TEAMS DISTRIBUTE PARALLEL DO SIMD, 
+            v  (e) TASKLOOP SIMD 
+               A really nice example "target2.f90" tests most of the above & "pr82568.f90" the (e).
  [2018-09-23]  The command "fcheck" fails to parse the following valued example:                   (done)
                software.intel.com/en-us/fortran-compiler-developer-guide-and-reference-declare-reduction
                The error message is: "declare-reduction.1.f90:8: error: syntax:Unexpected: '/'." 
@@ -183,11 +194,24 @@ Legacy parser Issues
                 "*", ".NOT.", ":", "::", "[", "binary/octal/hex constant", "char-literal-constant",
                "logical-literal-constant", "name", "number", "sign", or "user-defined-operator".
                todo: fix the guiless option as state errors aren't composed at all.
- [2018-09-23]  Also, I see the following (2 lines) spurious message:                              (done)
+ [2018-09-23]  Also, I see the following, 2-line, spurious message:                              (done)
                "declare-reduction.1.f90:17: error: syntax:Unexpected end-module-stmt.
                 Expected: end-program-stmt."
                Added error recovery on <spec-stmt>; and deleted the rule <omp-unknown-construct>
                (as all 4.5 directives have been implemented).
+ [2018-09-24]  GNU Extension: Accept a user-defined-operator as a reduction-identifier.
+               Several test cases in gfortran7 ie use such a feature:                             (done)
+               $ fcheck -fopenmp ../gomp/udr5.f90
+               ../gomp/udr5.f90:15: error: syntax:Unexpected: defined-unary-op with value '.MYADD.'.
+               Expected: ".AND.", ".NOT.", ".OR.", "IAND", "IEOR", "IOR", "MAX", "MIN", "add-op",
+               "equiv-op", "mult-op", or "name". 
+ [2018-09-24]  The following warning has (a) wrong line number and (b) is redundand on a '&':    (done)
+               free-2.f90:6: warning: Initial OpenMP directive lines must have a space after the
+               sentinel "!$OMP".
+               free-2.f90:5: error: syntax:Unexpected: '&'. Expected: ... 
+ [2018-09-24]  <parallel-do-simd-clause> ::= <parallel-clause> | <omp-do-simd-clause>            (done)
+               $ fcheck -fopenmp ../gomp/target2.f90
+               ../gomp/target2.f90: error: syntax:Unexpected: 'SCHEDULE'. Expected: ...
 
 
 Free Form Preprocessor

@@ -1469,6 +1469,7 @@ keyword ::=
      |     <not-op> 
      |     <add-op> 
      |     <mult-op> 
+     |     <defined-unary-op> 
 
 <omp-type-list> ::= 
            <omp-type-list> , <type-spec> 
@@ -3607,7 +3608,7 @@ label-do-shared-stmt ::=
 
 <parallel-do-simd-clause> ::= 
            <parallel-clause> 
-     |     <simd-clause> 
+     |     <omp-do-simd-clause> 
 
 <distribute-parallel-do-stmt> ::= 
            OMP DISTRIBUTE PARALLEL DO <\n> 
