@@ -28,7 +28,7 @@ Fortran parser Issues
                It doesn't allow such a length specification in a function name, ie:
                "INTEGER FUNCTION FCN*2 ( A, B, C )", see [*2].
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
-[ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in a <write-stmt>. ie:
+[ 2018-04-25 ] GNU/PGI Extension: Allow an extra comma in a <write-stmt>. ie:
                write (*,*), "handler";
 [ 2018-06-26 ] Bug: The following erroneous 2 line program sends the generated parser          (done)
                (not the simulator) to an infinitive loop:
@@ -112,7 +112,7 @@ Legacy parser Issues
 [ 2018-04-23 ] The Dec specific <parameter-stmt> isn't supported in fixed form (ie PARAMETER y = 1 is
                interpreted as PARAMETERy= 1).
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
-[ 2018-04-25 ] Extension: Allow GNU Fortran specific extra comma in a <write-stmt>. ie:
+[ 2018-04-25 ] GNU/PGI Extension: Allow an extra comma in a <write-stmt>. ie:
                write (*,*), "hello";
 [ 2018-04-26 ] Extension: Allow an originally IBM specific DEFINE FILE Statement, <define-file-unit-stmt>.
                See also [*1].
