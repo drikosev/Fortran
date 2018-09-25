@@ -242,8 +242,8 @@ Hand coded File Reader
                passed to "wifstream.imbue(locale)" requires different arguments in Win,Mac, and Linux.
         note:  To run the command "fcheck /debug x.f90" in Windows (8.1), I've to start it in a Blue,
                Pinned PowerShell Console, else some Unicode chars (ie a '–') aren't rendered properly.
-               [05/09] In RedHat 9 also, I pass a custom "codecvt" utf8 converter to the locale.
-[ 2018-07-07 ] Feature: The hand coded file reader cannot invoke the C preprocessor which is sometimes
+               [05/09] In RedHat 9 also, I pass a custom "codecvt", utf8 converter to the locale.
+[ 2018-07-07 ] Feature: The hand coded file reader cannot invoke a C preprocessor which is sometimes
                required by Fortran programs, ie by the program "wrf-phdf5support.F90".
 
 The Following four new features/bug-fixes have not been tested very well yet:
