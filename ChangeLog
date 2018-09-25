@@ -183,7 +183,7 @@ Legacy parser Issues
             v  (b-d) TARGET TEAMS DISTRIBUTE [[PARALLEL DO] SIMD], 
             v  (f) TEAMS DISTRIBUTE PARALLEL DO SIMD, 
             v  (e) TASKLOOP SIMD 
-               A really nice example "target2.f90" tests most of the above & "pr82568.f90" the (e).
+               A really nice example ("target2.f90") tests (b-f) and "pr82568.f90" the (e).
  [2018-09-23]  The command "fcheck" fails to parse the following valued example:                   (done)
                software.intel.com/en-us/fortran-compiler-developer-guide-and-reference-declare-reduction
                The error message is: "declare-reduction.1.f90:8: error: syntax:Unexpected: '/'." 
