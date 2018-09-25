@@ -87,8 +87,9 @@ The Following bug-fix has not been tested very well yet:
  ---------------------------
  [2018-09-17]  The <omp-compound> shouldn't begin with "EXIT" because the parser then accepts           (done)
                in free form the invalid statement "exitcn", where "cn" is the name of a construct.  
- [2018-09-21]  This scanner doesn't accept in free form an omitted space between "DO" and "SIMD".
-               I think that six (6) constructs in OpenMP (4.5) are affected by this shortcoming:
+ [2018-09-21]  This scanner doesn't accept in free form an omitted space between the keywords "DO"
+               and "SIMD", in construct headers. I think there are six constructs in OpenMP (4.5)
+               which are affected by this shortcoming:
                -distribute parallel do simd
                -do simd 
                -parallel do simd 
