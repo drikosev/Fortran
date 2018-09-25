@@ -205,7 +205,7 @@ Legacy parser Issues
                ../gomp/udr5.f90:15: error: syntax:Unexpected: defined-unary-op with value '.MYADD.'.
                Expected: ".AND.", ".NOT.", ".OR.", "IAND", "IEOR", "IOR", "MAX", "MIN", "add-op",
                "equiv-op", "mult-op", or "name". 
- [2018-09-24]  The following warning has (a) wrong line number and (b) is redundand on a '&':    (done)
+ [2018-09-24]  The following warning has (a) wrong line number and (b) is redundant on a '&':    (done)
                free-2.f90:6: warning: Initial OpenMP directive lines must have a space after the
                sentinel "!$OMP".
                free-2.f90:5: error: syntax:Unexpected: '&'. Expected: ... 
