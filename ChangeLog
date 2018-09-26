@@ -198,7 +198,7 @@ Legacy parser Issues
                If '/0/' is replaced by '0', the directive is parsed (maybe an HTML typo).                
                Also, added "<omp-initializer-expr> ::= <procedure-name> <p-actual-arg-spec-list> ".
                See the note on 17/9 above. Perhaps, the last addition here was redundant.
- [2018-09-23]  Also with the "gui-less: build & generate" option I don't see the whole error msg: 
+ [2018-09-23]  Also with the "gui-less: build & generate" option I don't see the whole error msg: (done)
                declare-reduction.1.f90:8: error: syntax:Unexpected: '/'. Expected: "(", "(/", ")",
                 "*", ".NOT.", ":", "::", "[", "binary/octal/hex constant", "char-literal-constant",
                "logical-literal-constant", "name", "number", "sign", or "user-defined-operator".
