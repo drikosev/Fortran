@@ -323,6 +323,8 @@
      |     OMP-END-DISTRIBUTE-SIMD 
      |     OMP-END-DO 
      |     OMP-END-DO-SIMD 
+     |     OMP-END-PARALLEL-DO 
+     |     OMP-END-PARALLEL-DO-SIMD 
      |     OMP-END-SIMD 
      |     OMP-END-TARGET 
      |     OMP-END-TARGET-PARALLEL-DO 
@@ -338,8 +340,6 @@
      |     OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO 
      |     OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD 
      |     OMP-END-TEAMS-DISTRIBUTE-SIMD 
-     |     OMP-END-PARALLEL-DO 
-     |     OMP-END-PARALLEL-DO-SIMD 
      |     OMP-TARGET 
      |     OMP-TARGET-EXIT 
      |     OMP_PRIV 
@@ -1434,6 +1434,12 @@ OMP-END-DO ::=
 OMP-END-DO-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] D O [ { \t | \s }... ] S I M D 
 
+OMP-END-PARALLEL-DO ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O 
+
+OMP-END-PARALLEL-DO-SIMD ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O [ { \t | \s }... ] S I M D 
+
 OMP-END-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] S I M D 
 
@@ -1478,12 +1484,6 @@ OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD ::=
 
 OMP-END-TEAMS-DISTRIBUTE-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] S I M D 
-
-OMP-END-PARALLEL-DO ::= 
-           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O 
-
-OMP-END-PARALLEL-DO-SIMD ::= 
-           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O [ { \t | \s }... ] S I M D 
 
 OMP-TARGET ::= 
            OMP [ { \s | \t }... ] T A R G E T 

@@ -91,28 +91,10 @@ end-program-stmt ::=
      |     end-map-stmt   /* Tr.Unexpected(L"end-map-stmt",19,false);*/
      |     end-where-stmt   /* Tr.Unexpected(L"end-where-stmt",20,false);*/
      |     <missing-end-statement>   /* Tr.Unexpected(L"contains-stmt",21,false);*/
-     |     END <name> +: { <;> }   /* Tr.Unexpected(L"name",str(2),1001,false);*/
-     |     END <name> <name> +: { <;> }   /* Tr.Unexpected(L"name",str(2),1001,false);*/
-     |     omp-end-atomic-stmt   /* Tr.Unexpected(L"omp-end-atomic-stmt",51,false);*/
-     |     OMP-END-DISTRIBUTE +: { <;> }   /* Tr.Unexpected(L"OMP-END-DISTRIBUTE",23,false);*/
-     |     omp-end-do-stmt   /* Tr.Unexpected(L"omp-end-do-stmt",53,false);*/
-     |     OMP-END-TARGET +: { <;> }   /* Tr.Unexpected(L"OMP-END-TARGET",25,false);*/
-     |     OMP-END-TARGET TEAMS +: { <;> }   /* Tr.Unexpected(L"omp-end-target-teams-stmt",72,false);*/
-     |     omp-end-taskloop-stmt   /* Tr.Unexpected(L"omp-end-taskloop-stmt",26,false);*/
-     |     OMP-END-DISTRIBUTE-PARALLEL-DO +: { <;> }   /* Tr.Unexpected(L"OMP-END-DISTRIBUTE-PARALLEL-DO",70,false);*/
-     |     OMP-END-DISTRIBUTE-PARALLEL-DO-SIMD +: { <;> }   /* Tr.Unexpected(L"OMP-END-DISTRIBUTE-PARALLEL-DO-SIMD",71,false);*/
-     |     OMP-END-DISTRIBUTE-SIMD +: { <;> }   /* Tr.Unexpected(L"OMP-END-DISTRIBUTE-SIMD",69,false);*/
-     |     OMP-END-TEAMS +: { <;> }   /* Tr.Unexpected(L"OMP-END-TEAMS",27,false);*/
-     |     OMP-END-TEAMS-DISTRIBUTE-SIMD +: { <;> }   /* Tr.Unexpected(L"OMP-END-TEAMS-DISTRIBUTE-SIMD",68,false);*/
-     |     omp-end-parallel-do-stmt   /* Tr.Unexpected(L"omp-end-parallel-do-stmt",28,false);*/
-     |     OMP-END-DISTRIBUTE-PARALLEL-DO <erroneous-stmt>   /* Tr.error(L"Erroneous OMP-END-DISTRIBUTE-PARALLEL-DO. ");*/
-     |     OMP-END-DISTRIBUTE-PARALLEL-DO-SIMD <erroneous-stmt>   /* Tr.error(L"Erroneous OMP-END-DISTRIBUTE-PARALLEL-DO-SIMD. ");*/
-     |     OMP-END-DISTRIBUTE-SIMD <erroneous-stmt>   /* Tr.error(L"Erroneous OMP-END-DISTRIBUTE-SIMD. ");*/
-     |     OMP-END-DISTRIBUTE <erroneous-stmt>   /* Tr.error(L"Erroneous OMP-END-DISTRIBUTE. ");*/
-     |     OMP-END-TARGET <erroneous-stmt>   /* Tr.error(L"Erroneous OMP-END-TARGET. ");*/
-     |     OMP-END-TEAMS <erroneous-stmt>   /* Tr.error(L"Erroneous OMP-END-TEAMS. ");*/
-     |     OMP-END-TEAMS-DISTRIBUTE-SIMD <erroneous-stmt>   /* Tr.error(L"Erroneous OMP-END-TEAMS-DISTRIBUTE-SIMD. ");*/
-     |     OMP END <erroneous-stmt>   /* Tr.Unexpected(L"Unsupported/Erroneous OpenMP End Statement",1002,false);*/
+     |     END <name> +: { <;> }   /* Tr.Unexpected(L"name with value '%s'.",str(2),1001,false);*/
+     |     END <name> <name> +: { <;> }   /* Tr.Unexpected(L"name with value '%s'.",str(2),1001,false);*/
+     |     OMP END <erroneous-stmt>   /* Tr.Unexpected(L"",1003,false); */
+     |     OMP-END-TARGET <erroneous-stmt>   /* Tr.Unexpected(L"",1003,false); */
 
 end-associate-stmt ::= 
            END ASSOCIATE 
@@ -320,23 +302,6 @@ end-where-stmt ::=
 
 <missing-end-statement> ::~ 
            CONTAINS +: { <;> } 
-
-omp-end-atomic-stmt ::= 
-           OMP-END-ATOMIC +: { <;> } 
-     |     OMP-END-ATOMIC <erroneous-stmt>   /* Tr.error(L"Erroneous omp-end-atomic-stmt. ");*/
-
-omp-end-do-stmt ::= 
-           OMP-END-DO +: { <;> } 
-     |     OMP-END-DO NOWAIT +: { <;> } 
-     |     OMP-END-DO <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
-
-omp-end-taskloop-stmt ::= 
-           OMP-END-TASKLOOP +: { <;> } 
-     |     OMP-END-TASKLOOP <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
-
-omp-end-parallel-do-stmt ::= 
-           OMP-END-PARALLEL-DO +: { <;> } 
-     |     OMP-END-PARALLEL-DO <erroneous-stmt>   /* Tr.error(L"Expected an OpenMP end-parallel-do-stmt. ");*/
 
 <internal-subprogram-part> ::= 
            <internal-subprograms> 
@@ -3159,6 +3124,10 @@ update-statement ::=
 <omp-end-atomic-stmt> ::= 
            omp-end-atomic-stmt <\n> 
 
+omp-end-atomic-stmt ::= 
+           OMP-END-ATOMIC +: { <;> } 
+     |     OMP-END-ATOMIC <erroneous-stmt>   /* Tr.error(L"Erroneous omp-end-atomic-stmt. ");*/
+
 <omp-atomic-capture-construct> ::= 
            <omp-atomic-capture-stmt>
            update-statement
@@ -3199,8 +3168,8 @@ update-statement ::=
            OMP CANCELLATION POINT <omp-construct-type-clause> <\n> 
 
 <omp-critical-construct> ::= 
-           <omp-critical-stmt> structured-block <omp-end-critical> 
-     |     <omp-critical-stmt> <omp-end-critical> 
+           <omp-critical-stmt> structured-block <omp-end-critical;> 
+     |     <omp-critical-stmt> <omp-end-critical;> 
 
 <omp-critical-stmt> ::= 
            OMP CRITICAL <\n> 
@@ -3213,9 +3182,12 @@ hint-expression ::=
 structured-block ::= 
            <block> 
 
+<omp-end-critical;> ::= 
+           <omp-end-critical> <\n> 
+
 <omp-end-critical> ::= 
-           omp-end-critical <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-critical",52,false);*/
+           omp-end-critical 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-critical",52,false);*/
 
 omp-end-critical ::= 
            OMP END CRITICAL +: { <;> } 
@@ -3927,7 +3899,6 @@ label-do-shared-stmt ::=
 
 omp-end-distribute-stmt ::= 
            OMP-END-DISTRIBUTE +: { <;> } 
-     |     OMP-END-DISTRIBUTE <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
 
 <omp-distribute-parallel-do-construct> ::= 
            <distribute-parallel-do-stmt> <do-loop> <omp-end-distribute-parallel-do-stmt> 
@@ -3950,7 +3921,6 @@ omp-end-distribute-parallel-do-stmt ::=
 
 omp-end-distribute-parallel-do-simd-stmt ::= 
            OMP-END-DISTRIBUTE-PARALLEL-DO-SIMD +: { <;> } 
-     |     OMP-END-DISTRIBUTE-PARALLEL-DO-SIMD <erroneous-stmt>   /* Tr.error(L"Expected an OpenMP end-distribute-parallel-do-simd-stmt. ");*/
 
 <omp-distribute-simd-construct> ::= 
            <omp-distribute-simd-stmt> <do-loop> <omp-end-distribute-simd-stmt> 
@@ -3971,6 +3941,10 @@ omp-end-distribute-simd-stmt ::=
 <omp-end-do-stmt> ::= 
            omp-end-do-stmt <\n> 
 
+omp-end-do-stmt ::= 
+           OMP-END-DO +: { <;> } 
+     |     OMP-END-DO NOWAIT +: { <;> } 
+
 <omp-do-simd-construct> ::= 
            <omp-do-simd-stmt> <do-loop> <omp-end-do-simd-stmt> 
      |     <omp-do-simd-stmt> <do-loop> -: { OMP-END-DO-SIMD } 
@@ -3981,7 +3955,6 @@ omp-end-distribute-simd-stmt ::=
 omp-end-do-simd-stmt ::= 
            OMP-END-DO-SIMD +: { <;> } 
      |     OMP-END-DO-SIMD NOWAIT +: { <;> } 
-     |     OMP-END-DO-SIMD <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
 
 <smp-do-serial> ::= 
            <smp-do-serial-stmt> <do-loop> 
@@ -3991,22 +3964,25 @@ omp-end-do-simd-stmt ::=
      |     OMP FLUSH ( <omp-list> ) <\n> 
 
 <omp-master-construct> ::= 
-           <omp-master-stmt> structured-block <omp-end-master-stmt> 
-     |     <omp-master-stmt> <omp-end-master-stmt> 
+           <omp-master-stmt> structured-block <omp-end-master-stmt;> 
+     |     <omp-master-stmt> <omp-end-master-stmt;> 
 
 <omp-master-stmt> ::= 
            OMP MASTER <\n> 
 
+<omp-end-master-stmt;> ::= 
+           <omp-end-master-stmt> <\n> 
+
 <omp-end-master-stmt> ::= 
-           omp-end-master-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-master-stmt",54,false);*/
+           omp-end-master-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-master-stmt",54,false);*/
 
 omp-end-master-stmt ::= 
            OMP END MASTER +: { <;> } 
 
 <omp-ordered-construct> ::= 
-           <omp-ordered-stmt> structured-block <omp-end-ordered-stmt> 
-     |     <omp-ordered-stmt> <omp-end-ordered-stmt> 
+           <omp-ordered-stmt> structured-block <omp-end-ordered-stmt;> 
+     |     <omp-ordered-stmt> <omp-end-ordered-stmt;> 
      |     <omp-ordered-depend-stmt> 
 
 <omp-ordered-stmt> ::= 
@@ -4022,9 +3998,12 @@ omp-end-master-stmt ::=
            SIMD 
      |     THREADS 
 
+<omp-end-ordered-stmt;> ::= 
+           <omp-end-ordered-stmt> <\n> 
+
 <omp-end-ordered-stmt> ::= 
-           omp-end-ordered-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-ordered-stmt",55,false);*/
+           omp-end-ordered-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-ordered-stmt",55,false);*/
 
 omp-end-ordered-stmt ::= 
            OMP END ORDERED +: { <;> } 
@@ -4042,8 +4021,8 @@ omp-end-ordered-stmt ::=
      |     DEPEND ( SINK : <omp-list> ) 
 
 <omp-parallel-construct> ::= 
-           <parallel-stmt> structured-block <omp-end-parallel-stmt> 
-     |     <parallel-stmt> <omp-end-parallel-stmt> 
+           <parallel-stmt> structured-block <omp-end-parallel-stmt;> 
+     |     <parallel-stmt> <omp-end-parallel-stmt;> 
 
 <parallel-stmt> ::= 
            OMP PARALLEL <\n> 
@@ -4054,24 +4033,30 @@ omp-end-ordered-stmt ::=
      |     <parallel-clause-list> <parallel-clause> 
      |     <parallel-clause> 
 
+<omp-end-parallel-stmt;> ::= 
+           <omp-end-parallel-stmt> <\n> 
+
 <omp-end-parallel-stmt> ::= 
-           omp-end-parallel-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-stmt",58,false);*/
+           omp-end-parallel-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-stmt",58,false);*/
 
 omp-end-parallel-stmt ::= 
            OMP END PARALLEL +: { <;> } 
 
 <omp-parallel-workshare-construct> ::= 
-           <parallel-workshare-stmt> structured-block <omp-end-parallel-workshare-stmt> 
-     |     <parallel-workshare-stmt> <omp-end-parallel-workshare-stmt> 
+           <parallel-workshare-stmt> structured-block <omp-end-parallel-workshare-stmt;> 
+     |     <parallel-workshare-stmt> <omp-end-parallel-workshare-stmt;> 
 
 <parallel-workshare-stmt> ::= 
            OMP PARALLEL WORKSHARE <\n> 
      |     OMP PARALLEL WORKSHARE <parallel-clause-list> <\n> 
 
+<omp-end-parallel-workshare-stmt;> ::= 
+           <omp-end-parallel-workshare-stmt> <\n> 
+
 <omp-end-parallel-workshare-stmt> ::= 
-           omp-end-parallel-workshare-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-workshare-stmt",59,false);*/
+           omp-end-parallel-workshare-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-workshare-stmt",59,false);*/
 
 omp-end-parallel-workshare-stmt ::= 
            OMP END PARALLEL WORKSHARE +: { <;> } 
@@ -4084,6 +4069,9 @@ omp-end-parallel-workshare-stmt ::=
 <omp-end-parallel-do-stmt> ::= 
            omp-end-parallel-do-stmt <\n> 
 
+omp-end-parallel-do-stmt ::= 
+           OMP-END-PARALLEL-DO +: { <;> } 
+
 <omp-parallel-do-simd-construct> ::= 
            <parallel-do-simd-stmt> <do-loop> <omp-end-parallel-do-simd-stmt> 
      |     <parallel-do-simd-stmt> <omp-end-parallel-do-simd-stmt> 
@@ -4094,7 +4082,6 @@ omp-end-parallel-workshare-stmt ::=
 
 omp-end-parallel-do-simd-stmt ::= 
            OMP-END-PARALLEL-DO-SIMD +: { <;> } 
-     |     OMP-END-PARALLEL-DO-SIMD <erroneous-stmt>   /* Tr.error(L"Expected an OpenMP end-parallel-do-simd-stmt. ");*/
 
 <omp-parallel-sections-construct> ::= 
            <omp-parallel-sections-stmt> <block> <omp-sections> <omp-end-parallel-sections-stmt> 
@@ -4171,11 +4158,10 @@ omp-end-parallel-sections-stmt ::=
 
 omp-end-simd-stmt ::= 
            OMP-END-SIMD +: { <;> } 
-     |     OMP-END-SIMD <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
 
 <omp-single-construct> ::= 
-           <omp-single-stmt> structured-block <omp-end-single-stmt> 
-     |     <omp-single-stmt> <omp-end-single-stmt> 
+           <omp-single-stmt> structured-block <omp-end-single-stmt;> 
+     |     <omp-single-stmt> <omp-end-single-stmt;> 
 
 <omp-single-stmt> ::= 
            OMP SINGLE <\n> 
@@ -4190,9 +4176,12 @@ omp-end-simd-stmt ::=
            <omp-private> 
      |     <omp-firstprivate> 
 
+<omp-end-single-stmt;> ::= 
+           <omp-end-single-stmt> <\n> 
+
 <omp-end-single-stmt> ::= 
-           omp-end-single-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-single-stmt",60,false);*/
+           omp-end-single-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-single-stmt",60,false);*/
 
 omp-end-single-stmt ::= 
            OMP END SINGLE +: { <;> } 
@@ -4211,8 +4200,8 @@ omp-end-single-stmt ::=
            COPYPRIVATE ( <omp-list> ) 
 
 <omp-target-construct> ::= 
-           <omp-target-stmt> structured-block <omp-end-target-stmt> 
-     |     <omp-target-stmt> <omp-end-target-stmt> 
+           <omp-target-stmt> structured-block <omp-end-target-stmt;> 
+     |     <omp-target-stmt> <omp-end-target-stmt;> 
 
 <omp-target-stmt> ::= 
            OMP-TARGET <\n> 
@@ -4223,16 +4212,19 @@ omp-end-single-stmt ::=
      |     <target-clause-list> <target-clause> 
      |     <target-clause> 
 
+<omp-end-target-stmt;> ::= 
+           <omp-end-target-stmt> <\n> 
+
 <omp-end-target-stmt> ::= 
-           omp-end-target-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-target-stmt",65,false);*/
+           omp-end-target-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-target-stmt",65,false);*/
 
 omp-end-target-stmt ::= 
            OMP-END-TARGET +: { <;> } 
 
 <omp-target-data-construct> ::= 
-           <omp-target-data-stmt> structured-block <omp-end-target-data-stmt> 
-     |     <omp-target-data-stmt> <omp-end-target-data-stmt> 
+           <omp-target-data-stmt> structured-block <omp-end-target-data-stmt;> 
+     |     <omp-target-data-stmt> <omp-end-target-data-stmt;> 
 
 <omp-target-data-stmt> ::= 
            OMP-TARGET DATA <\n> 
@@ -4256,9 +4248,12 @@ omp-end-target-stmt ::=
 <omp-use-device-ptr> ::= 
            USE_DEVICE_PTR ( <omp-list> ) 
 
+<omp-end-target-data-stmt;> ::= 
+           <omp-end-target-data-stmt> <\n> 
+
 <omp-end-target-data-stmt> ::= 
-           omp-end-target-data-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-target-data-stmt",64,false);*/
+           omp-end-target-data-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-target-data-stmt",64,false);*/
 
 omp-end-target-data-stmt ::= 
            OMP-END-TARGET DATA +: { <;> } 
@@ -4304,8 +4299,8 @@ omp-end-target-data-stmt ::=
      |     IF ( TARGET EXIT DATA : <scalar-logical-expression> ) 
 
 <omp-target-parallel-construct> ::= 
-           <target-parallel-stmt> structured-block <omp-end-target-parallel-stmt> 
-     |     <target-parallel-stmt> <omp-end-target-parallel-stmt> 
+           <target-parallel-stmt> structured-block <omp-end-target-parallel-stmt;> 
+     |     <target-parallel-stmt> <omp-end-target-parallel-stmt;> 
 
 <target-parallel-stmt> ::= 
            OMP-TARGET PARALLEL <\n> 
@@ -4316,9 +4311,12 @@ omp-end-target-data-stmt ::=
      |     <target-parallel-clause-list> <target-parallel-clause> 
      |     <target-parallel-clause> 
 
+<omp-end-target-parallel-stmt;> ::= 
+           <omp-end-target-parallel-stmt> <\n> 
+
 <omp-end-target-parallel-stmt> ::= 
-           omp-end-target-parallel-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-stmt",66,false);*/
+           omp-end-target-parallel-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-stmt",66,false);*/
 
 omp-end-target-parallel-stmt ::= 
            OMP END TARGET PARALLEL +: { <;> } 
@@ -4333,7 +4331,6 @@ omp-end-target-parallel-stmt ::=
 
 omp-end-target-parallel-do-stmt ::= 
            OMP-END-TARGET-PARALLEL-DO +: { <;> } 
-     |     OMP-END-TARGET-PARALLEL-DO <erroneous-stmt>   /* Tr.error(L"Expected an OpenMP end-target-parallel-do-stmt. ");*/
 
 <omp-target-parallel-do-simd-construct> ::= 
            <target-parallel-do-simd-stmt> <do-loop> <omp-end-target-parallel-do-simd-stmt> 
@@ -4345,7 +4342,6 @@ omp-end-target-parallel-do-stmt ::=
 
 omp-end-target-parallel-do-simd-stmt ::= 
            OMP-END-TARGET-PARALLEL-DO-SIMD +: { <;> } 
-     |     OMP-END-TARGET-PARALLEL-DO-SIMD <erroneous-stmt>   /* Tr.error(L"Expected an OpenMP end-target-parallel-do-simd-stmt. ");*/
 
 <omp-target-simd-construct> ::= 
            <omp-target-simd-stmt> <do-loop> <omp-end-target-simd-stmt> 
@@ -4357,11 +4353,10 @@ omp-end-target-parallel-do-simd-stmt ::=
 
 omp-end-target-simd-stmt ::= 
            OMP-END-TARGET-SIMD +: { <;> } 
-     |     OMP-END-TARGET-SIMD <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
 
 <omp-target-teams-construct> ::= 
-           <omp-target-teams-stmt> structured-block <omp-end-target-teams-stmt> 
-     |     <omp-target-teams-stmt> <omp-end-target-teams-stmt> 
+           <omp-target-teams-stmt> structured-block <omp-end-target-teams-stmt;> 
+     |     <omp-target-teams-stmt> <omp-end-target-teams-stmt;> 
 
 <omp-target-teams-stmt> ::= 
            OMP-TARGET TEAMS <\n> 
@@ -4376,9 +4371,12 @@ omp-end-target-simd-stmt ::=
            <target-clause> 
      |     <teams-clause> 
 
+<omp-end-target-teams-stmt;> ::= 
+           <omp-end-target-teams-stmt> <\n> 
+
 <omp-end-target-teams-stmt> ::= 
-           omp-end-target-teams-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-target-teams-stmt",72,false);*/
+           omp-end-target-teams-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-target-teams-stmt",72,false);*/
 
 omp-end-target-teams-stmt ::= 
            OMP-END-TARGET TEAMS +: { <;> } 
@@ -4455,15 +4453,18 @@ omp-end-target-teams-distribute-parallel-do-simd-stmt ::=
            FROM ( <omp-list> ) 
 
 <omp-taskgroup-construct> ::= 
-           <omp-taskgroup-stmt> structured-block <omp-end-taskgroup-stmt> 
-     |     <omp-taskgroup-stmt> <omp-end-taskgroup-stmt> 
+           <omp-taskgroup-stmt> structured-block <omp-end-taskgroup-stmt;> 
+     |     <omp-taskgroup-stmt> <omp-end-taskgroup-stmt;> 
 
 <omp-taskgroup-stmt> ::= 
            OMP TASKGROUP <\n> 
 
+<omp-end-taskgroup-stmt;> ::= 
+           <omp-end-taskgroup-stmt> <\n> 
+
 <omp-end-taskgroup-stmt> ::= 
-           omp-end-taskgroup-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-taskgroup-stmt",62,false);*/
+           omp-end-taskgroup-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-taskgroup-stmt",62,false);*/
 
 omp-end-taskgroup-stmt ::= 
            OMP END TASKGROUP +: { <;> } 
@@ -4512,6 +4513,9 @@ omp-end-task-stmt ::=
 <omp-end-taskloop-stmt> ::= 
            omp-end-taskloop-stmt <\n> 
 
+omp-end-taskloop-stmt ::= 
+           OMP-END-TASKLOOP +: { <;> } 
+
 <omp-taskloop-simd-construct> ::= 
            <omp-taskloop-simd-stmt> <do-loop> <omp-end-taskloop-simd-stmt> 
      |     <omp-taskloop-simd-stmt> <omp-end-taskloop-simd-stmt> 
@@ -4522,7 +4526,6 @@ omp-end-task-stmt ::=
 
 omp-end-taskloop-simd-stmt ::= 
            OMP-END-TASKLOOP-SIMD +: { <;> } 
-     |     OMP-END-TASKLOOP-SIMD <erroneous-stmt>   /* Tr.error(L"Erroneous OpenMP End Statement. ");*/
 
 <omp-taskwait-stmt> ::= 
            OMP TASKWAIT <\n> 
@@ -4531,8 +4534,8 @@ omp-end-taskloop-simd-stmt ::=
            OMP TASKYIELD <\n> 
 
 <omp-teams-construct> ::= 
-           <omp-teams-stmt> structured-block <omp-end-teams-stmt> 
-     |     <omp-teams-stmt> <omp-end-teams-stmt> 
+           <omp-teams-stmt> structured-block <omp-end-teams-stmt;> 
+     |     <omp-teams-stmt> <omp-end-teams-stmt;> 
 
 <omp-teams-stmt> ::= 
            OMP TEAMS <\n> 
@@ -4543,9 +4546,12 @@ omp-end-taskloop-simd-stmt ::=
      |     <teams-clause-list> <teams-clause> 
      |     <teams-clause> 
 
+<omp-end-teams-stmt;> ::= 
+           <omp-end-teams-stmt> <\n> 
+
 <omp-end-teams-stmt> ::= 
-           omp-end-teams-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-teams-stmt",67,false);*/
+           omp-end-teams-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-teams-stmt",67,false);*/
 
 omp-end-teams-stmt ::= 
            OMP END TEAMS +: { <;> } 
