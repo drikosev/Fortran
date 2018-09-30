@@ -247,10 +247,9 @@ Legacy parser Issues
                                       end-program-stmt.
                sma.f:8: error: semantic:Initialization without ::
 
-         Note: Compilers that parse a statement at a time print a better error message for line 2.
-               Further, type checking hasn't been implemented. That's one reason that no error is
-               reported for line 6. The error message for line 5 might be somewhat long but in an
-               IDE looks much better. Regarding line 7, I can't do now sth better than a merging: 
+         Note: Compilers that parse one statement at a time can print a better error message for
+               the second line. The error message for line 5 might be somewhat long but in an IDE
+               looks much better. Regarding line 7, I can't do currently sth better than a merging: 
                sma.f:7: error: syntax:Unexpected: 'PARALLEL'. Expected: end-program-stmt. 
 
  [2018-09-30]  Add "OMP-END-TARGET" & remove other "OMP-END-*" from <unexpected-end-stmt>.   (done)
