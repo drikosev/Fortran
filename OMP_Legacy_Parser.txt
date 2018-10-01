@@ -93,6 +93,22 @@ end-program-stmt ::=
      |     <missing-end-statement>   /* Tr.Unexpected(L"contains-stmt",21,false);*/
      |     END <name> +: { <;> }   /* Tr.Unexpected(L"name with value '%s'.",str(2),1001,false);*/
      |     END <name> <name> +: { <;> }   /* Tr.Unexpected(L"name with value '%s'.",str(2),1001,false);*/
+     |     omp-end-critical   /* Tr.Unexpected(L"omp-end-critical",52,false);*/
+     |     omp-end-master-stmt   /* Tr.Unexpected(L"omp-end-master-stmt",54,false);*/
+     |     omp-end-ordered-stmt   /* Tr.Unexpected(L"omp-end-ordered-stmt",55,false);*/
+     |     omp-end-parallel-sections-stmt   /* Tr.Unexpected(L"omp-end-parallel-sections-stmt",573,false);*/
+     |     omp-end-parallel-stmt   /* Tr.Unexpected(L"omp-end-parallel-stmt",58,false);*/
+     |     omp-end-parallel-workshare-stmt   /* Tr.Unexpected(L"omp-end-parallel-workshare-stmt",59,false);*/
+     |     omp-end-single-stmt   /* Tr.Unexpected(L"omp-end-single-stmt",60,false);*/
+     |     omp-end-target-data-stmt   /* Tr.Unexpected(L"omp-end-target-data-stmt",64,false);*/
+     |     omp-end-target-parallel-stmt   /* Tr.Unexpected(L"omp-end-target-parallel-stmt",66,false);*/
+     |     omp-end-target-stmt   /* Tr.Unexpected(L"omp-end-target-stmt",65,false);*/
+     |     omp-end-target-teams-stmt   /* Tr.Unexpected(L"omp-end-target-teams-stmt",72,false);*/
+     |     omp-end-task-stmt   /* Tr.Unexpected(L"omp-end-task-stmt",61,false);*/
+     |     omp-end-taskgroup-stmt   /* Tr.Unexpected(L"omp-end-taskgroup-stmt",62,false);*/
+     |     omp-end-teams-stmt   /* Tr.Unexpected(L"omp-end-teams-stmt",67,false);*/
+     |     omp-end-workshare-stmt   /* Tr.Unexpected(L"omp-end-workshare-stmt",63,false);*/
+     |     omp-end-atomic-stmt   /* Tr.Unexpected(L"omp-end-atomic-stmt",51,false);*/
      |     OMP END <erroneous-stmt>   /* Tr.Unexpected(L"",1003,false); */
      |     OMP-END-TARGET <erroneous-stmt>   /* Tr.Unexpected(L"",1003,false); */
 
@@ -303,83 +319,91 @@ end-where-stmt ::=
 <missing-end-statement> ::~ 
            CONTAINS +: { <;> } 
 
-<internal-subprogram-part> ::= 
-           <internal-subprograms> 
+omp-end-critical ::= 
+           OMP END CRITICAL +: { <;> } 
+     |     OMP END CRITICAL ( <name> ) +: { <;> } 
+     |     OMP END_CRITICAL +: { <;> } 
+     |     OMP END_CRITICAL ( <name> ) +: { <;> } 
 
-<internal-subprograms> ::= 
-           <internal-subprograms> <internal-subprogram> 
-     |     <contains-stmt> 
+omp-end-master-stmt ::= 
+           OMP END MASTER +: { <;> } 
 
-<internal-subprogram> ::= 
-           <function-subprogram> 
-     |     <subroutine-subprogram> 
-     |     ERROR <;> 
+omp-end-ordered-stmt ::= 
+           OMP END ORDERED +: { <;> } 
 
-<function-subprogram> ::= 
-           <function-stmt> <end-function-stmt;> 
-     |     <function-stmt> <internal-subprogram-part> <end-function-stmt;> 
-     |     <function-stmt> <stmts> <end-function-stmt;> 
-     |     <function-stmt> <stmts> <internal-subprogram-part> <end-function-stmt;> 
-     |     <label> <function-stmt> <end-function-stmt;> 
-     |     <label> <function-stmt> <internal-subprogram-part> <end-function-stmt;> 
-     |     <label> <function-stmt> <stmts> <end-function-stmt;> 
-     |     <label> <function-stmt> <stmts> <internal-subprogram-part> <end-function-stmt;> 
+omp-end-parallel-sections-stmt ::= 
+           OMP END PARALLEL SECTIONS +: { <;> } 
+     |     OMP END PARALLEL SECTIONS NOWAIT +: { <;> } 
 
-<function-stmt> ::= 
-           <function-stmt;> 
+omp-end-parallel-stmt ::= 
+           OMP END PARALLEL +: { <;> } 
 
-<function-stmt;> ::= 
-           function-stmt <;> 
-     |     function-stmt +: EOF 
+omp-end-parallel-workshare-stmt ::= 
+           OMP END PARALLEL WORKSHARE +: { <;> } 
 
-function-stmt ::= 
-           FUNCTION <name> <(> <)> 
-     |     FUNCTION <name> <(> <)> <sufix> 
-     |     FUNCTION <name> <(> <name-list> <)> 
-     |     FUNCTION <name> <(> <name-list> <)> <sufix> 
-     |     <prefix> FUNCTION <name> <(> <)> 
-     |     <prefix> FUNCTION <name> <(> <)> <sufix> 
-     |     <prefix> FUNCTION <name> <(> <name-list> <)> 
-     |     <prefix> FUNCTION <name> <(> <name-list> <)> <sufix> 
-     |     FUNCTION <erroneous-stmt> 
+omp-end-single-stmt ::= 
+           OMP END SINGLE +: { <;> } 
+     |     OMP END SINGLE <end-single-clause-list> +: { <;> } 
 
-<(> ::= 
-           ( 
-     |     <no (> 
+<end-single-clause-list> ::= 
+           <end-single-clause-list> , <end-single-clause> 
+     |     <end-single-clause-list> <end-single-clause> 
+     |     <end-single-clause> 
 
-<no (> ::~ 
-           NONE -: { ( | <;> | ) } 
+<end-single-clause> ::= 
+           <omp-copyprivate> 
+     |     NOWAIT 
 
-<)> ::= 
-           ) 
-     |     <no )> 
+<omp-copyprivate> ::= 
+           COPYPRIVATE ( <omp-list> ) 
 
-<no )> ::~ 
-           NONE -: { ) | <name> } 
+<omp-list> ::= 
+           <omp-list> , <omp-item> 
+     |     <omp-item> 
 
-<sufix> ::= 
-           <language-binding-spec> 
-     |     <language-binding-spec> RESULT <(> <name> <)> 
-     |     RESULT <(> <name> <)> 
-     |     RESULT <(> <name> <)> <language-binding-spec> 
+<omp-item> ::= 
+           <variable> 
+     |     <slashed-name> 
 
-<language-binding-spec> ::= 
-           BIND <p-C> 
-     |     BIND <p-c , name = expr> 
+<variable> ::= 
+           <designator> 
+     |     <expr> 
 
-<p-C> ::= 
-           <(> C <)> 
+<designator> ::= 
+           <data-ref> 
 
-<p-c , name = expr> ::= 
-           <(> C <,> <name = expr> <)> 
+<data-ref> ::= 
+           <part-ref> <%> <data-ref> -: { <%> } 
+     |     <part-ref> <.> <data-ref> -: { <.> } 
+     |     <part-ref> 
+
+<part-ref> ::= 
+           <part-name> 
+     |     <part-name> <image-selector> -: { ( } 
+     |     <part-name> <image-selector> <p-substring-range> 
+     |     <part-name-p-section-subscript-list> 
+     |     <part-name-p-section-subscript-list> <p-substring-range> 
+     |     <part-name-p-section-subscript-list> <image-selector> -: { ( } 
+     |     <part-name-p-section-subscript-list> <image-selector> <p-substring-range> 
+
+<part-name> ::= 
+           <name> 
+
+<image-selector> ::= 
+           <lbracket> <cosubscript-list> <rbracket> 
+
+<cosubscript-list> ::= 
+           <cosubscript-list> <,> <cosubscript> 
+     |     <cosubscript> 
 
 <,> ::= 
            , 
 
-<name = expr> ::= 
-           NAME = <default-char-expr> 
+<cosubscript> ::= 
+           <scalar-int-expr> 
+     |     <scalar-int-expr> : <scalar-int-expr> 
 
-<default-char-expr> ::= 
+<scalar-int-expr> ::= 
            <expr> 
 
 <expr> ::= 
@@ -414,118 +438,6 @@ function-stmt ::=
      |     <logical-literal-constant> 
      |     <char-literal-constant> 
      |     <boz-literal-constant> 
-
-<designator> ::= 
-           <data-ref> 
-
-<data-ref> ::= 
-           <part-ref> <%> <data-ref> -: { <%> } 
-     |     <part-ref> <.> <data-ref> -: { <.> } 
-     |     <part-ref> 
-
-<part-ref> ::= 
-           <part-name> 
-     |     <part-name> <image-selector> -: { ( } 
-     |     <part-name> <image-selector> <p-substring-range> 
-     |     <part-name-p-section-subscript-list> 
-     |     <part-name-p-section-subscript-list> <p-substring-range> 
-     |     <part-name-p-section-subscript-list> <image-selector> -: { ( } 
-     |     <part-name-p-section-subscript-list> <image-selector> <p-substring-range> 
-
-<part-name> ::= 
-           <name> 
-
-<image-selector> ::= 
-           <lbracket> <cosubscript-list> <rbracket> 
-
-<cosubscript-list> ::= 
-           <cosubscript-list> <,> <cosubscript> 
-     |     <cosubscript> 
-
-<cosubscript> ::= 
-           <scalar-int-expr> 
-     |     <scalar-int-expr> : <scalar-int-expr> 
-
-<scalar-int-expr> ::= 
-           <expr> 
-
-<p-substring-range> ::= 
-           ( <substring-range> ) 
-
-<substring-range> ::= 
-           : 
-     |     : <scalar-int-expr> 
-     |     <scalar-int-expr> : 
-     |     <scalar-int-expr> : <scalar-int-expr> 
-
-<part-name-p-section-subscript-list> ::= 
-           <part-name> <p-section-subscript-list> 
-     |     <procedure-name> <p-actual-arg-spec-list> -: { ( | <lbracket> } 
-     |     <procedure-name> ( ) -: { ( | <%> | <lbracket> } 
-
-<p-section-subscript-list> ::= 
-           ( <section-subscript-list> ) 
-
-<section-subscript-list> ::= 
-           <section-subscript-list> <,> <section-subscript> 
-     |     <section-subscript-list> <,> <::> <stride> 
-     |     <section-subscript> 
-     |     <::> <stride> 
-
-<section-subscript> ::= 
-           <subscript> 
-     |     <subscript-triplet> 
-
-<subscript> ::= 
-           <scalar-int-expr> 
-
-<subscript-triplet> ::= 
-           : 
-     |     : <subscript> 
-     |     : <subscript> : <stride> 
-     |     <subscript> : 
-     |     <subscript> <::> <stride> 
-     |     <subscript> : <subscript> 
-     |     <subscript> : <subscript> : <stride> 
-
-<stride> ::= 
-           <scalar-int-expr> 
-
-<p-actual-arg-spec-list> ::= 
-           ( <actual-arg-spec-list> ) 
-     |     ( <actual-arg-spec-list> <,> <named-arg-spec-list> ) 
-     |     ( <named-arg-spec-list> ) 
-
-<actual-arg-spec-list> ::= 
-           <actual-arg-spec-list> <,> <actual-arg-spec> 
-     |     <actual-arg-spec> 
-
-<actual-arg-spec> ::= 
-           <actual-arg> 
-
-<actual-arg> ::= 
-           <expr> 
-     |     <alt-return-spec> 
-     |     * 
-
-<alt-return-spec> ::= 
-           * <label> 
-
-<named-arg-spec-list> ::= 
-           <named-arg-spec-list> <,> <named-arg-spec> 
-     |     <named-arg-spec> 
-
-<named-arg-spec> ::= 
-           keyword = <actual-arg> 
-
-keyword ::= 
-           <name> 
-
-<%> ::= 
-           % 
-
-<.> ::= 
-           . 
 
 <array-constructor> ::= 
            <array--constructor> 
@@ -706,10 +618,6 @@ keyword ::=
 <data-target> ::= 
            <variable> 
 
-<variable> ::= 
-           <designator> 
-     |     <expr> 
-
 <proc-target> ::= 
            <data-ref> 
 
@@ -744,6 +652,192 @@ keyword ::=
 
 <named-constant> ::= 
            <name> 
+
+<p-substring-range> ::= 
+           ( <substring-range> ) 
+
+<substring-range> ::= 
+           : 
+     |     : <scalar-int-expr> 
+     |     <scalar-int-expr> : 
+     |     <scalar-int-expr> : <scalar-int-expr> 
+
+<part-name-p-section-subscript-list> ::= 
+           <part-name> <p-section-subscript-list> 
+     |     <procedure-name> <p-actual-arg-spec-list> -: { ( | <lbracket> } 
+     |     <procedure-name> ( ) -: { ( | <%> | <lbracket> } 
+
+<p-section-subscript-list> ::= 
+           ( <section-subscript-list> ) 
+
+<section-subscript-list> ::= 
+           <section-subscript-list> <,> <section-subscript> 
+     |     <section-subscript-list> <,> <::> <stride> 
+     |     <section-subscript> 
+     |     <::> <stride> 
+
+<section-subscript> ::= 
+           <subscript> 
+     |     <subscript-triplet> 
+
+<subscript> ::= 
+           <scalar-int-expr> 
+
+<subscript-triplet> ::= 
+           : 
+     |     : <subscript> 
+     |     : <subscript> : <stride> 
+     |     <subscript> : 
+     |     <subscript> <::> <stride> 
+     |     <subscript> : <subscript> 
+     |     <subscript> : <subscript> : <stride> 
+
+<stride> ::= 
+           <scalar-int-expr> 
+
+<p-actual-arg-spec-list> ::= 
+           ( <actual-arg-spec-list> ) 
+     |     ( <actual-arg-spec-list> <,> <named-arg-spec-list> ) 
+     |     ( <named-arg-spec-list> ) 
+
+<actual-arg-spec-list> ::= 
+           <actual-arg-spec-list> <,> <actual-arg-spec> 
+     |     <actual-arg-spec> 
+
+<actual-arg-spec> ::= 
+           <actual-arg> 
+
+<actual-arg> ::= 
+           <expr> 
+     |     <alt-return-spec> 
+     |     * 
+
+<alt-return-spec> ::= 
+           * <label> 
+
+<named-arg-spec-list> ::= 
+           <named-arg-spec-list> <,> <named-arg-spec> 
+     |     <named-arg-spec> 
+
+<named-arg-spec> ::= 
+           keyword = <actual-arg> 
+
+keyword ::= 
+           <name> 
+
+<%> ::= 
+           % 
+
+<.> ::= 
+           . 
+
+<slashed-name> ::= 
+           / <name> / 
+
+omp-end-target-data-stmt ::= 
+           OMP-END-TARGET DATA +: { <;> } 
+
+omp-end-target-parallel-stmt ::= 
+           OMP END TARGET PARALLEL +: { <;> } 
+
+omp-end-target-stmt ::= 
+           OMP-END-TARGET +: { <;> } 
+
+omp-end-target-teams-stmt ::= 
+           OMP-END-TARGET TEAMS +: { <;> } 
+
+omp-end-task-stmt ::= 
+           OMP END TASK +: { <;> } 
+
+omp-end-taskgroup-stmt ::= 
+           OMP END TASKGROUP +: { <;> } 
+
+omp-end-teams-stmt ::= 
+           OMP END TEAMS +: { <;> } 
+
+omp-end-workshare-stmt ::= 
+           OMP END WORKSHARE +: { <;> } 
+     |     OMP END WORKSHARE NOWAIT +: { <;> } 
+
+omp-end-atomic-stmt ::= 
+           OMP-END-ATOMIC +: { <;> } 
+     |     OMP-END-ATOMIC <erroneous-stmt>   /* Tr.error(L"Erroneous omp-end-atomic-stmt. ");*/
+
+<internal-subprogram-part> ::= 
+           <internal-subprograms> 
+
+<internal-subprograms> ::= 
+           <internal-subprograms> <internal-subprogram> 
+     |     <contains-stmt> 
+
+<internal-subprogram> ::= 
+           <function-subprogram> 
+     |     <subroutine-subprogram> 
+     |     ERROR <;> 
+
+<function-subprogram> ::= 
+           <function-stmt> <end-function-stmt;> 
+     |     <function-stmt> <internal-subprogram-part> <end-function-stmt;> 
+     |     <function-stmt> <stmts> <end-function-stmt;> 
+     |     <function-stmt> <stmts> <internal-subprogram-part> <end-function-stmt;> 
+     |     <label> <function-stmt> <end-function-stmt;> 
+     |     <label> <function-stmt> <internal-subprogram-part> <end-function-stmt;> 
+     |     <label> <function-stmt> <stmts> <end-function-stmt;> 
+     |     <label> <function-stmt> <stmts> <internal-subprogram-part> <end-function-stmt;> 
+
+<function-stmt> ::= 
+           <function-stmt;> 
+
+<function-stmt;> ::= 
+           function-stmt <;> 
+     |     function-stmt +: EOF 
+
+function-stmt ::= 
+           FUNCTION <name> <(> <)> 
+     |     FUNCTION <name> <(> <)> <sufix> 
+     |     FUNCTION <name> <(> <name-list> <)> 
+     |     FUNCTION <name> <(> <name-list> <)> <sufix> 
+     |     <prefix> FUNCTION <name> <(> <)> 
+     |     <prefix> FUNCTION <name> <(> <)> <sufix> 
+     |     <prefix> FUNCTION <name> <(> <name-list> <)> 
+     |     <prefix> FUNCTION <name> <(> <name-list> <)> <sufix> 
+     |     FUNCTION <erroneous-stmt> 
+
+<(> ::= 
+           ( 
+     |     <no (> 
+
+<no (> ::~ 
+           NONE -: { ( | <;> | ) } 
+
+<)> ::= 
+           ) 
+     |     <no )> 
+
+<no )> ::~ 
+           NONE -: { ) | <name> } 
+
+<sufix> ::= 
+           <language-binding-spec> 
+     |     <language-binding-spec> RESULT <(> <name> <)> 
+     |     RESULT <(> <name> <)> 
+     |     RESULT <(> <name> <)> <language-binding-spec> 
+
+<language-binding-spec> ::= 
+           BIND <p-C> 
+     |     BIND <p-c , name = expr> 
+
+<p-C> ::= 
+           <(> C <)> 
+
+<p-c , name = expr> ::= 
+           <(> C <,> <name = expr> <)> 
+
+<name = expr> ::= 
+           NAME = <default-char-expr> 
+
+<default-char-expr> ::= 
+           <expr> 
 
 <name-list> ::= 
            <name-list> <comma> <name> 
@@ -1479,17 +1573,6 @@ keyword ::=
 <omp-linear> ::= 
            LINEAR ( <omp-list> ) 
      |     LINEAR ( <omp-list> : linear-step ) 
-
-<omp-list> ::= 
-           <omp-list> , <omp-item> 
-     |     <omp-item> 
-
-<omp-item> ::= 
-           <variable> 
-     |     <slashed-name> 
-
-<slashed-name> ::= 
-           / <name> / 
 
 linear-step ::= 
            <scalar-int-constant-expr> 
@@ -3124,10 +3207,6 @@ update-statement ::=
 <omp-end-atomic-stmt> ::= 
            omp-end-atomic-stmt <\n> 
 
-omp-end-atomic-stmt ::= 
-           OMP-END-ATOMIC +: { <;> } 
-     |     OMP-END-ATOMIC <erroneous-stmt>   /* Tr.error(L"Erroneous omp-end-atomic-stmt. ");*/
-
 <omp-atomic-capture-construct> ::= 
            <omp-atomic-capture-stmt>
            update-statement
@@ -3188,12 +3267,6 @@ structured-block ::=
 <omp-end-critical> ::= 
            omp-end-critical 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-critical",52,false);*/
-
-omp-end-critical ::= 
-           OMP END CRITICAL +: { <;> } 
-     |     OMP END CRITICAL ( <name> ) +: { <;> } 
-     |     OMP END_CRITICAL +: { <;> } 
-     |     OMP END_CRITICAL ( <name> ) +: { <;> } 
 
 <omp-distribute-construct> ::= 
            <omp-distribute-stmt> <do-loop> <omp-end-distribute-stmt> 
@@ -3977,9 +4050,6 @@ omp-end-do-simd-stmt ::=
            omp-end-master-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-master-stmt",54,false);*/
 
-omp-end-master-stmt ::= 
-           OMP END MASTER +: { <;> } 
-
 <omp-ordered-construct> ::= 
            <omp-ordered-stmt> structured-block <omp-end-ordered-stmt;> 
      |     <omp-ordered-stmt> <omp-end-ordered-stmt;> 
@@ -4004,9 +4074,6 @@ omp-end-master-stmt ::=
 <omp-end-ordered-stmt> ::= 
            omp-end-ordered-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-ordered-stmt",55,false);*/
-
-omp-end-ordered-stmt ::= 
-           OMP END ORDERED +: { <;> } 
 
 <omp-ordered-depend-stmt> ::= 
            OMP ORDERED <ordered-depend-clause-list> <\n> 
@@ -4040,9 +4107,6 @@ omp-end-ordered-stmt ::=
            omp-end-parallel-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-stmt",58,false);*/
 
-omp-end-parallel-stmt ::= 
-           OMP END PARALLEL +: { <;> } 
-
 <omp-parallel-workshare-construct> ::= 
            <parallel-workshare-stmt> structured-block <omp-end-parallel-workshare-stmt;> 
      |     <parallel-workshare-stmt> <omp-end-parallel-workshare-stmt;> 
@@ -4057,9 +4121,6 @@ omp-end-parallel-stmt ::=
 <omp-end-parallel-workshare-stmt> ::= 
            omp-end-parallel-workshare-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-workshare-stmt",59,false);*/
-
-omp-end-parallel-workshare-stmt ::= 
-           OMP END PARALLEL WORKSHARE +: { <;> } 
 
 <omp-parallel-do-construct> ::= 
            <parallel-do-stmt> <do-loop> <omp-end-parallel-do-stmt> 
@@ -4117,10 +4178,6 @@ omp-end-parallel-do-simd-stmt ::=
 <omp-end-parallel-sections-stmt> ::= 
            omp-end-parallel-sections-stmt <\n> 
      |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-sections-stmt",57,false);*/
-
-omp-end-parallel-sections-stmt ::= 
-           OMP END PARALLEL SECTIONS +: { <;> } 
-     |     OMP END PARALLEL SECTIONS NOWAIT +: { <;> } 
 
 <ibm-schedule-stmt> ::= 
            OMP <omp-schedule> <\n>   /* Tr.warning(L"The Schedule Statement is vendor specific & deprecated."); */
@@ -4183,22 +4240,6 @@ omp-end-simd-stmt ::=
            omp-end-single-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-single-stmt",60,false);*/
 
-omp-end-single-stmt ::= 
-           OMP END SINGLE +: { <;> } 
-     |     OMP END SINGLE <end-single-clause-list> +: { <;> } 
-
-<end-single-clause-list> ::= 
-           <end-single-clause-list> , <end-single-clause> 
-     |     <end-single-clause-list> <end-single-clause> 
-     |     <end-single-clause> 
-
-<end-single-clause> ::= 
-           <omp-copyprivate> 
-     |     NOWAIT 
-
-<omp-copyprivate> ::= 
-           COPYPRIVATE ( <omp-list> ) 
-
 <omp-target-construct> ::= 
            <omp-target-stmt> structured-block <omp-end-target-stmt;> 
      |     <omp-target-stmt> <omp-end-target-stmt;> 
@@ -4218,9 +4259,6 @@ omp-end-single-stmt ::=
 <omp-end-target-stmt> ::= 
            omp-end-target-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-target-stmt",65,false);*/
-
-omp-end-target-stmt ::= 
-           OMP-END-TARGET +: { <;> } 
 
 <omp-target-data-construct> ::= 
            <omp-target-data-stmt> structured-block <omp-end-target-data-stmt;> 
@@ -4254,9 +4292,6 @@ omp-end-target-stmt ::=
 <omp-end-target-data-stmt> ::= 
            omp-end-target-data-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-target-data-stmt",64,false);*/
-
-omp-end-target-data-stmt ::= 
-           OMP-END-TARGET DATA +: { <;> } 
 
 <omp-target-enter-data-stmt> ::= 
            OMP-TARGET ENTER DATA <\n> 
@@ -4318,9 +4353,6 @@ omp-end-target-data-stmt ::=
            omp-end-target-parallel-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-stmt",66,false);*/
 
-omp-end-target-parallel-stmt ::= 
-           OMP END TARGET PARALLEL +: { <;> } 
-
 <omp-target-parallel-do-construct> ::= 
            <target-parallel-do-stmt> <do-loop> <omp-end-target-parallel-do-stmt> 
      |     <target-parallel-do-stmt> <omp-end-target-parallel-do-stmt> 
@@ -4377,9 +4409,6 @@ omp-end-target-simd-stmt ::=
 <omp-end-target-teams-stmt> ::= 
            omp-end-target-teams-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-target-teams-stmt",72,false);*/
-
-omp-end-target-teams-stmt ::= 
-           OMP-END-TARGET TEAMS +: { <;> } 
 
 <omp-target-teams-distribute-construct> ::= 
            <target-teams-distribute-stmt> <do-loop> <omp-end-target-teams-distribute-stmt> 
@@ -4466,9 +4495,6 @@ omp-end-target-teams-distribute-parallel-do-simd-stmt ::=
            omp-end-taskgroup-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-taskgroup-stmt",62,false);*/
 
-omp-end-taskgroup-stmt ::= 
-           OMP END TASKGROUP +: { <;> } 
-
 <omp-task-construct> ::= 
            <omp-task-stmt> structured-block <omp-end-task-stmt> 
      |     <omp-task-stmt> <omp-end-task-stmt> 
@@ -4501,9 +4527,6 @@ omp-end-taskgroup-stmt ::=
 <omp-end-task-stmt> ::= 
            omp-end-task-stmt <\n> 
      |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-task-stmt",61,false);*/
-
-omp-end-task-stmt ::= 
-           OMP END TASK +: { <;> } 
 
 <omp-taskloop-construct> ::= 
            <omp-taskloop-stmt> <do-loop> <omp-end-taskloop-stmt> 
@@ -4552,9 +4575,6 @@ omp-end-taskloop-simd-stmt ::=
 <omp-end-teams-stmt> ::= 
            omp-end-teams-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-teams-stmt",67,false);*/
-
-omp-end-teams-stmt ::= 
-           OMP END TEAMS +: { <;> } 
 
 <omp-teams-distribute-construct> ::= 
            <omp-teams-distribute-stmt> <do-loop> <omp-end-teams-distribute-stmt> 
@@ -4717,10 +4737,6 @@ masked-elsewhere-stmt ::=
 <omp-end-workshare-stmt> ::= 
            omp-end-workshare-stmt <\n> 
      |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-workshare-stmt",63,false);*/
-
-omp-end-workshare-stmt ::= 
-           OMP END WORKSHARE +: { <;> } 
-     |     OMP END WORKSHARE NOWAIT +: { <;> } 
 
 <end-associate-stmt> ::= 
            end-associate-stmt 
