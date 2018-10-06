@@ -254,7 +254,8 @@ Legacy parser Issues
 
                [1/10] We could print a slightly more accurate message with an extra state (7268+1):
                sma.f:7: error: syntax:Unexpected omp-end-parallel-stmt. Expected: end-program-stmt.
- 
+               [6/10] The last change above would introduce the keyword "END" as an expected token
+               in the error message at line 5. Such a proposal would be invalid though. 
  [2018-09-30]  Add "OMP-END-TARGET" & remove other "OMP-END-*" from <unexpected-end-stmt>.   (done)
                Not really sure yet what's the best approach for the optional omp-end statements.   
                At the moment I've hand coded special recovery only for program units (ie a module).
