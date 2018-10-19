@@ -271,6 +271,7 @@ Free Form Preprocessor
                This value changed also in the scanner including all the (double) quoted literals.
                [13/9] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF) hasn't 
                assigned characters. (see https://en.wikipedia.org/wiki/Private_Use_Areas).
+[ 2018-10-20 ] Add warning: Continuation line in character context without a '&'.
 
 
 Hand coded File Reader
