@@ -285,7 +285,6 @@
      |     DEVICE 
      |     DISTRIBUTE 
      |     DIST_SCHEDULE 
-     |     DO-SIMD 
      |     DYNAMIC 
      |     EARLY_EXIT 
      |     ENTER 
@@ -1317,9 +1316,6 @@ DISTRIBUTE ::=
 DIST_SCHEDULE ::= 
            D I S T _ S C H E D U L E 
 
-DO-SIMD ::= 
-           D O S I M D 
-
 DYNAMIC ::= 
            D Y N A M I C 
 
@@ -1940,7 +1936,6 @@ key ::=
      |     DEVICE 
      |     DISTRIBUTE 
      |     DIST_SCHEDULE 
-     |     DO-SIMD 
      |     DYNAMIC 
      |     EARLY_EXIT 
      |     ENTER 
