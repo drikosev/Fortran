@@ -102,6 +102,16 @@ The Following bug-fix has not been tested very well yet:
 	       $ fcheck -fopenmp ../gomp/udr1.f90
                ../gomp/udr1.f90:4: error: syntax:Expected: ".AND.", ".NOT.", ".OR.", "IAND", "IEOR",
                "IOR", "MAX", "MIN", "add-op", "equiv-op", "mult-op", or "name".
+ [2018-10-20] The following 5 lines program is rejected (fcheck on sierra built on July 3 parses it):   (done) 
+              $ cat dosimd.f && fcheck dosimd.f
+              1      integer simd
+              2      dosimd=1,4       !i saw a weird key DO-SIMD ::= D O S I M D
+              3        print *, simd
+              4      end do
+              5      end
+              dosimd.f:2: error: syntax:Unexpected: ','. Expected: "**", ".AND.", ".OR.", ";", 
+              "add-op", "concat-op", "equiv-op", "mult-op", "rel-op", or "user-defined-operator". 
+              dosimd.f:4: error: syntax:Unexpected end-do-stmt. Expected: end-program-stmt.
 
 
 Legacy parser Issues
