@@ -87,7 +87,7 @@ The Following bug-fix has not been tested very well yet:
  ---------------------------
  [2018-09-17]  The <omp-compound> shouldn't begin with "EXIT" because the parser then accepts           (done)
                in free form the invalid statement "exitcn", where "cn" is the name of a construct.  
- [2018-09-21]  This scanner doesn't accept in free form an omitted space between the keywords "DO"
+ [2018-09-21]  This scanner doesn't accept in free form an omitted space between the keywords "DO"      (done)
                and "SIMD", in construct headers. I think there are six constructs in OpenMP (4.5)
                which are affected by this shortcoming:
                -distribute parallel do simd
@@ -96,6 +96,7 @@ The Following bug-fix has not been tested very well yet:
                -target parallel do simd
                -target teams distribute parallel do simd
                -teams distribute parallel do simd
+               [22/10] Now, the semantic action "OMPCompound" examines the flag "omp_line". 
  [2018-09-21]  PGI Extension. Allow in free form an omitted space between "CANCELLATION" and "POINT".   (done) 
  [2018-09-24]  Remove  from token: <.EQ.>,<.NE.>,<.LT.>,<.LE.>,<.GT.>,<.GE.>                            (done) 
                The parser knows only the <rel-op> and on error the "unexpected part" is missing:

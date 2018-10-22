@@ -372,7 +372,7 @@
      |     UPDATE 
      |     USE_DEVICE_PTR 
      |     WORKSHARE 
-     |     <omp-compound> 
+     |     <omp-compound>   /* return Tr.OMPCompound(action.value.ReduceId,66137); */
      |     <label>   /* return Tr.ReturnLabel( lex() , 65588, 65888); */
      |     <int-literal-constant> 
      |     <letter> 
@@ -1588,6 +1588,7 @@ WORKSHARE ::=
 
 <omp-stmt-prefix> ::= 
            C A N C E L L A T I O N 
+     |     D O 
      |     E N D 
      |     E N T E R 
      |     D E C L A R E 
