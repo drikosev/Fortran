@@ -3604,8 +3604,8 @@ label-do-shared-stmt ::=
      |     <simd-clause> 
 
 <target-parallel-do-simd-stmt> ::= 
-           OMP-TARGET PARALLEL DO SIMD <\n> 
-     |     OMP-TARGET PARALLEL DO SIMD <target-parallel-do-simd-clause-list> <\n> 
+           OMP TARGET PARALLEL DO SIMD <\n> 
+     |     OMP TARGET PARALLEL DO SIMD <target-parallel-do-simd-clause-list> <\n> 
 
 <target-parallel-do-simd-clause-list> ::= 
            <target-parallel-do-simd-clause-list> , <target-parallel-do-simd-clause> 
@@ -3678,8 +3678,8 @@ label-do-shared-stmt ::=
      |     <parallel-do-simd-clause> 
 
 <target-parallel-do-stmt> ::= 
-           OMP-TARGET PARALLEL DO <\n> 
-     |     OMP-TARGET PARALLEL DO <target-parallel-do-clause-list> <\n> 
+           OMP TARGET PARALLEL DO <\n> 
+     |     OMP TARGET PARALLEL DO <target-parallel-do-clause-list> <\n> 
 
 <target-parallel-do-clause-list> ::= 
            <target-parallel-do-clause-list> , <target-parallel-do-clause> 
@@ -3744,8 +3744,8 @@ label-do-shared-stmt ::=
      |     DEPEND ( SINK : <name> ) 
 
 <omp-target-simd-stmt> ::= 
-           OMP-TARGET SIMD <\n> 
-     |     OMP-TARGET SIMD <target-simd-clause-list> <\n> 
+           OMP TARGET SIMD <\n> 
+     |     OMP TARGET SIMD <target-simd-clause-list> <\n> 
 
 <target-simd-clause-list> ::= 
            <target-simd-clause-list> , <target-simd-clause> 
@@ -3772,8 +3772,8 @@ label-do-shared-stmt ::=
      |     IF ( TARGET : <scalar-logical-expression> ) 
 
 <target-teams-distribute-stmt> ::= 
-           OMP-TARGET TEAMS DISTRIBUTE <\n> 
-     |     OMP-TARGET TEAMS DISTRIBUTE <target-teams-distribute-clause-list> <\n> 
+           OMP TARGET TEAMS DISTRIBUTE <\n> 
+     |     OMP TARGET TEAMS DISTRIBUTE <target-teams-distribute-clause-list> <\n> 
 
 <target-teams-distribute-clause-list> ::= 
            <target-teams-distribute-clause-list> , <target-teams-distribute-clause> 
@@ -3812,8 +3812,8 @@ label-do-shared-stmt ::=
      |     <NONE> 
 
 <target-teams-distribute-simd-stmt> ::= 
-           OMP-TARGET TEAMS DISTRIBUTE SIMD <\n> 
-     |     OMP-TARGET TEAMS DISTRIBUTE SIMD <target-teams-distribute-simd-clause-list> <\n> 
+           OMP TARGET TEAMS DISTRIBUTE SIMD <\n> 
+     |     OMP TARGET TEAMS DISTRIBUTE SIMD <target-teams-distribute-simd-clause-list> <\n> 
 
 <target-teams-distribute-simd-clause-list> ::= 
            <target-teams-distribute-simd-clause-list> , <target-teams-distribute-simd-clause> 
@@ -3838,8 +3838,8 @@ label-do-shared-stmt ::=
      |     <omp-reduction> 
 
 <target-teams-distribute-parallel-do-stmt> ::= 
-           OMP-TARGET TEAMS DISTRIBUTE PARALLEL DO <\n> 
-     |     OMP-TARGET TEAMS DISTRIBUTE PARALLEL DO <target-teams-distribute-parallel-do-clause-list> <\n> 
+           OMP TARGET TEAMS DISTRIBUTE PARALLEL DO <\n> 
+     |     OMP TARGET TEAMS DISTRIBUTE PARALLEL DO <target-teams-distribute-parallel-do-clause-list> <\n> 
 
 <target-teams-distribute-parallel-do-clause-list> ::= 
            <target-teams-distribute-parallel-do-clause-list> , <target-teams-distribute-parallel-do-clause> 
@@ -3855,8 +3855,8 @@ label-do-shared-stmt ::=
      |     <distribute-parallel-do-clause> 
 
 <target-teams-distribute-parallel-do-simd-stmt> ::= 
-           OMP-TARGET TEAMS DISTRIBUTE PARALLEL DO SIMD <\n> 
-     |     OMP-TARGET TEAMS DISTRIBUTE PARALLEL DO SIMD <target-teams-distribute-parallel-do-simd-clause-list> <\n> 
+           OMP TARGET TEAMS DISTRIBUTE PARALLEL DO SIMD <\n> 
+     |     OMP TARGET TEAMS DISTRIBUTE PARALLEL DO SIMD <target-teams-distribute-parallel-do-simd-clause-list> <\n> 
 
 <target-teams-distribute-parallel-do-simd-clause-list> ::= 
            <target-teams-distribute-parallel-do-simd-clause-list> , <target-teams-distribute-parallel-do-simd-clause> 
@@ -4245,8 +4245,8 @@ omp-end-simd-stmt ::=
      |     <omp-target-stmt> <omp-end-target-stmt;> 
 
 <omp-target-stmt> ::= 
-           OMP-TARGET <\n> 
-     |     OMP-TARGET <target-clause-list> <\n> 
+           OMP TARGET <\n> 
+     |     OMP TARGET <target-clause-list> <\n> 
 
 <target-clause-list> ::= 
            <target-clause-list> , <target-clause> 
@@ -4265,8 +4265,8 @@ omp-end-simd-stmt ::=
      |     <omp-target-data-stmt> <omp-end-target-data-stmt;> 
 
 <omp-target-data-stmt> ::= 
-           OMP-TARGET DATA <\n> 
-     |     OMP-TARGET DATA <target-data-clause-list> <\n> 
+           OMP TARGET DATA <\n> 
+     |     OMP TARGET DATA <target-data-clause-list> <\n> 
 
 <target-data-clause-list> ::= 
            <target-data-clause-list> , <target-data-clause> 
@@ -4294,8 +4294,8 @@ omp-end-simd-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-target-data-stmt",64,false);*/
 
 <omp-target-enter-data-stmt> ::= 
-           OMP-TARGET ENTER DATA <\n> 
-     |     OMP-TARGET ENTER DATA <target-enter-data-clause-list> <\n> 
+           OMP TARGET ENTER DATA <\n> 
+     |     OMP TARGET ENTER DATA <target-enter-data-clause-list> <\n> 
 
 <target-enter-data-clause-list> ::= 
            <target-enter-data-clause-list> , <target-enter-data-clause> 
@@ -4314,8 +4314,8 @@ omp-end-simd-stmt ::=
      |     IF ( TARGET ENTER DATA : <scalar-logical-expression> ) 
 
 <omp-target-exit-data-stmt> ::= 
-           OMP-TARGET-EXIT DATA <\n> 
-     |     OMP-TARGET-EXIT DATA <target-exit-data-clause-list> <\n> 
+           OMP TARGET EXIT DATA <\n> 
+     |     OMP TARGET EXIT DATA <target-exit-data-clause-list> <\n> 
 
 <target-exit-data-clause-list> ::= 
            <target-exit-data-clause-list> , <target-exit-data-clause> 
@@ -4338,8 +4338,8 @@ omp-end-simd-stmt ::=
      |     <target-parallel-stmt> <omp-end-target-parallel-stmt;> 
 
 <target-parallel-stmt> ::= 
-           OMP-TARGET PARALLEL <\n> 
-     |     OMP-TARGET PARALLEL <target-parallel-clause-list> <\n> 
+           OMP TARGET PARALLEL <\n> 
+     |     OMP TARGET PARALLEL <target-parallel-clause-list> <\n> 
 
 <target-parallel-clause-list> ::= 
            <target-parallel-clause-list> , <target-parallel-clause> 
@@ -4391,8 +4391,8 @@ omp-end-target-simd-stmt ::=
      |     <omp-target-teams-stmt> <omp-end-target-teams-stmt;> 
 
 <omp-target-teams-stmt> ::= 
-           OMP-TARGET TEAMS <\n> 
-     |     OMP-TARGET TEAMS <target-teams-clause-list> <\n> 
+           OMP TARGET TEAMS <\n> 
+     |     OMP TARGET TEAMS <target-teams-clause-list> <\n> 
 
 <target-teams-clause-list> ::= 
            <target-teams-clause-list> , <target-teams-clause> 
@@ -4455,8 +4455,8 @@ omp-end-target-teams-distribute-parallel-do-simd-stmt ::=
            OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD +: { <;> } 
 
 <omp-target-update-stmt> ::= 
-           OMP-TARGET UPDATE <\n> 
-     |     OMP-TARGET UPDATE <target-update-clause-list> <\n> 
+           OMP TARGET UPDATE <\n> 
+     |     OMP TARGET UPDATE <target-update-clause-list> <\n> 
 
 <target-update-clause-list> ::= 
            <target-update-clause-list> , <target-update-clause> 

@@ -339,8 +339,6 @@
      |     OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO 
      |     OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD 
      |     OMP-END-TEAMS-DISTRIBUTE-SIMD 
-     |     OMP-TARGET 
-     |     OMP-TARGET-EXIT 
      |     OMP_PRIV 
      |     ORDERED 
      |     POINT 
@@ -1481,12 +1479,6 @@ OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD ::=
 OMP-END-TEAMS-DISTRIBUTE-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] S I M D 
 
-OMP-TARGET ::= 
-           OMP [ { \s | \t }... ] T A R G E T 
-
-OMP-TARGET-EXIT ::= 
-           <!$OMP> [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] E X I T 
-
 OMP_PRIV ::= 
            O M P _ P R I V 
 
@@ -1591,11 +1583,13 @@ WORKSHARE ::=
      |     D O 
      |     E N D 
      |     E N T E R 
+     |     E X I T 
      |     D E C L A R E 
      |     D I S T R I B U T E 
      |     M A S T E R 
      |     P A R A L L E L 
      |     S I N G L E 
+     |     T A R G E T 
      |     T E A M S 
      |     T A S K L O O P 
      |     W H O R K S H A R E 

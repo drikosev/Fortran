@@ -86,7 +86,8 @@ The Following bug-fix has not been tested very well yet:
  OMP (Legacy) Scanner Issues
  ---------------------------
  [2018-09-17]  The <omp-compound> shouldn't begin with "EXIT" because the parser then accepts           (done)
-               in free form the invalid statement "exitcn", where "cn" is the name of a construct.  
+               in free form the invalid statement "exitcn", where "cn" is the name of a construct.
+               [22/10] Undo. Add "EXIT" to "<omp-compound>", as we've a sem. action now.  
  [2018-09-21]  This scanner doesn't accept in free form an omitted space between the keywords "DO"      (done)
                and "SIMD", in construct headers. I think there are six constructs in OpenMP (4.5)
                which are affected by this shortcoming:
@@ -266,7 +267,9 @@ Legacy parser Issues
                [1/10] We could print a slightly more accurate message with an extra state (7268+1):
                sma.f:7: error: syntax:Unexpected omp-end-parallel-stmt. Expected: end-program-stmt.
                [6/10] The last change above would introduce the keyword "END" as an expected token
-               in the error message at line 5. Such a proposal would be invalid though. 
+               in the error message at line 5. Such a proposal would be invalid though.
+               [22/10] Note that the token "TARGET" wasn't appearing as an expected token in the 
+               message at line 5 before I add the keyword "TARGET" in lex rule "<omp-compound>". 
  [2018-09-30]  Add "OMP-END-TARGET" & remove other "OMP-END-*" from <unexpected-end-stmt>.   (done)
                Not really sure yet what's the best approach for the optional omp-end statements.   
                At the moment I've hand coded special recovery only for program units (ie a module).
