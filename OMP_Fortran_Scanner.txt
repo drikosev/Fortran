@@ -1576,32 +1576,39 @@ WORKSHARE ::=
            <omp-compound-value> 
 
 <omp-compound-value> ::= 
-           { <omp-stmt-prefix> { A .. Z }... } -= { [ { A .. Z }... ] <omp-clause-key> } 
+           <omp-stmt-prefix> ... <omp-stmt-suffix> 
+     |     D E C L A R E R E D U C T I O N 
 
 <omp-stmt-prefix> ::= 
-           C A N C E L L A T I O N 
+           D E C L A R E 
+     |     D I S T R I B U T E 
      |     D O 
      |     E N D 
      |     E N T E R 
      |     E X I T 
-     |     D E C L A R E 
-     |     D I S T R I B U T E 
-     |     M A S T E R 
      |     P A R A L L E L 
-     |     S I N G L E 
      |     T A R G E T 
-     |     T E A M S 
      |     T A S K L O O P 
-     |     W H O R K S H A R E 
-     |     S I M D 
+     |     T E A M S 
 
-<omp-clause-key> ::= 
-           M E R G E A B L E 
-     |     N O G R O U P 
-     |     N O W A I T 
-     |     O R D E R E D [ S I M D ] 
-     |     T H R E A D S 
-     |     U N T I E D 
+<omp-stmt-suffix> ::= 
+           S I M D 
+     |     T A R G E T 
+     |     P A R A L L E L 
+     |     D O 
+     |     S I M D 
+     |     M A S T E R 
+     |     O R D E R E D 
+     |     S I N G L E 
+     |     S E C T I O N S 
+     |     W O R K S H A R E 
+     |     D A T A 
+     |     T E A M S 
+     |     D I S T R I B U T E 
+     |     T A S K 
+     |     T A S K L O O P 
+     |     T A S K G R O U P 
+     |     U P D A T E 
 
 <label> ::= 
            <digit>[1..5] 
