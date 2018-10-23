@@ -93,10 +93,6 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
          (a) A ';' isn't allowed as an OMP Directive terminator, which is handled by a semantic action.
          (b) An OMP Directive cannot have a label.
          (c) Optional spacing between keywords in OMP headers/footers but not in clauses (ie private).
-             Some OMP keywords are already Fortran keywords, which makes this problem harder. So, there
-             is a chance that the parser accepts more optional spaces than it should, always between
-             tokens. In alternative, I should create ie one token per OMP header/footer but this would
-             make the scanner even larger; please note that this is a free form specific issue.
          (d) Optional OMP END directives after Fortran DO constructs. My solution was one token per 
              optional directive.
          (e) This grammar makes no distinction between update/capture statements in Atomic Constructs.
