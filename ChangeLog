@@ -99,7 +99,7 @@ The Following bug-fix has not been tested very well yet:
                -teams distribute parallel do simd
                [22/10] Now, the semantic action "OMPCompound" examines the flag "omp_line". 
  [2018-09-21]  PGI Extension. Allow in free form an omitted space between "CANCELLATION" and "POINT".   (done)
-        note:  [23/10] Undo. Regarding spacing rules, we'll try to be compliant. Yet, the parser 
+        note:  [23/10] Undo. Regarding spacing rules, we'll try to be compliant. Yet, the scanner 
                might accept ie an omitted space (likely) before the first clause, although it 
                shouldn't. This is a free form specific issue and strict compliance comes at the
                price of a somewhat larger DFA.
