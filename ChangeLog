@@ -289,7 +289,7 @@ Legacy parser Issues
                $ cat umfpack_zsolver.f90 && fcheck umfpack_zsolver.f90
                call umf4zsym (n, n, Ap, Ai, Az, , symbolic, this%control, this%info)
                end
-               umfpack_zsolver.f90:1: warning: Omitted argument is a non portable lecacy extension.
+               umfpack_zsolver.f90:1: warning: Omitted argument is a non portable legacy extension.
 
 
 Free Form Preprocessor
