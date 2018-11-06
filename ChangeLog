@@ -173,6 +173,7 @@ Legacy parser Issues
         Note: Since in our Fortran Grammar a Data Reference includes a Procedure Name, the
               extended-list is simply defined as a list.
  [2018-09-17] In "<omp-target-exit-data-stmt>", use the new keyword "OMP-TARGET-EXIT".            (done)
+              [6/11] Undo ("OMP-TARGET-EXIT" has been deleted, since 22/10 I think).
  [2018-09-18] On an unknown OpenMP Directive, the error message is empty:                         (done)
                $ fcheck -fopenmp teams.1.f90
                teams.1.f90:8: error: syntax:
