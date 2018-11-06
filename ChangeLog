@@ -292,9 +292,6 @@ Legacy parser Issues
                umfpack_zsolver.f90:1: warning: Omitted argument is a non portable lecacy extension.
 
 
-Parsed with Errors: derived-type-def.f90
-
-
 Free Form Preprocessor
 ----------------------
 [ 2018-07-01 ] Bug: The preprocessor was accepting a line comment after a '&' in a character context (done).
