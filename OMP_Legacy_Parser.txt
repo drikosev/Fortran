@@ -2157,7 +2157,7 @@ subroutine-stmt ::=
      |     <object-name> <initialization-in-save-error> 
      |     / <common-block-name> / 
 
-<initialization-in-save-error> ::= 
+<initialization-in-save-error> ::~ 
            <initialization>   /* Tr.error(L"Initialization in a SAVE statement"); */
 
 <dec-static> ::= 
