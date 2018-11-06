@@ -278,8 +278,22 @@ Legacy parser Issues
                Not really sure yet what's the best approach for the optional omp-end statements.   
                At the moment I've hand coded special recovery only for program units (ie a module).
                So, both the error messages and error recovery are still work in progress.
- 
-  
+ [2018-11-06]  Spurious error messages (ie see msg at line 9 below) without error recovery   (done)
+               in the component part of a "derived-type-def" (which I also simplified it).
+               $ fcheck wrong-order.f90
+               wrong-order.f90:5: error: syntax:Unexpected: 'PRIVATE'. Expected: "BYTE",
+               "CHARACTER", "CLASS", "COMPLEX", "CONTAINS", "DOUBLE", "END", "INTEGER", 
+               "LOGICAL", "PROCEDURE", "REAL", "RECORD", or "TYPE". 
+               wrong-order.f90:9: error: syntax:Unexpected end-type-stmt. Expected: end-module-stmt.
+ [2018-11-06]  VAX Extension that allows an empty argument.                                  (done)
+               $ cat umfpack_zsolver.f90 && fcheck umfpack_zsolver.f90
+               call umf4zsym (n, n, Ap, Ai, Az, , symbolic, this%control, this%info)
+               end
+               umfpack_zsolver.f90:1: warning: Omitted argument is a non portable lecacy extension.
+
+
+Parsed with Errors: derived-type-def.f90
+
 
 Free Form Preprocessor
 ----------------------
