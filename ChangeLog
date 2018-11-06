@@ -279,6 +279,7 @@ Legacy parser Issues
                Not really sure yet what's the best approach for the optional omp-end statements.   
                At the moment I've hand coded special recovery only for program units (ie a module).
                So, both the error messages and error recovery are still work in progress.
+               [6/11] Deleted "OMP-END-TARGET" as the "omp-end-target-stmt" isn't optional. 
  [2018-11-06]  Spurious error messages (ie see msg at line 9 below) without error recovery   (done)
                in the component part of a "derived-type-def" (which I also simplified it).
                $ fcheck wrong-order.f90

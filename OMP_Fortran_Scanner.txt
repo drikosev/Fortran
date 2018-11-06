@@ -325,7 +325,6 @@
      |     OMP-END-PARALLEL-DO 
      |     OMP-END-PARALLEL-DO-SIMD 
      |     OMP-END-SIMD 
-     |     OMP-END-TARGET 
      |     OMP-END-TARGET-PARALLEL-DO 
      |     OMP-END-TARGET-PARALLEL-DO-SIMD 
      |     OMP-END-TARGET-TEAMS-DISTRIBUTE 
@@ -1436,9 +1435,6 @@ OMP-END-PARALLEL-DO-SIMD ::=
 
 OMP-END-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] S I M D 
-
-OMP-END-TARGET ::= 
-           OMP [ { \s | \t }... ] E N D [ { \s | \t }... ] T A R G E T 
 
 OMP-END-TARGET-PARALLEL-DO ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O 
