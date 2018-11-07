@@ -2232,7 +2232,7 @@ subroutine-stmt ::=
            <initialization-error> 
      |     <initialization-obsolete> 
 
-<initialization-error> ::= 
+<initialization-error> ::~ 
            <initialization>   /* Tr.error(L"Initialization without ::"); */
 
 <initialization-obsolete> ::= 
