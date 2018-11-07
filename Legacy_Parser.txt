@@ -429,6 +429,7 @@ function-stmt ::=
 
 <actual-arg-spec-list> ::= 
            <actual-arg-spec-list> <,> <actual-arg-spec> 
+     |     <actual-arg-spec-list> <,> +: { <,> | ) }   /* Tr.warning(L"Omitted argument is a non portable legacy extension.");*/
      |     <actual-arg-spec> 
 
 <actual-arg-spec> ::= 
@@ -755,34 +756,18 @@ keyword ::=
      |     <derived-type-stmt> <type-bound-procedure-part> <end-type-stmt> 
      |     <derived-type-stmt> <component-part> <end-type-stmt> 
      |     <derived-type-stmt> <component-part> <type-bound-procedure-part> <end-type-stmt> 
-     |     <derived-type-stmt> <private-or-sequence-stmts> <end-type-stmt> 
-     |     <derived-type-stmt> <private-or-sequence-stmts> <type-bound-procedure-part> <end-type-stmt> 
-     |     <derived-type-stmt> <private-or-sequence-stmts> <component-part> <end-type-stmt> 
-     |     <derived-type-stmt> <private-or-sequence-stmts> <component-part> <type-bound-procedure-part> <end-type-stmt> 
      |     <derived-type-stmt> <type-param-def-stmts> <end-type-stmt> 
      |     <derived-type-stmt> <type-param-def-stmts> <type-bound-procedure-part> <end-type-stmt> 
      |     <derived-type-stmt> <type-param-def-stmts> <component-part> <end-type-stmt> 
      |     <derived-type-stmt> <type-param-def-stmts> <component-part> <type-bound-procedure-part> <end-type-stmt> 
-     |     <derived-type-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <end-type-stmt> 
-     |     <derived-type-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <type-bound-procedure-part> <end-type-stmt> 
-     |     <derived-type-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <component-part> <end-type-stmt> 
-     |     <derived-type-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <component-part> <type-bound-procedure-part> <end-type-stmt> 
      |     <derived-structure-stmt> <end-structure-stmt> 
      |     <derived-structure-stmt> <type-bound-procedure-part> <end-structure-stmt> 
      |     <derived-structure-stmt> <component-structure-part> <end-structure-stmt> 
      |     <derived-structure-stmt> <component-structure-part> <type-bound-procedure-part> <end-structure-stmt> 
-     |     <derived-structure-stmt> <private-or-sequence-stmts> <end-structure-stmt> 
-     |     <derived-structure-stmt> <private-or-sequence-stmts> <type-bound-procedure-part> <end-structure-stmt> 
-     |     <derived-structure-stmt> <private-or-sequence-stmts> <component-structure-part> <end-structure-stmt> 
-     |     <derived-structure-stmt> <private-or-sequence-stmts> <component-structure-part> <type-bound-procedure-part> <end-structure-stmt> 
      |     <derived-structure-stmt> <type-param-def-stmts> <end-structure-stmt> 
      |     <derived-structure-stmt> <type-param-def-stmts> <type-bound-procedure-part> <end-structure-stmt> 
      |     <derived-structure-stmt> <type-param-def-stmts> <component-structure-part> <end-structure-stmt> 
      |     <derived-structure-stmt> <type-param-def-stmts> <component-structure-part> <type-bound-procedure-part> <end-structure-stmt> 
-     |     <derived-structure-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <end-structure-stmt> 
-     |     <derived-structure-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <type-bound-procedure-part> <end-structure-stmt> 
-     |     <derived-structure-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <component-structure-part> <end-structure-stmt> 
-     |     <derived-structure-stmt> <type-param-def-stmts> <private-or-sequence-stmts> <component-structure-part> <type-bound-procedure-part> <end-structure-stmt> 
 
 <derived-type-stmt> ::= 
            TYPE <type-name> <;> 
@@ -938,10 +923,13 @@ keyword ::=
      |     <component-def-stmt> 
      |     <component-part> <label> <component-def-stmt> 
      |     <label> <component-def-stmt> 
+     |     <private-or-sequence> 
+     |     <label> <private-or-sequence> 
 
 <component-def-stmt> ::= 
            <data-component-def-stmt> 
      |     <proc-component-def-stmt> 
+     |     ERROR <;> 
 
 <data-component-def-stmt> ::= 
            <declaration-type-spec> <component-decl-list> <;> 
@@ -1091,12 +1079,6 @@ keyword ::=
 <record> ::= 
            RECORD / <type-name> 
 
-<private-or-sequence-stmts> ::= 
-           <private-or-sequence-stmts> <private-or-sequence> 
-     |     <private-or-sequence> 
-     |     <private-or-sequence-stmts> <label> <private-or-sequence> 
-     |     <label> <private-or-sequence> 
-
 <private-or-sequence> ::= 
            <private-components-stmt> 
      |     <sequence-stmt> 
@@ -1153,6 +1135,8 @@ keyword ::=
      |     <type-param-union-stmt> 
      |     <component-structure-part> <label> <type-param-union-stmt> 
      |     <label> <type-param-union-stmt> 
+     |     <private-or-sequence> 
+     |     <label> <private-or-sequence> 
 
 <type-param-union-stmt> ::= 
            <union-stmt> <end-union-stmt> <;> 
@@ -2017,7 +2001,7 @@ subroutine-stmt ::=
            <initialization-error> 
      |     <initialization-obsolete> 
 
-<initialization-error> ::~ 
+<initialization-error> ::= 
            <initialization>   /* Tr.error(L"Initialization without ::"); */
 
 <initialization-obsolete> ::= 

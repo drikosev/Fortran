@@ -153,6 +153,9 @@ Legacy parser Issues
                a <position-edit-desc> and a <data-edit-desc> (see src/arpsverif/arpshis2ver.f90:4785)  (done)
 [ 2018-07-25 ] Bug: Missing named constants in complex constants (see ie lapack/src/zsyrfsx.f:601) (done)
 [ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
+[ 2018-11-07 ] Apply the following 2 changes implemented in "OMP_Legacy_Parser.txt" on 6/11:       (done)
+               (a) Error recovery in the component part of a "derived-type-def"
+               (b) VAX Extension that allows an empty argument.
 
 
  OMP (Legacy) Parser Issues
