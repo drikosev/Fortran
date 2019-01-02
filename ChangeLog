@@ -156,6 +156,9 @@ Legacy parser Issues
 [ 2018-11-07 ] Apply the following 2 changes implemented in "OMP_Legacy_Parser.txt" on 6/11:       (done)
                (a) Error recovery in the component part of a "derived-type-def"
                (b) VAX Extension that allows an empty argument.
+ [2019-01-01]  GNU/PGI Extension. Allow a position edit descriptor 'X' without width.       (done)
+               Also, print a nice message if <n> isn't specified after a T, TL, and TR. 
+ [2019-01-01]  A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
 
 
  OMP (Legacy) Parser Issues
@@ -295,6 +298,16 @@ Legacy parser Issues
                call umf4zsym (n, n, Ap, Ai, Az, , symbolic, this%control, this%info)
                end
                umfpack_zsolver.f90:1: warning: Omitted argument is a non portable legacy extension.
+ [2019-01-01]  GNU/PGI Extension. Allow a position edit descriptor 'X' without width.       (done)
+               Also, print a nice message if <n> isn't specified after a T, TL, and TR. 
+ [2019-01-01]  A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
+               
+
+Format Parser
+-------------
+ [2019-01-01]  GNU/PGI Extension. Allow a position edit descriptor 'X' without width.       (done)
+               Also, print a nice message if <n> isn't specified after a T, TL, and TR. 
+ [2019-01-01]  A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
 
 
 Free Form Preprocessor
