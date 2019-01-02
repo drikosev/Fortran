@@ -49,6 +49,7 @@ Fortran parser Issues
                removed. In this parser I've removed the latter (in the legacy parser below the former).
 [ 2018-07-25 ] [8/9] Missing named constants in complex constants (see ie lapack/src/zsyrfsx.f:601) (done)
 [ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
+[ 2019-01-02 ] A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
 
 
 Fortran scanner Issues
