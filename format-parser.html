@@ -49,8 +49,9 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;TR&nbsp;<A href="#<n>">&lt;n&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{T|TL|TR}n&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<n>">&lt;n&gt;</A>&nbsp;X&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;X&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Positive width must precede the position edit descrriptor 'X'"); */</FONT></EM>
 <BR><BR><STRONG><A name="<n>">&lt;n&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;sign&gt;&nbsp;&lt;int-literal-constant&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<FONT color="#cc3300">NONE</FONT>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;,&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;:&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;/&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Positive width required after a T, TL, or TR."); */</FONT></EM>
 <BR><BR><STRONG><A name="<,>">&lt;,&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;
 <BR><BR><STRONG><A name="<data-edit-desc-first>">&lt;data-edit-desc-first&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;fmt{G}w&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{I,B,O,Z,G,L,A}w&gt;&nbsp;
