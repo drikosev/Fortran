@@ -78,7 +78,7 @@
      |     TR <n> 
      |     <fmt{T|TL|TR}n> 
      |     <n> X 
-     |     X   /* Tr.warning(L"Positive width must precede the position edit descrriptor 'X'"); */
+     |     X   /* Tr.warning(L"Positive width must precede the position edit descrriptor 'X'."); */
 
 <n> ::= 
            <int-literal-constant> 
