@@ -36,6 +36,7 @@
      |     <fmt{F,E,EN,ES,G,D}w . d> 
      |     <fmt{E,EN,ES,G}w . d E e> 
      |     A 
+     |     Q   /* Tr.warning(L"Character Count, Q-descriptor, is a non portable vendor extension."); */
      |     <fmt dt & char-literal-constant> <p-v-list> 
      |     <fmt dt & char-literal-constant> 
      |     DT <p-v-list> 
@@ -78,7 +79,7 @@
      |     TR <n> 
      |     <fmt{T|TL|TR}n> 
      |     <n> X 
-     |     X   /* Tr.warning(L"Positive width must precede the position edit descrriptor 'X'."); */
+     |     X   /* Tr.warning(L"Positive width should precede the position edit descriptor 'X'."); */
 
 <n> ::= 
            <int-literal-constant> 

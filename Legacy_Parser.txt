@@ -1416,6 +1416,7 @@ keyword ::=
      |     <fmt{F,E,EN,ES,G,D}w . d> 
      |     <fmt{E,EN,ES,G}w . d E e> 
      |     A 
+     |     Q   /* Tr.warning(L"Character Count, Q-descriptor, is a non portable vendor extension."); */
      |     <fmt dt & char-literal-constant> <p-v-list> 
      |     <fmt dt & char-literal-constant> 
      |     DT <p-v-list> 
