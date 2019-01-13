@@ -442,12 +442,16 @@
 <BR><BR><STRONG><A name="<actual-arg>">&lt;actual-arg&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<alt-return-spec>">&lt;alt-return-spec&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;*&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<vms-intrinsic>">&lt;vms-intrinsic&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<alt-return-spec>">&lt;alt-return-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&lt;label&gt;&nbsp;
+<BR><BR><STRONG><A name="<vms-intrinsic>">&lt;vms-intrinsic&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<%>">&lt;%&gt;</A>&nbsp;VAL&nbsp;<A href="#<p-actual-arg-spec-list>">&lt;p-actual-arg-spec-list&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Argument list function '%VAL' is a Legacy VMS Extension."); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<%>">&lt;%&gt;</A>&nbsp;REF&nbsp;<A href="#<p-actual-arg-spec-list>">&lt;p-actual-arg-spec-list&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Argument list function '%REF' is a Legacy VMS Extension."); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<%>">&lt;%&gt;</A>&nbsp;LOC&nbsp;<A href="#<p-actual-arg-spec-list>">&lt;p-actual-arg-spec-list&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Argument list function '%LOC' is a Legacy VMS Extension."); */</FONT></EM>
+<BR><BR><STRONG><A name="<%>">&lt;%&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&nbsp;
 <BR><BR><STRONG><A name="<named-arg-spec-list>">&lt;named-arg-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<named-arg-spec-list>">&lt;named-arg-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<named-arg-spec>">&lt;named-arg-spec&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<named-arg-spec>">&lt;named-arg-spec&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<named-arg-spec>">&lt;named-arg-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#keyword">keyword</A>&nbsp;=&nbsp;<A href="#<actual-arg>">&lt;actual-arg&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="keyword">keyword</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<%>">&lt;%&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&nbsp;
 <BR><BR><STRONG><A name="<.>">&lt;.&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;
 <BR><BR><STRONG><A name="<slashed-name>">&lt;slashed-name&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;/&nbsp;
 <BR><BR><STRONG><A name="omp-end-target-data-stmt">omp-end-target-data-stmt</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OMP&nbsp;END&nbsp;TARGET&nbsp;DATA&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
@@ -996,7 +1000,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;TR&nbsp;<A href="#<n>">&lt;n&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{T|TL|TR}n&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<n>">&lt;n&gt;</A>&nbsp;X&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;X&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Positive width must precede the position edit descrriptor 'X'."); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;X&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Positive width should precede the position edit descriptor 'X'."); */</FONT></EM>
 <BR><BR><STRONG><A name="<n>">&lt;n&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<FONT color="#cc3300">NONE</FONT>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;,&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;:&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;/&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Positive width required after a T, TL, or TR."); */</FONT></EM>
 <BR><BR><STRONG><A name="<data-edit-desc-first>">&lt;data-edit-desc-first&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;fmt{G}w&gt;&nbsp;

@@ -239,11 +239,14 @@
      |     CHARACTER 
      |     LOGICAL 
      |     AUTOMATIC 
+     |     LOC 
      |     MAP 
      |     RECORD 
+     |     REF 
      |     STATIC 
      |     STRUCTURE 
      |     UNION 
+     |     VAL 
      |     END_MAP 
      |     END_STRUCTURE 
      |     END_UNION 
@@ -1178,11 +1181,17 @@ LOGICAL ::=
 AUTOMATIC ::= 
            A U T O M A T I C 
 
+LOC ::= 
+           L O C 
+
 MAP ::= 
            M A P 
 
 RECORD ::= 
            R E C O R D 
+
+REF ::= 
+           R E F 
 
 STATIC ::= 
            S T A T I C 
@@ -1192,6 +1201,9 @@ STRUCTURE ::=
 
 UNION ::= 
            U N I O N 
+
+VAL ::= 
+           V A L 
 
 END_MAP ::= 
            E N D M A P 
@@ -1880,11 +1892,14 @@ key ::=
      |     CHARACTER 
      |     LOGICAL 
      |     AUTOMATIC 
+     |     LOC 
      |     MAP 
      |     RECORD 
+     |     REF 
      |     STATIC 
      |     STRUCTURE 
      |     UNION 
+     |     VAL 
      |     END_MAP 
      |     END_STRUCTURE 
      |     END_UNION 

@@ -711,9 +711,18 @@ omp-end-single-stmt ::=
            <expr> 
      |     <alt-return-spec> 
      |     * 
+     |     <vms-intrinsic> 
 
 <alt-return-spec> ::= 
            * <label> 
+
+<vms-intrinsic> ::= 
+           <%> VAL <p-actual-arg-spec-list>   /* Tr.warning(L"Argument list function '%VAL' is a Legacy VMS Extension."); */
+     |     <%> REF <p-actual-arg-spec-list>   /* Tr.warning(L"Argument list function '%REF' is a Legacy VMS Extension."); */
+     |     <%> LOC <p-actual-arg-spec-list>   /* Tr.warning(L"Argument list function '%LOC' is a Legacy VMS Extension."); */
+
+<%> ::= 
+           % 
 
 <named-arg-spec-list> ::= 
            <named-arg-spec-list> <,> <named-arg-spec> 
@@ -724,9 +733,6 @@ omp-end-single-stmt ::=
 
 keyword ::= 
            <name> 
-
-<%> ::= 
-           % 
 
 <.> ::= 
            . 
@@ -1683,7 +1689,7 @@ alignment ::=
      |     TR <n> 
      |     <fmt{T|TL|TR}n> 
      |     <n> X 
-     |     X   /* Tr.warning(L"Positive width must precede the position edit descrriptor 'X'."); */
+     |     X   /* Tr.warning(L"Positive width should precede the position edit descriptor 'X'."); */
 
 <n> ::= 
            <int-literal-constant> 
