@@ -161,6 +161,7 @@ Legacy parser Issues
                Also, print a nice message if <n> isn't specified after a T, TL, and TR. 
  [2019-01-01]  A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
  [2019-01-13]  VMS Extension: Accept the argument list functions '%VAL', '%REF', and '%LOC'.(done)
+ [2019-01-13]  VMS Extension: Accept the intrinsic function '%LOC' as a designator.         (done)       
 
 
  OMP (Legacy) Parser Issues
@@ -304,7 +305,10 @@ Legacy parser Issues
                Also, print a nice message if <n> isn't specified after a T, TL, and TR. 
  [2019-01-01]  A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
  [2019-01-13]  VMS Extension: Accept the argument list functions '%VAL', '%REF', and '%LOC'.(done)
-               
+ [2019-01-13]  PGI/VMS Extension: Accept the intrinsic function '%LOC' as a designator.     (done)    
+               Note: A strange conflict appeared that I don't see in "legacy_parser.txt".
+               That's why the rule <vms-location> is restricted by "-: {=}".
+
 
 Format Parser
 -------------

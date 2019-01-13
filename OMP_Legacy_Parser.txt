@@ -370,6 +370,7 @@ omp-end-single-stmt ::=
 
 <designator> ::= 
            <data-ref> 
+     |     <vms-location> 
 
 <data-ref> ::= 
            <part-ref> <%> <data-ref> -: { <%> } 
@@ -711,15 +712,14 @@ omp-end-single-stmt ::=
            <expr> 
      |     <alt-return-spec> 
      |     * 
-     |     <vms-intrinsic> 
+     |     <vms-argument> 
 
 <alt-return-spec> ::= 
            * <label> 
 
-<vms-intrinsic> ::= 
-           <%> VAL <p-actual-arg-spec-list>   /* Tr.warning(L"Argument list function '%VAL' is a Legacy VMS Extension."); */
-     |     <%> REF <p-actual-arg-spec-list>   /* Tr.warning(L"Argument list function '%REF' is a Legacy VMS Extension."); */
-     |     <%> LOC <p-actual-arg-spec-list>   /* Tr.warning(L"Argument list function '%LOC' is a Legacy VMS Extension."); */
+<vms-argument> ::= 
+           <%> VAL <p-actual-arg-spec-list>   /* Tr.warning(L"Argument passing with function '%VAL' is a Legacy VMS Extension."); */
+     |     <%> REF <p-actual-arg-spec-list>   /* Tr.warning(L"Argument passing with function '%REF' is a Legacy VMS Extension."); */
 
 <%> ::= 
            % 
@@ -736,6 +736,9 @@ keyword ::=
 
 <.> ::= 
            . 
+
+<vms-location> ::= 
+           <%> LOC <p-actual-arg-spec-list> -: { = }   /* Tr.warning(L"Intrinsic function '%LOC' is a Legacy VMS Extension."); */
 
 <slashed-name> ::= 
            / <name> / 
