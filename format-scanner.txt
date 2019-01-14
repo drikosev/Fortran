@@ -5,7 +5,9 @@
      |     <fmt{I,B,O,Z,G,L,A}w> 
      |     <fmt{I,B,O,Z}w . d> 
      |     <fmt{F,E,EN,ES,G,D}w . d> 
+     |     <fmt{Q}w . d> 
      |     <fmt{E,EN,ES,G}w . d E e> 
+     |     <fmt{E}w . d{D|Q}e> 
      |     <fmt dt & char-literal-constant> 
      |     <fmt{T|TL|TR}n> 
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
@@ -87,6 +89,9 @@
 <fmt{F,E,EN,ES,G,D}w . d> ::= 
            { F |[ P ] E |[ P ] E N |[ P ] E S |[ P ] G |[ P ] D } { 0 .. 9 }... { . } { 0 .. 9 }... 
 
+<fmt{Q}w . d> ::= 
+           {[ P ] Q } { 0 .. 9 }... { . } { 0 .. 9 }... 
+
 <fmt{E,EN,ES,G}w . d E e> ::= 
            {[ P ] E |[ P ] EN |[ P ] ES |[ P ] G } { 0 .. 9 }... { . } { 0 .. 9 }... E { 0 .. 9 }... 
 
@@ -95,6 +100,9 @@ EN ::=
 
 ES ::= 
            E S 
+
+<fmt{E}w . d{D|Q}e> ::= 
+           {[ P ] E } { 0 .. 9 }... { . } { 0 .. 9 }... { D | Q } { 0 .. 9 }... 
 
 <fmt dt & char-literal-constant> ::= 
            DT <char-literal-constant> 

@@ -84,6 +84,7 @@ The Following bug-fix has not been tested very well yet:
                      this case a <name-r> which the parser could shift.      
  [2019-01-13]  IBM/PGI Extension. Allow a Q-descriptor (character count).                   (done) 
                There also exists the (unsupported) extended precision Q edit descriptor. 
+ [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
 
 
  OMP (Legacy) Scanner Issues
@@ -123,6 +124,7 @@ The Following bug-fix has not been tested very well yet:
               dosimd.f:4: error: syntax:Unexpected end-do-stmt. Expected: end-program-stmt.
  [2019-01-13]  IBM/PGI Extension. Allow a Q-descriptor (character count).                   (done) 
                There also exists the (unsupported) extended precision Q edit descriptor. 
+ [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
 
 
 Legacy parser Issues
@@ -168,6 +170,7 @@ Legacy parser Issues
  [2019-01-13]  VMS Extension: Accept the intrinsic function '%LOC' as a designator.         (done)       
  [2019-01-13]  IBM/PGI Extension. Allow a Q-descriptor (character count).                   (done) 
                There also exists the (unsupported) extended precision Q edit descriptor. 
+ [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
 
 
  OMP (Legacy) Parser Issues
@@ -316,6 +319,7 @@ Legacy parser Issues
                That's why the rule <vms-location> is restricted by "-: {=}".
  [2019-01-13]  IBM/PGI Extension. Allow a Q-descriptor (character count).                   (done) 
                There also exists the (unsupported) extended precision Q edit descriptor. 
+ [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
 
 Format Parser
 -------------
@@ -324,6 +328,7 @@ Format Parser
  [2019-01-01]  A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
  [2019-01-13]  IBM/PGI Extension. Allow a Q-descriptor (character count).                   (done) 
                There also exists the (unsupported) extended precision Q edit descriptor. 
+ [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
 
 
 Free Form Preprocessor

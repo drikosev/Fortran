@@ -1416,10 +1416,12 @@ keyword ::=
      |     <fmt{F,E,EN,ES,G,D}w . d> 
      |     <fmt{E,EN,ES,G}w . d E e> 
      |     A 
-     |     Q   /* Tr.warning(L"Character Count, Q-descriptor, is a non portable vendor extension."); */
-     |     <fmt dt & char-literal-constant> <p-v-list> 
+     |     Q   /* Tr.warning(L"The Q descriptor (Character Count) is a non portable vendor extension."); synthesize(1); */
+     |     <fmt{Q}w . d>   /* Tr.warning(L"The extended precision descriptor '%s' is an IBM extension.",str(1)); synthesize(1); */
+     |     <fmt{E}w . d{D|Q}e>   /* Tr.warning(L"The descriptor '%s' is an IBM extension.",str(1)); synthesize(1); */
+     |     <fmt dt & char-literal-constant> <p-v-list>   /* synthesize(1); syncat(L"(...)"); */
      |     <fmt dt & char-literal-constant> 
-     |     DT <p-v-list> 
+     |     DT <p-v-list>   /* synthesize(1); syncat(L"(...)"); */
      |     DT 
      |     $ 
      |     \ 
@@ -2051,7 +2053,7 @@ subroutine-stmt ::=
      |     <keyword-l>   /* Tr.error(L"Expecting an Attribute Specification but read:", str(1)); */
 
 <keyword-l> ::? 
-           keyword   /* $$(0).synthesized=new wstring(str(1)); */
+           keyword   /* synthesize(1); */
 
 <type-declaration-error> ::~ 
            <declaration-type-spec> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */

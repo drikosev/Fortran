@@ -834,10 +834,12 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{F,E,EN,ES,G,D}w . d&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{E,EN,ES,G}w . d E e&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;A&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;Q&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Character Count, Q-descriptor, is a non portable vendor extension."); */</FONT></EM>
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt dt & char-literal-constant&gt;&nbsp;<A href="#<p-v-list>">&lt;p-v-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;Q&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"The Q descriptor (Character Count) is a non portable vendor extension."); synthesize(1); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{Q}w . d&gt;&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"The extended precision descriptor '%s' is an IBM extension.",str(1)); synthesize(1); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{E}w . d{D|Q}e&gt;&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"The descriptor '%s' is an IBM extension.",str(1)); synthesize(1); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt dt & char-literal-constant&gt;&nbsp;<A href="#<p-v-list>">&lt;p-v-list&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* synthesize(1); syncat(L"(...)"); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt dt & char-literal-constant&gt;&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DT&nbsp;<A href="#<p-v-list>">&lt;p-v-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DT&nbsp;<A href="#<p-v-list>">&lt;p-v-list&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* synthesize(1); syncat(L"(...)"); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DT&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;$&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;\&nbsp;
@@ -1207,7 +1209,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;VOLATILE&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<dec-static>">&lt;dec-static&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<keyword-l>">&lt;keyword-l&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"Expecting an Attribute Specification but read:", str(1)); */</FONT></EM>
-<BR><BR><STRONG><A name="<keyword-l>">&lt;keyword-l&gt;</A></STRONG><FONT color="#cc3300"> ::? </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#keyword">keyword</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* $$(0).synthesized=new wstring(str(1)); */</FONT></EM>
+<BR><BR><STRONG><A name="<keyword-l>">&lt;keyword-l&gt;</A></STRONG><FONT color="#cc3300"> ::? </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#keyword">keyword</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* synthesize(1); */</FONT></EM>
 <BR><BR><STRONG><A name="<type-declaration-error>">&lt;type-declaration-error&gt;</A></STRONG><FONT color="#cc3300"> ::~ </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<declaration-type-spec>">&lt;declaration-type-spec&gt;</A>&nbsp;,&nbsp;<A href="#<attr-spec-list>">&lt;attr-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"A '::' must follow an attributes list."); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<character*length>">&lt;character*length&gt;</A>&nbsp;,&nbsp;<A href="#<attr-spec-list>">&lt;attr-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"A '::' must follow an attributes list."); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<record-type-spec>">&lt;record-type-spec&gt;</A>&nbsp;,&nbsp;<A href="#<attr-spec-list>">&lt;attr-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.error(L"A '::' must follow an attributes list."); */</FONT></EM>
