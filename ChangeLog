@@ -124,7 +124,7 @@ The Following bug-fix has not been tested very well yet:
               dosimd.f:4: error: syntax:Unexpected end-do-stmt. Expected: end-program-stmt.
  [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
                There also exists the extended precision Q edit descriptor; see below: 
- [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
+ [2019-01-14]  IBM Extension. Allow the 'Qw.d' (extended precision) edit descriptor.        (done) 
 
 
 Legacy parser Issues
@@ -170,7 +170,7 @@ Legacy parser Issues
                and '%REF'. Also, accept (is a designator ok?) the function '%LOC'           (done)      
  [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
                There also exists the extended precision Q edit descriptor; see below: 
- [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
+ [2019-01-14]  IBM Extension. Allow the 'Qw.d' (extended precision) edit descriptor.        (done) 
 
 
  OMP (Legacy) Parser Issues
