@@ -82,8 +82,8 @@ The Following bug-fix has not been tested very well yet:
                Now, the semantic action takes full control and returns either a FUNCTION or a <name-l>.
         note:  [1/9] The scanners are now capable not to return specific tokens as a shorter match, in 
                      this case a <name-r> which the parser could shift.      
- [2019-01-13]  IBM/PGI Extension. Allow a Q-descriptor (character count).                   (done) 
-               There also exists the (unsupported) extended precision Q edit descriptor. 
+ [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
+               There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
 
 
@@ -122,8 +122,8 @@ The Following bug-fix has not been tested very well yet:
               dosimd.f:2: error: syntax:Unexpected: ','. Expected: "**", ".AND.", ".OR.", ";", 
               "add-op", "concat-op", "equiv-op", "mult-op", "rel-op", or "user-defined-operator". 
               dosimd.f:4: error: syntax:Unexpected end-do-stmt. Expected: end-program-stmt.
- [2019-01-13]  IBM/PGI Extension. Allow a Q-descriptor (character count).                   (done) 
-               There also exists the (unsupported) extended precision Q edit descriptor. 
+ [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
+               There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
 
 
@@ -166,10 +166,10 @@ Legacy parser Issues
  [2019-01-01]  GNU/PGI Extension. Allow a position edit descriptor 'X' without width.       (done)
                Also, print a nice message if <n> isn't specified after a T, TL, and TR. 
  [2019-01-01]  A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
- [2019-01-13]  VMS Extension: Accept the argument list functions '%VAL', '%REF', and '%LOC'.(done)
- [2019-01-13]  VMS Extension: Accept the intrinsic function '%LOC' as a designator.         (done)       
- [2019-01-13]  IBM/PGI Extension. Allow a Q-descriptor (character count).                   (done) 
-               There also exists the (unsupported) extended precision Q edit descriptor. 
+ [2019-01-13]  VMS/PGI/GNU/Ora Extension: Accept arguments passing by the functions '%VAL',
+               and '%REF'. Also, accept (is a designator ok?) the function '%VAL'           (done)      
+ [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
+               There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
 
 
@@ -313,12 +313,12 @@ Legacy parser Issues
  [2019-01-01]  GNU/PGI Extension. Allow a position edit descriptor 'X' without width.       (done)
                Also, print a nice message if <n> isn't specified after a T, TL, and TR. 
  [2019-01-01]  A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
- [2019-01-13]  VMS Extension: Accept the argument list functions '%VAL', '%REF', and '%LOC'.(done)
- [2019-01-13]  PGI/VMS Extension: Accept the intrinsic function '%LOC' as a designator.     (done)    
+ [2019-01-13]  VMS/PGI/GNU/Ora Extension: Accept arguments passing by the functions '%VAL',
+               and '%REF'. Also, accept (is a designator ok?) the function '%VAL'           (done)      
                Note: A strange conflict appeared that I don't see in "legacy_parser.txt".
                That's why the rule <vms-location> is restricted by "-: {=}".
- [2019-01-13]  IBM/PGI Extension. Allow a Q-descriptor (character count).                   (done) 
-               There also exists the (unsupported) extended precision Q edit descriptor. 
+ [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
+               There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
 
 Format Parser
@@ -326,8 +326,8 @@ Format Parser
  [2019-01-01]  GNU/PGI Extension. Allow a position edit descriptor 'X' without width.       (done)
                Also, print a nice message if <n> isn't specified after a T, TL, and TR. 
  [2019-01-01]  A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
- [2019-01-13]  IBM/PGI Extension. Allow a Q-descriptor (character count).                   (done) 
-               There also exists the (unsupported) extended precision Q edit descriptor. 
+ [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
+               There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
 
 
