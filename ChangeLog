@@ -167,7 +167,7 @@ Legacy parser Issues
                Also, print a nice message if <n> isn't specified after a T, TL, and TR. 
  [2019-01-01]  A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
  [2019-01-13]  VMS/PGI/GNU/Ora Extension: Accept arguments passing by the functions '%VAL',
-               and '%REF'. Also, accept (is a designator ok?) the function '%VAL'           (done)      
+               and '%REF'. Also, accept (is a designator ok?) the function '%LOC'           (done)      
  [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
                There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
@@ -314,12 +314,13 @@ Legacy parser Issues
                Also, print a nice message if <n> isn't specified after a T, TL, and TR. 
  [2019-01-01]  A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
  [2019-01-13]  VMS/PGI/GNU/Ora Extension: Accept arguments passing by the functions '%VAL',
-               and '%REF'. Also, accept (is a designator ok?) the function '%VAL'           (done)      
+               and '%REF'. Also, accept (is a designator ok?) the function '%LOC'           (done)      
                Note: A strange conflict appeared that I don't see in "legacy_parser.txt".
                That's why the rule <vms-location> is restricted by "-: {=}".
  [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
                There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
+
 
 Format Parser
 -------------
