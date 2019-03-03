@@ -320,6 +320,32 @@ Legacy parser Issues
  [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
                There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
+               The following example summarises the latest legacy features supported:
+               $ cat percent.f && fcheck percent.f
+               1     integer X
+               2     format (Q)
+               3     read (*,2) x
+               4     call foo ( %LOC(x), %VAL(x), %REF(x), %DESCR (x))
+               5     print "(Q10.3)", %LOC(x)
+               6     print "(Q10.3)", %REF(x)
+               7     end
+               percent.f:2: warning: The Q descriptor (Character Count) is a non portable vendor
+               extension.
+               percent.f:4: warning: Intrinsic function '%LOC' is a Legacy VMS Extension.
+               percent.f:4: warning: Argument passing with function '%VAL' is a Legacy VMS Extension.
+               percent.f:4: warning: Argument passing with function '%REF' is a Legacy VMS Extension.
+               percent.f:4: error: syntax:Unexpected name with value 'DESCR'. Expected: "LOC", "REF",
+               or "VAL". 
+               percent.f:5: warning: Intrinsic function '%LOC' is a Legacy VMS Extension.
+               percent.f:5: warning: The extended precision descriptor 'Q10.3' is an IBM extension.
+               percent.f:6: error: syntax:Unexpected: 'REF'. Expected: "LOC". 
+               
+               Parsed with Errors: percent.f
+
+
+Format Scanner
+--------------
+ [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
 
 
 Format Parser
