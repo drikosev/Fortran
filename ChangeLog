@@ -341,6 +341,31 @@ Legacy parser Issues
                percent.f:6: error: syntax:Unexpected: 'REF'. Expected: "LOC". 
                
                Parsed with Errors: percent.f
+ [2019-03-10]  The "label-do" isn't the only spurious token in the error messages below:       (todo)
+               $ cat write.f90 && fcheck write.f90
+               1      write( ? , * ) r
+                      end
+
+               write.f90:1: error: syntax:Unexpected: '?'. Expected: "%", "(", "(/", ")", "*", ".NOT.",
+               ":", "::", "ADVANCE", "ASYNCHRONOUS", "DECIMAL", "DELIM", "ERR", "FMT", "ID", "IOMSG",
+               "IOSTAT", "NML", "POS", "REC", "ROUND", "SIGN", "UNIT", "[", "binary/octal/hex constant",
+               "char-literal-constant", "label", "label-do", "logical-literal-constant", "name", "number",
+               "sign", or "user-defined-operator". 
+
+               Parsed with Errors: write.f90
+               $ cat write.f90 && fcheck -ffixed-form write.f90
+               1      write( ? , * ) r
+                      end
+
+               write.f90:1: error: syntax:Haven't parsed properly balanced END statements. Expected: "%",
+               "(", "(/", ")", "*", ".NOT.", ":", "::", "ADVANCE", "ASYNCHRONOUS", "DECIMAL", "DELIM",
+               "FMT", "ID", "IOMSG", "IOSTAT", "NML", "POS", "REC", "ROUND", "SIGN", "UNIT", "[",
+               "ERR", "binary/octal/hex constant", "char-literal-constant", "label", "label-do",
+               "logical-literal-constant", "name", "number", "sign", or "user-defined-operator". 
+
+               Parsed with Errors: write.f90
+
+
 
 
 Format Scanner
