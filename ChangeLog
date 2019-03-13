@@ -50,6 +50,7 @@ Fortran parser Issues
 [ 2018-07-25 ] [8/9] Missing named constants in complex constants (see ie lapack/src/zsyrfsx.f:601) (done)
 [ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
 [ 2019-01-02 ] A sign isn't allowed in the width (<n>) of a position edit descriptor.       (done)                 
+[ 2019-03-10 ] The "label-do" shouldn't be proposed as an expected token (see OMP_Legacy_parser).  (done)
 
 
 Fortran scanner Issues
@@ -171,6 +172,7 @@ Legacy parser Issues
  [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
                There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the 'Qw.d' (extended precision) edit descriptor.        (done) 
+ [2019-03-10]  The "label-do" shouldn't be proposed as an expected token (see OMP_Legacy_parser).  (done)
 
 
  OMP (Legacy) Parser Issues
@@ -292,7 +294,8 @@ Legacy parser Issues
                [6/10] The last change above would introduce the keyword "END" as an expected token
                in the error message at line 5. Such a proposal would be invalid though.
                [22/10] Note that the token "TARGET" wasn't appearing as an expected token in the 
-               message at line 5 before I add the keyword "TARGET" in lex rule "<omp-compound>". 
+               message at line 5 before I add the keyword "TARGET" in lex rule "<omp-compound>".
+               [13/3] Faced a side effect with the unknown token '?' in "write.f90" below.
  [2018-09-30]  Add "OMP-END-TARGET" & remove other "OMP-END-*" from <unexpected-end-stmt>.   (done)
                Not really sure yet what's the best approach for the optional omp-end statements.   
                At the moment I've hand coded special recovery only for program units (ie a module).
@@ -341,31 +344,34 @@ Legacy parser Issues
                percent.f:6: error: syntax:Unexpected: 'REF'. Expected: "LOC". 
                
                Parsed with Errors: percent.f
- [2019-03-10]  The "label-do" isn't the only spurious token in the error messages below:       (todo)
-               $ cat write.f90 && fcheck write.f90
-               1      write( ? , * ) r
-                      end
-
-               write.f90:1: error: syntax:Unexpected: '?'. Expected: "%", "(", "(/", ")", "*", ".NOT.",
-               ":", "::", "ADVANCE", "ASYNCHRONOUS", "DECIMAL", "DELIM", "ERR", "FMT", "ID", "IOMSG",
-               "IOSTAT", "NML", "POS", "REC", "ROUND", "SIGN", "UNIT", "[", "binary/octal/hex constant",
-               "char-literal-constant", "label", "label-do", "logical-literal-constant", "name", "number",
-               "sign", or "user-defined-operator". 
-
-               Parsed with Errors: write.f90
+ [2019-03-10]  The "label-do" isn't the only spurious token in the error message below:       (done)
                $ cat write.f90 && fcheck -ffixed-form write.f90
-               1      write( ? , * ) r
-                      end
+               1     write( ? , * ) r
+               2     end
 
-               write.f90:1: error: syntax:Haven't parsed properly balanced END statements. Expected: "%",
-               "(", "(/", ")", "*", ".NOT.", ":", "::", "ADVANCE", "ASYNCHRONOUS", "DECIMAL", "DELIM",
-               "FMT", "ID", "IOMSG", "IOSTAT", "NML", "POS", "REC", "ROUND", "SIGN", "UNIT", "[",
-               "ERR", "binary/octal/hex constant", "char-literal-constant", "label", "label-do",
-               "logical-literal-constant", "name", "number", "sign", or "user-defined-operator". 
+               write.f90:1: error: syntax:Haven't parsed properly balanced END statements. Expected:
+                                   "%", "(", "(/", ")", "*", ".NOT.", ":", "::", "ADVANCE",
+                                   "ASYNCHRONOUS", "DECIMAL", "DELIM", "ERR", "FMT", "ID", "IOMSG",
+                                   "IOSTAT", "NML", "POS", "REC", "ROUND", "SIGN", "UNIT", "[",
+                                   "binary/octal/hex constant", "char-literal-constant", "label",
+                                   "label-do", "logical-literal-constant", "name", "number", "sign",
+                                   or "user-defined-operator". 
 
                Parsed with Errors: write.f90
 
+         Note: [13/3] All constants (+sign) are grouped now as a "constant" and all labels as a
+               "label", which can't be the leftmost argument in a "io-control-spec" list. Further,
+               in fixed form the parser got a fake EOF (related to "sma.f:2" above). So far, these
+               four adjustments don't add any states to the grammar. The adjusted message is this:  
 
+               $ fcheck -ffixed-form write.f90
+               write.f90:1: error: syntax:Unexpected: '?'. Expected: "%", "(", "(/", ")", "*",
+                                   ".NOT.", ":", "::", "ADVANCE", "ASYNCHRONOUS", "DECIMAL",
+                                   "DELIM", "ERR", "FMT", "ID", "IOMSG", "IOSTAT", "NML", "POS",
+                                   "REC", "ROUND", "SIGN", "UNIT", "[", "constant", "name", or
+                                   "user-defined-operator". 
+
+               Parsed with Errors: write.f90
 
 
 Format Scanner
