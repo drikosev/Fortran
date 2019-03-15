@@ -372,8 +372,8 @@ Legacy parser Issues
                                    "user-defined-operator". 
 
                Parsed with Errors: write.f90
-         Note: [15/3] To restrict the "i/o-control-spec-list" to one/two anonymous arguments, if 
-               ie "FMT=" is omitted, we've pressed the ENLALR builder to create another 44 states.
+         Note: [15/3] To restrict the "i/o-control-spec-list" to one/two anonymous arguments (ie 
+               an omitted "FMT=") we've pressed the ENLALR builder to create 44 additional states.
                
 
 
