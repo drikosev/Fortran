@@ -362,7 +362,7 @@ Legacy parser Issues
          Note: [13/3] All constants (+sign) are grouped now as a "constant" and all labels as a
                "label", which can't be the leftmost argument in a "io-control-spec" list. Further,
                in fixed form the parser got a fake EOF (related to "sma.f:2" above). So far, these
-               four adjustments don't add any states to the grammar. The adjusted message is this:  
+               four adjustments don't add any states to the parser. The adjusted message is this:  
 
                $ fcheck -ffixed-form write.f90
                write.f90:1: error: syntax:Unexpected: '?'. Expected: "%", "(", "(/", ")", "*",
@@ -372,6 +372,9 @@ Legacy parser Issues
                                    "user-defined-operator". 
 
                Parsed with Errors: write.f90
+         Note: [15/3] To restrict the "i/o-control-spec-list" to one/two anonymous arguments, if 
+               ie "FMT=" is omitted, we've pressed the ENLALR builder to create another 44 states.
+               
 
 
 Format Scanner
