@@ -1691,13 +1691,13 @@
 <BR><BR><STRONG><A name="<p-i-control-spec-list>">&lt;p-i-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<i-control-spec-list>">&lt;i-control-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<i-control-spec-list>">&lt;i-control-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<i-control-named-spec-list>">&lt;i-control-named-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<i-control-named-spec-list>">&lt;i-control-named-spec-list&gt;</A>&nbsp;)&nbsp;
-<BR><BR><STRONG><A name="<i-control-spec-list>">&lt;i-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<i-control-spec>">&lt;i-control-spec&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<i-control-spec-list>">&lt;i-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<i-control-spec-list>">&lt;i-control-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<i-control-spec>">&lt;i-control-spec&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<io-unit>">&lt;io-unit&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<file-unit-number>">&lt;file-unit-number&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;*&nbsp;
 <BR><BR><STRONG><A name="<i-control-spec>">&lt;i-control-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<namelist-group-name>">&lt;namelist-group-name&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<namelist-group-name>">&lt;namelist-group-name&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<io-unit>">&lt;io-unit&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<file-unit-number>">&lt;file-unit-number&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;*&nbsp;
 <BR><BR><STRONG><A name="<i-control-named-spec-list>">&lt;i-control-named-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<i-control-named-spec-list>">&lt;i-control-named-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<i-control-named-spec>">&lt;i-control-named-spec&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<i-control-named-spec>">&lt;i-control-named-spec&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<i-control-named-spec>">&lt;i-control-named-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNIT&nbsp;=&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;
@@ -1769,7 +1769,7 @@
 <BR><BR><STRONG><A name="<p-o-control-spec-list>">&lt;p-o-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<o-control-spec-list>">&lt;o-control-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<o-control-spec-list>">&lt;o-control-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<o-control-named-spec-list>">&lt;o-control-named-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<o-control-named-spec-list>">&lt;o-control-named-spec-list&gt;</A>&nbsp;)&nbsp;
-<BR><BR><STRONG><A name="<o-control-spec-list>">&lt;o-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<o-control-spec>">&lt;o-control-spec&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<o-control-spec-list>">&lt;o-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<o-control-spec-list>">&lt;o-control-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<o-control-spec>">&lt;o-control-spec&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<o-control-spec>">&lt;o-control-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<namelist-group-name>">&lt;namelist-group-name&gt;</A>&nbsp;

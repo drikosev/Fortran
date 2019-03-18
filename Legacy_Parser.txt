@@ -2643,12 +2643,8 @@ subroutine-stmt ::=
      |     ( <i-control-named-spec-list> ) 
 
 <i-control-spec-list> ::= 
-           <io-unit> <,> <i-control-spec> 
+           <i-control-spec-list> <,> <i-control-spec> 
      |     <io-unit> 
-
-<io-unit> ::= 
-           <file-unit-number> 
-     |     * 
 
 <i-control-spec> ::= 
            <format> 
@@ -2656,6 +2652,10 @@ subroutine-stmt ::=
 
 <namelist-group-name> ::= 
            <name> 
+
+<io-unit> ::= 
+           <file-unit-number> 
+     |     * 
 
 <i-control-named-spec-list> ::= 
            <i-control-named-spec-list> <,> <i-control-named-spec> 
@@ -2781,7 +2781,7 @@ subroutine-stmt ::=
      |     ( <o-control-named-spec-list> ) 
 
 <o-control-spec-list> ::= 
-           <io-unit> <,> <o-control-spec> 
+           <o-control-spec-list> <,> <o-control-spec> 
      |     <io-unit> 
 
 <o-control-spec> ::= 
