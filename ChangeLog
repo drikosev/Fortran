@@ -430,6 +430,23 @@ The Following four new features/bug-fixes have not been tested very well yet:
 [ 2018-09-07 ] Hollerith Constants that exceed a free form continued line aren't parsed properly.  (todo)
 
 
+Format String Reader
+--------------------
+[ 2019-03-26 ] The existing Reader, likely, isn't aware of Hollerith constants:
+               $ cat fm111.f && fcheck fm111.f
+               100     format( /11X, 10HCOMPUTED: ,4(2X, I3)  )JUNK
+               270     print '(/11X, 10HCOMPUTED: ,4(2X, I3)  )JUNK'
+                       end
+               fm111.f:1: error: syntax:Unexpected name with value 'JUNK'. Expected: ";". 
+               fm111.f:2: error: syntax:Unexpected: 'H'. Format string error, expected :"$", "(", "/",  
+                                "A", "DT", "P", "Q", "X", "\", "fmt dt & char-literal-constant",
+                                "fmt{E,EN,ES,G}w . d E e", "fmt{E}w . d{D|Q}e", "fmt{F,E,EN,ES,G,D}w.d",
+                                "fmt{G}w", "fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d", "fmt{I,B,O,Z,G,L,A}w",
+                                "fmt{I,B,O,Z}w . d", or "fmt{Q}w . d". 
+
+               Parsed with Errors: fm111.f
+
+
 
      Some legacy code examples have been found at: 
 [*1] http://fortranwiki.org/fortran/show/Modernizing+Old+Fortran
