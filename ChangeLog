@@ -377,6 +377,30 @@ Legacy parser Issues
 Format Scanner
 --------------
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
+ [2019-03-28]  Delete the "concat" operator from this scanner. Also, the message doesn't
+               display the "unexpected" token read by the Format Parser.
+               $ cat apdetect.f90 && fcheck apdetect.f90
+               1     format   (1x,a,f9.2,a,f9.2,/3x,a//)
+                     print   '(1x,a,f9.2,a,f9.2,/3x,a//)'
+                     end
+
+               apdetect.f90:2: error: syntax:Format string error, expected :")", ",", "/", ":",
+               "A", "DT", "char-literal-constant", "fmt dt & char-literal-constant",
+               "fmt{E,EN,ES,G}w . d E e", "fmt{F,E,EN,ES,G,D}w . d", "fmt{G}w",
+               "fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d", "fmt{I,B,O,Z,G,L,A}w", or "fmt{I,B,O,Z}w . d". 
+
+               Parsed with Errors: apdetect.f90
+ [2019-03-28]  GNU/PGI extension: Parse an L data-edit-desctiptor without a following 'w'.
+        Note:  PGI Fortran allows in addition an I data-edit-desctiptor without a 'w'.
+               $ cat f88d2arps.f90 && fcheck f88d2arps.f90  2>&1 | tail -n 1
+               1     FORMAT   (/,1x,a,L,a,/,10x,a,/)
+               2     PRINT   '(/,1x,a,L,a,/,10x,a,/)'
+               3     FORMAT   (a,i,/a)
+               4     PRINT   '(a,i,/a)'
+               5     END
+
+               Parsed with Errors: f88d2arps.f90
+        Note:  These two extensions should be implemented also in the (OMP) Fortran Scanner.
 
 
 Format Parser
@@ -387,6 +411,7 @@ Format Parser
  [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
                There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
+ [2019-03-28]  Vendor Extension: Allow a Format String not surrounded  by parentheses.
 
 
 Free Form Preprocessor
