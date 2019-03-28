@@ -390,17 +390,8 @@ Format Scanner
                "fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d", "fmt{I,B,O,Z,G,L,A}w", or "fmt{I,B,O,Z}w . d". 
 
                Parsed with Errors: apdetect.f90
- [2019-03-28]  GNU/PGI extension: Parse an L data-edit-desctiptor without a following 'w'.
-        Note:  PGI Fortran allows in addition an I data-edit-desctiptor without a 'w'.
-               $ cat f88d2arps.f90 && fcheck f88d2arps.f90  2>&1 | tail -n 1
-               1     FORMAT   (/,1x,a,L,a,/,10x,a,/)
-               2     PRINT   '(/,1x,a,L,a,/,10x,a,/)'
-               3     FORMAT   (a,i,/a)
-               4     PRINT   '(a,i,/a)'
-               5     END
-
-               Parsed with Errors: f88d2arps.f90
-        Note:  These two extensions should be implemented also in the (OMP) Fortran Scanner.
+ [2019-03-28]  Vendor extension: Support the L/I descriptors without a following 'w'.
+        Note:  These two changes should be implemented also in the OMP (Legacy) Scanner.
 
 
 Format Parser
@@ -412,6 +403,17 @@ Format Parser
                There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
  [2019-03-28]  Vendor Extension: Allow a Format String not surrounded  by parentheses.
+ [2019-03-28]  GNU/PGI extension: Parse an L data-edit-desctiptor without a following 'w'.
+        Note:  PGI Fortran allows in addition an I data-edit-desctiptor without a 'w'.
+               $ cat f88d2arps.f90 && fcheck f88d2arps.f90  2>&1 | tail -n 1
+               1     FORMAT   (/,1x,a,L,a,/,10x,a,/)
+               2     PRINT   '(/,1x,a,L,a,/,10x,a,/)'
+               3     FORMAT   (a,i,/a)
+               4     PRINT   '(a,i,/a)'
+               5     END
+
+               Parsed with Errors: f88d2arps.f90
+        Note:  These two extensions should be implemented also in the  OMP (Legacy) Parser.
 
 
 Free Form Preprocessor
