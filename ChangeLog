@@ -2,16 +2,16 @@ Fortran parser Issues
 ---------------------
 
 [ 2015-01-05 ] The derived-type-def didn't accept labels in type-bound-proc-bindings and a few
-               semicolons were missing (todo: test).
+               semicolons were missing.
 [ 2015-01-28 ] The "ONLY" keyword was undefined and the comma was omitted in "only-list".
 [ 2015-03-03 ] Added the end-critical-stmt.
 [ 2015-04-22 ] The parser rejected functions as lvalues, which are likely valid.
 [ 2017-04-10 ] Removed the rule "ac-implied-do-object ::= keyword = expr". Added an accurate 
                "ac-implied-do-cntrl" .
 [ 2017-05-01 ] The ERSP Extension was found to be buggy. So far cannot reproduce the bug in a
-               small grammar (todo: handle this open issue).
+               small grammar (suspended).
 [ 2017-05-03 ] touched name-f & removed name-r from lprocedure names and run all the tests in
-               generated parser ( todo: test also in simulator my test cases)
+               generated parser.
 [ 2017-05-06 ] Extended the grammar with the newer assumed-rank-spec as an option to array-spec
                (seems an overkill to run again the tests).
 [ 2017-07-07 ] The rule part-name-p-section-subscript-list-l didn't allow a follow "%" after an
@@ -56,7 +56,7 @@ Fortran parser Issues
 Fortran scanner Issues
 ----------------------
 [ 2017-05-03 ] I'd predicted only array context after "call*" and the scanner was returning a
-               name-l on "call r('s')" (todo: confirm not_cons_keys ).
+               name-l on "call r('s')" (affects not_cons_keys ).
 [ 2018-04-19 ] A scalar-int-constant-name may have underscores (ie: c_char_"kernel32.dll").
 [ 2018-04-28 ] Extension: GNU/VMS/Oracle <hex-constant> with X in addition to Z (see [*2] ie: X'1f').
 [ 2018-04-28 ] An invalid <,> token has been removed.
@@ -126,7 +126,7 @@ The Following bug-fix has not been tested very well yet:
  [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
                There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the 'Qw.d' (extended precision) edit descriptor.        (done) 
- [2019-03-28]  Vendor extension: Support the L/I edit descriptors without a following 'w'.
+ [2019-03-28]  Vendor extension: Support the L/I edit descriptors without a following 'w'.  (todo)
 
 
 Legacy parser Issues
@@ -240,19 +240,19 @@ Legacy parser Issues
                declare-reduction.1.f90:8: error: syntax:Unexpected: '/'. Expected: "(", "(/", ")",
                 "*", ".NOT.", ":", "::", "[", "binary/octal/hex constant", "char-literal-constant",
                "logical-literal-constant", "name", "number", "sign", or "user-defined-operator".
-               todo: fix the guiless option as state errors aren't composed at all.
+               Fix the guiless option as state errors aren't composed at all.                    (done)
  [2018-09-23]  Also, I see the following, 2-line, spurious message:                              (done)
                "declare-reduction.1.f90:17: error: syntax:Unexpected end-module-stmt.
                 Expected: end-program-stmt."
                Added error recovery on <spec-stmt>; and deleted the rule <omp-unknown-construct>
                (as all 4.5 directives have been implemented).
  [2018-09-24]  GNU Extension: Accept a user-defined-operator as a reduction-identifier.
-               Several test cases in gfortran7 ie use such a feature:                             (done)
+               Several test cases in gfortran7 ie use such a feature:                            (done)
                $ fcheck -fopenmp ../gomp/udr5.f90
                ../gomp/udr5.f90:15: error: syntax:Unexpected: defined-unary-op with value '.MYADD.'.
                Expected: ".AND.", ".NOT.", ".OR.", "IAND", "IEOR", "IOR", "MAX", "MIN", "add-op",
                "equiv-op", "mult-op", or "name".
-               [2019-03-29] Now the program issues a portability warning.
+               [2019-03-29] The program should issue a portability warning.                      (todo)
  [2018-09-24]  The following warning has (a) wrong line number and (b) is redundant on a '&':    (done)
                free-2.f90:6: warning: Initial OpenMP directive lines must have a space after the
                sentinel "!$OMP".
@@ -374,8 +374,8 @@ Legacy parser Issues
                                    "user-defined-operator". 
 
                Parsed with Errors: write.f90
- [2019-03-28]  Vendor extension: Support the L/I edit descriptors without a following 'w'.
- [2019-03-30]  GNU/PGI extension: parse the rightmost ',' in the READ statement below: 
+ [2019-03-28]  Vendor extension: Support the L/I edit descriptors without a following 'w'.       (todo)
+ [2019-03-30]  GNU/PGI extension: parse the rightmost ',' in the READ statement below:           (todo)
                $ cat read-format-2.f90 && fcheck read-format-2.f90
                1    integer X
                2    read (*,"(I5)"),  X
@@ -385,12 +385,24 @@ Legacy parser Issues
                ".NOT.", ";", "=", "[", "constant", "name", or "user-defined-operator". 
 
                Parsed with Errors: read-format-2.f90
+ [2019-03-30]  Various extensions in format items are usually faced in format strings,       (todo)
+               embedded in READ/WRITE statements. To identify and support such extensions
+               in existing, large code bases we've to parse & validate these strings as 
+               format specifications. Yet, we don't have a type checking subsystem now.     
+ 
+               As an interim solution, I'll classify the PRINT/READ/WRITE statements and add 
+               easily temporary semantic actions which can validate a Format String that
+               is a "character-literal-constant", not only in Print Statements but also in
+               Read and Write Statements as well.
+ 
+        Note:  These temporary semantic actions have to eventually be replaced by permanent 
+               actions (as soon as we implement a type checking subsystem).  
 
 
 Format Scanner
 --------------
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
- [2019-03-28]  Delete the "concat" operator from this scanner. Also, the message doesn't
+ [2019-03-28]  Delete the "concat" operator from this scanner. Also, the message doesn't    (todo)
                display the "unexpected" token read by the Format Parser.
                $ cat apdetect.f90 && fcheck apdetect.f90
                1     format   (1x,a,f9.2,a,f9.2,/3x,a//)
@@ -403,8 +415,9 @@ Format Scanner
                "fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d", "fmt{I,B,O,Z,G,L,A}w", or "fmt{I,B,O,Z}w . d". 
 
                Parsed with Errors: apdetect.f90
- [2019-03-28]  Vendor extension: Support the L/I descriptors without a following 'w'.
-        Note:  These two changes should be implemented also in the OMP (Legacy) Scanner.
+        Note:  [30/3] delete all redundant keywords from this scanner. 
+ [2019-03-28]  Vendor extension: Support the L/I descriptors without a following 'w'.       (todo)
+        Note:  These two changes should be implemented also in the OMP (Legacy) Scanner.    (todo)
 
 
 Format Parser
@@ -415,9 +428,9 @@ Format Parser
  [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
                There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the Qw.d edit descriptor (character count).             (done) 
- [2019-03-28]  Vendor Extension: Allow a Format String not surrounded  by parentheses.
- [2019-03-28]  GNU/PGI extension: Parse an L data-edit-desctiptor without a following 'w'.
-        Note:  PGI Fortran allows in addition an I data-edit-desctiptor without a 'w'.
+ [2019-03-28]  Vendor Extension: Allow a Format String not surrounded  by parentheses.      (todo)
+ [2019-03-28]  GNU/PGI extension: Parse an L data-edit-desctiptor without a following 'w'.  (todo)
+        Note:  PGI Fortran allows in addition an I data-edit-desctiptor without a 'w'.       
                $ cat f88d2arps.f90 && fcheck f88d2arps.f90  2>&1 | tail -n 1
                1     FORMAT   (/,1x,a,L,a,/,10x,a,/)
                2     PRINT   '(/,1x,a,L,a,/,10x,a,/)'
@@ -426,16 +439,16 @@ Format Parser
                5     END
 
                Parsed with Errors: f88d2arps.f90
-        Note:  These two extensions should be implemented also in the  OMP (Legacy) Parser.
+        Note:  These two extensions should be implemented also in the  OMP (Legacy) Parser.  
 
 
 Free Form Preprocessor
 ----------------------
-[ 2018-07-01 ] Bug: The preprocessor was accepting a line comment after a '&' in a character context (done).
-[ 2018-07-03 ] todo: Add semantic actions that strip out statement continuation patters from quoted literals.
+[ 2018-07-01 ] Bug: The preprocessor was accepting a line comment after a '&' in a character context.(done)
+[ 2018-07-03 ] Add semantic actions to strip out statement continuation patters from quoted literals.(todo)
 [ 2018-07-08 ] Enhancement: Allow line comment characters up to "\uFFFD", instead of "\u00FF".       (done)
                This value changed also in the scanner including all the (double) quoted literals.
-               [13/9] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF) hasn't 
+        Note:  [13/9] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF) hasn't 
                assigned characters. (see https://en.wikipedia.org/wiki/Private_Use_Areas).
 [ 2018-10-20 ] Add warning: Continuation line in character context without a '&'.
 
@@ -467,12 +480,13 @@ The Following four new features/bug-fixes have not been tested very well yet:
 [ 2018-09-04 ] In windows 8.1, the filename "GEMINC:GEMPRM.PRM" used in the ARPS project is rejected
                and likely this isn't an error of the hand coded file reader (yet the line was wrong): (done)
                src\ext2arps\getgempak3d.f90:93: error: semantic:Cannot include file GEMINC:GEMPRM.PRM
-[ 2018-09-07 ] Hollerith Constants that exceed a free form continued line aren't parsed properly.  (todo)
+[ 2018-09-07 ] Hollerith Constants that exceed a free form continued line aren't parsed properly. (suspended)
+        Note:  [30/3] While suspended, do issue a nice error message if we face such a constant.     (todo)
 
 
 Format String Reader
 --------------------
-[ 2019-03-26 ] The existing Reader, likely, isn't aware of Hollerith constants:
+[ 2019-03-26 ] The existing Reader, likely, isn't aware of Hollerith constants:                       (todo)
                $ cat fm111.f && fcheck fm111.f
                100     format( /11X, 10HCOMPUTED: ,4(2X, I3)  )JUNK
                270     print '(/11X, 10HCOMPUTED: ,4(2X, I3)  )JUNK'
@@ -485,7 +499,14 @@ Format String Reader
                                 "fmt{I,B,O,Z}w . d", or "fmt{Q}w . d". 
 
                Parsed with Errors: fm111.f
+        Note:  [30/3] GNU/PGI extension: in Format Strings, turn this error message into a warning.
 
+
+
+ Main Program
+--------------
+[ 2019-03-30 ] The "-cpp" option isn't functional (C preprocessing isn't fully supported yet)        (todo)
+               .
 
 
      Some legacy code examples have been found at: 
