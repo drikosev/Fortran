@@ -506,7 +506,7 @@ Format String Reader
  Main Program
 --------------
 [ 2019-03-30 ] The "-cpp" option isn't acceptable as a program argument.                              (todo)
-        Note:  Still, C preprocessing won't be fully function, though.
+        Note:  Still, C preprocessing won't be fully functional, though.
 
 
      Some legacy code examples have been found at: 
