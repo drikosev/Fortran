@@ -126,6 +126,7 @@ The Following bug-fix has not been tested very well yet:
  [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
                There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the 'Qw.d' (extended precision) edit descriptor.        (done) 
+ [2019-03-28]  Vendor extension: Support the L/I edit descriptors without a following 'w'.
 
 
 Legacy parser Issues
@@ -373,6 +374,7 @@ Legacy parser Issues
                                    "user-defined-operator". 
 
                Parsed with Errors: write.f90
+ [2019-03-28]  Vendor extension: Support the L/I edit descriptors without a following 'w'.
  [2019-03-30]  GNU/PGI extension: parse the rightmost ',' in the READ statement below: 
                $ cat read-format-2.f90 && fcheck read-format-2.f90
                1    integer X
