@@ -126,7 +126,6 @@ The Following bug-fix has not been tested very well yet:
  [2019-01-13]  IBM/PGI/Ora/VMS Extension. Allow the Q edit descriptor (character count).    (done) 
                There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the 'Qw.d' (extended precision) edit descriptor.        (done) 
- [2019-03-28]  Vendor extension: Support the L/I edit descriptors without a following 'w'.
 
 
 Legacy parser Issues
@@ -251,7 +250,8 @@ Legacy parser Issues
                $ fcheck -fopenmp ../gomp/udr5.f90
                ../gomp/udr5.f90:15: error: syntax:Unexpected: defined-unary-op with value '.MYADD.'.
                Expected: ".AND.", ".NOT.", ".OR.", "IAND", "IEOR", "IOR", "MAX", "MIN", "add-op",
-               "equiv-op", "mult-op", or "name". 
+               "equiv-op", "mult-op", or "name".
+               [2019-03-29] Now the program issues a portability warning.
  [2018-09-24]  The following warning has (a) wrong line number and (b) is redundant on a '&':    (done)
                free-2.f90:6: warning: Initial OpenMP directive lines must have a space after the
                sentinel "!$OMP".
@@ -373,7 +373,16 @@ Legacy parser Issues
                                    "user-defined-operator". 
 
                Parsed with Errors: write.f90
- [2019-03-28]  Vendor extension: Support the L/I edit descriptors without a following 'w'.
+ [2019-03-30]  GNU/PGI extension: parse the rightmost ',' in the READ statement below: 
+               $ cat read-format-2.f90 && fcheck read-format-2.f90
+               1    integer X
+               2    read (*,"(I5)"),  X
+               3    end
+
+               read-format-2.f90:2: error: syntax:Unexpected: ','. Expected: "%", "(", "(/", ".",
+               ".NOT.", ";", "=", "[", "constant", "name", or "user-defined-operator". 
+
+               Parsed with Errors: read-format-2.f90
 
 
 Format Scanner
@@ -392,7 +401,7 @@ Format Scanner
                "fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d", "fmt{I,B,O,Z,G,L,A}w", or "fmt{I,B,O,Z}w . d". 
 
                Parsed with Errors: apdetect.f90
- [2019-03-28]  Vendor extension: Support the L/I edit descriptors without a following 'w'.
+ [2019-03-28]  Vendor extension: Support the L/I descriptors without a following 'w'.
         Note:  These two changes should be implemented also in the OMP (Legacy) Scanner.
 
 
