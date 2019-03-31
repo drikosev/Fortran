@@ -30,7 +30,7 @@ Fortran parser Issues
 [ 2018-04-23 ] Extension: <cray-pointer-stmt>. 
 [ 2018-04-25 ] GNU/PGI Extension: Allow an extra comma in a <write-stmt>. ie:
                write (*,*), "handler";
-[ 2018-06-26 ] Bug: The following erroneous 2 line program sends the generated parser          (done)
+[ 2018-06-26 ] Bug: The following erroneous 2 lines program sends the generated parser         (done)
                (not the simulator) to an infinitive loop:
                READ(nunit(k),'(6e17.6)')((xtrajc0(i,k),ytrajc0(i,k),ztrajc0(i,k)),i=1,ntrajcs)
                END
@@ -298,6 +298,7 @@ Legacy parser Issues
                [22/10] Note that the token "TARGET" wasn't appearing as an expected token in the 
                message at line 5 before I add the keyword "TARGET" in lex rule "<omp-compound>".
                [13/3] Faced a side effect with the unknown token '?' in "write.f90" below.
+               [31/3] The message "Reduced Error Production" has been uncovered here.        (todo)
  [2018-09-30]  Add "OMP-END-TARGET" & remove other "OMP-END-*" from <unexpected-end-stmt>.   (done)
                Not really sure yet what's the best approach for the optional omp-end statements.   
                At the moment I've hand coded special recovery only for program units (ie a module).
@@ -398,8 +399,7 @@ Legacy parser Issues
         Note:  These temporary semantic actions have to eventually be replaced by permanent 
                actions (as soon as we implement a type checking subsystem).  
 
- [2019-03-31]  The tokens between "ASSOCIATE" and "WHERE" except "SUBROUTINE" in the error
-               message below are spurious (due to our error recovery).                      (todo)
+ [2019-03-31]  Except "SUBROUTINE", the keywords in the error message below are spurious.   (todo)                   
                $ cat subroutine-1.f90 && fcheck subroutine-1.f90  2>&1 | grep -v "3"
                1     subroutine s
                2     end ?
