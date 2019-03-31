@@ -398,6 +398,19 @@ Legacy parser Issues
         Note:  These temporary semantic actions have to eventually be replaced by permanent 
                actions (as soon as we implement a type checking subsystem).  
 
+ [2019-03-31]  The tokens between "ASSOCIATE" and "WHERE" except "SUBROUTINE" in the error
+               message below are spurious (due to our error recovery).                      (todo)
+               $ cat subroutine-1.f90 && fcheck subroutine-1.f90  2>&1 | grep -v "3"
+               1     subroutine s
+               2     end ?
+
+               subroutine-1.f90:2: error: syntax:Unexpected: '?'. Expected: "%", "(", ".", ":",
+               ";", "=", "=>", "ASSOCIATE", "BLOCK", "CRITICAL", "DO", "ENUM", "EOF", "FORALL",
+               "FUNCTION", "IF", "INTERFACE", "MAP", "MODULE", "PROCEDURE", "PROGRAM", "SELECT",
+               "STRUCTURE", "SUBMODULE", "SUBROUTINE", "TYPE", "UNION", "WHERE", or "[". 
+
+               Parsed with Errors: subroutine-1.f90
+
 
 Format Scanner
 --------------
@@ -439,7 +452,7 @@ Format Parser
                5     END
 
                Parsed with Errors: f88d2arps.f90
-        Note:  These two extensions should be implemented also in the  OMP (Legacy) Parser.  
+        Note:  These two extensions will be implemented also in the  OMP (Legacy) Parser.  
 
 
 Free Form Preprocessor
@@ -506,7 +519,7 @@ Format String Reader
  Main Program
 --------------
 [ 2019-03-30 ] The "-cpp" option isn't acceptable as a program argument.                              (todo)
-        Note:  Still, C preprocessing won't be fully functional, though.
+        Note:  Still, C preprocessing won't be fully functional though.
 
 
      Some legacy code examples have been found at: 
