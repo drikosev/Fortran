@@ -464,7 +464,7 @@ Free Form Preprocessor
         Note:  [13/9] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF) hasn't 
                assigned characters. (see https://en.wikipedia.org/wiki/Private_Use_Areas).
 [ 2018-10-20 ] Add warning: Continuation line in character context without a '&'.
-[ 2019-04-03 ] This component doesn't tokenize unterminated character literals (as expected).       (done)
+[ 2019-04-03 ] This component doesn't tokenise unterminated character literals (as expected).        (todo)
 
 
 Hand coded File Reader
