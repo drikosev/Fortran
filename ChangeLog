@@ -464,6 +464,7 @@ Free Form Preprocessor
         Note:  [13/9] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF) hasn't 
                assigned characters. (see https://en.wikipedia.org/wiki/Private_Use_Areas).
 [ 2018-10-20 ] Add warning: Continuation line in character context without a '&'.
+[ 2019-04-03 ] This component doesn't tokenize unterminated character literals (as expected).       (done)
 
 
 Hand coded File Reader
@@ -475,7 +476,7 @@ Hand coded File Reader
                passed to "wifstream.imbue(locale)" requires different arguments in Win,Mac, and Linux.
         note:  To run the command "fcheck /debug x.f90" in Windows (8.1), I've to start it in a Blue,
                Pinned PowerShell Console, else some Unicode chars (ie a '–') aren't rendered properly.
-               [05/09] In RedHat 9 also, I pass a custom "codecvt", utf8 converter to the locale.
+               [05/09] In RedHat 9 also, I pass a custom UTF-8 converter ("codecvt") to the locale.
 [ 2018-07-07 ] Feature: The hand coded file reader cannot invoke a C preprocessor which is sometimes
                required by Fortran programs, ie by the program "wrf-phdf5support.F90".
 
@@ -495,6 +496,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                src\ext2arps\getgempak3d.f90:93: error: semantic:Cannot include file GEMINC:GEMPRM.PRM
 [ 2018-09-07 ] Hollerith Constants that exceed a free form continued line aren't parsed properly. (suspended)
         Note:  [30/3] While suspended, do issue a nice error message if we face such a constant.     (todo)
+[ 2019-04-03 ] Seg. fault if the input file doesn't exist (uninitialized pointer).                   (todo)
 
 
 Format String Reader
