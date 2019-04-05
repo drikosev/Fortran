@@ -467,8 +467,8 @@ Free Form Preprocessor
 [ 2019-04-03 ] We don't tokenise unterminated character literals (as expected).                      (todo)
 [ 2019-04-05 ] We don't accept statement continuation patterns in character literal constants        (todo)
                before the (double) quoted part, ie inside the "kind-param". 
-[ 2019-04-05 ] We don't accept statement continuation patterns in BOZ literal constants before the
-               (double) quoted part (after a 'B', 'O', 'Z' or the extension 'X'). 
+[ 2019-04-05 ] We don't accept statement continuation patterns in BOZ literal constants before       (todo) 
+               the (double) quoted part (after a 'B', 'O', 'Z' or the extension 'X'). 
 
 
 Hand coded File Reader
