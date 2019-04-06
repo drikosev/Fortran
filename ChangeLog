@@ -500,7 +500,15 @@ The Following four new features/bug-fixes have not been tested very well yet:
                src\ext2arps\getgempak3d.f90:93: error: semantic:Cannot include file GEMINC:GEMPRM.PRM
 [ 2018-09-07 ] Hollerith Constants that exceed a free form continued line aren't parsed properly. (suspended)
         Note:  [30/3] While suspended, do issue a nice error message if we face such a constant.     (todo)
-[ 2019-04-03 ] Seg. fault if the input file doesn't exist (uninitialized pointer).                   (todo)
+[ 2019-04-03 ] Seg. fault if the input file doesn't exist (uninitialised pointer).                   (todo)
+[ 2019-04-06 ] The following program is valid (we don't examine the flag continuation).              (todo) 
+               $ cat not-a-hollerith.f90 && fcheck not-a-hollerith.f90 2>&1 | tail -n 1
+               1     v&
+                     1h1 = 4
+               3     print *, v1h1
+               4     end
+ 
+               Parsed with Errors: not-a-hollerith.f90
 
 
 Format String Reader
