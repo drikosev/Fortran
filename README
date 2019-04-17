@@ -153,7 +153,7 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
     Fortran program according to the syntax rules of the OMP (Legacy) Parser.
 
     It can be installed on an Intel based Mac (minimum OS X 10.9), a RedHat compatible i386/x86_64
-    system (minimum RedHat 9) as ie on Ubuntu 14.04 i386, or on Windows via Cygwin (TM).
+    system (minimum RedHat 9) as ie on Ubuntu 14.04 i386, or Windows via Cygwin (TM).
 
     SHA1(fortran-fcheck-2019-03-21.zip)= bd7f70187bf304c733e626d6d7add05d039d44ae
     SHA1(fortran-fcheck-2019-04-16.zip)= 712bba717a40d46d25295400e754d368e7550d2c
