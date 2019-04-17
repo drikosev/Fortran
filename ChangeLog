@@ -485,6 +485,7 @@ Hand coded File Reader
         note:  To run the command "fcheck /debug x.f90" in Windows (8.1), I've to start it in a Blue,
                Pinned PowerShell Console, else some Unicode chars (ie a '–') aren't rendered properly.
                [05/09] In RedHat 9 also, I pass a custom UTF-8 converter ("codecvt") to the locale.
+        note:  [16/04] This UTF-8 converter is used in Windows, when "fcheck" is built in Cygwin.
 [ 2018-07-07 ] Feature: The hand coded file reader cannot invoke a C preprocessor which is sometimes
                required by Fortran programs, ie by the program "wrf-phdf5support.F90".
 
@@ -502,6 +503,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
 [ 2018-09-04 ] In windows 8.1, the filename "GEMINC:GEMPRM.PRM" used in the ARPS project is rejected
                and likely this isn't an error of the hand coded file reader (yet the line was wrong): (done)
                src\ext2arps\getgempak3d.f90:93: error: semantic:Cannot include file GEMINC:GEMPRM.PRM
+        note:  [16/04] The error isn't caught when "fcheck" is built in Cygwin.
 [ 2018-09-07 ] Hollerith Constants that exceed a free form continued line aren't parsed properly.    (done)
         Note:  [30/3] While not fixed, do issue a nice error message if we face such a constant.     (done)
         Note:  [12/4] In free form, the length and the 'H' prefix are expected on the same line.
