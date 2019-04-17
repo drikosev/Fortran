@@ -17,6 +17,8 @@
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
      |     A 
      |     C 
+     |     I 
+     |     L 
      |     X 
      |     P 
      |     Q 
@@ -463,7 +465,7 @@ DT ::=
 <char-literal-constant> ::= 
            [ kind-param _ ] <quoted-literal> 
      |     [ kind-param _ ] <dquoted-literal> 
-     |     <char-literal-constant2> 
+     |     [ kind-param _ ] <char-literal-constant2> 
 
 kind-param ::= 
            digit-string 
@@ -488,6 +490,14 @@ scalar-int-constant-name ::=
 <dquoted_char> ::= 
            " " 
      |     { \u0001 .. \uFFFD } -= { " | \n | \r } 
+
+<char-literal-constant2> ::= 
+           <char-literal-constant-0> 
+     |     <char-literal-constant-1> 
+     |     <char-literal-constant-2> 
+     |     <char-literal-constant-3> 
+     |     <unterminated-quoted-literal> 
+     |     <unterminated-dquoted-literal> 
 
 <fmt{T|TL|TR}n> ::= 
            { T | T L | T R } { 0 .. 9 }... 
@@ -815,6 +825,11 @@ assign_no ::=
 
 rest_line ::= 
            { <char-literal-constant2> | <boz-literal-constant2> | <quoted-literal2> | <dquoted-literal2> | { { \u0001 .. \ufffe } -= { \n | \r | ; | = | ! } } }... { \n | \r | ; | = | ! } 
+
+<boz-literal-constant2> ::= 
+           <boz-literal-constant-2> 
+     |     <unterminated-dquoted-boz> 
+     |     <unterminated-quoted-boz> 
 
 <quoted-literal2> ::= 
            ' [ { ' ' | { \u0001 .. \uFFFD } -= { ' | \n | \r } }... ] ' 
@@ -1685,6 +1700,8 @@ key ::=
      |     <fmt{I,B,O,Z,G,L,A}w> 
      |     <fmt{T|TL|TR}n> 
      |     A 
+     |     I 
+     |     L 
      |     C 
      |     X 
      |     P 
@@ -1846,14 +1863,12 @@ key ::=
      |     POINTER 
      |     POS 
      |     POSITION 
-     |     PRINT 
      |     PRIVATE 
      |     PROCEDURE 
      |     PROGRAM 
      |     PROTECTED 
      |     PUBLIC 
      |     PURE 
-     |     READ 
      |     READWRITE 
      |     REC 
      |     RECL 
@@ -1891,7 +1906,6 @@ key ::=
      |     WAIT 
      |     WHERE 
      |     WHILE 
-     |     WRITE 
      |     <ZERO> 
      |     INTEGER 
      |     BYTE 
@@ -2035,6 +2049,8 @@ cons_keys ::=
      |     GO TO 
      |     GOTO 
      |     DEFINE FILE UNIT 
+     |     READ 
+     |     WRITE 
 
 cons_key_begin ::= 
            IMPLICIT 

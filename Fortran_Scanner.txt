@@ -278,12 +278,6 @@
      |     <::> 
      |     <lbracket> 
      |     <rbracket> 
-     |     <.EQ.> 
-     |     <.NE.> 
-     |     <.LT.> 
-     |     <.LE.> 
-     |     <.GT.> 
-     |     <.GE.> 
      |     <.NOT.> 
      |     <.AND.> 
      |     <.OR.> 
@@ -1680,24 +1674,6 @@ exponent ::=
 <rbracket> ::= 
            \u005d 
 
-<.EQ.> ::= 
-           . E Q . 
-
-<.NE.> ::= 
-           . N E . 
-
-<.LT.> ::= 
-           . L T . 
-
-<.LE.> ::= 
-           . L E . 
-
-<.GT.> ::= 
-           . G T . 
-
-<.GE.> ::= 
-           . G E . 
-
 <.NOT.> ::= 
            . N O T . 
 
@@ -1728,6 +1704,24 @@ exponent ::=
      |     <.OR.> 
      |     <.EQV.> 
      |     <.NEQV.> 
+
+<.EQ.> ::= 
+           . E Q . 
+
+<.NE.> ::= 
+           . N E . 
+
+<.LT.> ::= 
+           . L T . 
+
+<.LE.> ::= 
+           . L E . 
+
+<.GT.> ::= 
+           . G T . 
+
+<.GE.> ::= 
+           . G E . 
 
 <defined-binary-op> ::= 
            { . <letter> [ <letter> ... ] . } -= { <intrinsic-op> | <logical-literal-constant> } 

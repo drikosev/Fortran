@@ -69,30 +69,18 @@ end-program-stmt ::=
      |     <name-r> 
 
 <unexpected-end-stmt> ::~ 
-           end-associate-stmt   /* Tr.Unexpected( L"end-associate-stmt",11,false);*/
-     |     end-block-stmt   /* Tr.Unexpected(L"end-block-stmt",12,false);*/
-     |     end-block-data-stmt   /* Tr.Unexpected($$(1),true);*/
-     |     end-critical-stmt   /* Tr.Unexpected(L"end-critical-stmt",33,false);*/
-     |     end-do-stmt   /* Tr.Unexpected(L"end-do-stmt",13,false);*/
-     |     end-enum-stmt   /* Tr.Unexpected(L"end-enum-stmt",29,false);*/
-     |     end-forall-stmt   /* Tr.Unexpected(L"end-forall-stmt",10,false);*/
-     |     end-function-stmt   /* Tr.Unexpected($$(1),true);*/
-     |     end-if-stmt   /* Tr.Unexpected(L"end-if-stmt",14,false);*/
-     |     end-interface-stmt   /* Tr.Unexpected(L"end-interface-stmt",30,false);*/
-     |     end-module-stmt   /* Tr.Unexpected($$(1),true);*/
-     |     end-mp-subprogram-stmt   /* Tr.Unexpected($$(1),true);*/
-     |     end-program-stmt   /* Tr.Unexpected($$(1),true);*/
-     |     end-select-stmt   /* Tr.Unexpected(L"end-select-stmt",15,false);*/
-     |     end-submodule-stmt   /* Tr.Unexpected($$(1),true);*/
-     |     end-subroutine-stmt   /* Tr.Unexpected($$(1),true);*/
-     |     end-type-stmt   /* Tr.Unexpected(L"end-type-stmt",16,false);*/
-     |     end-structure-stmt   /* Tr.Unexpected(L"end-structure-stmt",17,false);*/
-     |     end-union-stmt   /* Tr.Unexpected(L"end-union-stmt",18,false);*/
-     |     end-map-stmt   /* Tr.Unexpected(L"end-map-stmt",19,false);*/
-     |     end-where-stmt   /* Tr.Unexpected(L"end-where-stmt",20,false);*/
-     |     <missing-end-statement>   /* Tr.Unexpected(L"contains-stmt",21,false);*/
+           <missing-end-statement>   /* Tr.Unexpected(L"contains-stmt",21,false);*/
      |     END <name> +: { <;> }   /* Tr.Unexpected(L"name with value '%s'.",str(2),1001,false);*/
      |     END <name> <name> +: { <;> }   /* Tr.Unexpected(L"name with value '%s'.",str(2),1001,false);*/
+     |     END +: { <;> | EOF }   /* Tr.Unexpected($$(1),true,L"end-unit-stmt",L"");*/
+     |     END unit +: { <;> | EOF }   /* Tr.Unexpected($$(1),$$(2),true,L"end-'%s'-stmt",str(2)); */
+     |     END unit <name> +: { <;> | EOF }   /* Tr.Unexpected($$(1),$$(2),true,L"end-'%s'-stmt",str(2)); */
+     |     end-unit +: { <;> | EOF }   /* Tr.Unexpected($$(1),true,L"end-'%s'-stmt",str(1)+3); */
+     |     end-unit <name> +: { <;> | EOF }   /* Tr.Unexpected($$(1),true,L"end-'%s'-stmt",str(1)+3); */
+     |     END construct-key +: { <;> | EOF }   /* Tr.Unexpected($$(1),false,L"end-'%s'-stmt",str(2)); */
+     |     END construct-key <name> +: { <;> | EOF }   /* Tr.Unexpected($$(1),false,L"end-'%s'-stmt",str(2)); */
+     |     end-construct +: { <;> | EOF }   /* Tr.Unexpected($$(1),false,L"end-'%s'-stmt",str(1)+3); */
+     |     end-construct <name> +: { <;> | EOF }   /* Tr.Unexpected($$(1),false,L"end-'%s'-stmt",str(1)+3); */
      |     omp-end-critical   /* Tr.Unexpected(L"omp-end-critical",52,false);*/
      |     omp-end-master-stmt   /* Tr.Unexpected(L"omp-end-master-stmt",54,false);*/
      |     omp-end-ordered-stmt   /* Tr.Unexpected(L"omp-end-ordered-stmt",55,false);*/
@@ -111,212 +99,56 @@ end-program-stmt ::=
      |     omp-end-atomic-stmt   /* Tr.Unexpected(L"omp-end-atomic-stmt",51,false);*/
      |     OMP END <erroneous-stmt>   /* Tr.Unexpected(L"",1003,false); */
 
-end-associate-stmt ::= 
-           END ASSOCIATE 
-     |     END ASSOCIATE <construct-name> 
-     |     END_ASSOCIATE 
-     |     END_ASSOCIATE <construct-name> 
-
-<construct-name> ::= 
-           <name> 
-
-end-block-stmt ::= 
-           END BLOCK 
-     |     END BLOCK <construct-name> 
-     |     END_BLOCK 
-     |     END_BLOCK <construct-name> 
-
-end-block-data-stmt ::= 
-           END 
-     |     END BLOCK DATA 
-     |     END BLOCK DATA <block-data-name> 
-     |     END_BLOCK 
-     |     END_BLOCK DATA 
-     |     END_BLOCK DATA <block-data-name> 
-     |     END_BLOCK_DATA 
-     |     END_BLOCK_DATA <block-data-name> 
-
-<block-data-name> ::= 
-           <name> 
-
-end-critical-stmt ::= 
-           END CRITICAL 
-     |     END CRITICAL <construct-name> 
-     |     END_CRITICAL 
-     |     END_CRITICAL <construct-name> 
-
-end-do-stmt ::= 
-           END DO 
-     |     END DO <construct-name> 
-     |     END_DO 
-     |     END_DO <construct-name> 
-
-end-enum-stmt ::= 
-           END ENUM 
-     |     END_ENUM 
-
-end-forall-stmt ::= 
-           END FORALL 
-     |     END_FORALL 
-     |     END FORALL <construct-name> 
-     |     END_FORALL <construct-name> 
-
-end-function-stmt ::= 
-           END 
-     |     END FUNCTION +: { <;> | EOF } 
-     |     END FUNCTION <name> +: { <;> | EOF } 
-     |     END_FUNCTION +: { <;> | EOF } 
-     |     END_FUNCTION <name> +: { <;> | EOF } 
-
-end-if-stmt ::= 
-           END IF 
-     |     END IF <construct-name> 
-     |     END_IF 
-     |     END_IF <construct-name> 
-
-end-interface-stmt ::= 
-           END INTERFACE 
-     |     END INTERFACE <generic-spec> 
-     |     END_INTERFACE 
-     |     END_INTERFACE <generic-spec> 
-
-<generic-spec> ::= 
-           <generic-name> 
-     |     OPERATOR <p-defined-operator> 
-     |     ASSIGNMENT <p-equal> 
-     |     <defined-io-generic-spec> 
-
-<generic-name> ::= 
-           <name> 
-
-<p-defined-operator> ::= 
-           ( <defined-operator> ) 
-
-<defined-operator> ::= 
-           <defined-op> 
-     |     <extended-intrinsic-op> 
-
-<defined-op> ::= 
-           <defined-binary-op> 
-     |     <defined-unary-op> 
-
-<extended-intrinsic-op> ::= 
-           <intrinsic-operator> 
-
-<intrinsic-operator> ::= 
-           <power-op> 
-     |     <mult-op> 
-     |     <add-op> 
-     |     <concat-op> 
-     |     <rel-op> 
-     |     <not-op> 
-     |     <and-op> 
-     |     <or-op> 
-     |     <equiv-op> 
-
-<power-op> ::= 
-           <**> 
-
-<not-op> ::= 
-           <.NOT.> 
-
-<and-op> ::= 
-           <.AND.> 
-
-<or-op> ::= 
-           <.OR.> 
-
-<p-equal> ::= 
-           ( = ) 
-
-<defined-io-generic-spec> ::= 
-           READ ( FORMATTED ) 
-     |     READ ( UNFORMATTED ) 
-     |     WRITE ( FORMATTED ) 
-     |     WRITE ( UNFORMATTED ) 
-
-end-module-stmt ::= 
-           END 
-     |     END MODULE +: { <;> | EOF } 
-     |     END MODULE <module-name> +: { <;> | EOF } 
-     |     END_MODULE +: { <;> | EOF } 
-     |     END_MODULE <module-name> +: { <;> | EOF } 
-
-<module-name> ::= 
-           <name> 
-     |     <erroneous-stmt> 
-
-<erroneous-stmt> ::~ 
-           ERROR <rest-line> 
-
-<rest-line> ::= 
-           NONE +: { <;> } 
-
-end-mp-subprogram-stmt ::= 
-           END 
-     |     END PROCEDURE +: { <;> } 
-     |     END PROCEDURE <procedure-name> +: { <;> } 
-     |     END_PROCEDURE +: { <;> } 
-     |     END_PROCEDURE <procedure-name> +: { <;> } 
-
-<procedure-name> ::= 
-           <name> 
-
-end-select-stmt ::= 
-           END SELECT 
-     |     END SELECT <construct-name> 
-     |     END_SELECT 
-     |     END_SELECT <construct-name> 
-
-end-submodule-stmt ::= 
-           END 
-     |     END SUBMODULE 
-     |     END SUBMODULE <module-name> 
-     |     END_SUBMODULE 
-     |     END_SUBMODULE <module-name> 
-
-end-subroutine-stmt ::= 
-           END 
-     |     END SUBROUTINE +: { <;> | EOF } 
-     |     END SUBROUTINE <name> +: { <;> | EOF } 
-     |     END_SUBROUTINE +: { <;> | EOF } 
-     |     END_SUBROUTINE <name> +: { <;> | EOF } 
-
-end-type-stmt ::= 
-           END TYPE 
-     |     END TYPE <type-name> 
-     |     END_TYPE 
-     |     END_TYPE <type-name> 
-
-<type-name> ::= 
-           <name> 
-
-end-structure-stmt ::= 
-           END STRUCTURE 
-     |     END STRUCTURE <type-name> 
-     |     END_STRUCTURE 
-     |     END_STRUCTURE <type-name> 
-
-end-union-stmt ::= 
-           END UNION 
-     |     END UNION <type-name> 
-     |     END_UNION 
-     |     END_UNION <type-name> 
-
-end-map-stmt ::= 
-           END MAP 
-     |     END MAP <type-name> 
-     |     END_MAP 
-     |     END_MAP <type-name> 
-
-end-where-stmt ::= 
-           END WHERE 
-     |     END WHERE <construct-name> 
-     |     END_WHERE 
-     |     END_WHERE <construct-name> 
-
 <missing-end-statement> ::~ 
            CONTAINS +: { <;> } 
+
+unit ::~ 
+           FUNCTION 
+     |     MODULE 
+     |     PROCEDURE 
+     |     PROGRAM 
+     |     SUBMODULE 
+     |     SUBROUTINE 
+
+end-unit ::~ 
+           END_FUNCTION 
+     |     END_MODULE 
+     |     END_PROCEDURE 
+     |     END_PROGRAM 
+     |     END_SUBMODULE 
+     |     END_SUBROUTINE 
+
+construct-key ::~ 
+           ASSOCIATE 
+     |     BLOCK 
+     |     CRITICAL 
+     |     DO 
+     |     ENUM 
+     |     FORALL 
+     |     IF 
+     |     INTERFACE 
+     |     MAP 
+     |     SELECT 
+     |     TYPE 
+     |     STRUCTURE 
+     |     UNION 
+     |     WHERE 
+
+end-construct ::~ 
+           END_ASSOCIATE 
+     |     END_BLOCK 
+     |     END_CRITICAL 
+     |     END_DO 
+     |     END_ENUM 
+     |     END_FORALL 
+     |     END_IF 
+     |     END_INTERFACE 
+     |     END_MAP 
+     |     END_SELECT 
+     |     END_TYPE 
+     |     END_STRUCTURE 
+     |     END_UNION 
+     |     END_WHERE 
 
 omp-end-critical ::= 
            OMP END CRITICAL +: { <;> } 
@@ -420,6 +252,18 @@ omp-end-single-stmt ::=
      |     <unary-op> <expr> -: { <power-op> | <mult-op> } 
      |     <primary> 
      |     <defined-unary-op> <primary> 
+
+<or-op> ::= 
+           <.OR.> 
+
+<and-op> ::= 
+           <.AND.> 
+
+<not-op> ::= 
+           <.NOT.> 
+
+<power-op> ::= 
+           <**> 
 
 <unary-op> ::= 
            <sign> 
@@ -566,6 +410,9 @@ omp-end-single-stmt ::=
            <type-name> 
      |     <type-name> <p-type-param-spec-list> 
 
+<type-name> ::= 
+           <name> 
+
 <p-type-param-spec-list> ::= 
            ( <type-param-spec-list> ) 
      |     ( <type-param-spec-list> <,> <type-param-spec-named-list> ) 
@@ -695,6 +542,9 @@ omp-end-single-stmt ::=
 <stride> ::= 
            <scalar-int-expr> 
 
+<procedure-name> ::= 
+           <name> 
+
 <p-actual-arg-spec-list> ::= 
            ( <actual-arg-spec-list> ) 
      |     ( <actual-arg-spec-list> <,> <named-arg-spec-list> ) 
@@ -718,8 +568,8 @@ omp-end-single-stmt ::=
            * <label> 
 
 <vms-argument> ::= 
-           <%> VAL <p-actual-arg-spec-list>   /* Tr.warning(L"Argument passing with function '%VAL' is a Legacy VMS Extension."); */
-     |     <%> REF <p-actual-arg-spec-list>   /* Tr.warning(L"Argument passing with function '%REF' is a Legacy VMS Extension."); */
+           <%> VAL <p-actual-arg-spec-list>   /* Tr.warning(L"Argument passing with function '%VAL' is a legacy extension."); */
+     |     <%> REF <p-actual-arg-spec-list>   /* Tr.warning(L"Argument passing with function '%REF' is a legacy extension."); */
 
 <%> ::= 
            % 
@@ -738,7 +588,7 @@ keyword ::=
            . 
 
 <vms-location> ::= 
-           <%> LOC <p-actual-arg-spec-list> -: { = }   /* Tr.warning(L"Intrinsic function '%LOC' is a Legacy VMS Extension."); */
+           <%> LOC <p-actual-arg-spec-list> -: { = }   /* Tr.warning(L"Intrinsic function '%LOC' is a legacy extension."); */
 
 <slashed-name> ::= 
            / <name> / 
@@ -771,6 +621,12 @@ omp-end-workshare-stmt ::=
 omp-end-atomic-stmt ::= 
            OMP-END-ATOMIC +: { <;> } 
      |     OMP-END-ATOMIC <erroneous-stmt>   /* Tr.error(L"Erroneous omp-end-atomic-stmt. ");*/
+
+<erroneous-stmt> ::~ 
+           ERROR <rest-line> 
+
+<rest-line> ::= 
+           NONE +: { <;> } 
 
 <internal-subprogram-part> ::= 
            <internal-subprograms> 
@@ -901,6 +757,13 @@ function-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-function-stmt",1,true);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-function-stmt",1,true);*/
 
+end-function-stmt ::= 
+           END 
+     |     END FUNCTION +: { <;> | EOF } 
+     |     END FUNCTION <name> +: { <;> | EOF } 
+     |     END_FUNCTION +: { <;> | EOF } 
+     |     END_FUNCTION <name> +: { <;> | EOF } 
+
 <stmts> ::= 
            <stmts> <stmt> 
      |     <stmts> <format-stmt;> 
@@ -974,6 +837,12 @@ function-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-type-stmt",16,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-type-stmt",16,false);*/
 
+end-type-stmt ::= 
+           END TYPE 
+     |     END TYPE <type-name> 
+     |     END_TYPE 
+     |     END_TYPE <type-name> 
+
 <type-bound-procedure-part> ::= 
            <contains-stmt> 
      |     <contains-stmt> <private-components-stmt> 
@@ -1041,6 +910,49 @@ function-stmt ::=
 <type-bound-generic-stmt> ::= 
            <GENERIC> <::> <generic-spec> <=rangle> <binding-name-list> 
      |     <GENERIC> <,> <access-spec> <::> <generic-spec> <=rangle> <binding-name-list> 
+
+<generic-spec> ::= 
+           <generic-name> 
+     |     OPERATOR <p-defined-operator> 
+     |     ASSIGNMENT <p-equal> 
+     |     <defined-io-generic-spec> 
+
+<generic-name> ::= 
+           <name> 
+
+<p-defined-operator> ::= 
+           ( <defined-operator> ) 
+
+<defined-operator> ::= 
+           <defined-op> 
+     |     <extended-intrinsic-op> 
+
+<defined-op> ::= 
+           <defined-binary-op> 
+     |     <defined-unary-op> 
+
+<extended-intrinsic-op> ::= 
+           <intrinsic-operator> 
+
+<intrinsic-operator> ::= 
+           <power-op> 
+     |     <mult-op> 
+     |     <add-op> 
+     |     <concat-op> 
+     |     <rel-op> 
+     |     <not-op> 
+     |     <and-op> 
+     |     <or-op> 
+     |     <equiv-op> 
+
+<p-equal> ::= 
+           ( = ) 
+
+<defined-io-generic-spec> ::= 
+           READ ( FORMATTED ) 
+     |     READ ( UNFORMATTED ) 
+     |     WRITE ( FORMATTED ) 
+     |     WRITE ( UNFORMATTED ) 
 
 <final-procedure-stmt;> ::= 
            <final-procedure-stmt> <;> 
@@ -1261,6 +1173,12 @@ function-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-structure-stmt",17,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-structure-stmt",17,false);*/
 
+end-structure-stmt ::= 
+           END STRUCTURE 
+     |     END STRUCTURE <type-name> 
+     |     END_STRUCTURE 
+     |     END_STRUCTURE <type-name> 
+
 <component-structure-part> ::= 
            <component-structure-part> <component-def-stmt> 
      |     <component-def-stmt> 
@@ -1286,6 +1204,12 @@ function-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-union-stmt",18,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-union-stmt",18,false);*/
 
+end-union-stmt ::= 
+           END UNION 
+     |     END UNION <type-name> 
+     |     END_UNION 
+     |     END_UNION <type-name> 
+
 <type-param-map-stmts> ::= 
            <type-param-map-stmts> <label> <derived-map-def> 
      |     <label> <derived-map-def> 
@@ -1304,6 +1228,12 @@ function-stmt ::=
      |     <label> end-map-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-map-stmt",19,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-map-stmt",19,false);*/
+
+end-map-stmt ::= 
+           END MAP 
+     |     END MAP <type-name> 
+     |     END_MAP 
+     |     END_MAP <type-name> 
 
 <enum-def> ::= 
            <enum-def-stmt> <enumerator-def-stmts> <end-enum-stmt> 
@@ -1335,6 +1265,10 @@ function-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0), L"end-enum-stmt",29,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-enum-stmt",29,false);*/
 
+end-enum-stmt ::= 
+           END ENUM 
+     |     END_ENUM 
+
 <interface-block> ::= 
            <interface-stmt> <end-interface-stmt> 
      |     <interface-stmt> <interface-specifications> <end-interface-stmt> 
@@ -1349,6 +1283,12 @@ function-stmt ::=
      |     <label> end-interface-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-interface-stmt",30,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-interface-stmt",30,false);*/
+
+end-interface-stmt ::= 
+           END INTERFACE 
+     |     END INTERFACE <generic-spec> 
+     |     END_INTERFACE 
+     |     END_INTERFACE <generic-spec> 
 
 <interface-specifications> ::= 
            <interface-specifications> <interface-specification> 
@@ -1438,6 +1378,10 @@ function-stmt ::=
      |     USE <,> <module-nature> <::> <module-name> <,> ONLY : 
      |     USE <,> <module-nature> <::> <module-name> <,> ONLY : <only-list> 
 
+<module-name> ::= 
+           <name> 
+     |     <erroneous-stmt> 
+
 <rename-list> ::= 
            <rename> <,> <rename-list> 
      |     <rename> 
@@ -1520,7 +1464,7 @@ function-stmt ::=
      |     <not-op> 
      |     <add-op> 
      |     <mult-op> 
-     |     <defined-unary-op> 
+     |     <defined-unary-op>   /* Tr.warning(L"The operator '%s' as a Reduction Identifier is non standard.",str(1)); synthesize(1); */
 
 <omp-type-list> ::= 
            <omp-type-list> , <type-spec> 
@@ -1654,9 +1598,11 @@ alignment ::=
      |     <fmt{F,E,EN,ES,G,D}w . d> 
      |     <fmt{E,EN,ES,G}w . d E e> 
      |     A 
-     |     Q   /* Tr.warning(L"The Q descriptor (Character Count) is a non portable vendor extension."); synthesize(1); */
-     |     <fmt{Q}w . d>   /* Tr.warning(L"The extended precision descriptor '%s' is an IBM extension.",str(1)); synthesize(1); */
-     |     <fmt{E}w . d{D|Q}e>   /* Tr.warning(L"The descriptor '%s' is an IBM extension.",str(1)); synthesize(1); */
+     |     I   /* Tr.warning(L"Positive width required after descriptor I."); synthesize(1); */
+     |     L   /* Tr.warning(L"Positive width required after descriptor L."); synthesize(1); */
+     |     Q   /* Tr.warning(L"The Q descriptor (Character Count) is non standard."); synthesize(1); */
+     |     <fmt{Q}w . d>   /* Tr.warning(L"The Q descriptor '%s' is non standard.",str(1)); synthesize(1); */
+     |     <fmt{E}w . d{D|Q}e>   /* Tr.warning(L"The E descriptor '%s' is non standard.",str(1)); synthesize(1); */
      |     <fmt dt & char-literal-constant> <p-v-list>   /* synthesize(1); syncat(L"(...)"); */
      |     <fmt dt & char-literal-constant> 
      |     DT <p-v-list>   /* synthesize(1); syncat(L"(...)"); */
@@ -1789,6 +1735,13 @@ subroutine-stmt ::=
      |     <label> end-subroutine-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-subroutine-stmt",1,true);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-subroutine-stmt",1,true);*/
+
+end-subroutine-stmt ::= 
+           END 
+     |     END SUBROUTINE +: { <;> | EOF } 
+     |     END SUBROUTINE <name> +: { <;> | EOF } 
+     |     END_SUBROUTINE 
+     |     END_SUBROUTINE <name> +: { <;> | EOF } 
 
 <procedure-stmt> ::= 
            PROCEDURE <name-list> <;> 
@@ -2521,6 +2474,9 @@ subroutine-stmt ::=
            CYCLE 
      |     CYCLE <construct-name> 
 
+<construct-name> ::= 
+           <name> 
+
 <deallocate-stmt> ::= 
            DEALLOCATE <p-allocation-list> 
 
@@ -2862,6 +2818,7 @@ subroutine-stmt ::=
 <read-stmt> ::= 
            <read-control> 
      |     <read-control> <input-item-list> 
+     |     <read-control> <,> <input-item-list> 
      |     <read-format> 
      |     <read-format> <,> <input-item-list> 
 
@@ -2874,8 +2831,12 @@ subroutine-stmt ::=
      |     ( <i-control-named-spec-list> ) 
 
 <i-control-spec-list> ::= 
-           <i-control-spec-list> <,> <i-control-spec> 
+           <io-unit> <,> <i-control-spec>   /*Tr.onControlSpec($$(0),$$(1),$$(3)); */
      |     <io-unit> 
+
+<io-unit> ::= 
+           <file-unit-number> 
+     |     * 
 
 <i-control-spec> ::= 
            <format> 
@@ -2884,17 +2845,13 @@ subroutine-stmt ::=
 <namelist-group-name> ::= 
            <name> 
 
-<io-unit> ::= 
-           <file-unit-number> 
-     |     * 
-
 <i-control-named-spec-list> ::= 
            <i-control-named-spec-list> <,> <i-control-named-spec> 
      |     <i-control-named-spec> 
 
 <i-control-named-spec> ::= 
            UNIT = <io-unit> 
-     |     FMT = <format> 
+     |     FMT = <format>   /*Tr.onFormatSpec($$(0),$$(1),$$(3)); */
      |     NML = <namelist-group-name> 
      |     ADVANCE = <char-expr> 
      |     ASYNCHRONOUS = <char-expr> 
@@ -2922,7 +2879,10 @@ subroutine-stmt ::=
      |     <input-item> 
 
 <read-format> ::= 
-           READ <format> -: { <unary-op> } 
+           <read> <format> +: { <;> | <,> }   /*Tr.onReadFormat($$(0),$$(2)); */
+
+<read> ::= 
+           READ -: { ( } 
 
 <return-stmt> ::= 
            RETURN 
@@ -3012,7 +2972,7 @@ subroutine-stmt ::=
      |     ( <o-control-named-spec-list> ) 
 
 <o-control-spec-list> ::= 
-           <o-control-spec-list> <,> <o-control-spec> 
+           <io-unit> <,> <o-control-spec>   /*Tr.onControlSpec($$(0),$$(1),$$(3)); */
      |     <io-unit> 
 
 <o-control-spec> ::= 
@@ -3025,7 +2985,7 @@ subroutine-stmt ::=
 
 <o-control-named-spec> ::= 
            UNIT = <io-unit> 
-     |     FMT = <format> 
+     |     FMT = <format>   /*Tr.onFormatSpec($$(0),$$(1),$$(3)); */
      |     NML = <namelist-group-name> 
      |     ADVANCE = <char-expr> 
      |     ASYNCHRONOUS = <char-expr> 
@@ -3357,6 +3317,12 @@ loop-control ::=
      |     <label> end-do-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-do-stmt",13,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-do-stmt",13,false);*/
+
+end-do-stmt ::= 
+           END DO 
+     |     END DO <construct-name> 
+     |     END_DO 
+     |     END_DO <construct-name> 
 
 <nonblock-do-construct> ::= 
            <action-term-do-construct> 
@@ -4656,6 +4622,12 @@ forall-construct-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-forall-stmt",10,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-forall-stmt",10,false);*/
 
+end-forall-stmt ::= 
+           END FORALL 
+     |     END_FORALL 
+     |     END FORALL <construct-name> 
+     |     END_FORALL <construct-name> 
+
 <forall-body-constructs> ::= 
            <forall-body-constructs> <forall-body-construct> 
      |     <forall-body-constructs> <label> <forall-body-construct> 
@@ -4693,6 +4665,12 @@ forall-construct-stmt ::=
      |     <label> end-where-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-where-stmt",20,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-where-stmt",20,false);*/
+
+end-where-stmt ::= 
+           END WHERE 
+     |     END WHERE <construct-name> 
+     |     END_WHERE 
+     |     END_WHERE <construct-name> 
 
 <elsewhere-stmts> ::= 
            <elsewhere-stmts> <where-body-construct;> 
@@ -4738,6 +4716,12 @@ masked-elsewhere-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0), L"end-associate-stmt",11,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0), L"end-associate-stmt",11,false);*/
 
+end-associate-stmt ::= 
+           END ASSOCIATE 
+     |     END ASSOCIATE <construct-name> 
+     |     END_ASSOCIATE 
+     |     END_ASSOCIATE <construct-name> 
+
 <block-construct> ::= 
            <block-stmt> <stmts> <end-block-stmt> 
 
@@ -4750,6 +4734,12 @@ masked-elsewhere-stmt ::=
      |     <label> end-block-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-block-stmt",12,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-block-stmt",12,false);*/
+
+end-block-stmt ::= 
+           END BLOCK 
+     |     END BLOCK <construct-name> 
+     |     END_BLOCK 
+     |     END_BLOCK <construct-name> 
 
 <case-construct> ::= 
            <select-case-stmt> <end-select-stmt> 
@@ -4768,6 +4758,12 @@ select-case-stmt ::=
      |     <label> end-select-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-select-stmt",15,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-select-stmt",15,false);*/
+
+end-select-stmt ::= 
+           END SELECT 
+     |     END SELECT <construct-name> 
+     |     END_SELECT 
+     |     END_SELECT <construct-name> 
 
 <case-blocks> ::= 
            <case-block> 
@@ -4822,6 +4818,12 @@ case-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-critical-stmt",33,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-critical-stmt",33,false);*/
 
+end-critical-stmt ::= 
+           END CRITICAL 
+     |     END CRITICAL <construct-name> 
+     |     END_CRITICAL 
+     |     END_CRITICAL <construct-name> 
+
 <if-construct> ::= 
            <if-then-stmts> <end-if-stmt> 
      |     <if-then-stmts> <else-stmts> <end-if-stmt> 
@@ -4844,6 +4846,12 @@ case-stmt ::=
      |     <label> end-if-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-if-stmt",14,false);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-if-stmt",14,false);*/
+
+end-if-stmt ::= 
+           END IF 
+     |     END IF <construct-name> 
+     |     END_IF 
+     |     END_IF <construct-name> 
 
 <else-stmts> ::= 
            <else-stmts> <executable-construct;> 
@@ -4949,6 +4957,13 @@ type-guard-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-module-stmt",1,true);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-module-stmt",1,true);*/
 
+end-module-stmt ::= 
+           END 
+     |     END MODULE +: { <;> | EOF } 
+     |     END MODULE <module-name> +: { <;> | EOF } 
+     |     END_MODULE +: { <;> | EOF } 
+     |     END_MODULE <module-name> +: { <;> | EOF } 
+
 <module-subprogram-part> ::= 
            <module-subprograms> 
 
@@ -4987,6 +5002,13 @@ type-guard-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-mp-subprogram-stmt",1,true);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-mp-subprogram-stmt",1,true);*/
 
+end-mp-subprogram-stmt ::= 
+           END 
+     |     END PROCEDURE +: { <;> } 
+     |     END PROCEDURE <procedure-name> +: { <;> } 
+     |     END_PROCEDURE +: { <;> } 
+     |     END_PROCEDURE <procedure-name> +: { <;> } 
+
 <submodule> ::= 
            <submodule-stmt> <end-submodule-stmt;> 
      |     <submodule-stmt> <module-subprogram-part> <end-submodule-stmt;> 
@@ -5017,6 +5039,13 @@ type-guard-stmt ::=
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-submodule-stmt",1,true);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-submodule-stmt",1,true);*/
 
+end-submodule-stmt ::= 
+           END 
+     |     END SUBMODULE 
+     |     END SUBMODULE <module-name> 
+     |     END_SUBMODULE 
+     |     END_SUBMODULE <module-name> 
+
 <block-data> ::= 
            <block-data-stmt> <end-block-data-stmt;> 
      |     <block-data-stmt> <spec-stmts> <end-block-data-stmt;> 
@@ -5031,6 +5060,9 @@ type-guard-stmt ::=
      |     <label> BLOCK_DATA <;> 
      |     <label> BLOCK_DATA <block-data-name> <;> 
 
+<block-data-name> ::= 
+           <name> 
+
 <end-block-data-stmt;> ::= 
            <end-block-data-stmt> <;> 
      |     <end-block-data-stmt> +: EOF 
@@ -5040,4 +5072,14 @@ type-guard-stmt ::=
      |     <label> end-block-data-stmt 
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-block-data-stmt",1,true);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-block-data-stmt",1,true);*/
+
+end-block-data-stmt ::= 
+           END 
+     |     END BLOCK DATA 
+     |     END BLOCK DATA <block-data-name> 
+     |     END_BLOCK 
+     |     END_BLOCK DATA 
+     |     END_BLOCK DATA <block-data-name> 
+     |     END_BLOCK_DATA 
+     |     END_BLOCK_DATA <block-data-name> 
 

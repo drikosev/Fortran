@@ -1,5 +1,7 @@
 <HTML>	<HEAD><META http-equiv=Content-Type content="text/html; charset=utf-8"></HEAD><BODY><STRONG>#ignore</STRONG>&nbsp;<A href="#<spaces>">&lt;spaces&gt;</A><BR>
 
+<BR><STRONG>#sma</STRONG>&nbsp;<A href="#<name-r>">&lt;name-r&gt;</A><BR>
+
 <BR><STRONG><A name="<token>">&lt;token&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<fmt{G}w>">&lt;fmt{G}w&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{I,B,O,Z,G,L,A}w>">&lt;fmt{I,B,O,Z,G,L,A}w&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{I,B,O,Z}w . d>">&lt;fmt{I,B,O,Z}w . d&gt;</A>&nbsp;
@@ -12,6 +14,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d>">&lt;fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;A&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;C&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;I&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;L&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;X&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;P&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;Q&nbsp;
@@ -64,7 +68,6 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;/&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<mult-op>">&lt;mult-op&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<equiv-op>">&lt;equiv-op&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<concat-op>">&lt;concat-op&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<**>">&lt;**&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<sign>">&lt;sign&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;
@@ -75,6 +78,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;$&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;\&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<spaces>">&lt;spaces&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<name-r>">&lt;name-r&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<fmt{G}w>">&lt;fmt{G}w&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;G&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
 <BR><BR><STRONG><A name="<fmt{I,B,O,Z,G,L,A}w>">&lt;fmt{I,B,O,Z,G,L,A}w&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;I&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;B&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;O&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;Z&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;G&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;L&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;A&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
 <BR><BR><STRONG><A name="<fmt{I,B,O,Z}w . d>">&lt;fmt{I,B,O,Z}w . d&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;I&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;B&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;O&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;Z&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;.&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
@@ -89,6 +93,7 @@
 <BR><BR><STRONG><A name="<char-literal-constant>">&lt;char-literal-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<A href="#kind-param">kind-param</A>&nbsp;_&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<A href="#<quoted-literal>">&lt;quoted-literal&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<A href="#kind-param">kind-param</A>&nbsp;_&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<A href="#<dquoted-literal>">&lt;dquoted-literal&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;char-literal-constant2&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;hollerith-constant&gt;&nbsp;
 <BR><BR><STRONG><A name="kind-param">kind-param</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#digit-string">digit-string</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#scalar-int-constant-name">scalar-int-constant-name</A>&nbsp;
 <BR><BR><STRONG><A name="digit-string">digit-string</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
@@ -198,7 +203,6 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;*&nbsp;
 <BR><BR><STRONG><A name="<equiv-op>">&lt;equiv-op&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<.EQV.>">&lt;.EQV.&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<.NEQV.>">&lt;.NEQV.&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<concat-op>">&lt;concat-op&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;/&nbsp;
 <BR><BR><STRONG><A name="<**>">&lt;**&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;*&nbsp;
 <BR><BR><STRONG><A name="<sign>">&lt;sign&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;-&nbsp;
@@ -206,6 +210,7 @@
 <BR><BR><STRONG><A name="<spaces>">&lt;spaces&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\r&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\n&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;!&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\u0001&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\u000B&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;\uFFFD&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\u000B&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x000C&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x0085&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2028&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2029&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x00a0&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x1680&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2000&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2001&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2002&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2003&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2004&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2005&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2006&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2007&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2008&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x2009&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x200a&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x202f&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\x3000&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;<A href="#<line-comment2>">&lt;line-comment2&gt;</A>&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
 <BR><BR><STRONG><A name="<line-comment2>">&lt;line-comment2&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;!&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\u0001&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\u000B&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;\x000C&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\u000E&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;\uFFFD&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;
+<BR><BR><STRONG><A name="<name-r>">&lt;name-r&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;A&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;Z&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;_&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;A&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;Z&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;_&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;
 <BR><BR>
 
 </BODY></HTML>

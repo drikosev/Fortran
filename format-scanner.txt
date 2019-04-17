@@ -1,5 +1,7 @@
 #ignore <spaces>
 
+#sma <name-r>
+
 <token> ::= 
            <fmt{G}w> 
      |     <fmt{I,B,O,Z,G,L,A}w> 
@@ -13,6 +15,8 @@
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
      |     A 
      |     C 
+     |     I 
+     |     L 
      |     X 
      |     P 
      |     Q 
@@ -65,7 +69,6 @@
      |     / 
      |     <mult-op> 
      |     <equiv-op> 
-     |     <concat-op> 
      |     <**> 
      |     <sign> 
      |     ( 
@@ -76,6 +79,7 @@
      |     $ 
      |     \ 
      |     <spaces> 
+     |     <name-r> 
 
 <fmt{G}w> ::= 
            G { 0 .. 9 }... 
@@ -114,6 +118,7 @@ DT ::=
            [ kind-param _ ] <quoted-literal> 
      |     [ kind-param _ ] <dquoted-literal> 
      |     <char-literal-constant2> 
+     |     <hollerith-constant> 
 
 kind-param ::= 
            digit-string 
@@ -368,9 +373,6 @@ exponent ::=
            <.EQV.> 
      |     <.NEQV.> 
 
-<concat-op> ::= 
-           / / 
-
 <**> ::= 
            * * 
 
@@ -387,4 +389,7 @@ exponent ::=
 
 <line-comment2> ::= 
            ! [ { { \u0001 .. \t } | { \u000B .. \x000C } | { \u000E .. \uFFFD } }... ] 
+
+<name-r> ::= 
+           { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] 
 
