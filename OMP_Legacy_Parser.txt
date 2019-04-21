@@ -1564,7 +1564,11 @@ alignment ::=
            <format-stmt> <;> 
 
 <format-stmt> ::= 
-           <labeled_FORMAT> <format-specification> 
+           <label-format> <format-specification>   /* Tr.ParsedFormatStmt($$(0), $$(1),$$(2),true); */
+     |     <label-format> <erroneous-stmt>   /* Tr.ParsedFormatStmt($$(0), $$(1),$$(2),false); */
+
+<label-format> ::= 
+           <labeled_FORMAT>   /* Tr.OnLabelFormatPair($$(0),$$(1)); */
 
 <format-specification> ::= 
            ( ) 
@@ -1628,7 +1632,8 @@ alignment ::=
      |     <sign> <int-literal-constant> 
 
 <control-edit-desc> ::= 
-           <position-edit-desc> +: { <,> | : | / | ) | <data-edit-desc-first> } 
+           <position-edit-desc> +: { <,> | : | / | ) } 
+     |     <position-edit-desc> +: { <data-edit-desc-first> } 
      |     <sign-edit-desc> +: { <,> | : | / | ) } 
      |     <blank-interp-edit-desc> +: { <,> | : | / | ) } 
      |     <round-edit-desc> +: { <,> | : | / | ) } 

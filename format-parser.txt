@@ -78,7 +78,8 @@
      |     <sign> <int-literal-constant> 
 
 <control-edit-desc> ::= 
-           <position-edit-desc> +: { <,> | : | / | ) | <data-edit-desc-first> } 
+           <position-edit-desc> +: { <,> | : | / | ) } 
+     |     <position-edit-desc> +: { <data-edit-desc-first> } 
      |     <sign-edit-desc> +: { <,> | : | / | ) } 
      |     <blank-interp-edit-desc> +: { <,> | : | / | ) } 
      |     <round-edit-desc> +: { <,> | : | / | ) } 
@@ -91,7 +92,7 @@
      |     TR <n> 
      |     <fmt{T|TL|TR}n> 
      |     <n> X 
-     |     X   /* Tr.warning(L"Positive width should precede the position edit descriptor 'X'."); */
+     |     X   /* Tr.warning(L"Positive width should precede the position edit descriptor 'X'."); synthesize(1); */
 
 <n> ::= 
            <int-literal-constant> 

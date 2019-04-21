@@ -1,16 +1,4 @@
 
-Unclassifiable (yet)
---------------------
-[ 2019-04-18]  This program isn't rejected in the Simulator, whereas the previous binary (todo)   
-               prints also an error for line 1 and as expected two warnings for line 2.
-               $ cat fmt3.f90 && fcheck -debug fmt3.f90 2>&1 | tail -n 1
-               1 format (XA12I5) ;
-               2 print "(XA12I5)" , "i=", i
-               3 end
-
-               Parsed with Errors: fmt3.f90
- 
-
 Fortran parser Issues
 ---------------------
 
@@ -425,7 +413,11 @@ Legacy parser Issues
                Parsed with Errors: subroutine-1.f90
         Note:  [7/4] I've adjusted the error recovery rules in Fortran end statements, not in
                OpenMP end statements, which might be a subsequent task. 
-               
+[ 2019-04-18]  This program isn't rejected in the Simulator. Sem. actions are necessary.    (done)   
+               $ cat fmt3.f90
+               1 format (XA12I5) ;
+               2 print "(XA12I5)" , "i=", i
+               3 end
 
 
 Format Scanner

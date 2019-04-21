@@ -152,9 +152,8 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
     The command "fcheck" (binary), is a Fortran parser (front-end) that validates syntactically a
     Fortran program according to the syntax rules of the OMP (Legacy) Parser.
 
-    It can be installed on an Intel based Mac (minimum OS X 10.9), a RedHat compatible i386/x86_64
-    system (minimum RedHat 9) as ie on Ubuntu 14.04 i386, or Windows via Cygwin (TM).
+    It can be installed on an Intel based Mac (minimum OS X 10.9), a Linux i386/x86_64 system
+    (minimum RedHat 9 but also ie on Ubuntu 14.04 i386), or Windows via Cygwin (TM).
 
-    SHA1(fortran-fcheck-2019-03-21.zip)= bd7f70187bf304c733e626d6d7add05d039d44ae
-    SHA1(fortran-fcheck-2019-04-16.zip)= 712bba717a40d46d25295400e754d368e7550d2c
+    SHA1(fortran-fcheck-2019-04-21u.zip)= 0053ca0c8f95292a49fb8783f9b2322b7f224c1d
 
