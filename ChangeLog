@@ -128,6 +128,9 @@ The Following bug-fix has not been tested very well yet:
                There also exists the extended precision Q edit descriptor; see below: 
  [2019-01-14]  IBM Extension. Allow the 'Qw.d' (extended precision) edit descriptor.        (done) 
  [2019-03-28]  Vendor extension: Support the L/I edit descriptors without a following 'w'.  (done)
+ [2019-05-01]  A DT edit descriptor cannot have a kind-parameter.                           (todo)
+        Note:  This means that my "char-literal-constant" rule is wrong.  
+                    
 
 
 Legacy parser Issues
@@ -439,6 +442,10 @@ Format Scanner
         Note:  [30/3] delete all redundant keywords from this scanner. 
  [2019-03-28]  Vendor extension: Support the L/I descriptors without a following 'w'.       (done)
         Note:  These two changes should be implemented also in the OMP (Legacy) Scanner.    (done)
+ [2019-05-01]  A DT edit descriptor cannot have a kind-parameter.                           (todo)
+        Note:  Without the flag "report conflicting tokens", the format parser cannot
+               see an R/R conflict as the "OMP (legacy) parser" does with a Sem. action
+               on rule "<char-string-edit-desc>".    
 
 
 Format Parser
@@ -462,6 +469,16 @@ Format Parser
 
                Parsed with Errors: f88d2arps.f90
         Note:  These two extensions will be implemented also in the  OMP (Legacy) Parser.  
+ [2019-05-01]  Character Literal constants are not valid in Input Format Strings.           (todo)           
+               $ cat read-date.f90 && fcheck read-date.f90
+               1    integer :: dd, mm, yyyy
+               2    write (*, '(a)', advance='no') "Give a date in dd/mm/yyyy format: "
+               3    read (*, '(i2, "/", i2 ,"/", i4)' ) dd, mm, yyyy
+               4    end 
+         Note: The command fcheck should just print two warnings, ie:               
+               read-date.f90:3: warning: Unexpected "/" in input Format String.
+               read-date.f90:3: warning: Unexpected "/" in input Format String.
+    
 
 
 Free Form Preprocessor
