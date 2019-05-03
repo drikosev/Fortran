@@ -46,7 +46,7 @@
 <BR><BR><STRONG><A name="<v>">&lt;v&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<signed-int-literal-constant>">&lt;signed-int-literal-constant&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<signed-int-literal-constant>">&lt;signed-int-literal-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;sign&gt;&nbsp;&lt;int-literal-constant&gt;&nbsp;
-<BR><BR><STRONG><A name="<char-string-edit-desc>">&lt;char-string-edit-desc&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;char-literal-constant&gt;&nbsp;
+<BR><BR><STRONG><A name="<char-string-edit-desc>">&lt;char-string-edit-desc&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;char-literal-constant&gt;&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr. OnCharEditDescriptor(str(1)); synthesize(1); */</FONT></EM>
 <BR><BR><STRONG><A name="<r>">&lt;r&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;sign&gt;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR><BR><STRONG><A name="<control-edit-desc>">&lt;control-edit-desc&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<position-edit-desc>">&lt;position-edit-desc&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;:&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;/&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
@@ -105,7 +105,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt dt & char-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt dt & char-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DT&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<char-string-edit-desc>">&lt;char-string-edit-desc&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;char-literal-constant&gt;&nbsp;
 <BR><BR><STRONG><A name="<)>">&lt;)&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">NONE</FONT>&nbsp;<FONT color="#cc3300">-:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<unlimited-format-item>">&lt;unlimited-format-item&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;(&nbsp;<A href="#<format-items>">&lt;format-items&gt;</A>&nbsp;)&nbsp;

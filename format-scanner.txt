@@ -109,26 +109,10 @@ ES ::=
            {[ P ] E } { 0 .. 9 }... { . } { 0 .. 9 }... { D | Q } { 0 .. 9 }... 
 
 <fmt dt & char-literal-constant> ::= 
-           DT <char-literal-constant> 
+           DT { <quoted-literal> | <dquoted-literal> } 
 
 DT ::= 
            D T 
-
-<char-literal-constant> ::= 
-           [ kind-param _ ] <quoted-literal> 
-     |     [ kind-param _ ] <dquoted-literal> 
-     |     <char-literal-constant2> 
-     |     <hollerith-constant> 
-
-kind-param ::= 
-           digit-string 
-     |     scalar-int-constant-name 
-
-digit-string ::= 
-           { 0 .. 9 }... 
-
-scalar-int-constant-name ::= 
-           { A .. Z } { A .. Z | 0 .. 9 | _ }... 
 
 <quoted-literal> ::= 
            ' [ <quoted_char> ... ] ' 
@@ -198,6 +182,16 @@ TR ::=
 <digit> ::= 
            0 .. 9 
 
+kind-param ::= 
+           digit-string 
+     |     scalar-int-constant-name 
+
+digit-string ::= 
+           { 0 .. 9 }... 
+
+scalar-int-constant-name ::= 
+           { A .. Z } { A .. Z | 0 .. 9 | _ }... 
+
 <real-literal-constant> ::= 
            <digit-string .> +: <non-letter> 
      |     digit-string . digit-string 
@@ -234,6 +228,12 @@ exponent ::=
 <logical-literal-constant> ::= 
            . T R U E .[ kind-param ] 
      |     . F A L S E .[ kind-param ] 
+
+<char-literal-constant> ::= 
+           [ kind-param _ ] <quoted-literal> 
+     |     [ kind-param _ ] <dquoted-literal> 
+     |     <char-literal-constant2> 
+     |     <hollerith-constant> 
 
 <boz-literal-constant> ::= 
            <binary-constant> 

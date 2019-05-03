@@ -960,7 +960,7 @@
 <BR><BR><STRONG><A name="<v-list>">&lt;v-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<v-list>">&lt;v-list&gt;</A>&nbsp;,&nbsp;<A href="#<v>">&lt;v&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<v>">&lt;v&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<v>">&lt;v&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<signed-int-literal-constant>">&lt;signed-int-literal-constant&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<char-string-edit-desc>">&lt;char-string-edit-desc&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;char-literal-constant&gt;&nbsp;
+<BR><BR><STRONG><A name="<char-string-edit-desc>">&lt;char-string-edit-desc&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;char-literal-constant&gt;&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr. OnCharEditDescriptor(str(1)); synthesize(1); */</FONT></EM>
 <BR><BR><STRONG><A name="<r>">&lt;r&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;sign&gt;&nbsp;&lt;int-literal-constant&gt;&nbsp;
 <BR><BR><STRONG><A name="<control-edit-desc>">&lt;control-edit-desc&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<position-edit-desc>">&lt;position-edit-desc&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;:&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;/&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
@@ -1018,7 +1018,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt dt & char-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt dt & char-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DT&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<char-string-edit-desc>">&lt;char-string-edit-desc&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;char-literal-constant&gt;&nbsp;
 <BR><BR><STRONG><A name="<unlimited-format-item>">&lt;unlimited-format-item&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;(&nbsp;<A href="#<format-items>">&lt;format-items&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<subroutine-stmt>">&lt;subroutine-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<subroutine-stmt;>">&lt;subroutine-stmt;&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<subroutine-stmt;>">&lt;subroutine-stmt;&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#subroutine-stmt">subroutine-stmt</A>&nbsp;&lt;;&gt;&nbsp;
@@ -1669,7 +1669,7 @@
 <BR><BR><STRONG><A name="<p-i-control-spec-list>">&lt;p-i-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<i-control-spec-list>">&lt;i-control-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<i-control-spec-list>">&lt;i-control-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<i-control-named-spec-list>">&lt;i-control-named-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<i-control-named-spec-list>">&lt;i-control-named-spec-list&gt;</A>&nbsp;)&nbsp;
-<BR><BR><STRONG><A name="<i-control-spec-list>">&lt;i-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<i-control-spec>">&lt;i-control-spec&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/*Tr.onControlSpec($$(0),$$(1),$$(3)); */</FONT></EM>
+<BR><BR><STRONG><A name="<i-control-spec-list>">&lt;i-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<i-control-spec>">&lt;i-control-spec&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/*Tr.onControlSpec($$(0),$$(1),$$(3),'I'); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<io-unit>">&lt;io-unit&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<file-unit-number>">&lt;file-unit-number&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;*&nbsp;
@@ -1679,7 +1679,7 @@
 <BR><BR><STRONG><A name="<i-control-named-spec-list>">&lt;i-control-named-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<i-control-named-spec-list>">&lt;i-control-named-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<i-control-named-spec>">&lt;i-control-named-spec&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<i-control-named-spec>">&lt;i-control-named-spec&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<i-control-named-spec>">&lt;i-control-named-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNIT&nbsp;=&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;FMT&nbsp;=&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/*Tr.onFormatSpec($$(0),$$(1),$$(3)); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;FMT&nbsp;=&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/*Tr.onFormatSpec($$(0),$$(1),$$(3), 'I' ); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;NML&nbsp;=&nbsp;<A href="#<namelist-group-name>">&lt;namelist-group-name&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;ADVANCE&nbsp;=&nbsp;<A href="#<char-expr>">&lt;char-expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;ASYNCHRONOUS&nbsp;=&nbsp;<A href="#<char-expr>">&lt;char-expr&gt;</A>&nbsp;
@@ -1748,14 +1748,14 @@
 <BR><BR><STRONG><A name="<p-o-control-spec-list>">&lt;p-o-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<o-control-spec-list>">&lt;o-control-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<o-control-spec-list>">&lt;o-control-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<o-control-named-spec-list>">&lt;o-control-named-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<o-control-named-spec-list>">&lt;o-control-named-spec-list&gt;</A>&nbsp;)&nbsp;
-<BR><BR><STRONG><A name="<o-control-spec-list>">&lt;o-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<o-control-spec>">&lt;o-control-spec&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/*Tr.onControlSpec($$(0),$$(1),$$(3)); */</FONT></EM>
+<BR><BR><STRONG><A name="<o-control-spec-list>">&lt;o-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<o-control-spec>">&lt;o-control-spec&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/*Tr.onControlSpec($$(0),$$(1),$$(3), 'O' ); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<o-control-spec>">&lt;o-control-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<namelist-group-name>">&lt;namelist-group-name&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<o-control-named-spec-list>">&lt;o-control-named-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<o-control-named-spec-list>">&lt;o-control-named-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<o-control-named-spec>">&lt;o-control-named-spec&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<o-control-named-spec>">&lt;o-control-named-spec&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<o-control-named-spec>">&lt;o-control-named-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNIT&nbsp;=&nbsp;<A href="#<io-unit>">&lt;io-unit&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;FMT&nbsp;=&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/*Tr.onFormatSpec($$(0),$$(1),$$(3)); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;FMT&nbsp;=&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/*Tr.onFormatSpec($$(0),$$(1),$$(3), 'O' ); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;NML&nbsp;=&nbsp;<A href="#<namelist-group-name>">&lt;namelist-group-name&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;ADVANCE&nbsp;=&nbsp;<A href="#<char-expr>">&lt;char-expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;ASYNCHRONOUS&nbsp;=&nbsp;<A href="#<char-expr>">&lt;char-expr&gt;</A>&nbsp;

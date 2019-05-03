@@ -71,7 +71,7 @@
      |     <sign> <int-literal-constant> 
 
 <char-string-edit-desc> ::= 
-           <char-literal-constant> 
+           <char-literal-constant>   /* Tr. OnCharEditDescriptor(str(1)); synthesize(1); */
 
 <r> ::= 
            <int-literal-constant> 
@@ -156,7 +156,7 @@
      |     <fmt dt & char-literal-constant> 
      |     <fmt dt & char-literal-constant> 
      |     DT 
-     |     <char-string-edit-desc> 
+     |     <char-literal-constant> 
 
 <)> ::= 
            NONE -: { ) } 

@@ -457,25 +457,10 @@ ES ::=
            {[ P ] E } { 0 .. 9 }... { . } { 0 .. 9 }... { D | Q } { 0 .. 9 }... 
 
 <fmt dt & char-literal-constant> ::= 
-           DT <char-literal-constant> 
+           DT { <quoted-literal> | <dquoted-literal> | <char-literal-constant2> } 
 
 DT ::= 
            D T 
-
-<char-literal-constant> ::= 
-           [ kind-param _ ] <quoted-literal> 
-     |     [ kind-param _ ] <dquoted-literal> 
-     |     [ kind-param _ ] <char-literal-constant2> 
-
-kind-param ::= 
-           digit-string 
-     |     scalar-int-constant-name 
-
-digit-string ::= 
-           { 0 .. 9 }... 
-
-scalar-int-constant-name ::= 
-           { A .. Z } { A .. Z | 0 .. 9 | _ }... 
 
 <quoted-literal> ::= 
            ' [ <quoted_char> ... ] ' 
@@ -1651,6 +1636,16 @@ WORKSHARE ::=
 <int-literal-constant> ::= 
            <digit> ... [ _ kind-param ] 
 
+kind-param ::= 
+           digit-string 
+     |     scalar-int-constant-name 
+
+digit-string ::= 
+           { 0 .. 9 }... 
+
+scalar-int-constant-name ::= 
+           { A .. Z } { A .. Z | 0 .. 9 | _ }... 
+
 <letter> ::= 
            A .. Z 
 
@@ -2195,6 +2190,11 @@ exponent ::=
 <logical-literal-constant> ::= 
            . T R U E .[ kind-param ] 
      |     . F A L S E .[ kind-param ] 
+
+<char-literal-constant> ::= 
+           [ kind-param _ ] <quoted-literal> 
+     |     [ kind-param _ ] <dquoted-literal> 
+     |     [ kind-param _ ] <char-literal-constant2> 
 
 <boz-literal-constant> ::= 
            <binary-constant> 

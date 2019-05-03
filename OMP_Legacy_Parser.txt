@@ -1625,7 +1625,7 @@ alignment ::=
            <signed-int-literal-constant> 
 
 <char-string-edit-desc> ::= 
-           <char-literal-constant> 
+           <char-literal-constant>   /* Tr. OnCharEditDescriptor(str(1)); synthesize(1); */
 
 <r> ::= 
            <int-literal-constant> 
@@ -1707,7 +1707,7 @@ alignment ::=
      |     <fmt dt & char-literal-constant> 
      |     <fmt dt & char-literal-constant> 
      |     DT 
-     |     <char-string-edit-desc> 
+     |     <char-literal-constant> 
 
 <unlimited-format-item> ::= 
            * ( <format-items> ) 
@@ -2836,7 +2836,7 @@ end-subroutine-stmt ::=
      |     ( <i-control-named-spec-list> ) 
 
 <i-control-spec-list> ::= 
-           <io-unit> <,> <i-control-spec>   /*Tr.onControlSpec($$(0),$$(1),$$(3)); */
+           <io-unit> <,> <i-control-spec>   /*Tr.onControlSpec($$(0),$$(1),$$(3),'I'); */
      |     <io-unit> 
 
 <io-unit> ::= 
@@ -2856,7 +2856,7 @@ end-subroutine-stmt ::=
 
 <i-control-named-spec> ::= 
            UNIT = <io-unit> 
-     |     FMT = <format>   /*Tr.onFormatSpec($$(0),$$(1),$$(3)); */
+     |     FMT = <format>   /*Tr.onFormatSpec($$(0),$$(1),$$(3), 'I' ); */
      |     NML = <namelist-group-name> 
      |     ADVANCE = <char-expr> 
      |     ASYNCHRONOUS = <char-expr> 
@@ -2977,7 +2977,7 @@ end-subroutine-stmt ::=
      |     ( <o-control-named-spec-list> ) 
 
 <o-control-spec-list> ::= 
-           <io-unit> <,> <o-control-spec>   /*Tr.onControlSpec($$(0),$$(1),$$(3)); */
+           <io-unit> <,> <o-control-spec>   /*Tr.onControlSpec($$(0),$$(1),$$(3), 'O' ); */
      |     <io-unit> 
 
 <o-control-spec> ::= 
@@ -2990,7 +2990,7 @@ end-subroutine-stmt ::=
 
 <o-control-named-spec> ::= 
            UNIT = <io-unit> 
-     |     FMT = <format>   /*Tr.onFormatSpec($$(0),$$(1),$$(3)); */
+     |     FMT = <format>   /*Tr.onFormatSpec($$(0),$$(1),$$(3), 'O' ); */
      |     NML = <namelist-group-name> 
      |     ADVANCE = <char-expr> 
      |     ASYNCHRONOUS = <char-expr> 
