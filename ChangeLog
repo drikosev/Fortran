@@ -416,7 +416,11 @@ Legacy parser Issues
 
                Parsed with Errors: subroutine-1.f90
         Note:  [7/4] I've adjusted the error recovery rules in Fortran end statements, not in
-               OpenMP end statements, which might be a subsequent task. 
+               OpenMP end statements, which might be a subsequent task.
+        Note:  [8/5] I've adjusted the error recovery rules in OpenMP end statements, which
+               in turns restores the error message in "sma.f:5" above (see the 6/10 note).
+        Note:  [8/5] The parser should recover inside an end-statement after an END keyword.
+               It seems to be the obvious choice that eliminates the last msg in this case. (done)  
 [ 2019-04-18]  This program isn't rejected in the Simulator. Sem. actions are necessary.    (done)   
                $ cat fmt3.f90
                1 format (XA12I5) ;
