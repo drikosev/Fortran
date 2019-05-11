@@ -552,7 +552,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
  
                Parsed with Errors: not-a-hollerith.f90
 [2019-05-11]   Skip Fortran Include Directives that aren't well formed and let the parser read them.  (done)
-[2019-05-11]   Don't accept INCLUDE directives in columns 1-6.                                        (done)
+[2019-05-11]   In fixed form, INCLUDE directives that begin in columns 1-6 should be rejected.        (done)
 
 
 Format String Reader
