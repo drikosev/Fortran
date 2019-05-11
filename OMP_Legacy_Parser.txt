@@ -699,10 +699,10 @@ end-function-stmt ::=
 
 <stmts> ::= 
            <stmts> <stmt> 
-     |     <stmts> <format-stmt;> 
+     |     <stmts> <special-stmt;> 
      |     <stmts> <omp-directive> 
      |     <stmt> 
-     |     <format-stmt;> 
+     |     <special-stmt;> 
      |     <omp-directive> 
      |     <stmts> <label> <stmt> 
      |     <label> <stmt> 
@@ -1241,9 +1241,9 @@ end-interface-stmt ::=
 
 <spec-stmts> ::= 
            <spec-stmts> <spec-stmt> 
-     |     <spec-stmts> <format-stmt;> 
+     |     <spec-stmts> <special-stmt;> 
      |     <spec-stmt> 
-     |     <format-stmt;> 
+     |     <special-stmt;> 
      |     <spec-stmts> <label> <spec-stmt> 
      |     <label> <spec-stmt> 
 
@@ -1504,8 +1504,9 @@ alignment ::=
 <omp-common-block-name> ::= 
            / <name> / 
 
-<format-stmt;> ::= 
+<special-stmt;> ::= 
            <format-stmt> <;> 
+     |     <include-stmt> <;> 
 
 <format-stmt> ::= 
            <label-format> <format-specification>   /* Tr.ParsedFormatStmt($$(0), $$(1),$$(2),true); */
@@ -1655,6 +1656,9 @@ alignment ::=
 
 <unlimited-format-item> ::= 
            * ( <format-items> ) 
+
+<include-stmt> ::= 
+           INCLUDE <char-literal-constant>   /* Tr.OnIncludeStatement(str(2)); */
 
 <subroutine-stmt> ::= 
            <subroutine-stmt;> 
@@ -3009,10 +3013,10 @@ continue-stmt ::=
 <block> ::= 
            <block> <executable-construct;> 
      |     <block> <omp-directive> 
-     |     <block> <format-stmt;> 
+     |     <block> <special-stmt;> 
      |     <executable-construct;> 
      |     <omp-directive> 
-     |     <format-stmt;> 
+     |     <special-stmt;> 
      |     <block> <label> <executable-construct;> 
      |     <label> <executable-construct;> 
 
@@ -3264,10 +3268,10 @@ loop-control ::=
 <do-block> ::= 
            <do-block> <executable-construct;> 
      |     <do-block> <omp-directive> 
-     |     <do-block> <format-stmt;> 
+     |     <do-block> <special-stmt;> 
      |     <executable-construct;> 
      |     <omp-directive> 
-     |     <format-stmt;> 
+     |     <special-stmt;> 
      |     <do-block> <label> <executable-construct;> 
      |     <label> <executable-construct;> 
 
@@ -4098,7 +4102,7 @@ omp-end-parallel-do-simd-stmt ::=
 <omp-sections> ::= 
            <omp-sections> <executable-construct;> 
      |     <omp-sections> <omp-directive> 
-     |     <omp-sections> <format-stmt;> 
+     |     <omp-sections> <special-stmt;> 
      |     <omp-sections> <label> <executable-construct;> 
      |     <omp-sections> <section-stmt> 
      |     <section-stmt> 
@@ -4785,7 +4789,7 @@ end-select-stmt ::=
            <case-block> 
 
 <case-block> ::= 
-           <case-block> <format-stmt;> 
+           <case-block> <special-stmt;> 
      |     <case-block> <executable-construct;> 
      |     <case-block> <label> <executable-construct;> 
      |     <case-block> <omp-directive> 
@@ -4851,7 +4855,7 @@ end-critical-stmt ::=
      |     <if-then-stmts> <omp-directive> 
      |     <if-then-stmts> <label> <executable-construct;> 
      |     <if-then-stmt> 
-     |     <if-then-stmts> <format-stmt;> 
+     |     <if-then-stmts> <special-stmt;> 
 
 <if-then-stmt> ::= 
            <if-expr> THEN <;> 
@@ -4872,7 +4876,7 @@ end-if-stmt ::=
 <else-stmts> ::= 
            <else-stmts> <executable-construct;> 
      |     <else-stmts> <omp-directive> 
-     |     <else-stmts> <format-stmt;> 
+     |     <else-stmts> <special-stmt;> 
      |     <else-stmts> <label> <executable-construct;> 
      |     <else-stmt> 
      |     <label> <else-stmt> 
@@ -4884,7 +4888,7 @@ end-if-stmt ::=
 <else-if-stmts> ::= 
            <else-if-stmts> <executable-construct;> 
      |     <else-if-stmts> <omp-directive> 
-     |     <else-if-stmts> <format-stmt;> 
+     |     <else-if-stmts> <special-stmt;> 
      |     <else-if-stmts> <label> <executable-construct;> 
      |     <else-if-stmt> 
      |     <label> <else-if-stmt> 
@@ -4917,7 +4921,7 @@ select-type-stmt ::=
      |     <type-guard-stmt-blocks> <label> <execution-part-construct> 
      |     <type-guard-stmt-blocks> <type-guard-stmt;> 
      |     <type-guard-stmt-blocks> <label> <type-guard-stmt;> 
-     |     <type-guard-stmt-blocks> <format-stmt;> 
+     |     <type-guard-stmt-blocks> <special-stmt;> 
      |     <label> <type-guard-stmt;> 
      |     <type-guard-stmt;> 
 
