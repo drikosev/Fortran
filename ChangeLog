@@ -433,7 +433,7 @@ Legacy parser Issues
         Note:  Such an extension doesn't fit very well in our designed model and the 
                command "fcheck" issues warnings that these directives aren't well formed.
                In contrast to other implementations, labels aren't accepted. Also, these
-               statements aren't acceptable anywhere in the grammar.
+               statements aren't acceptable everywhere in the grammar.
 
 
 Format Scanner
