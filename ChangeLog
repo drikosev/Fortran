@@ -428,12 +428,11 @@ Legacy parser Issues
                3 end
  [2019-05-01]  Character Literal constants are not valid in Input Format Strings.           (done) 
         Note:  At the moment, the validation is effective only in the "format_parser".
- [2019-05-11]  GNU/PGI/VMS Extension: Parse Fortran Include Directives also as normal       (done)
+ [2019-05-15]  GNU/PGI/VMS Extension: Parse Fortran Include Directives also as normal       (done)
                Fortran statements that may have continuation patterns. 
-        Note:  Such an extension doesn't fit very well in our designed model and the 
-               command "fcheck" issues warnings that these directives aren't well formed.
-               In contrast to other implementations, labels aren't accepted. Also, these
-               statements aren't acceptable everywhere in the grammar.
+        Note:  This extension doesn't fit very well in our implementation and the command
+               "fcheck" warns that these directives are normally expected in one line.
+               Also, these statements aren't acceptable everywhere in the grammar.
 
 
 Format Scanner
