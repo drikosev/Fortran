@@ -430,9 +430,9 @@ Legacy parser Issues
         Note:  At the moment, the validation is effective only in the "format_parser".
  [2019-05-15]  GNU/PGI/VMS Extension: Parse Fortran Include Directives also as normal       (done)
                Fortran statements that may have continuation patterns. 
-        Note:  This extension doesn't fit very well in our implementation and the command
-               "fcheck" warns that these directives are normally expected in one line.
-               Also, these statements aren't acceptable everywhere in the grammar.
+        Note:  This extension doesn't fit very well in the implementation and the command
+               "fcheck" warns that an INCLUDE directive should appear on a single source
+               line. Also, these statements aren't acceptable everywhere in the grammar.
 
 
 Format Scanner
