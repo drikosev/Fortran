@@ -156,6 +156,6 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
     (minimum RedHat 9 but also ie on Ubuntu 14.04 i386), or Windows via Cygwin (TM).
 
     SHA1(fortran-fcheck-2019-04-21u.zip)= 0053ca0c8f95292a49fb8783f9b2322b7f224c1d
-    SHA1(fortran-fcheck-2019-05-03.zip)= 78c1060421cd1e60febaa26886b111e8995cfbfa
-
+    SHA1(fortran-fcheck-2019-05-03.zip) = 78c1060421cd1e60febaa26886b111e8995cfbfa
+    SHA1(fortran-fcheck-2019-05-17.zip) = 744d51ee0c19fc5d705fae5bbbd3163fb2f50e12
 

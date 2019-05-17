@@ -1507,6 +1507,7 @@ alignment ::=
 <special-stmt;> ::= 
            <format-stmt> <;> 
      |     <include-stmt> <;> 
+     |     <label> <include-stmt> <;> 
 
 <format-stmt> ::= 
            <label-format> <format-specification>   /* Tr.ParsedFormatStmt($$(0), $$(1),$$(2),true); */

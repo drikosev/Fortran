@@ -141,6 +141,7 @@
      |     IMPURE 
      |     IN 
      |     IN_OUT 
+     |     INCLUDE 
      |     INQUIRE 
      |     INTENT 
      |     INTERFACE 
@@ -880,6 +881,9 @@ IN ::=
 
 IN_OUT ::= 
            I N O U T 
+
+INCLUDE ::= 
+           I N C L U D E 
 
 INQUIRE ::= 
            I N Q U I R E 
@@ -1816,6 +1820,7 @@ key ::=
      |     IMPURE 
      |     IN 
      |     IN_OUT 
+     |     INCLUDE 
      |     INQUIRE 
      |     INTENT 
      |     INTERFACE 
