@@ -550,6 +550,8 @@ The Following four new features/bug-fixes have not been tested very well yet:
                4     end
  
                Parsed with Errors: not-a-hollerith.f90
+         Note: [28/5] The above program isn't standard conforming, but acceptable by some compilers.
+               If a token is split between two lines, a '&' isn't optional in the continuation line.
 [2019-05-11]   Skip Fortran Include Directives that aren't well formed and let the parser read them.  (done)
 [2019-05-13]   In fixed form, issue a warning if an INCLUDE directive begins in columns 1-6.          (done)
 
