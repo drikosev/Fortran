@@ -507,6 +507,15 @@ Free Form Preprocessor
                before the (double) quoted part, ie inside the "kind-param". 
 [ 2019-04-05 ] We don't accept statement continuation patterns in BOZ literal constants before       (done) 
                the (double) quoted part (after a 'B', 'O', 'Z' or the extension 'X'). 
+[ 2019-06-04 ] The following program is rejected (PGI/GNU Fortran accept it).                        (todo)
+         Note: If a token is split between two lines, a '&' isn't optional in the continuation line.
+               $ cat goto_3.f90 && fcheck goto_3.f90  2>&1 | tail -n 1
+               1     goto&
+                     3
+               3     print *, "hello"
+               4     end
+
+               Parsed with Errors: goto_3.f90
 
 
 Hand coded File Reader
