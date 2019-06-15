@@ -521,7 +521,7 @@ Free Form Preprocessor
 Hand coded File Reader
 ----------------------
 [ 2018-06-26 ] Bug (free form): The hand coded file reader was returning Hollerith constants within
-               names (ie real x1h ;). (done)
+               names (ie real x1h ;). (done)  
 [ 2018-06-27 ] Bug: The legacy parser hangs in Linux due to a '”' ie in the comments of "fsl2snd.f90". (done)
                This happened because the File Reader wasn't handling properly UTF-8 files. The locale 
                passed to "wifstream.imbue(locale)" requires different arguments in Win,Mac, and Linux.
@@ -563,6 +563,11 @@ The Following four new features/bug-fixes have not been tested very well yet:
                If a token is split between two lines, a '&' isn't optional in the continuation line.
 [2019-05-11]   Skip Fortran Include Directives that aren't well formed and let the parser read them.  (done)
 [2019-05-13]   In fixed form, issue a warning if an INCLUDE directive begins in columns 1-6.          (done)
+[2019-06-15]   The following program is rejected because we check digit > '0', instead  digit >= '0'  (todo)
+               $ cat r2_acqc.f && fcheck r2_acqc.f
+               CHARACTER*40  HEADR,OBLVL,FCLVL
+               CHARACTER*40  HEADR
+               END
 
 
 Format String Reader
