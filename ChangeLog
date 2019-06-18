@@ -131,7 +131,8 @@ The Following bug-fix has not been tested very well yet:
  [2019-05-01]  A DT edit descriptor cannot have a kind-parameter.                           (done)
         Note:  Both the "char-literal-constant" and the "<fmt dt & char-literal-constant>"
                needed adjustments.  
-                    
+ [2019-06-18]  In fixed form, the "interface operator" statement isn't tokenized properly.  (todo)
+        Note:  We haven't defined also any patterns for "assignment" or "read/write".                                   
 
 
 Legacy parser Issues
@@ -563,7 +564,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                If a token is split between two lines, a '&' isn't optional in the continuation line.
 [2019-05-11]   Skip Fortran Include Directives that aren't well formed and let the parser read them.  (done)
 [2019-05-13]   In fixed form, issue a warning if an INCLUDE directive begins in columns 1-6.          (done)
-[2019-06-15]   The following program is rejected because we check digit > '0', instead  digit >= '0'  (todo)
+[2019-06-15]   The program below is rejected because we check digit > '0', instead of digit >= '0'.   (todo)
                $ cat r2_acqc.f && fcheck r2_acqc.f
                CHARACTER*40  HEADR,OBLVL,FCLVL
                CHARACTER*40  HEADR
