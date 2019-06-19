@@ -131,8 +131,21 @@ The Following bug-fix has not been tested very well yet:
  [2019-05-01]  A DT edit descriptor cannot have a kind-parameter.                           (done)
         Note:  Both the "char-literal-constant" and the "<fmt dt & char-literal-constant>"
                needed adjustments.  
- [2019-06-18]  In fixed form, the "interface operator" statement isn't tokenized properly.  (todo)
-        Note:  We haven't defined also any patterns for "assignment" or "read/write".                                   
+ [2019-06-18]  In fixed form, the "interface operator" statement isn't tokenised properly.  (todo)
+        Note:  [19/6] The scanner always returns a "name-l" whenever it sees the word
+               "interfaceoperator" followed by a '('. Because, we haven't defined the rule
+               that allows two consecutive keywords to begin with the keyword INTERFACE.
+ [2019-06-19]  In fixed form, the program below is rejected:                                (todo)
+               $ cat apdetect.f90 && fcheck -ffixed-form apdetect.f90 2>&1 | tail -n 1
+                     IF( abs(tmp(igate+1,jazim)) < 1e-1 .AND. &
+                         abs(tmp(igate,jazim-1)) < 1e-1 )     THEN
+                             velvol(igate,jazim,kk) = gcflag
+                     END IF
+                     END
+
+               Parsed with Errors: apdetect.f90
+        Note:  We've a restriction that a "real-literal-constant" cannot be followed by a dot:
+               <real-literal-constant> ::= <digit-string exponent-letter exponent> +: <not-dot>
 
 
 Legacy parser Issues
