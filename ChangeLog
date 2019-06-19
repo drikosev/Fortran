@@ -146,6 +146,9 @@ The Following bug-fix has not been tested very well yet:
                Parsed with Errors: apdetect.f90
         Note:  We've a restriction that a "real-literal-constant" cannot be followed by a dot:
                <real-literal-constant> ::= <digit-string exponent-letter exponent> +: <not-dot>
+        Note:  This restriction was supposed to solve collisions with tokens used in Format
+               Statements, which however are now always parsed with the flag "shorter_match"
+               set to true, in both fixed & free form.
 
 
 Legacy parser Issues
@@ -530,6 +533,8 @@ Free Form Preprocessor
                4     end
 
                Parsed with Errors: goto_3.f90
+         Note: [19/6] We cannot easily accept the omitted but required space in this case. But, we
+               will implement a more general solution. See the new option "-ops" in Main Program.
 
 
 Hand coded File Reader
@@ -605,8 +610,13 @@ Format String Reader
 
  Main Program
 --------------
-[ 2019-03-30 ] The "-cpp" option isn't acceptable as a program argument.                              (done)
-        Note:  Still, C preprocessing won't be fully functional though.
+[2019-03-30] The "-cpp" option isn't acceptable as a program argument.                              (done)
+       Note: Still, C preprocessing won't be fully functional though.
+[2019-06-19] We add a command line option (ie -ops) that treats spaces in free form programs as     (todo)
+             optional and unimportant (as treated in fixed form programs). This option may be
+             used when the command "fcheck" has to parse various extensions supported by existing
+             Fortran Compilers that we can't identify and implement individually (see ie 2019-06-04).
+              
 
 
      Some legacy code examples have been found at: 
