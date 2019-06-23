@@ -2068,6 +2068,7 @@ cons_key_begin ::=
      |     GOTO 
      |     DATA 
      |     ENTRY 
+     |     INTERFACE 
 
 <prfx> ::= 
            INTEGER 
@@ -2166,7 +2167,7 @@ CODIMENSION_KEY ::=
      |     significand _ kind-param 
      |     significand exponent-letter exponent 
      |     significand exponent-letter exponent _ kind-param 
-     |     <digit-string exponent-letter exponent> +: <not-dot> 
+     |     <digit-string exponent-letter exponent> 
      |     digit-string exponent-letter exponent _ kind-param 
 
 <digit-string .> ::= 
@@ -2188,9 +2189,6 @@ exponent ::=
 
 <digit-string exponent-letter exponent> ::= 
            digit-string exponent-letter exponent 
-
-<not-dot> ::= 
-           { \u0001 .. \ufffe } -= { . | A .. Z | 0 .. 9 } 
 
 <logical-literal-constant> ::= 
            . T R U E .[ kind-param ] 

@@ -1249,6 +1249,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#GOTO">GOTO</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#DATA">DATA</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#ENTRY">ENTRY</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#INTERFACE">INTERFACE</A>&nbsp;
 <BR><BR><STRONG><A name="<prfx>">&lt;prfx&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#INTEGER">INTEGER</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#BYTE">BYTE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#REAL">REAL</A>&nbsp;
@@ -1299,7 +1300,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#significand">significand</A>&nbsp;_&nbsp;<A href="#kind-param">kind-param</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#significand">significand</A>&nbsp;<A href="#exponent-letter">exponent-letter</A>&nbsp;<A href="#exponent">exponent</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#significand">significand</A>&nbsp;<A href="#exponent-letter">exponent-letter</A>&nbsp;<A href="#exponent">exponent</A>&nbsp;_&nbsp;<A href="#kind-param">kind-param</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<digit-string exponent-letter exponent>">&lt;digit-string exponent-letter exponent&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<A href="#<not-dot>">&lt;not-dot&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<digit-string exponent-letter exponent>">&lt;digit-string exponent-letter exponent&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#digit-string">digit-string</A>&nbsp;<A href="#exponent-letter">exponent-letter</A>&nbsp;<A href="#exponent">exponent</A>&nbsp;_&nbsp;<A href="#kind-param">kind-param</A>&nbsp;
 <BR><BR><STRONG><A name="<digit-string .>">&lt;digit-string .&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#digit-string">digit-string</A>&nbsp;.&nbsp;
 <BR><BR><STRONG><A name="<non-letter>">&lt;non-letter&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\u0001&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;\ufffe&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">-=</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;A&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;Z&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
@@ -1309,7 +1310,6 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;D&nbsp;
 <BR><BR><STRONG><A name="exponent">exponent</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;+&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;-&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<A href="#digit-string">digit-string</A>&nbsp;
 <BR><BR><STRONG><A name="<digit-string exponent-letter exponent>">&lt;digit-string exponent-letter exponent&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#digit-string">digit-string</A>&nbsp;<A href="#exponent-letter">exponent-letter</A>&nbsp;<A href="#exponent">exponent</A>&nbsp;
-<BR><BR><STRONG><A name="<not-dot>">&lt;not-dot&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\u0001&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;\ufffe&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">-=</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;.&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;A&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;Z&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR><BR><STRONG><A name="<logical-literal-constant>">&lt;logical-literal-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;T&nbsp;R&nbsp;U&nbsp;E&nbsp;.<FONT color="#cc3300">[</FONT>&nbsp;<A href="#kind-param">kind-param</A>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;.&nbsp;F&nbsp;A&nbsp;L&nbsp;S&nbsp;E&nbsp;.<FONT color="#cc3300">[</FONT>&nbsp;<A href="#kind-param">kind-param</A>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;
 <BR><BR><STRONG><A name="<char-literal-constant>">&lt;char-literal-constant&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<A href="#kind-param">kind-param</A>&nbsp;_&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<A href="#<quoted-literal>">&lt;quoted-literal&gt;</A>&nbsp;

@@ -131,11 +131,11 @@ The Following bug-fix has not been tested very well yet:
  [2019-05-01]  A DT edit descriptor cannot have a kind-parameter.                           (done)
         Note:  Both the "char-literal-constant" and the "<fmt dt & char-literal-constant>"
                needed adjustments.  
- [2019-06-18]  In fixed form, the "interface operator" statement isn't tokenised properly.  (todo)
+ [2019-06-18]  In fixed form, the "interface operator" statement isn't tokenised properly.  (done)
         Note:  [19/6] The scanner always returns a "name-l" whenever it sees the word
                "interfaceoperator" followed by a '('. Because, we haven't defined the rule
                that allows two consecutive keywords to begin with the keyword INTERFACE.
- [2019-06-19]  In fixed form, the program below is rejected:                                (todo)
+ [2019-06-19]  In fixed form, the program below is rejected:                                (done)
                $ cat apdetect.f90 && fcheck -ffixed-form apdetect.f90 2>&1 | tail -n 1
                      IF( abs(tmp(igate+1,jazim)) < 1e-1 .AND. &
                          abs(tmp(igate,jazim-1)) < 1e-1 )     THEN
@@ -146,8 +146,8 @@ The Following bug-fix has not been tested very well yet:
                Parsed with Errors: apdetect.f90
         Note:  We've a restriction that a "real-literal-constant" cannot be followed by a dot:
                <real-literal-constant> ::= <digit-string exponent-letter exponent> +: <not-dot>
-        Note:  This restriction was supposed to solve collisions with tokens used in Format
-               Statements, which however are now always parsed with the flag "shorter_match"
+        Note:  This restriction was supposed to resolve conflicts with tokens used in Format
+               Statements, which however are always parsed now with the flag "shorter_match"
                set to true, in both fixed & free form.
 
 
@@ -524,7 +524,7 @@ Free Form Preprocessor
                before the (double) quoted part, ie inside the "kind-param". 
 [ 2019-04-05 ] We don't accept statement continuation patterns in BOZ literal constants before       (done) 
                the (double) quoted part (after a 'B', 'O', 'Z' or the extension 'X'). 
-[ 2019-06-04 ] The following program is rejected (PGI/GNU Fortran accept it).                        (todo)
+[ 2019-06-04 ] The following program is rejected (PGI/GNU Fortran accept it).                    (rejected)
          Note: If a token is split between two lines, a '&' isn't optional in the continuation line.
                $ cat goto_3.f90 && fcheck goto_3.f90  2>&1 | tail -n 1
                1     goto&
@@ -533,8 +533,11 @@ Free Form Preprocessor
                4     end
 
                Parsed with Errors: goto_3.f90
-         Note: [19/6] We cannot easily accept the omitted but required space in this case. But, we
-               will implement a more general solution. See the new option "-ops" in Main Program.
+         Note: [19/6] We cannot easily accept the omitted but required space in this case. Yet, we
+               will implement a more general solution. See the option "-ffreer-form" in Main Program.
+         Note: [23/6] To support the new option "-ffreer-form" we define the BNF Rule <white space>
+               along with a sem. action that returns it as a tab when spaces are important or skips
+               it otherwise. So, we can't treat such spaces as optional/unimportant in the Simulator.
 
 
 Hand coded File Reader
@@ -582,7 +585,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                If a token is split between two lines, a '&' isn't optional in the continuation line.
 [2019-05-11]   Skip Fortran Include Directives that aren't well formed and let the parser read them.  (done)
 [2019-05-13]   In fixed form, issue a warning if an INCLUDE directive begins in columns 1-6.          (done)
-[2019-06-15]   The program below is rejected because we check digit > '0', instead of digit >= '0'.   (todo)
+[2019-06-15]   The program below is rejected because we check digit > '0', instead of digit >= '0'.   (done)
                $ cat r2_acqc.f && fcheck r2_acqc.f
                CHARACTER*40  HEADR,OBLVL,FCLVL
                CHARACTER*40  HEADR
@@ -612,10 +615,10 @@ Format String Reader
 --------------
 [2019-03-30] The "-cpp" option isn't acceptable as a program argument.                              (done)
        Note: Still, C preprocessing won't be fully functional though.
-[2019-06-19] We add a command line option (ie -ops) that treats spaces in free form programs as     (todo)
-             optional and unimportant (as treated in fixed form programs). This option may be
-             used when the command "fcheck" has to parse various extensions supported by existing
-             Fortran Compilers that we can't identify and implement individually (see ie 2019-06-04).
+[2019-06-23] We've added the command line option "-ffreer-form" that treats spaces in free form     (done)
+             programs as optional and unimportant (as treated in fixed form programs). The option 
+             may be used when this tool has to parse various extensions supported by existing
+             compilers that we can't identify and implement individually (see ie 2019-06-04).
               
 
 
