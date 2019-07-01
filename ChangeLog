@@ -149,6 +149,18 @@ The Following bug-fix has not been tested very well yet:
         Note:  This restriction was supposed to resolve conflicts with tokens used in Format
                Statements, which however are always parsed now with the flag "shorter_match"
                set to true, in both fixed & free form.
+ [2019-07-02]  The scanner should check not just for array context before it decide       (todo)
+               to return a "<name-l>" but also for coarray context as well. For the 
+               third line below the scanner returns a "<name-l>" with value "REALA".
+               $ cat lcoarray-context.f90 && fcheck -ffixed-form lcoarray-context.f90 
+                     SUBROUTINE EXAMPLE2 (A)
+                         USE,INTRINSIC :: ISO_FORTRAN_ENV, ONLY: TEAM_TYPE
+                         REAL A[*]
+                     END SUBROUTINE EXAMPLE2
+               lcoarray-context.f90:3: error: syntax:Unexpected: '*'. Expected:
+               "%", "(", "(/", ".NOT.", "[", "constant", "name", or "user-defined-operator". 
+
+               Parsed with Errors: lcoarray-context.f90
 
 
 Legacy parser Issues
