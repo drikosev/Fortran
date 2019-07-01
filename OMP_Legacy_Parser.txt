@@ -658,6 +658,8 @@ keyword ::=
      |     MODULE 
      |     PURE 
      |     RECURSIVE 
+     |     NON RECURSIVE 
+     |     NON_RECURSIVE 
      |     <declaration-type-spec> 
      |     <record-type-spec> 
 
@@ -717,6 +719,7 @@ end-function-stmt ::=
 <declaration-construct> ::= 
            <derived-type-def> <;> 
      |     <enum-def> <;> 
+     |     <generic-stmt> <;> 
      |     <interface-block> <;> 
      |     <parameter-stmt> <;> 
      |     <procedure-declaration-stmt> <;> 
@@ -1202,6 +1205,13 @@ end-enum-stmt ::=
            END ENUM 
      |     END_ENUM 
 
+<generic-stmt> ::= 
+           <GENERIC> <::> <generic-spec> <=rangle> <specific-procedure-list> 
+     |     <GENERIC> <,> <access-spec> <::> <generic-spec> <=rangle> <specific-procedure-list> 
+
+<specific-procedure-list> ::= 
+           <name-list> 
+
 <interface-block> ::= 
            <interface-stmt> <end-interface-stmt> 
      |     <interface-stmt> <interface-specifications> <end-interface-stmt> 
@@ -1262,6 +1272,7 @@ end-interface-stmt ::=
 <implicit-stmt> ::= 
            IMPLICIT <implicit-spec-list> 
      |     IMPLICIT <NONE> 
+     |     IMPLICIT <NONE> <implicit-none-spec-list> 
 
 <implicit-spec-list> ::= 
            <implicit-spec> <,> <implicit-spec-list> 
@@ -1282,6 +1293,14 @@ end-interface-stmt ::=
            <letter> 
      |     <letter> - <letter> 
 
+<implicit-none-spec-list> ::= 
+           <implicit-none-spec-list> , <implicit-none-spec> 
+     |     <implicit-none-spec> 
+
+<implicit-none-spec> ::= 
+           EXTERNAL 
+     |     TYPE 
+
 <import-part-stmt> ::= 
            <import-stmt> <;> 
 
@@ -1289,6 +1308,9 @@ end-interface-stmt ::=
            IMPORT 
      |     IMPORT <import-name-list> 
      |     IMPORT <::> <import-name-list> 
+     |     IMPORT , ONLY : <import-name-list> 
+     |     IMPORT , <NONE> 
+     |     IMPORT , ALL 
 
 <import-name-list> ::= 
            <name> <,> <import-name-list> 
@@ -1545,8 +1567,8 @@ alignment ::=
      |     <fmt{I,B,O,Z,G,L,A}w> 
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
      |     <fmt{I,B,O,Z}w . d> 
-     |     <fmt{F,E,EN,ES,G,D}w . d> 
-     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
+     |     <fmt{E,EN,ES,G,EX}w . d E e> 
      |     A 
      |     I   /* Tr.warning(L"Positive width required after descriptor I."); synthesize(1); */
      |     L   /* Tr.warning(L"Positive width required after descriptor L."); synthesize(1); */
@@ -1603,8 +1625,8 @@ alignment ::=
      |     <fmt{I,B,O,Z,G,L,A}w> 
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
      |     <fmt{I,B,O,Z}w . d> 
-     |     <fmt{F,E,EN,ES,G,D}w . d> 
-     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
+     |     <fmt{E,EN,ES,G,EX}w . d E e> 
      |     A 
      |     <fmt dt & char-literal-constant> 
      |     DT 
@@ -1647,8 +1669,8 @@ alignment ::=
      |     <fmt{I,B,O,Z,G,L,A}w> 
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
      |     <fmt{I,B,O,Z}w . d> 
-     |     <fmt{F,E,EN,ES,G,D}w . d> 
-     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
+     |     <fmt{E,EN,ES,G,EX}w . d E e> 
      |     A 
      |     <fmt dt & char-literal-constant> 
      |     <fmt dt & char-literal-constant> 
@@ -2242,6 +2264,8 @@ end-subroutine-stmt ::=
      |     <endfile-stmt> 
      |     <error-stop-stmt> 
      |     <exit-stmt> 
+     |     <event-post-stmt> 
+     |     <event-wait-stmt> 
      |     <flush-stmt> 
      |     <forall-stmt> 
      |     <goto-stmt> 
@@ -2462,6 +2486,40 @@ end-subroutine-stmt ::=
            EXIT 
      |     EXIT <construct-name> 
 
+<event-post-stmt> ::= 
+           EVENT POST ( <event-variable> ) 
+     |     EVENT POST ( <event-variable> , <sync-stat-list> ) 
+
+<event-variable> ::= 
+           <data-ref> 
+
+<sync-stat-list> ::= 
+           <sync-stat-list> <,> <sync-stat> 
+     |     <sync-stat> 
+
+<sync-stat> ::= 
+           STAT = <int-variable> 
+     |     ERRMSG = <char-variable> 
+
+<int-variable> ::= 
+           <variable> 
+
+<char-variable> ::= 
+           <variable> 
+
+<event-wait-stmt> ::= 
+           EVENT WAIT ( <event-variable> ) 
+     |     EVENT WAIT ( <event-variable> , <wait-stat-list> ) 
+
+<wait-stat-list> ::= 
+           <wait-stat-list> <,> <wait-stat> 
+     |     <wait-stat> 
+
+<wait-stat> ::= 
+           STAT = <int-variable> 
+     |     ERRMSG = <char-variable> 
+     |     UNTIL_COUNT = <int-variable> 
+
 <flush-stmt> ::= 
            FLUSH <p-position-spec-list> 
      |     FLUSH <file-unit-number> 
@@ -2604,13 +2662,7 @@ end-subroutine-stmt ::=
 <file-name-expr> ::= 
            <expr> 
 
-<char-variable> ::= 
-           <variable> 
-
 <logical-variable> ::= 
-           <variable> 
-
-<int-variable> ::= 
            <variable> 
 
 <inquire-p-inquire-length> ::= 
@@ -2675,10 +2727,6 @@ end-subroutine-stmt ::=
 <lock-stat> ::= 
            ACQUIRED_LOCK = <variable> 
      |     <sync-stat> 
-
-<sync-stat> ::= 
-           STAT = <int-variable> 
-     |     ERRMSG = <char-variable> 
 
 <nullify-stmt> ::= 
            NULLIFY <p-pointer-object-list> 
@@ -2857,10 +2905,6 @@ end-subroutine-stmt ::=
 
 <p-sync-stat-list> ::= 
            ( <sync-stat-list> ) 
-
-<sync-stat-list> ::= 
-           <sync-stat-list> <,> <sync-stat> 
-     |     <sync-stat> 
 
 <sync-images-stmt> ::= 
            SYNC IMAGES ( <sync-image-stat-list> ) 
@@ -3264,7 +3308,24 @@ loop-control ::=
            <do-variable> = <expr> <,> <expr> 
      |     <do-variable> = <expr> <,> <expr> <,> <expr> 
      |     WHILE <p-expr> 
-     |     CONCURRENT <forall-header> 
+     |     CONCURRENT <concurrent-header> 
+     |     CONCURRENT <concurrent-header> <concurrent-locality> 
+
+<concurrent-header> ::= 
+           <forall-header> 
+
+<concurrent-locality> ::= 
+           <concurrent-locality> <locality-spec> 
+     |     <locality-spec> 
+
+<locality-spec> ::= 
+           LOCAL ( <variable-name-list> ) 
+     |     LOCAL_INIT ( <variable-name-list> ) 
+     |     SHARED ( <variable-name-list> ) 
+     |     DEFAULT ( <NONE> ) 
+
+<variable-name-list> ::= 
+           <name-list> 
 
 <do-block> ::= 
            <do-block> <executable-construct;> 

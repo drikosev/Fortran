@@ -8,9 +8,9 @@
            <fmt{G}w> 
      |     <fmt{I,B,O,Z,G,L,A}w> 
      |     <fmt{I,B,O,Z}w . d> 
-     |     <fmt{F,E,EN,ES,G,D}w . d> 
+     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
      |     <fmt{Q}w . d> 
-     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     <fmt{E,EN,ES,G,EX}w . d E e> 
      |     <fmt{E}w . d{D|Q}e> 
      |     <fmt dt & char-literal-constant> 
      |     <fmt{T|TL|TR}n> 
@@ -120,6 +120,7 @@
      |     EXIT 
      |     EXTENDS 
      |     EXTERNAL 
+     |     EVENT 
      |     FILE 
      |     FINAL 
      |     FIRSTPRIVATE 
@@ -152,6 +153,8 @@
      |     IS 
      |     KIND 
      |     LEN 
+     |     LOCAL 
+     |     LOCAL_INIT 
      |     LOCK 
      |     MASTER 
      |     MEMORY 
@@ -166,6 +169,7 @@
      |     NON 
      |     NON_INTRINSIC   /* if ( Tr.free_mode() ) return 66106; */
      |     NON_OVERRIDABLE   /* if ( Tr.free_mode() ) return 66106; */
+     |     NON_RECURSIVE   /* if ( Tr.free_mode() ) return 66106; */
      |     <NONE> 
      |     NOPASS 
      |     NULLIFY 
@@ -350,6 +354,7 @@
      |     OMP_PRIV 
      |     ORDERED 
      |     POINT 
+     |     POST 
      |     PRIORITY 
      |     RELEASE 
      |     RUNTIME 
@@ -375,8 +380,10 @@
      |     TOFROM 
      |     UNIFORM 
      |     UNTIED 
+     |     UNTIL_COUNT 
      |     UPDATE 
      |     USE_DEVICE_PTR 
+     |     WAIT 
      |     WORKSHARE 
      |     <omp-compound>   /* return Tr.OMPCompound(action.value.ReduceId,66137); */
      |     <label>   /* return Tr.ReturnLabel( lex() , 65588, 65888); */
@@ -439,14 +446,17 @@
 <fmt{I,B,O,Z}w . d> ::= 
            { I | B | O | Z } { 0 .. 9 }... { . } { 0 .. 9 }... 
 
-<fmt{F,E,EN,ES,G,D}w . d> ::= 
-           { F |[ P ] E |[ P ] E N |[ P ] E S |[ P ] G |[ P ] D } { 0 .. 9 }... { . } { 0 .. 9 }... 
+<fmt{F,E,EN,ES,G,D,EX}w . d> ::= 
+           { F |[ P ] E |[ P ] E N |[ P ] E S |[ P ] G |[ P ] D |[ P ] EX } { 0 .. 9 }... { . } { 0 .. 9 }... 
+
+EX ::= 
+           E X 
 
 <fmt{Q}w . d> ::= 
            {[ P ] Q } { 0 .. 9 }... { . } { 0 .. 9 }... 
 
-<fmt{E,EN,ES,G}w . d E e> ::= 
-           {[ P ] E |[ P ] EN |[ P ] ES |[ P ] G } { 0 .. 9 }... { . } { 0 .. 9 }... E { 0 .. 9 }... 
+<fmt{E,EN,ES,G,EX}w . d E e> ::= 
+           {[ P ] E |[ P ] EN |[ P ] ES |[ P ] G |[ P ] EX } { 0 .. 9 }... { . } { 0 .. 9 }... E { 0 .. 9 }... 
 
 EN ::= 
            E N 
@@ -776,6 +786,9 @@ EXTENDS ::=
 EXTERNAL ::= 
            E X T E R N A L 
 
+EVENT ::= 
+           E V E N T 
+
 FILE ::= 
            F I L E 
 
@@ -915,6 +928,12 @@ KIND ::=
 LEN ::= 
            L E N 
 
+LOCAL ::= 
+           L O C A L 
+
+LOCAL_INIT ::= 
+           L O C A L _ I N I T 
+
 LOCK ::= 
            L O C K 
 
@@ -956,6 +975,9 @@ NON_INTRINSIC ::=
 
 NON_OVERRIDABLE ::= 
            N O N O V E R R I D A B L E 
+
+NON_RECURSIVE ::= 
+           N O N R E C U R S I V E 
 
 <NONE> ::= 
            N O N E 
@@ -1509,6 +1531,9 @@ ORDERED ::=
 POINT ::= 
            P O I N T 
 
+POST ::= 
+           P O S T 
+
 PRIORITY ::= 
            P R I O R I T Y 
 
@@ -1583,6 +1608,9 @@ UNIFORM ::=
 
 UNTIED ::= 
            U N T I E D 
+
+UNTIL_COUNT ::= 
+           U N T I L _ C O U N T 
 
 UPDATE ::= 
            U P D A T E 
@@ -1831,6 +1859,8 @@ key ::=
      |     IS 
      |     KIND 
      |     LEN 
+     |     LOCAL 
+     |     LOCAL_INIT 
      |     LOCK 
      |     MEMORY 
      |     MODULE 
@@ -1844,6 +1874,7 @@ key ::=
      |     NON 
      |     NON_INTRINSIC 
      |     NON_OVERRIDABLE 
+     |     NON_RECURSIVE 
      |     <NONE> 
      |     NOPASS 
      |     NULLIFY 
@@ -2003,6 +2034,7 @@ key ::=
      |     OMP_PRIV 
      |     ORDERED 
      |     POINT 
+     |     POST 
      |     PRIORITY 
      |     RELEASE 
      |     RUNTIME 
@@ -2028,8 +2060,10 @@ key ::=
      |     TOFROM 
      |     UNIFORM 
      |     UNTIED 
+     |     UNTIL_COUNT 
      |     UPDATE 
      |     USE_DEVICE_PTR 
+     |     WAIT 
      |     WORKSHARE 
 
 <left-delimiter> ::= 
@@ -2046,6 +2080,8 @@ cons_keys ::=
      |     SYNC ALL 
      |     SYNC MEMORY 
      |     SYNC IMAGES 
+     |     EVENT POST 
+     |     EVENT WAIT 
      |     GO TO 
      |     GOTO 
      |     DEFINE FILE UNIT 

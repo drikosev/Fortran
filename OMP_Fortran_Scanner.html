@@ -9,9 +9,9 @@
 <BR><STRONG><A name="<token>">&lt;token&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<fmt{G}w>">&lt;fmt{G}w&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{I,B,O,Z,G,L,A}w>">&lt;fmt{I,B,O,Z,G,L,A}w&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{I,B,O,Z}w . d>">&lt;fmt{I,B,O,Z}w . d&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{F,E,EN,ES,G,D}w . d>">&lt;fmt{F,E,EN,ES,G,D}w . d&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{F,E,EN,ES,G,D,EX}w . d>">&lt;fmt{F,E,EN,ES,G,D,EX}w . d&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{Q}w . d>">&lt;fmt{Q}w . d&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{E,EN,ES,G}w . d E e>">&lt;fmt{E,EN,ES,G}w . d E e&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{E,EN,ES,G,EX}w . d E e>">&lt;fmt{E,EN,ES,G,EX}w . d E e&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{E}w . d{D|Q}e>">&lt;fmt{E}w . d{D|Q}e&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt dt & char-literal-constant>">&lt;fmt dt & char-literal-constant&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<fmt{T|TL|TR}n>">&lt;fmt{T|TL|TR}n&gt;</A>&nbsp;
@@ -121,6 +121,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#EXIT">EXIT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#EXTENDS">EXTENDS</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#EXTERNAL">EXTERNAL</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#EVENT">EVENT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#FILE">FILE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#FINAL">FINAL</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#FIRSTPRIVATE">FIRSTPRIVATE</A>&nbsp;
@@ -153,6 +154,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#IS">IS</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#KIND">KIND</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#LEN">LEN</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#LOCAL">LOCAL</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#LOCAL_INIT">LOCAL_INIT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#LOCK">LOCK</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#MASTER">MASTER</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#MEMORY">MEMORY</A>&nbsp;
@@ -167,6 +170,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NON">NON</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NON_INTRINSIC">NON_INTRINSIC</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* if ( Tr.free_mode() ) return 66106; */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NON_OVERRIDABLE">NON_OVERRIDABLE</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* if ( Tr.free_mode() ) return 66106; */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NON_RECURSIVE">NON_RECURSIVE</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* if ( Tr.free_mode() ) return 66106; */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<NONE>">&lt;NONE&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NOPASS">NOPASS</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NULLIFY">NULLIFY</A>&nbsp;
@@ -351,6 +355,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#OMP_PRIV">OMP_PRIV</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#ORDERED">ORDERED</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#POINT">POINT</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#POST">POST</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#PRIORITY">PRIORITY</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#RELEASE">RELEASE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#RUNTIME">RUNTIME</A>&nbsp;
@@ -376,8 +381,10 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#TOFROM">TOFROM</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#UNIFORM">UNIFORM</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#UNTIED">UNTIED</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#UNTIL_COUNT">UNTIL_COUNT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#UPDATE">UPDATE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#USE_DEVICE_PTR">USE_DEVICE_PTR</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#WAIT">WAIT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#WORKSHARE">WORKSHARE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<omp-compound>">&lt;omp-compound&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* return Tr.OMPCompound(action.value.ReduceId,66137); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<label>">&lt;label&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* return Tr.ReturnLabel( lex() , 65588, 65888); */</FONT></EM>
@@ -433,9 +440,10 @@
 <BR><BR><STRONG><A name="<fmt{G}w>">&lt;fmt{G}w&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;G&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
 <BR><BR><STRONG><A name="<fmt{I,B,O,Z,G,L,A}w>">&lt;fmt{I,B,O,Z,G,L,A}w&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;I&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;B&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;O&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;Z&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;G&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;L&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;A&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
 <BR><BR><STRONG><A name="<fmt{I,B,O,Z}w . d>">&lt;fmt{I,B,O,Z}w . d&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;I&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;B&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;O&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;Z&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;.&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
-<BR><BR><STRONG><A name="<fmt{F,E,EN,ES,G,D}w . d>">&lt;fmt{F,E,EN,ES,G,D}w . d&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;F&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;N&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;S&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;G&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;D&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;.&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
+<BR><BR><STRONG><A name="<fmt{F,E,EN,ES,G,D,EX}w . d>">&lt;fmt{F,E,EN,ES,G,D,EX}w . d&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;F&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;N&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;S&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;G&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;D&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<A href="#EX">EX</A>&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;.&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
+<BR><BR><STRONG><A name="EX">EX</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E&nbsp;X&nbsp;
 <BR><BR><STRONG><A name="<fmt{Q}w . d>">&lt;fmt{Q}w . d&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;Q&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;.&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
-<BR><BR><STRONG><A name="<fmt{E,EN,ES,G}w . d E e>">&lt;fmt{E,EN,ES,G}w . d E e&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<A href="#EN">EN</A>&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<A href="#ES">ES</A>&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;G&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;.&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;E&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
+<BR><BR><STRONG><A name="<fmt{E,EN,ES,G,EX}w . d E e>">&lt;fmt{E,EN,ES,G,EX}w . d E e&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<A href="#EN">EN</A>&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<A href="#ES">ES</A>&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;G&nbsp;<FONT color="#cc3300">|</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<A href="#EX">EX</A>&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;.&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;E&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
 <BR><BR><STRONG><A name="EN">EN</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E&nbsp;N&nbsp;
 <BR><BR><STRONG><A name="ES">ES</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E&nbsp;S&nbsp;
 <BR><BR><STRONG><A name="<fmt{E}w . d{D|Q}e>">&lt;fmt{E}w . d{D|Q}e&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">{</FONT><FONT color="#cc3300">[</FONT>&nbsp;P&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;E&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;.&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;D&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;Q&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;0&nbsp;<FONT color="#cc3300">..</FONT>&nbsp;9&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;
@@ -550,6 +558,7 @@
 <BR><BR><STRONG><A name="EXIT">EXIT</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E&nbsp;X&nbsp;I&nbsp;T&nbsp;
 <BR><BR><STRONG><A name="EXTENDS">EXTENDS</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E&nbsp;X&nbsp;T&nbsp;E&nbsp;N&nbsp;D&nbsp;S&nbsp;
 <BR><BR><STRONG><A name="EXTERNAL">EXTERNAL</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E&nbsp;X&nbsp;T&nbsp;E&nbsp;R&nbsp;N&nbsp;A&nbsp;L&nbsp;
+<BR><BR><STRONG><A name="EVENT">EVENT</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E&nbsp;V&nbsp;E&nbsp;N&nbsp;T&nbsp;
 <BR><BR><STRONG><A name="FILE">FILE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F&nbsp;I&nbsp;L&nbsp;E&nbsp;
 <BR><BR><STRONG><A name="FINAL">FINAL</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F&nbsp;I&nbsp;N&nbsp;A&nbsp;L&nbsp;
 <BR><BR><STRONG><A name="FIRSTPRIVATE">FIRSTPRIVATE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F&nbsp;I&nbsp;R&nbsp;S&nbsp;T&nbsp;P&nbsp;R&nbsp;I&nbsp;V&nbsp;A&nbsp;T&nbsp;E&nbsp;
@@ -603,6 +612,8 @@
 <BR><BR><STRONG><A name="IS">IS</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I&nbsp;S&nbsp;
 <BR><BR><STRONG><A name="KIND">KIND</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K&nbsp;I&nbsp;N&nbsp;D&nbsp;
 <BR><BR><STRONG><A name="LEN">LEN</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L&nbsp;E&nbsp;N&nbsp;
+<BR><BR><STRONG><A name="LOCAL">LOCAL</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L&nbsp;O&nbsp;C&nbsp;A&nbsp;L&nbsp;
+<BR><BR><STRONG><A name="LOCAL_INIT">LOCAL_INIT</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L&nbsp;O&nbsp;C&nbsp;A&nbsp;L&nbsp;_&nbsp;I&nbsp;N&nbsp;I&nbsp;T&nbsp;
 <BR><BR><STRONG><A name="LOCK">LOCK</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L&nbsp;O&nbsp;C&nbsp;K&nbsp;
 <BR><BR><STRONG><A name="MASTER">MASTER</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M&nbsp;A&nbsp;S&nbsp;T&nbsp;E&nbsp;R&nbsp;
 <BR><BR><STRONG><A name="MEMORY">MEMORY</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M&nbsp;E&nbsp;M&nbsp;O&nbsp;R&nbsp;Y&nbsp;
@@ -617,6 +628,7 @@
 <BR><BR><STRONG><A name="NON">NON</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N&nbsp;O&nbsp;N&nbsp;
 <BR><BR><STRONG><A name="NON_INTRINSIC">NON_INTRINSIC</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N&nbsp;O&nbsp;N&nbsp;I&nbsp;N&nbsp;T&nbsp;R&nbsp;I&nbsp;N&nbsp;S&nbsp;I&nbsp;C&nbsp;
 <BR><BR><STRONG><A name="NON_OVERRIDABLE">NON_OVERRIDABLE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N&nbsp;O&nbsp;N&nbsp;O&nbsp;V&nbsp;E&nbsp;R&nbsp;R&nbsp;I&nbsp;D&nbsp;A&nbsp;B&nbsp;L&nbsp;E&nbsp;
+<BR><BR><STRONG><A name="NON_RECURSIVE">NON_RECURSIVE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N&nbsp;O&nbsp;N&nbsp;R&nbsp;E&nbsp;C&nbsp;U&nbsp;R&nbsp;S&nbsp;I&nbsp;V&nbsp;E&nbsp;
 <BR><BR><STRONG><A name="<NONE>">&lt;NONE&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N&nbsp;O&nbsp;N&nbsp;E&nbsp;
 <BR><BR><STRONG><A name="NOPASS">NOPASS</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N&nbsp;O&nbsp;P&nbsp;A&nbsp;S&nbsp;S&nbsp;
 <BR><BR><STRONG><A name="NULLIFY">NULLIFY</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N&nbsp;U&nbsp;L&nbsp;L&nbsp;I&nbsp;F&nbsp;Y&nbsp;
@@ -801,6 +813,7 @@
 <BR><BR><STRONG><A name="OMP_PRIV">OMP_PRIV</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O&nbsp;M&nbsp;P&nbsp;_&nbsp;P&nbsp;R&nbsp;I&nbsp;V&nbsp;
 <BR><BR><STRONG><A name="ORDERED">ORDERED</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O&nbsp;R&nbsp;D&nbsp;E&nbsp;R&nbsp;E&nbsp;D&nbsp;
 <BR><BR><STRONG><A name="POINT">POINT</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P&nbsp;O&nbsp;I&nbsp;N&nbsp;T&nbsp;
+<BR><BR><STRONG><A name="POST">POST</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P&nbsp;O&nbsp;S&nbsp;T&nbsp;
 <BR><BR><STRONG><A name="PRIORITY">PRIORITY</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P&nbsp;R&nbsp;I&nbsp;O&nbsp;R&nbsp;I&nbsp;T&nbsp;Y&nbsp;
 <BR><BR><STRONG><A name="RELEASE">RELEASE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R&nbsp;E&nbsp;L&nbsp;E&nbsp;A&nbsp;S&nbsp;E&nbsp;
 <BR><BR><STRONG><A name="RUNTIME">RUNTIME</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R&nbsp;U&nbsp;N&nbsp;T&nbsp;I&nbsp;M&nbsp;E&nbsp;
@@ -826,6 +839,7 @@
 <BR><BR><STRONG><A name="TOFROM">TOFROM</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;O&nbsp;F&nbsp;R&nbsp;O&nbsp;M&nbsp;
 <BR><BR><STRONG><A name="UNIFORM">UNIFORM</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U&nbsp;N&nbsp;I&nbsp;F&nbsp;O&nbsp;R&nbsp;M&nbsp;
 <BR><BR><STRONG><A name="UNTIED">UNTIED</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U&nbsp;N&nbsp;T&nbsp;I&nbsp;E&nbsp;D&nbsp;
+<BR><BR><STRONG><A name="UNTIL_COUNT">UNTIL_COUNT</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U&nbsp;N&nbsp;T&nbsp;I&nbsp;L&nbsp;_&nbsp;C&nbsp;O&nbsp;U&nbsp;N&nbsp;T&nbsp;
 <BR><BR><STRONG><A name="UPDATE">UPDATE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U&nbsp;P&nbsp;D&nbsp;A&nbsp;T&nbsp;E&nbsp;
 <BR><BR><STRONG><A name="USE_DEVICE_PTR">USE_DEVICE_PTR</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U&nbsp;S&nbsp;E&nbsp;_&nbsp;D&nbsp;E&nbsp;V&nbsp;I&nbsp;C&nbsp;E&nbsp;_&nbsp;P&nbsp;T&nbsp;R&nbsp;
 <BR><BR><STRONG><A name="WORKSHARE">WORKSHARE</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;W&nbsp;O&nbsp;R&nbsp;K&nbsp;S&nbsp;H&nbsp;A&nbsp;R&nbsp;E&nbsp;
@@ -1022,6 +1036,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#IS">IS</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#KIND">KIND</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#LEN">LEN</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#LOCAL">LOCAL</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#LOCAL_INIT">LOCAL_INIT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#LOCK">LOCK</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#MEMORY">MEMORY</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#MODULE">MODULE</A>&nbsp;
@@ -1035,6 +1051,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NON">NON</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NON_INTRINSIC">NON_INTRINSIC</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NON_OVERRIDABLE">NON_OVERRIDABLE</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NON_RECURSIVE">NON_RECURSIVE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<NONE>">&lt;NONE&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NOPASS">NOPASS</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#NULLIFY">NULLIFY</A>&nbsp;
@@ -1194,6 +1211,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#OMP_PRIV">OMP_PRIV</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#ORDERED">ORDERED</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#POINT">POINT</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#POST">POST</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#PRIORITY">PRIORITY</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#RELEASE">RELEASE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#RUNTIME">RUNTIME</A>&nbsp;
@@ -1219,8 +1237,10 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#TOFROM">TOFROM</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#UNIFORM">UNIFORM</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#UNTIED">UNTIED</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#UNTIL_COUNT">UNTIL_COUNT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#UPDATE">UPDATE</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#USE_DEVICE_PTR">USE_DEVICE_PTR</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#WAIT">WAIT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#WORKSHARE">WORKSHARE</A>&nbsp;
 <BR><BR><STRONG><A name="<left-delimiter>">&lt;left-delimiter&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color="#cc3300">[</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;\t&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;\s&nbsp;<FONT color="#cc3300">}</FONT><FONT color="#cc3300">...</FONT>&nbsp;<FONT color="#cc3300">]</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;%&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;:&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;<A href="#<[>">&lt;[&gt;</A>&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;=&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR><BR><STRONG><A name="<[>">&lt;[&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\u005b&nbsp;
@@ -1229,6 +1249,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#SYNC">SYNC</A>&nbsp;<A href="#ALL">ALL</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#SYNC">SYNC</A>&nbsp;<A href="#MEMORY">MEMORY</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#SYNC">SYNC</A>&nbsp;<A href="#IMAGES">IMAGES</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#EVENT">EVENT</A>&nbsp;<A href="#POST">POST</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#EVENT">EVENT</A>&nbsp;<A href="#WAIT">WAIT</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#GO">GO</A>&nbsp;<A href="#TO">TO</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#GOTO">GOTO</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#DEFINE">DEFINE</A>&nbsp;<A href="#FILE">FILE</A>&nbsp;<A href="#UNIT">UNIT</A>&nbsp;

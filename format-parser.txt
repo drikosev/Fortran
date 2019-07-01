@@ -41,8 +41,8 @@
      |     <fmt{I,B,O,Z,G,L,A}w> 
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
      |     <fmt{I,B,O,Z}w . d> 
-     |     <fmt{F,E,EN,ES,G,D}w . d> 
-     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
+     |     <fmt{E,EN,ES,G,EX}w . d E e> 
      |     A 
      |     I   /* Tr.warning(L"Positive width required after descriptor I."); synthesize(1); */
      |     L   /* Tr.warning(L"Positive width required after descriptor L."); synthesize(1); */
@@ -106,8 +106,8 @@
      |     <fmt{I,B,O,Z,G,L,A}w> 
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
      |     <fmt{I,B,O,Z}w . d> 
-     |     <fmt{F,E,EN,ES,G,D}w . d> 
-     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
+     |     <fmt{E,EN,ES,G,EX}w . d E e> 
      |     A 
      |     <fmt dt & char-literal-constant> 
      |     DT 
@@ -150,8 +150,8 @@
      |     <fmt{I,B,O,Z,G,L,A}w> 
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
      |     <fmt{I,B,O,Z}w . d> 
-     |     <fmt{F,E,EN,ES,G,D}w . d> 
-     |     <fmt{E,EN,ES,G}w . d E e> 
+     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
+     |     <fmt{E,EN,ES,G,EX}w . d E e> 
      |     A 
      |     <fmt dt & char-literal-constant> 
      |     <fmt dt & char-literal-constant> 
