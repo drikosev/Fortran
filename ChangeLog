@@ -450,6 +450,19 @@ Legacy parser Issues
         Note:  This extension doesn't fit very well in the implementation and the command
                "fcheck" warns that an INCLUDE directive should appear on a single source
                line. Also, these statements aren't acceptable everywhere in the grammar.
+ [2019-07-01]  Fortran 2018 (Part I)                                                        (done)      
+               -EVENT POST/WAIT statements
+               -IMPORT, ALL/NONE 
+               -NON RECURSIVE prefix
+               -generic-stmt
+               -New Edit Descriptor 'exw.d' or 'exw.dee' 
+               -Locality Specification in Loop Control
+                 Notes: 
+                 (a) <forall-header> is superset of <concurrent-header>.
+                 (b) The index-name is obligatory!
+               -IMPLICIT <NONE> <implicit-none-spec-list> 
+
+
 
 
 Format Scanner
