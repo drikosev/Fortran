@@ -59,6 +59,8 @@
      |     BLOCK_DATA 
      |     CALL 
      |     CASE 
+     |     CHANGE 
+     |     CHANGETEAM   /* if ( Tr.free_mode() ) return 66106; */
      |     CLASS 
      |     CLOSE 
      |     CODIMENSION 
@@ -104,6 +106,7 @@
      |     END_SELECT 
      |     END_SUBMODULE 
      |     END_SUBROUTINE 
+     |     END_TEAM 
      |     END_TYPE 
      |     END_WHERE 
      |     ENDFILE 
@@ -121,6 +124,7 @@
      |     EXTENDS 
      |     EXTERNAL 
      |     EVENT 
+     |     FAIL 
      |     FILE 
      |     FINAL 
      |     FIRSTPRIVATE 
@@ -136,6 +140,7 @@
      |     GOTO 
      |     ID 
      |     IF 
+     |     IMAGE 
      |     IMAGES 
      |     IMPLICIT 
      |     IMPORT 
@@ -164,6 +169,7 @@
      |     NAMED 
      |     NAMELIST 
      |     NEWUNIT 
+     |     NEW_INDEX 
      |     NEXTREC 
      |     NML 
      |     NON 
@@ -373,6 +379,8 @@
      |     TASKLOOP 
      |     TASKWAIT 
      |     TASKYIELD 
+     |     TEAM 
+     |     TEAM_NUMBER 
      |     TEAMS 
      |     THREAD_LIMIT 
      |     THREADPRIVATE 
@@ -603,6 +611,12 @@ CALL ::=
 CASE ::= 
            C A S E 
 
+CHANGE ::= 
+           C H A N G E 
+
+CHANGETEAM ::= 
+           C H A N G E T E A M 
+
 CLASS ::= 
            C L A S S 
 
@@ -738,6 +752,9 @@ END_SUBMODULE ::=
 END_SUBROUTINE ::= 
            E N D S U B R O U T I N E 
 
+END_TEAM ::= 
+           E N D T E A M 
+
 END_TYPE ::= 
            E N D T Y P E 
 
@@ -788,6 +805,9 @@ EXTERNAL ::=
 
 EVENT ::= 
            E V E N T 
+
+FAIL ::= 
+           F A I L 
 
 FILE ::= 
            F I L E 
@@ -877,6 +897,9 @@ ID ::=
 IF ::= 
            I F 
 
+IMAGE ::= 
+           I M A G E 
+
 IMAGES ::= 
            I M A G E S 
 
@@ -960,6 +983,9 @@ NAMELIST ::=
 
 NEWUNIT ::= 
            N E W U N I T 
+
+NEW_INDEX ::= 
+           N E W _ I N D E X 
 
 NEXTREC ::= 
            N E X T R E C 
@@ -1588,6 +1614,12 @@ TASKWAIT ::=
 TASKYIELD ::= 
            T A S K Y I E L D 
 
+TEAM ::= 
+           T E A M 
+
+TEAM_NUMBER ::= 
+           T E A M _ N U M B E R 
+
 TEAMS ::= 
            T E A M S 
 
@@ -1770,6 +1802,8 @@ key ::=
      |     BLOCK_DATA 
      |     CALL 
      |     CASE 
+     |     CHANGE 
+     |     CHANGETEAM 
      |     CLASS 
      |     CLOSE 
      |     CODIMENSION 
@@ -1814,6 +1848,7 @@ key ::=
      |     END_SELECT 
      |     END_SUBMODULE 
      |     END_SUBROUTINE 
+     |     END_TEAM 
      |     END_TYPE 
      |     END_WHERE 
      |     ENDFILE 
@@ -1829,6 +1864,7 @@ key ::=
      |     EXIST 
      |     EXTENDS 
      |     EXTERNAL 
+     |     FAIL 
      |     FILE 
      |     FINAL 
      |     FLUSH 
@@ -1842,6 +1878,7 @@ key ::=
      |     GOTO 
      |     ID 
      |     IF 
+     |     IMAGE 
      |     IMAGES 
      |     IMPLICIT 
      |     IMPORT 
@@ -1869,6 +1906,7 @@ key ::=
      |     NAMED 
      |     NAMELIST 
      |     NEWUNIT 
+     |     NEW_INDEX 
      |     NEXTREC 
      |     NML 
      |     NON 
@@ -2052,6 +2090,8 @@ key ::=
      |     TASKGROUP 
      |     TASKLOOP 
      |     TASKWAIT 
+     |     TEAM 
+     |     TEAM_NUMBER 
      |     TASKYIELD 
      |     TEAMS 
      |     THREAD_LIMIT 
@@ -2080,6 +2120,9 @@ cons_keys ::=
      |     SYNC ALL 
      |     SYNC MEMORY 
      |     SYNC IMAGES 
+     |     SYNC TEAM 
+     |     FORM TEAM 
+     |     END TEAM 
      |     EVENT POST 
      |     EVENT WAIT 
      |     GO TO 
@@ -2191,7 +2234,7 @@ CODIMENSION_KEY ::=
            { { [ { \t | \s }... ] <[> [ { \t | \s }... ] <lch> ... } } += { [ <lch> ... ] { ) | <]> | <%> { { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] } } [ { \t | \s }... ] = [ { \u0001 .. \ufffe }... ] } 
 
 <larray-context> ::= 
-           { { [ { \t | \s }... ] ( [ { \t | \s }... ] <lch> ... } } += { [ <lch> ... ] { ) | <]> | <%> { { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] } } [ { \t | \s }... ] = { { \u0001 .. \ufffe } -= = } [ { \u0001 .. \ufffe }... ] } 
+           { { [ { \t | \s }... ] { ( | <[> } [ { \t | \s }... ] <lch> ... } } += { [ <lch> ... ] { ) | <]> | <%> { { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] } } [ { \t | \s }... ] = { { \u0001 .. \ufffe } -= = } [ { \u0001 .. \ufffe }... ] } 
 
 <name-r> ::= 
            { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] 

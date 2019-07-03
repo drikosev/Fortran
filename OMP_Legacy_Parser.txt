@@ -120,6 +120,7 @@ construct-key ::~
      |     INTERFACE 
      |     MAP 
      |     SELECT 
+     |     TEAM 
      |     TYPE 
      |     STRUCTURE 
      |     UNION 
@@ -136,6 +137,7 @@ end-construct ::~
      |     END_INTERFACE 
      |     END_MAP 
      |     END_SELECT 
+     |     END_TEAM 
      |     END_TYPE 
      |     END_STRUCTURE 
      |     END_UNION 
@@ -314,6 +316,7 @@ function-stmt ::=
 
 <image-selector> ::= 
            <lbracket> <cosubscript-list> <rbracket> 
+     |     <lbracket> <cosubscript-list> , <image-selector-spec-list> <rbracket> 
 
 <cosubscript-list> ::= 
            <cosubscript-list> <,> <cosubscript> 
@@ -324,6 +327,24 @@ function-stmt ::=
      |     <scalar-int-expr> : <scalar-int-expr> 
 
 <scalar-int-expr> ::= 
+           <expr> 
+
+<image-selector-spec-list> ::= 
+           <image-selector-spec-list> , <image-selector-spec> 
+     |     <image-selector-spec> 
+
+<image-selector-spec> ::= 
+           STAT = <stat-variable> 
+     |     TEAM = <team-value> 
+     |     TEAM_NUMBER = <scalar-int-expr> 
+
+<stat-variable> ::= 
+           <scalar-int-variable> 
+
+<scalar-int-variable> ::= 
+           <expr> 
+
+<team-value> ::= 
            <expr> 
 
 <p-substring-range> ::= 
@@ -2241,6 +2262,7 @@ end-subroutine-stmt ::=
      |     <associate-construct> <;> 
      |     <block-construct> <;> 
      |     <case-construct> <;> 
+     |     <change-team-construct> <;> 
      |     <critical-construct> <;> 
      |     <do-construct> <;> 
      |     <forall-construct> <;> 
@@ -2266,7 +2288,9 @@ end-subroutine-stmt ::=
      |     <exit-stmt> 
      |     <event-post-stmt> 
      |     <event-wait-stmt> 
+     |     <fail-image-stmt> 
      |     <flush-stmt> 
+     |     <form-team-stmt> 
      |     <forall-stmt> 
      |     <goto-stmt> 
      |     <if-stmt> 
@@ -2284,6 +2308,7 @@ end-subroutine-stmt ::=
      |     <sync-all-stmt> 
      |     <sync-images-stmt> 
      |     <sync-memory-stmt> 
+     |     <sync-team-stmt> 
      |     <unlock-stmt> 
      |     <wait-stmt> 
      |     <where-stmt> 
@@ -2329,12 +2354,6 @@ end-subroutine-stmt ::=
 <source-expr> ::= 
            <expr> 
 
-<stat-variable> ::= 
-           <scalar-int-variable> 
-
-<scalar-int-variable> ::= 
-           <expr> 
-
 <p-type-allocation-list> ::= 
            ( <type-allocation-list> ) 
      |     ( <type-allocation-list> <,> <allocation-option-list> ) 
@@ -2374,6 +2393,7 @@ end-subroutine-stmt ::=
 
 <image-selector-l> ::= 
            <lbracket> <cosubscript-list> <rbracket> 
+     |     <lbracket> <cosubscript-list> , <image-selector-spec-list> <rbracket> 
 
 <p-substring-range-l> ::= 
            ( <substring-range> ) 
@@ -2520,9 +2540,30 @@ end-subroutine-stmt ::=
      |     ERRMSG = <char-variable> 
      |     UNTIL_COUNT = <int-variable> 
 
+<fail-image-stmt> ::= 
+           FAIL IMAGE 
+
 <flush-stmt> ::= 
            FLUSH <p-position-spec-list> 
      |     FLUSH <file-unit-number> 
+
+<form-team-stmt> ::= 
+           FORM TEAM ( <team-number> , <team-variable> ) 
+     |     FORM TEAM ( <team-number> , <team-variable> , <form-team-spec-list> ) 
+
+<team-number> ::= 
+           <scalar-int-expr> 
+
+<team-variable> ::= 
+           <variable> 
+
+<form-team-spec-list> ::= 
+           <form-team-spec-list> , <form-team-spec> 
+     |     <form-team-spec> 
+
+<form-team-spec> ::= 
+           NEW_INDEX = <scalar-int-expr> 
+     |     <sync-stat> 
 
 <forall-stmt> ::= 
            FORALL <forall-header> <forall-assignment-stmt> 
@@ -2921,6 +2962,10 @@ end-subroutine-stmt ::=
            SYNC MEMORY 
      |     SYNC MEMORY ( ) 
      |     SYNC MEMORY ( <sync-stat-list> ) 
+
+<sync-team-stmt> ::= 
+           SYNC TEAM ( <team-value> ) 
+     |     SYNC TEAM ( <team-value> , <sync-stat-list> ) 
 
 <unlock-stmt> ::= 
            UNLOCK <p-sync-unlock-stat-list> 
@@ -3383,7 +3428,11 @@ label-do-stmt ::=
      |     <deallocate-stmt> 
      |     <define-file-unit-stmt> 
      |     <endfile-stmt> 
+     |     <event-post-stmt> 
+     |     <event-wait-stmt> 
+     |     <fail-image-stmt> 
      |     <flush-stmt> 
+     |     <form-team-stmt> 
      |     <forall-stmt> 
      |     <goto-stmt> 
      |     <if-stmt> 
@@ -3398,6 +3447,7 @@ label-do-stmt ::=
      |     <sync-all-stmt> 
      |     <sync-images-stmt> 
      |     <sync-memory-stmt> 
+     |     <sync-team-stmt> 
      |     <unlock-stmt> 
      |     <wait-stmt> 
      |     <where-stmt> 
@@ -4887,12 +4937,67 @@ case-stmt ::=
 <case-value> ::= 
            <expr> 
 
+<change-team-construct> ::= 
+           <change-team-stmt> <block> <end-change-team-stmt> 
+
+<change-team-stmt> ::= 
+           CHANGE TEAM ( <team-value> ) <;> 
+     |     CHANGE TEAM ( <team-value> , <sync-stat-list> ) <;> 
+     |     CHANGE TEAM ( <team-value> , <coarray-association-list> ) <;> 
+     |     CHANGE TEAM ( <team-value> , <coarray-association-list> , <sync-stat-list> ) <;> 
+     |     <construct-name-l> : CHANGE TEAM ( <team-value> ) <;> 
+     |     <construct-name-l> : CHANGE TEAM ( <team-value> , <sync-stat-list> ) <;> 
+     |     <construct-name-l> : CHANGE TEAM ( <team-value> , <coarray-association-list> ) <;> 
+     |     <construct-name-l> : CHANGE TEAM ( <team-value> , <coarray-association-list> , <sync-stat-list> ) <;> 
+     |     CHANGETEAM ( <team-value> ) <;> 
+     |     CHANGETEAM ( <team-value> , <sync-stat-list> ) <;> 
+     |     CHANGETEAM ( <team-value> , <coarray-association-list> ) <;> 
+     |     CHANGETEAM ( <team-value> , <coarray-association-list> , <sync-stat-list> ) <;> 
+     |     <construct-name-l> : CHANGETEAM ( <team-value> ) <;> 
+     |     <construct-name-l> : CHANGETEAM ( <team-value> , <sync-stat-list> ) <;> 
+     |     <construct-name-l> : CHANGETEAM ( <team-value> , <coarray-association-list> ) <;> 
+     |     <construct-name-l> : CHANGETEAM ( <team-value> , <coarray-association-list> , <sync-stat-list> ) <;> 
+
+<coarray-association-list> ::= 
+           <coarray-association-list> , <coarray-association> 
+     |     <coarray-association> 
+
+<coarray-association> ::= 
+           <codimension-decl> <=rangle> <selector> 
+
+<selector> ::= 
+           <variable> 
+
+<end-change-team-stmt> ::= 
+           end-change-team-stmt 
+     |     <label> end-change-team-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-change-team-stmt",34,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-change-team-stmt",34,false);*/
+
+end-change-team-stmt ::= 
+           END TEAM 
+     |     END TEAM <construct-name> 
+     |     END TEAM ( ) 
+     |     END TEAM ( ) <construct-name> 
+     |     END TEAM ( <sync-stat-list> ) 
+     |     END TEAM ( <sync-stat-list> ) <construct-name> 
+     |     END_TEAM 
+     |     END_TEAM <construct-name> 
+     |     END_TEAM ( ) 
+     |     END_TEAM ( ) <construct-name> 
+     |     END_TEAM ( <sync-stat-list> ) 
+     |     END_TEAM ( <sync-stat-list> ) <construct-name> 
+
 <critical-construct> ::= 
            <critical-stmt> <block> <end-critical-stmt> 
 
 <critical-stmt> ::= 
            CRITICAL <;> 
+     |     CRITICAL ( ) <;> 
+     |     CRITICAL ( <sync-stat-list> ) <;> 
      |     <construct-name-l> : CRITICAL <;> 
+     |     <construct-name-l> : CRITICAL ( ) <;> 
+     |     <construct-name-l> : CRITICAL ( <sync-stat-list> ) <;> 
 
 <end-critical-stmt> ::= 
            end-critical-stmt 
