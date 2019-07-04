@@ -204,6 +204,7 @@
      |     PROTECTED 
      |     PUBLIC 
      |     PURE 
+     |     RANK 
      |     READ 
      |     READWRITE 
      |     REC 
@@ -216,6 +217,7 @@
      |     SAVE 
      |     SELECT 
      |     SELECT_CASE 
+     |     SELECT_RANK 
      |     SELECT_TYPE 
      |     SEQUENCE 
      |     SEQUENTIAL 
@@ -1089,6 +1091,9 @@ PUBLIC ::=
 PURE ::= 
            P U R E 
 
+RANK ::= 
+           R A N K 
+
 READ ::= 
            R E A D 
 
@@ -1124,6 +1129,9 @@ SELECT ::=
 
 SELECT_CASE ::= 
            S E L E C T C A S E 
+
+SELECT_RANK ::= 
+           S E L E C T R A N K 
 
 SELECT_TYPE ::= 
            S E L E C T T Y P E 
@@ -1938,6 +1946,7 @@ key ::=
      |     PROTECTED 
      |     PUBLIC 
      |     PURE 
+     |     RANK 
      |     READWRITE 
      |     REC 
      |     RECL 
@@ -1949,6 +1958,7 @@ key ::=
      |     SAVE 
      |     SELECT 
      |     SELECT_CASE 
+     |     SELECT_RANK 
      |     SELECT_TYPE 
      |     SEQUENCE 
      |     SEQUENTIAL 
