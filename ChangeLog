@@ -616,6 +616,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                CHARACTER*40  HEADR,OBLVL,FCLVL
                CHARACTER*40  HEADR
                END
+[2019-07-31]   A BOM header, if present, isn't consumed (in Linux/MacOS,Cygwin).                      (todo) 
 
 
 Format String Reader
