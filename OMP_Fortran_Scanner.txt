@@ -81,6 +81,7 @@
      |     DELIM 
      |     DIMENSION 
      |     DIRECT 
+     |     DIRECTORY 
      |     DO 
      |     DOUBLE_COMPLEX 
      |     DOUBLE_PRECISION 
@@ -206,6 +207,7 @@
      |     PURE 
      |     RANK 
      |     READ 
+     |     READ2 
      |     READWRITE 
      |     REC 
      |     RECL 
@@ -247,6 +249,7 @@
      |     WHERE 
      |     WHILE 
      |     WRITE 
+     |     WRITE2 
      |     <ZERO> 
      |     INTEGER 
      |     BYTE 
@@ -400,6 +403,8 @@
      |     <int-literal-constant> 
      |     <letter> 
      |     <name-f>   /* return Tr.sma_a_b_else_c(65754,65761,66106) ; */
+     |     <name-l-read>   /* return Tr.If_key_else_names( 65662,66137,66106) ; */
+     |     <name-l-write>   /* return Tr.If_key_else_names( 65664,66137,66106) ; */
      |     <name-l> 
      |     <name-r> 
      |     <real-literal-constant> 
@@ -678,6 +683,9 @@ DIMENSION ::=
 
 DIRECT ::= 
            D I R E C T 
+
+DIRECTORY ::= 
+           D I R E C T O R Y 
 
 DO ::= 
            D O 
@@ -1097,6 +1105,9 @@ RANK ::=
 READ ::= 
            R E A D 
 
+READ2 ::= 
+           R E A D 
+
 READWRITE ::= 
            R E A D W R I T E 
 
@@ -1218,6 +1229,9 @@ WHILE ::=
            W H I L E 
 
 WRITE ::= 
+           W R I T E 
+
+WRITE2 ::= 
            W R I T E 
 
 <ZERO> ::= 
@@ -1749,17 +1763,44 @@ name_f_begin2 ::=
 p_dummy_list_or_bind_result ::= 
            [ { \t | \s }... ] ( [ { \t | \s }... ] [ { name | * } [ { [ { \t | \s }... ] , [ { \t | \s }... ] { name | * } [ { \t | \s }... ] }... ] ] [ { \t | \s }... ] ) [ { \t | \s }... ] 
 
+<name-l-read> ::= 
+           { R E A D } +: <eq-symbol> 
+     |     { R E A D } +: <larray-context2> 
+
+<eq-symbol> ::= 
+           [ { \t | \s }... ] { = } 
+
+<larray-context2> ::= 
+           { { [ { \t | \s }... ] { ( | <[> } [ { \t | \s }... ] <lch> ... } } += { [ <lch> ... ] { ) | <]> | <%> { { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] } } [ { \t | \s }... ] = { { \u0001 .. \ufffe } -= = } [ { \u0001 .. \ufffe }... ] } 
+
+<[> ::= 
+           \u005b 
+
+<]> ::= 
+           \u005d 
+
+<%> ::= 
+           [ { \t | \s }... ] % [ { \t | \s }... ] 
+
+<name-l-write> ::= 
+           { W R I T E } +: <eq-symbol> 
+     |     { W R I T E } +: <larray-context3> 
+
+<larray-context3> ::= 
+           { { [ { \t | \s }... ] { ( | <[> } [ { \t | \s }... ] <lch> ... } } += { [ <lch> ... ] { ) | <]> | <%> { { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] } } [ { \t | \s }... ] = { { \u0001 .. \ufffe } -= = } [ { \u0001 .. \ufffe }... ] } 
+
 <name-l> ::= 
            not_a_key +: <left-delimiter> 
+     |     { R E A D | W R I T E } +: <half-left-delimeter> 
      |     not_cons_keys +: <left-parenthesis> 
      |     DO_KEY +: <lvalue-context> 
      |     CALLorDATA_KEY +: <call-context> 
      |     CODIMENSION_KEY +: <codimension-context> 
      |     cons_keys +: <larray-context> 
-     |     key 
+     |     { key -= { R E A D | W R I T E } } 
 
 not_a_key ::= 
-           { { _ | A .. Z } [ { _ | A .. Z | 0 .. 9 }... ] } -= key 
+           { { _ | A .. Z } [ { _ | A .. Z | 0 .. 9 }... ] } -= { key } 
 
 key ::= 
            <letter> 
@@ -1831,6 +1872,7 @@ key ::=
      |     DELIM 
      |     DIMENSION 
      |     DIRECT 
+     |     DIRECTORY 
      |     DO 
      |     DOUBLE_COMPLEX 
      |     DOUBLE_PRECISION 
@@ -1940,6 +1982,7 @@ key ::=
      |     POINTER 
      |     POS 
      |     POSITION 
+     |     PRINT 
      |     PRIVATE 
      |     PROCEDURE 
      |     PROGRAM 
@@ -1947,6 +1990,7 @@ key ::=
      |     PUBLIC 
      |     PURE 
      |     RANK 
+     |     READ 
      |     READWRITE 
      |     REC 
      |     RECL 
@@ -1985,6 +2029,7 @@ key ::=
      |     WAIT 
      |     WHERE 
      |     WHILE 
+     |     WRITE 
      |     <ZERO> 
      |     INTEGER 
      |     BYTE 
@@ -2119,8 +2164,8 @@ key ::=
 <left-delimiter> ::= 
            [ { \t | \s }... ] { % | : | <[> | = } 
 
-<[> ::= 
-           \u005b 
+<half-left-delimeter> ::= 
+           [ { \t | \s }... ] { % | : | <[> } 
 
 not_cons_keys ::= 
            { { _ | A .. Z } [ { _ | A .. Z | 0 .. 9 }... ] } -= { cons_keys | key } 
@@ -2138,8 +2183,6 @@ cons_keys ::=
      |     GO TO 
      |     GOTO 
      |     DEFINE FILE UNIT 
-     |     READ 
-     |     WRITE 
 
 cons_key_begin ::= 
            IMPLICIT 
@@ -2227,12 +2270,6 @@ CALLorDATA_KEY ::=
 
 <call-context> ::= 
            { { <%> <lch> ... } } += { [ <lch> ... ] { ) | <]> | <%> { <name4> } } [ { \t | \s }... ] = { { \u0001 .. \ufffe } -= = } [ { \u0001 .. \ufffe }... ] } 
-
-<%> ::= 
-           [ { \t | \s }... ] % [ { \t | \s }... ] 
-
-<]> ::= 
-           \u005d 
 
 <name4> ::= 
            { { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] } 

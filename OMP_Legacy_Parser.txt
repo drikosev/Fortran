@@ -2673,6 +2673,7 @@ end-subroutine-stmt ::=
      |     DECIMAL = <char-variable> 
      |     DELIM = <char-variable> 
      |     DIRECT = <char-variable> 
+     |     DIRECTORY = <char-variable> 
      |     ENCODING = <char-variable> 
      |     ERR = <LABEL> 
      |     EXIST = <logical-variable> 
@@ -2862,12 +2863,12 @@ end-subroutine-stmt ::=
 <read-stmt> ::= 
            <read-control> 
      |     <read-control> <input-item-list> 
-     |     <read-control> <,> <input-item-list> 
+     |     <read-control> <,> <input-item-list>   /* Tr.warning(L"Extraneous ',' before the i/o item list, it's non standard."); */
      |     <read-format> 
      |     <read-format> <,> <input-item-list> 
 
 <read-control> ::= 
-           READ <p-i-control-spec-list> -: { <unary-op> } 
+           READ2 <p-i-control-spec-list> -: { <unary-op> } 
 
 <p-i-control-spec-list> ::= 
            ( <i-control-spec-list> ) 
@@ -2926,7 +2927,7 @@ end-subroutine-stmt ::=
            <read> <format> +: { <;> | <,> }   /*Tr.onReadFormat($$(0),$$(2)); */
 
 <read> ::= 
-           READ -: { ( } 
+           READ2 -: { ( | % | <lbracket> } 
 
 <return-stmt> ::= 
            RETURN 
@@ -3005,10 +3006,10 @@ end-subroutine-stmt ::=
 <write-stmt> ::= 
            <write-control> 
      |     <write-control> <output-item-list> 
-     |     <write-control> <,> <output-item-list> 
+     |     <write-control> <,> <output-item-list>   /* Tr.warning(L"Extraneous ',' before the i/o item list, it's non standard."); */
 
 <write-control> ::= 
-           WRITE <p-o-control-spec-list> 
+           WRITE2 <p-o-control-spec-list> 
 
 <p-o-control-spec-list> ::= 
            ( <o-control-spec-list> ) 

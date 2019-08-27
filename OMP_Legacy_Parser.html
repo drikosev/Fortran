@@ -1574,6 +1574,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DECIMAL&nbsp;=&nbsp;<A href="#<char-variable>">&lt;char-variable&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DELIM&nbsp;=&nbsp;<A href="#<char-variable>">&lt;char-variable&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DIRECT&nbsp;=&nbsp;<A href="#<char-variable>">&lt;char-variable&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DIRECTORY&nbsp;=&nbsp;<A href="#<char-variable>">&lt;char-variable&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;ENCODING&nbsp;=&nbsp;<A href="#<char-variable>">&lt;char-variable&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;ERR&nbsp;=&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;EXIST&nbsp;=&nbsp;<A href="#<logical-variable>">&lt;logical-variable&gt;</A>&nbsp;
@@ -1695,10 +1696,10 @@
 <BR><BR><STRONG><A name="<char-expr>">&lt;char-expr&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<read-stmt>">&lt;read-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<read-control>">&lt;read-control&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<read-control>">&lt;read-control&gt;</A>&nbsp;<A href="#<input-item-list>">&lt;input-item-list&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<read-control>">&lt;read-control&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<input-item-list>">&lt;input-item-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<read-control>">&lt;read-control&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<input-item-list>">&lt;input-item-list&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Extraneous ',' before the i/o item list, it's non standard."); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<read-format>">&lt;read-format&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<read-format>">&lt;read-format&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<input-item-list>">&lt;input-item-list&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<read-control>">&lt;read-control&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;<A href="#<p-i-control-spec-list>">&lt;p-i-control-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">-:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<A href="#<unary-op>">&lt;unary-op&gt;</A>&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
+<BR><BR><STRONG><A name="<read-control>">&lt;read-control&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READ2&nbsp;<A href="#<p-i-control-spec-list>">&lt;p-i-control-spec-list&gt;</A>&nbsp;<FONT color="#cc3300">-:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<A href="#<unary-op>">&lt;unary-op&gt;</A>&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR><BR><STRONG><A name="<p-i-control-spec-list>">&lt;p-i-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<i-control-spec-list>">&lt;i-control-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<i-control-spec-list>">&lt;i-control-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<i-control-named-spec-list>">&lt;i-control-named-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<i-control-named-spec-list>">&lt;i-control-named-spec-list&gt;</A>&nbsp;)&nbsp;
@@ -1735,7 +1736,7 @@
 <BR><BR><STRONG><A name="<input-item-list>">&lt;input-item-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<input-item-list>">&lt;input-item-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<input-item>">&lt;input-item&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<input-item>">&lt;input-item&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<read-format>">&lt;read-format&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<read>">&lt;read&gt;</A>&nbsp;<A href="#<format>">&lt;format&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/*Tr.onReadFormat($$(0),$$(2)); */</FONT></EM>
-<BR><BR><STRONG><A name="<read>">&lt;read&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;<FONT color="#cc3300">-:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;(&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
+<BR><BR><STRONG><A name="<read>">&lt;read&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READ2&nbsp;<FONT color="#cc3300">-:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;(&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;%&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&lt;lbracket&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR><BR><STRONG><A name="<return-stmt>">&lt;return-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;RETURN&nbsp;<A href="#<int-expr>">&lt;int-expr&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<rewind-stmt>">&lt;rewind-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REWIND&nbsp;<A href="#<p-position-spec-list>">&lt;p-position-spec-list&gt;</A>&nbsp;
@@ -1776,8 +1777,8 @@
 <BR><BR><STRONG><A name="<where-p-expr>">&lt;where-p-expr&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;<A href="#<p-expr>">&lt;p-expr&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<write-stmt>">&lt;write-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<write-control>">&lt;write-control&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<write-control>">&lt;write-control&gt;</A>&nbsp;<A href="#<output-item-list>">&lt;output-item-list&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<write-control>">&lt;write-control&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<output-item-list>">&lt;output-item-list&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<write-control>">&lt;write-control&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;<A href="#<p-o-control-spec-list>">&lt;p-o-control-spec-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<write-control>">&lt;write-control&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<output-item-list>">&lt;output-item-list&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Extraneous ',' before the i/o item list, it's non standard."); */</FONT></EM>
+<BR><BR><STRONG><A name="<write-control>">&lt;write-control&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE2&nbsp;<A href="#<p-o-control-spec-list>">&lt;p-o-control-spec-list&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<p-o-control-spec-list>">&lt;p-o-control-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<o-control-spec-list>">&lt;o-control-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<o-control-spec-list>">&lt;o-control-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<o-control-named-spec-list>">&lt;o-control-named-spec-list&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<o-control-named-spec-list>">&lt;o-control-named-spec-list&gt;</A>&nbsp;)&nbsp;

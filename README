@@ -121,8 +121,8 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
     [2018-09-02]
 
     6.1) The "format-parser.txt" contains the syntax rules of the Format Specification string.
-         (a) It's an embedded parser currently called in PRINT, READ, and WRITE statements. The
-             following 3 lines show ie how it's been linked in the <print-stmt>.
+         (a) It's an embedded parser currently called in a '<print-stmt>' by the function 'onPrint'. 
+         (b) The following 3 lines show how it's been linked in the grammar "OMP_Legacy_Parser.txt": 
              <print-stmt> ::= 
                  |     PRINT <format>                          /*Tr.onPrint($$(0),$$(2)); */
                  |     PRINT <format> <,> <output-item-list>   /*Tr.onPrint($$(0),$$(2),$$(4)); */
@@ -160,4 +160,4 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
     SHA1(fortran-fcheck-2019-05-17.zip) = 744d51ee0c19fc5d705fae5bbbd3163fb2f50e12
     SHA1(fortran-fcheck-2019-06-23.zip) = 695b0102f634e3ccef64387c4adc718985cd456a
     SHA1(fortran-fcheck-2019-07-06.zip) = e40f0a14ecf98ae156a009e9fecede5bd268c523
-
+    SHA1(fortran-fcheck-2019-08-27.zip) = 9e02cd78efc4ca638e0f295288754724cf0b915a

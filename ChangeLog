@@ -161,7 +161,7 @@ The Following bug-fix has not been tested very well yet:
                "%", "(", "(/", ".NOT.", "[", "constant", "name", or "user-defined-operator". 
 
                Parsed with Errors: lcoarray-context.f90
- [2019-08-22]  Intel Fortran extension: accept DIRECTORY as a keyword.                   (todo) 
+ [2019-08-22]  Intel Fortran extension: accept DIRECTORY as a keyword.                   (done) 
 
 
 Legacy parser Issues
@@ -433,9 +433,10 @@ Legacy parser Issues
  
         Note:  These temporary semantic actions have to eventually be replaced by permanent 
                actions (as soon as we implement a type checking subsystem).  
-        Note:  [24/8] The keywords READ/WRITE are rejected in other statements.             (todo)
-
-
+        Note:  [24/8] The keywords READ/WRITE are rejected in other statements.             (done)
+        Note:  [27/8] To postpone the removal of those temporary actions, I'll add as an 
+               extra hack the keywords READ2/WRITE2 that can assist a new semantic action 
+               in the scanner return the keywords READ/WRITE in the middle of a statement.  
  [2019-03-31]  Except "SUBROUTINE", the keywords in the error message below are spurious.   (done)                   
                $ cat subroutine-1.f90 && fcheck subroutine-1.f90  2>&1 | grep -v "3"
                1     subroutine s
@@ -476,7 +477,7 @@ Legacy parser Issues
                  (a) <forall-header> is superset of <concurrent-header>.
                  (b) The index-name is obligatory!
                -IMPLICIT <NONE> <implicit-none-spec-list> 
- [2019-08-22]  Intel Fortran extension: accept DIRECTORY as an INQUIRE named specification. (todo)  
+ [2019-08-22]  Intel Fortran extension: accept DIRECTORY as an INQUIRE named specification. (done)  
 
 
 Format Scanner
@@ -618,8 +619,8 @@ The Following four new features/bug-fixes have not been tested very well yet:
                CHARACTER*40  HEADR,OBLVL,FCLVL
                CHARACTER*40  HEADR
                END
-[2019-07-31]   A UTF-8 BOM header, if present, isn't consumed (in Linux, MacOS, and Cygwin).          (todo) 
-[2019-08-22]   The file reader doesn't accept '#elif' directives but the error message says it does.  (todo)
+[2019-07-31]   A UTF-8 BOM header, if present, isn't consumed (in Linux, MacOS, and Cygwin).          (done) 
+[2019-08-22]   The file reader doesn't accept '#elif' directives but the error message says it does.  (done)
 
 
 Format String Reader
