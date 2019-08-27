@@ -121,13 +121,13 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
     [2018-09-02]
 
     6.1) The "format-parser.txt" contains the syntax rules of the Format Specification string.
-         (a) It's an embedded parser currently called in a '<print-stmt>' by the function 'onPrint'. 
-         (b) The following 3 lines show how it's been linked in the grammar "OMP_Legacy_Parser.txt": 
+         (a) It's an embedded parser currently called in PRINT, READ, and WRITE statements. The
+	     following 3 lines show ie how it's been linked in the <print-stmt>.
              <print-stmt> ::= 
                  |     PRINT <format>                          /*Tr.onPrint($$(0),$$(2)); */
                  |     PRINT <format> <,> <output-item-list>   /*Tr.onPrint($$(0),$$(2),$$(4)); */
  
-         (c) Embedding in the Translator a fully functional generated parser to validate a format
+         (b) Embedding in the Translator a fully functional generated parser to validate a format
              string that usually has less than 10 characters may be superfluous. Yet, one goal of
              this project is to demonstrate the capabilities of "Syntaxis". 
 
