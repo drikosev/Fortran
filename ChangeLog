@@ -162,7 +162,7 @@ The Following bug-fix has not been tested very well yet:
 
                Parsed with Errors: lcoarray-context.f90
  [2019-08-22]  Intel Fortran extension: accept DIRECTORY as a keyword.                   (done) 
-
+ 
 
 Legacy parser Issues
 --------------------
@@ -566,6 +566,13 @@ Free Form Preprocessor
          Note: [23/6] To support the new option "-ffreer-form" we define the BNF Rule <white space>
                along with a sem. action that returns it as a tab when spaces are important or skips
                it otherwise. So, we can't treat such spaces as optional/unimportant in the Simulator.
+[ 2019-10-11 ] Unexpected statement continuation pattern in double quotes:                             (todo)  
+               $  cat ds_continuation.f90
+               !  char.literal.constant "Fixed"number!"
+               character, parameter :: ch="Fixed"&
+               &"number!";
+
+               end
 
 
 Hand coded File Reader
