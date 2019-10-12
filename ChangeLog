@@ -478,6 +478,17 @@ Legacy parser Issues
                  (b) The index-name is obligatory!
                -IMPLICIT <NONE> <implicit-none-spec-list> 
  [2019-08-22]  Intel Fortran extension: accept DIRECTORY as an INQUIRE named specification. (done)  
+ [2019-10-12]  A follow-restriction is necessary, likely in the generic-spec.               (todo) 
+               $ cat iso_varying_string.f90 && fcheck iso_varying_string.f90
+               1     interface operator(//)
+               2         module procedure op_concat_VS_VS
+               3     end interface operator(//)
+               4     end
+
+               iso_varying_string.f90:3: error: syntax:Unexpected: (/. Expected: ";". 
+
+               Parsed with Errors: iso_varying_string.f90
+
 
 
 Format Scanner
