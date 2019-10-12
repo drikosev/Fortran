@@ -1,4 +1,5 @@
 
+
 Fortran parser Issues
 ---------------------
 
@@ -492,6 +493,11 @@ Legacy parser Issues
                without the temporary actions (2019-03-30). Instead, a restriction will 
                be placed wherever the generic-spec is the last element of a production
                (use-stmt, only-list, access-stmt, access-id-list, end-interface-stmt).
+         Note: The Simulator fails to parse the following three lines. After '(', the
+               returned token isn't </)> and then narrowed by SMA to '/', as expected.
+               1 module lorentz
+               2     public :: operator(*), operator(/)
+               3 end module lorentz
 
 
 Format Scanner
@@ -672,6 +678,23 @@ Format String Reader
              may be used when this tool has to parse various extensions supported by existing
              compilers that we can't identify and implement individually (see ie 2019-06-04).
               
+
+
+ Translator (sem. actions)
+--------------------------
+[ 2019-10-12 ] The command fcheck, not the Simulator, fails to parse this fragment:                 (todo)
+               $ cat hep_events2.f90 && fcheck hep_events2.f90
+                     call hepevt_set_event_parameters &
+                          (function_value = event%get_sqme_prc ())
+                 end
+
+               hep_events2.f90:2: error: syntax:Expected: "%", "(", "(/", ")", "*", ".NOT.",
+               ":", "::", "[", "constant", "name", or "user-defined-operator". 
+
+               Parsed with Errors: hep_events2.f90
+        Note:  [12/10] It's likely a typo in function: sma_a_b_else_c(int t1,int t2, int rc)
+               that returns false on "function_value" instead of the 3d argument (a name-l).
+
 
 
      Some legacy code examples have been found at: 
