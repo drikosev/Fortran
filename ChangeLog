@@ -489,15 +489,10 @@ Legacy parser Issues
                iso_varying_string.f90:3: error: syntax:Unexpected: (/. Expected: ";". 
 
                Parsed with Errors: iso_varying_string.f90
-         Note: The particular follow-restriction would cause a conflict to the grammar
+         Note: The particular follow-restriction introduces a conflict in the grammar
                without the temporary actions (2019-03-30). Instead, a restriction will 
                be placed wherever the generic-spec is the last element of a production
                (use-stmt, only-list, access-stmt, access-id-list, end-interface-stmt).
-         Note: The Simulator fails to parse the following three lines. After '(', the
-               returned token isn't </)> and then narrowed by SMA to '/', as expected.
-               1 module lorentz
-               2     public :: operator(*), operator(/)
-               3 end module lorentz
 
 
 Format Scanner
@@ -694,6 +689,19 @@ Format String Reader
                Parsed with Errors: hep_events2.f90
         Note:  [12/10] It's likely a typo in function: sma_a_b_else_c(int t1,int t2, int rc)
                that returns false on "function_value" instead of the 3d argument (a name-l).
+               Yet, the parsing engine wasn't supposed to call this function before a '='.
+               Once generated again the Scanner, the debugger doesn't stop at this function.
+               The symptom was reproduced as well by the grammar without the temp. actions.
+
+
+ Simulator
+-------------
+[ 2019-10-12 ] The Simulator fails to parse the following three lines. After '(', the               (todo)   
+               returned token isn't </)> and then narrowed by SMA to '/', as expected.
+               1 module lorentz
+               2     public :: operator(*), operator(/)
+               3 end module lorentz
+
 
 
 
