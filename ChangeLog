@@ -488,7 +488,10 @@ Legacy parser Issues
                iso_varying_string.f90:3: error: syntax:Unexpected: (/. Expected: ";". 
 
                Parsed with Errors: iso_varying_string.f90
-
+         Note: The particular follow-restriction would cause a conflict to the grammar
+               without the temporary actions (2019-03-30). Instead, a restriction will 
+               be placed wherever the generic-spec is the last element of a production
+               (use-stmt, only-list, access-stmt, access-id-list, end-interface-stmt).
 
 
 Format Scanner
@@ -577,7 +580,7 @@ Free Form Preprocessor
          Note: [23/6] To support the new option "-ffreer-form" we define the BNF Rule <white space>
                along with a sem. action that returns it as a tab when spaces are important or skips
                it otherwise. So, we can't treat such spaces as optional/unimportant in the Simulator.
-[ 2019-10-11 ] Unexpected statement continuation pattern in double quotes:                             (todo)  
+[ 2019-10-11 ] Unexpected statement continuation pattern between double quotes:                        (todo)  
                $  cat ds_continuation.f90
                !  char.literal.constant "Fixed"number!"
                character, parameter :: ch="Fixed"&
