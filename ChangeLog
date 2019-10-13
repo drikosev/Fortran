@@ -479,7 +479,7 @@ Legacy parser Issues
                  (b) The index-name is obligatory!
                -IMPLICIT <NONE> <implicit-none-spec-list> 
  [2019-08-22]  Intel Fortran extension: accept DIRECTORY as an INQUIRE named specification. (done)  
- [2019-10-12]  A follow-restriction is necessary, likely in the generic-spec.               (todo) 
+ [2019-10-12]  A follow-restriction is likely necessary in the generic-spec.                (todo) 
                $ cat ds_iso_varying_string.f90 && fcheck ds_iso_varying_string.f90
                1     interface operator(//)
                2         module procedure op_concat_VS_VS
