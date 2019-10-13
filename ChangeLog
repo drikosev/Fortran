@@ -150,7 +150,7 @@ The Following bug-fix has not been tested very well yet:
         Note:  This restriction was supposed to resolve conflicts with tokens used in Format
                Statements, which however are always parsed now with the flag "shorter_match"
                set to true, in both fixed & free form.
- [2019-07-02]  The scanner should check not just for array context before it decide       (done)
+ [2019-07-02]  The scanner should check not just for array context before it decide        (done)
                to return a "<name-l>" but also for coarray context as well. For the 
                third line below the scanner returns a "<name-l>" with value "REALA".
                $ cat lcoarray-context.f90 && fcheck -ffixed-form lcoarray-context.f90 
@@ -162,8 +162,21 @@ The Following bug-fix has not been tested very well yet:
                "%", "(", "(/", ".NOT.", "[", "constant", "name", or "user-defined-operator". 
 
                Parsed with Errors: lcoarray-context.f90
- [2019-08-22]  Intel Fortran extension: accept DIRECTORY as a keyword.                   (done) 
- 
+ [2019-08-22]  Intel Fortran extension: accept DIRECTORY as a keyword.                      (done) 
+ [2019-10-13]  The first Rewind statement below would likely need classification.           (todo) 
+               $ cat ds_pythia.for && fcheck ds_pythia.for
+               C...Rewind initialization and event files.
+                     REWIND MSTP(161)                            !
+                     REWIND (UNIT = MSTP(161), IOSTAT = CODE, ERR = 100) !my line 
+                     END
+
+               ds_pythia.for:2: error: syntax:Unexpected End Of Statement. Expected:
+                                  "%", "(", ".", "=", or "[". 
+
+               Parsed with Errors: ds_pythia.for
+        Note:  Now the keyword REWIND is treated as the CALL and DATA keywords, which
+               might not look nice and accurate but this stmt looks like an extension. 
+
 
 Legacy parser Issues
 --------------------
@@ -493,17 +506,6 @@ Legacy parser Issues
                without the temporary actions (2019-03-30). Instead, a restriction will 
                be placed wherever the generic-spec is the last element of a production
                (use-stmt, only-list, access-stmt, access-id-list, end-interface-stmt).
- [2019-10-13]  The first Rewind statement below would likely need classification.           (todo) 
-               $ cat ds_pythia-3.for && fcheck ds_pythia-3.for
-               C...Rewind initialization and event files.
-                     REWIND MSTP(161)                            !
-                     REWIND (UNIT = MSTP(161), IOSTAT = CODE, ERR = 100) !my line 
-                     END
-
-               ds_pythia-3.for:2: error: syntax:Unexpected End Of Statement. Expected:
-                                  "%", "(", ".", "=", or "[". 
-
-               Parsed with Errors: ds_pythia-3.for
 
 
 
@@ -656,16 +658,16 @@ The Following four new features/bug-fixes have not been tested very well yet:
 [2019-07-31]   A UTF-8 BOM header, if present, isn't consumed (on Linux, MacOS, and Cygwin).          (done) 
 [2019-08-22]   The file reader doesn't skip '#elif' directives but the error message says it does.    (done)
 [2019-10-13]   The tab character after the label 150 (col 6) is treated as a continuation pattern.    (todo)
-               $ cat ds_pythia.for && fcheck ds_pythia.for 2>&1 | tail -n 1
+               $ cat ds_pythia.f && fcheck ds_pythia.f 2>&1 | tail -n 1
                          DO 150 J=1,12
                            IF(CHTEMP.EQ.CHCDE(J)) MINT(140+I)=KCDE(J)
                  150	    CONTINUE
                          END
 
 
-               Parsed with Errors: ds_pythia.for
+               Parsed with Errors: ds_pythia.f
 [2019-10-13]   As it seems, it's the first time we find empty lines inside a Fixed Form statement.    (todo)
-               $ cat ds_tauola-2.f && fcheck ds_tauola-2.f 2>&1 | tail -n 1
+               $ cat ds_tauola.f && fcheck ds_tauola.f 2>&1 | tail -n 1
                      double precision            AMTAU,AMNUTA,AMEL,AMNUE,AMMU,AMNUMU
                     *                 ,AMPIZ,AMPI,AMRO,GAMRO,AMA1,GAMA1
 
@@ -673,7 +675,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                     *                 ,AMK,AMKZ,AMKST,GAMKST
                      end
 
-               Parsed with Errors: ds_tauola-2.f
+               Parsed with Errors: ds_tauola.f
 
 
 
@@ -725,7 +727,7 @@ Format String Reader
                The symptom was reproduced as well by the grammar without the temp. actions.
         Note:  Once generated again the Scanner, the debugger doesn't stop at this function
                but the problem was repeated on the next grammar change. Regenerate always all?
-
+               Likely, yes as it seems to be a recurring problem.
 
 
  Simulator
