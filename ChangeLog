@@ -174,8 +174,7 @@ The Following bug-fix has not been tested very well yet:
                                   "%", "(", ".", "=", or "[". 
 
                Parsed with Errors: ds_pythia.for
-        Note:  Now the keyword REWIND is treated as the CALL and DATA keywords, which
-               might not look nice and accurate but this stmt looks like an extension. 
+        Note:  Now the keyword REWIND is treated as the CALL and DATA keywords. 
 
 
 Legacy parser Issues
@@ -761,4 +760,12 @@ Format String Reader
      (SHA1 b49451455b32dd6f1b31450d774476d4d1f74708), except the "standalone.1.f90" program which is
      supposed to be rejected by an OpenMP compliant implementation. This document can be found at:
 [*7] https://www.openmp.org/wp-content/uploads/openmp-examples-4.5.0.pdf
+
+     The OMP (Legacy) Parser can parse the source code of Whizard (2.6.4) except those files that
+     require C preprocessing (2 *.F). In specific, it can parse 87 *.f and 516 *.f90 which are 
+     available prior to the configuration step. The source code of Whizard (2.6.4) can be found at:
+[*8] https://whizard.hepforge.org/downloads/?f=whizard-2.6.4.tar.gz
+
+     Note:  The command "fcheck" that can parse Whizard will be released in Oct 2019. Until then, a
+     standalone binary for mac (mac-fcheck) will be temporarily available on github.
 
