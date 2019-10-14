@@ -762,6 +762,6 @@ Format String Reader
 
      The OMP (Legacy) Parser can parse the source code of Whizard (2.8.1) except those files that
      require C preprocessing (2 *.F). In specific, it can parse 87 *.f and 524 *.f90 which are 
-     available prior to the configuration step. The source code of Whizard (2.6.4) can be found at:
+     available prior to the configuration step. The source code of Whizard (2.8.1) can be found at:
 [*8] https://whizard.hepforge.org/downloads/?f=whizard-2.8.1.tar.gz
 
