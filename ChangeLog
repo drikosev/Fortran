@@ -723,11 +723,7 @@ Format String Reader
                Parsed with Errors: ds_hep_events.f90
         Note:  [12/10] It's likely a typo in function: sma_a_b_else_c(int t1,int t2, int rc)
                that returns false on "function_value" instead of the 3d argument (a name-l).
-               Yet, the parsing engine wasn't supposed to call this function before a '='.
-               The symptom was reproduced as well by the grammar without the temp. actions.
-        Note:  Once generated again the Scanner, the debugger doesn't stop at this function
-               but the problem was repeated on the next grammar change. Regenerate always all?
-               Likely yes. As it seems it's a recurring issue, but reproduced in Cygwin?
+
 
 
  Simulator
