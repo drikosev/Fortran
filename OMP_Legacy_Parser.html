@@ -755,9 +755,9 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<unexpected-end-stmt>">&lt;unexpected-end-stmt&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.UnBalanced($$(0), L"end-interface-stmt",30,false);*/</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;label&gt;&nbsp;<A href="#<unexpected-end-stmt>">&lt;unexpected-end-stmt&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.UnBalanced($$(0), L"end-interface-stmt",30,false);*/</FONT></EM>
 <BR><BR><STRONG><A name="end-interface-stmt">end-interface-stmt</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;INTERFACE&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;INTERFACE&nbsp;<A href="#<generic-spec>">&lt;generic-spec&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;INTERFACE&nbsp;<A href="#<generic-spec>">&lt;generic-spec&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END_INTERFACE&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END_INTERFACE&nbsp;<A href="#<generic-spec>">&lt;generic-spec&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END_INTERFACE&nbsp;<A href="#<generic-spec>">&lt;generic-spec&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR><BR><STRONG><A name="<interface-specifications>">&lt;interface-specifications&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<interface-specifications>">&lt;interface-specifications&gt;</A>&nbsp;<A href="#<interface-specification>">&lt;interface-specification&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<interface-specification>">&lt;interface-specification&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<interface-specifications>">&lt;interface-specifications&gt;</A>&nbsp;&lt;label&gt;&nbsp;<A href="#<interface-specification>">&lt;interface-specification&gt;</A>&nbsp;
@@ -815,11 +815,11 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;USE&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<module-nature>">&lt;module-nature&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<module-name>">&lt;module-name&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;USE&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<module-nature>">&lt;module-nature&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<module-name>">&lt;module-name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<rename-list>">&lt;rename-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;USE&nbsp;<A href="#<module-name>">&lt;module-name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;ONLY&nbsp;:&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;USE&nbsp;<A href="#<module-name>">&lt;module-name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;ONLY&nbsp;:&nbsp;<A href="#<only-list>">&lt;only-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;USE&nbsp;<A href="#<module-name>">&lt;module-name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;ONLY&nbsp;:&nbsp;<A href="#<only-list>">&lt;only-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;USE&nbsp;&lt;::&gt;&nbsp;<A href="#<module-name>">&lt;module-name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;ONLY&nbsp;:&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;USE&nbsp;&lt;::&gt;&nbsp;<A href="#<module-name>">&lt;module-name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;ONLY&nbsp;:&nbsp;<A href="#<only-list>">&lt;only-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;USE&nbsp;&lt;::&gt;&nbsp;<A href="#<module-name>">&lt;module-name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;ONLY&nbsp;:&nbsp;<A href="#<only-list>">&lt;only-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;USE&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<module-nature>">&lt;module-nature&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<module-name>">&lt;module-name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;ONLY&nbsp;:&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;USE&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<module-nature>">&lt;module-nature&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<module-name>">&lt;module-name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;ONLY&nbsp;:&nbsp;<A href="#<only-list>">&lt;only-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;USE&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<module-nature>">&lt;module-nature&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<module-name>">&lt;module-name&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;ONLY&nbsp;:&nbsp;<A href="#<only-list>">&lt;only-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR><BR><STRONG><A name="<module-name>">&lt;module-name&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<erroneous-stmt>">&lt;erroneous-stmt&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<rename-list>">&lt;rename-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<rename>">&lt;rename&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<rename-list>">&lt;rename-list&gt;</A>&nbsp;
@@ -833,7 +833,7 @@
 <BR><BR><STRONG><A name="<module-nature>">&lt;module-nature&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTRINSIC&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;NON&nbsp;INTRINSIC&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;NON_INTRINSIC&nbsp;
-<BR><BR><STRONG><A name="<only-list>">&lt;only-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<only-list>">&lt;only-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<only>">&lt;only&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<only-list>">&lt;only-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<only-list>">&lt;only-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<only>">&lt;only&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<only>">&lt;only&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<only>">&lt;only&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<generic-spec>">&lt;generic-spec&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<only-use-name>">&lt;only-use-name&gt;</A>&nbsp;
@@ -1101,9 +1101,9 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<volatile-stmt>">&lt;volatile-stmt&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<value-stmt>">&lt;value-stmt&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<access-stmt>">&lt;access-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<access-spec>">&lt;access-spec&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<access-spec>">&lt;access-spec&gt;</A>&nbsp;<A href="#<access-id-list>">&lt;access-id-list&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<access-spec>">&lt;access-spec&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<access-id-list>">&lt;access-id-list&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<access-id-list>">&lt;access-id-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<access-id-list>">&lt;access-id-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<access-id>">&lt;access-id&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<access-spec>">&lt;access-spec&gt;</A>&nbsp;<A href="#<access-id-list>">&lt;access-id-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<access-spec>">&lt;access-spec&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<access-id-list>">&lt;access-id-list&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
+<BR><BR><STRONG><A name="<access-id-list>">&lt;access-id-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<access-id-list>">&lt;access-id-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<access-id>">&lt;access-id&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;&lt;;&gt;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<access-id>">&lt;access-id&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<access-id>">&lt;access-id&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<use-name>">&lt;use-name&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<generic-spec>">&lt;generic-spec&gt;</A>&nbsp;
@@ -1608,7 +1608,6 @@
 <BR><BR><STRONG><A name="<p-inquire-length>">&lt;p-inquire-length&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<inquire-length>">&lt;inquire-length&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<inquire-length>">&lt;inquire-length&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IOLENGTH&nbsp;=&nbsp;<A href="#<variable>">&lt;variable&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<output-item-list>">&lt;output-item-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<output-item-list>">&lt;output-item-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<output-item>">&lt;output-item&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<output-item>">&lt;output-item&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<output-item>">&lt;output-item&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<output-item>">&lt;output-item&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<io-implied-do>">&lt;io-implied-do&gt;</A>&nbsp;

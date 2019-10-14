@@ -69,8 +69,9 @@ Fortran scanner Issues
                (ie n=1B as in the ARPS model src/arpsagr/packcray.f90:284). Yet see fcvs21/FM901.FOR:54
                [22/7] <char-length> ::= <LABEL> and activated semantic actions on SMA due to "do-labels".
                [27/8] undo the above as the scanner now returns on SMA all the alternative tokens.
-[ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).  (done)
-[ 2018-09-24 ] Remove  from token: <.EQ.>,<.NE.>,<.LT.>,<.LE.>,<.GT.>,<.GE.>                       (done)
+               [2019-10-14] Still this functionality hasn't been fully implemented in the Simulator.
+[ 2018-07-25 ] GNU Extension: Added DOUBLE COMPLEX (see ie lapack/CBLAS/testing/c_zblat3.f:2275).        (done)
+[ 2018-09-24 ] Remove  from token: <.EQ.>,<.NE.>,<.LT.>,<.LE.>,<.GT.>,<.GE.>                             (done)
                Only a <rel-op> is known to the parser and on error the "unexpected part" is missing:
 	       $ fcheck -fopenmp ../gomp/udr1.f90
                ../gomp/udr1.f90:4: error: syntax:Expected: ".AND.", ".NOT.", ".OR.", "IAND", "IEOR",
@@ -163,7 +164,7 @@ The Following bug-fix has not been tested very well yet:
 
                Parsed with Errors: lcoarray-context.f90
  [2019-08-22]  Intel Fortran extension: accept DIRECTORY as a keyword.                      (done) 
- [2019-10-13]  The first Rewind statement below would likely need classification.           (todo) 
+ [2019-10-13]  The first Rewind statement below would likely need classification.           (done) 
                $ cat ds_pythia.for && fcheck ds_pythia.for
                C...Rewind initialization and event files.
                      REWIND MSTP(161)                            !
@@ -491,7 +492,7 @@ Legacy parser Issues
                  (b) The index-name is obligatory!
                -IMPLICIT <NONE> <implicit-none-spec-list> 
  [2019-08-22]  Intel Fortran extension: accept DIRECTORY as an INQUIRE named specification. (done)  
- [2019-10-12]  A follow-restriction is likely necessary in the generic-spec.                (todo) 
+ [2019-10-12]  A follow-restriction is likely necessary in the generic-spec.                (done) 
                $ cat ds_iso_varying_string.f90 && fcheck ds_iso_varying_string.f90
                1     interface operator(//)
                2         module procedure op_concat_VS_VS
@@ -594,7 +595,7 @@ Free Form Preprocessor
          Note: [23/6] To support the new option "-ffreer-form" we define the BNF Rule <white space>
                along with a sem. action that returns it as a tab when spaces are important or skips
                it otherwise. So, we can't treat such spaces as optional/unimportant in the Simulator.
-[ 2019-10-11 ] Unexpected statement continuation pattern between double quotes:                        (todo)  
+[ 2019-10-11 ] Unexpected statement continuation pattern between double quotes:                        (done)  
                $  cat ds_continuation.f90
                !  char.literal.constant "Fixed"number!"
                character, parameter :: ch="Fixed"&
@@ -656,7 +657,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                END
 [2019-07-31]   A UTF-8 BOM header, if present, isn't consumed (on Linux, MacOS, and Cygwin).          (done) 
 [2019-08-22]   The file reader doesn't skip '#elif' directives but the error message says it does.    (done)
-[2019-10-13]   The tab character after the label 150 (col 6) is treated as a continuation pattern.    (todo)
+[2019-10-13]   The tab character after the label 150 (col 6) is treated as a continuation pattern.    (done)
                $ cat ds_pythia.f && fcheck ds_pythia.f 2>&1 | tail -n 1
                          DO 150 J=1,12
                            IF(CHTEMP.EQ.CHCDE(J)) MINT(140+I)=KCDE(J)
@@ -665,7 +666,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
 
 
                Parsed with Errors: ds_pythia.f
-[2019-10-13]   As it seems, it's the first time we find empty lines inside a Fixed Form statement.    (todo)
+[2019-10-13]   As it seems, it's the first time we find empty lines inside a Fixed Form statement.    (done)
                $ cat ds_tauola.f && fcheck ds_tauola.f 2>&1 | tail -n 1
                      double precision            AMTAU,AMNUTA,AMEL,AMNUE,AMMU,AMNUMU
                     *                 ,AMPIZ,AMPI,AMRO,GAMRO,AMA1,GAMA1
@@ -710,7 +711,7 @@ Format String Reader
 
  Translator (sem. actions)
 --------------------------
-[ 2019-10-12 ] The command fcheck, not the Simulator, fails to parse this fragment:                 (todo)
+[ 2019-10-12 ] The command fcheck, not the Simulator, fails to parse this fragment:                 (done)
                $ cat ds_hep_events.f90 && fcheck ds_hep_events.f90
                      call hepevt_set_event_parameters &
                           (function_value = event%get_sqme_prc ())
@@ -726,17 +727,19 @@ Format String Reader
                The symptom was reproduced as well by the grammar without the temp. actions.
         Note:  Once generated again the Scanner, the debugger doesn't stop at this function
                but the problem was repeated on the next grammar change. Regenerate always all?
-               Likely, yes as it seems to be a recurring problem.
+               Likely yes. As it seems it's a recurring problem, but perhaps not in Cygwin.
 
 
  Simulator
 -------------
-[ 2019-10-12 ] The Simulator fails to parse the following three lines. After '(', the               (todo)   
+[ 2019-10-12 ] The Simulator fails to parse the following three lines. After '(', the               (done)   
                returned token isn't </)> and then narrowed by SMA to '/', as expected.
                1 module lorentz
                2     public :: operator(*), operator(/)
                3 end module lorentz
-
+        Note:  [2019-10-14] The Simulator wasn't returning all the alternative tokens on SMA
+               as the relevant functionality hasn't been fully adjusted as in the C++ engine.
+               Sometime, this has to be done with a grammar smaller than Fortran for testing.       (todo) 
 
 
 
@@ -765,7 +768,4 @@ Format String Reader
      require C preprocessing (2 *.F). In specific, it can parse 87 *.f and 516 *.f90 which are 
      available prior to the configuration step. The source code of Whizard (2.6.4) can be found at:
 [*8] https://whizard.hepforge.org/downloads/?f=whizard-2.6.4.tar.gz
-
-     Note:  The command "fcheck" that can parse Whizard will be released in Oct 2019. Until then, a
-     standalone binary for mac (mac-fcheck) will be temporarily available on github.
 

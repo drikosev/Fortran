@@ -1794,7 +1794,7 @@ p_dummy_list_or_bind_result ::=
      |     { R E A D | W R I T E } +: <half-left-delimeter> 
      |     not_cons_keys +: <left-parenthesis> 
      |     DO_KEY +: <lvalue-context> 
-     |     CALLorDATA_KEY +: <call-context> 
+     |     CALLorDATAorREWIND_KEY +: <call-context> 
      |     CODIMENSION_KEY +: <codimension-context> 
      |     cons_keys +: <larray-context> 
      |     { key -= { R E A D | W R I T E } } 
@@ -2201,6 +2201,7 @@ cons_key_begin ::=
      |     DATA 
      |     ENTRY 
      |     INTERFACE 
+     |     REWIND 
 
 <prfx> ::= 
            INTEGER 
@@ -2265,8 +2266,8 @@ DO_KEY ::=
 <ch> ::= 
            { \u0001 .. \ufffe } 
 
-CALLorDATA_KEY ::= 
-           { C A L L | D A T A } { A .. Z | 0 .. 9 | _ }... 
+CALLorDATAorREWIND_KEY ::= 
+           { C A L L | D A T A | R E W I N D } { A .. Z | 0 .. 9 | _ }... 
 
 <call-context> ::= 
            { { <%> <lch> ... } } += { [ <lch> ... ] { ) | <]> | <%> { <name4> } } [ { \t | \s }... ] = { { \u0001 .. \ufffe } -= = } [ { \u0001 .. \ufffe }... ] } 

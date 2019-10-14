@@ -1250,9 +1250,9 @@ end-enum-stmt ::=
 
 end-interface-stmt ::= 
            END INTERFACE 
-     |     END INTERFACE <generic-spec> 
+     |     END INTERFACE <generic-spec> +: { <;> } 
      |     END_INTERFACE 
-     |     END_INTERFACE <generic-spec> 
+     |     END_INTERFACE <generic-spec> +: { <;> } 
 
 <interface-specifications> ::= 
            <interface-specifications> <interface-specification> 
@@ -1348,11 +1348,11 @@ end-interface-stmt ::=
      |     USE <,> <module-nature> <::> <module-name> 
      |     USE <,> <module-nature> <::> <module-name> <,> <rename-list> 
      |     USE <module-name> <,> ONLY : 
-     |     USE <module-name> <,> ONLY : <only-list> 
+     |     USE <module-name> <,> ONLY : <only-list> +: { <;> } 
      |     USE <::> <module-name> <,> ONLY : 
-     |     USE <::> <module-name> <,> ONLY : <only-list> 
+     |     USE <::> <module-name> <,> ONLY : <only-list> +: { <;> } 
      |     USE <,> <module-nature> <::> <module-name> <,> ONLY : 
-     |     USE <,> <module-nature> <::> <module-name> <,> ONLY : <only-list> 
+     |     USE <,> <module-nature> <::> <module-name> <,> ONLY : <only-list> +: { <;> } 
 
 <module-name> ::= 
            <name> 
@@ -1384,7 +1384,7 @@ end-interface-stmt ::=
      |     NON_INTRINSIC 
 
 <only-list> ::= 
-           <only-list> <,> <only> 
+           <only-list> <,> <only> +: { <;> | <,> } 
      |     <only> 
 
 <only> ::= 
@@ -1814,11 +1814,11 @@ end-subroutine-stmt ::=
 
 <access-stmt> ::= 
            <access-spec> 
-     |     <access-spec> <access-id-list> 
-     |     <access-spec> <::> <access-id-list> 
+     |     <access-spec> <access-id-list> +: { <;> } 
+     |     <access-spec> <::> <access-id-list> +: { <;> } 
 
 <access-id-list> ::= 
-           <access-id-list> <,> <access-id> 
+           <access-id-list> <,> <access-id> +: { <;> | <,> } 
      |     <access-id> 
 
 <access-id> ::= 
@@ -2719,7 +2719,6 @@ end-subroutine-stmt ::=
 
 <output-item-list> ::= 
            <output-item-list> <,> <output-item> 
-     |     <output-item> 
      |     <output-item> 
 
 <output-item> ::= 
