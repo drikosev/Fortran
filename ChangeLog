@@ -760,8 +760,8 @@ Format String Reader
      supposed to be rejected by an OpenMP compliant implementation. This document can be found at:
 [*7] https://www.openmp.org/wp-content/uploads/openmp-examples-4.5.0.pdf
 
-     The OMP (Legacy) Parser can parse the source code of Whizard (2.6.4) except those files that
-     require C preprocessing (2 *.F). In specific, it can parse 87 *.f and 516 *.f90 which are 
+     The OMP (Legacy) Parser can parse the source code of Whizard (2.8.1) except those files that
+     require C preprocessing (2 *.F). In specific, it can parse 87 *.f and 524 *.f90 which are 
      available prior to the configuration step. The source code of Whizard (2.6.4) can be found at:
-[*8] https://whizard.hepforge.org/downloads/?f=whizard-2.6.4.tar.gz
+[*8] https://whizard.hepforge.org/downloads/?f=whizard-2.8.1.tar.gz
 
