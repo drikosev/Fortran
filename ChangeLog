@@ -727,7 +727,7 @@ Format String Reader
                The symptom was reproduced as well by the grammar without the temp. actions.
         Note:  Once generated again the Scanner, the debugger doesn't stop at this function
                but the problem was repeated on the next grammar change. Regenerate always all?
-               Likely yes. As it seems it's a recurring problem, but perhaps not in Cygwin.
+               Likely yes. As it seems it's a recurring issue, but reproduced in Cygwin?
 
 
  Simulator
@@ -739,7 +739,7 @@ Format String Reader
                3 end module lorentz
         Note:  [2019-10-14] The Simulator wasn't returning all the alternative tokens on SMA
                as the relevant functionality hasn't been fully adjusted as in the C++ engine.
-               Sometime, this has to be done with a grammar smaller than Fortran for testing.       (todo) 
+               Sometime, this has to be done with a grammar smaller than Fortran for testing.  (suspended) 
 
 
 
