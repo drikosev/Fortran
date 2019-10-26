@@ -517,7 +517,13 @@ Legacy parser Issues
          Note: The reason is that the <lbracket-rule> has some restrictions, which are
                no longer necessary. It will be adjusted in this grammar also.
                <lbracket-rule> ::? <lbracket>  /*//disable ERSP for this rule*/
+ [2019-10-26]  Associate constructs can be empty.                                           (todo)
+               $ cat associate_47.f90 && fcheck associate_47.f90   2>&1 | tail -n 1
+               1     associate (y => x%d(:)(2:4))
+               2     end associate
+               3 end
 
+               Parsed with Errors: associate_47.f90
 
 Format Scanner
 --------------
