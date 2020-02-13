@@ -506,7 +506,7 @@ Legacy parser Issues
                without the temporary actions (2019-03-30). Instead, a restriction will 
                be placed wherever the generic-spec is the last element of a production
                (use-stmt, only-list, access-stmt, access-id-list, end-interface-stmt).
- [2019-10-15]  The grammar without the temporary actions would fail to parse this code:     (todo)
+ [2019-10-15]  The grammar without the temporary actions would fail to parse this code:     (done)
                $ cat ds_prc_omega.f90 && fcheck ds_prc_omega.f90
                       write (u, "(4x,16(1x,I2))")  [(h, h = 1, data%n_hel)]
                       end
@@ -517,7 +517,7 @@ Legacy parser Issues
          Note: The reason is that the <lbracket-rule> has some restrictions, which are
                no longer necessary. It will be adjusted in this grammar also.
                <lbracket-rule> ::? <lbracket>  /*//disable ERSP for this rule*/
- [2019-10-26]  Associate constructs can be empty.                                           (todo)
+ [2019-10-26]  Associate constructs can be empty.                                           (done)
                $ cat associate_47.f90 && fcheck associate_47.f90   2>&1 | tail -n 1
                1     associate (y => x%d(:)(2:4))
                2     end associate
