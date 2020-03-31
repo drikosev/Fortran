@@ -176,6 +176,8 @@ The Following bug-fix has not been tested very well yet:
 
                Parsed with Errors: ds_pythia.for
         Note:  Now the keyword REWIND is treated as the CALL and DATA keywords. 
+ [2019-03-31]  GNU/DEC extension: Parse an F/G data-edit-desctiptor without a 'w[.d]'.      (todo)
+
 
 
 Legacy parser Issues
@@ -524,6 +526,9 @@ Legacy parser Issues
                3 end
 
                Parsed with Errors: associate_47.f90
+ [2019-03-31]  GNU/DEC extension: Parse an F/G data-edit-desctiptor without a 'w[.d]'.      (todo)
+ [2019-03-31]  GNU/DEC extension: Allow the last format item to be blank (after  ',').      (todo)
+
 
 Format Scanner
 --------------
@@ -548,6 +553,7 @@ Format Scanner
         Note:  Without the flag "report conflicting tokens", the format parser cannot
                see an R/R conflict as the "OMP (legacy) parser" does with a Sem. action
                on rule "<char-string-edit-desc>".    
+ [2019-03-31]  GNU/DEC extension: Parse an F/G data-edit-desctiptor without a 'w[.d]'.      (todo)
 
 
 Format Parser
@@ -580,7 +586,8 @@ Format Parser
          Note: The command fcheck should just print two warnings, ie:               
                read-date.f90:3: warning: Unexpected "/" in input Format String.
                read-date.f90:3: warning: Unexpected "/" in input Format String.
-    
+ [2019-03-31]  GNU/DEC extension: Parse an F/G data-edit-desctiptor without a 'w[.d]'.      (todo)
+ [2019-03-31]  GNU/DEC extension: Allow the last format item to be blank (after  ',').      (todo)
 
 
 Free Form Preprocessor
