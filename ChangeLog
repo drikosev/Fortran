@@ -722,8 +722,12 @@ Format String Reader
              programs as optional and unimportant (as treated in fixed form programs). The option 
              may be used when this tool has to parse various extensions supported by existing
              compilers that we can't identify and implement individually (see ie 2019-06-04).
-              
+[2020-03-31] Few changes from the AppleSoft project become permanent in the parsing engine and      (todo) 
+             in main we set reader->toUpper(). To avoid few memory leaks, the SimpleParsingTable
+             of the Parser (spt2) is constructed only once, whereas the prescanner/lexer/parser
+             are deleted in each iteration (it does matter for multiple sources: "fcheck *.f90").
 
+             
 
  Translator (sem. actions)
 --------------------------
