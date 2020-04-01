@@ -932,6 +932,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<unlimited-format-item>">&lt;unlimited-format-item&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;(&nbsp;<A href="#<format-items>">&lt;format-items&gt;</A>&nbsp;,&nbsp;<A href="#<unlimited-format-item>">&lt;unlimited-format-item&gt;</A>&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<format-items>">&lt;format-items&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<format-items>">&lt;format-items&gt;</A>&nbsp;,&nbsp;<A href="#<format-item>">&lt;format-item&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<format-items>">&lt;format-items&gt;</A>&nbsp;,&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Last Format Item is Blank."); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<format-items>">&lt;format-items&gt;</A>&nbsp;<A href="#<format-item>">&lt;format-item&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<format-item>">&lt;format-item&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<format-item>">&lt;format-item&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<char-or-edit-desc>">&lt;char-or-edit-desc&gt;</A>&nbsp;<FONT color="#cc3300">+:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;,&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;:&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;/&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;)&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
@@ -950,6 +951,8 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{F,E,EN,ES,G,D,EX}w . d&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;fmt{E,EN,ES,G,EX}w . d E e&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;A&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;F&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Positive width required after descriptor G."); synthesize(1); */</FONT></EM>
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;G&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Positive width required after descriptor G."); synthesize(1); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;I&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Positive width required after descriptor I."); synthesize(1); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;L&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Positive width required after descriptor L."); synthesize(1); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;Q&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"The Q descriptor (Character Count) is non standard."); synthesize(1); */</FONT></EM>

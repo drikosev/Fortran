@@ -20,6 +20,7 @@
 
 <format-items> ::= 
            <format-items> , <format-item> 
+     |     <format-items> , +: { ) }   /* Tr.warning(L"Last Format Item is Blank."); */
      |     <format-items> <format-item> 
      |     <format-item> 
 
@@ -44,6 +45,8 @@
      |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
      |     <fmt{E,EN,ES,G,EX}w . d E e> 
      |     A 
+     |     F   /* Tr.warning(L"Positive width required after descriptor G."); synthesize(1); */
+     |     G   /* Tr.warning(L"Positive width required after descriptor G."); synthesize(1); */
      |     I   /* Tr.warning(L"Positive width required after descriptor I."); synthesize(1); */
      |     L   /* Tr.warning(L"Positive width required after descriptor L."); synthesize(1); */
      |     Q   /* Tr.warning(L"The Q descriptor (Character Count) is non standard."); synthesize(1); */

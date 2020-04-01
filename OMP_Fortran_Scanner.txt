@@ -17,6 +17,8 @@
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
      |     A 
      |     C 
+     |     F 
+     |     G 
      |     I 
      |     L 
      |     X 
@@ -1811,6 +1813,8 @@ key ::=
      |     I 
      |     L 
      |     C 
+     |     F 
+     |     G 
      |     X 
      |     P 
      |     Q 

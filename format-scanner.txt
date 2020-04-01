@@ -15,6 +15,8 @@
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
      |     A 
      |     C 
+     |     F 
+     |     G 
      |     I 
      |     L 
      |     X 
