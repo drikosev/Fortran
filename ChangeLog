@@ -1,5 +1,6 @@
 
 
+
 Fortran parser Issues
 ---------------------
 
@@ -625,6 +626,19 @@ Free Form Preprocessor
                &"number!";
 
                end
+[ 2020-06-08 ] The following subroutine is parsed in the Simulator
+               $  cat sub-array.f90 && fcheck sub-array.f90 2>&1 | head -n 1
+                  subroutine array
+                    integer :: n( Z'3' ) = [Z'1', Z'2', Z'3', Z'4', Z'5', Z'6', Z'7', &
+                     &  Z'8', Z'9', Z'a', Z'b', Z'c', Z'd', Z'e', Z'f']
+                     integer i
+                     print *, "  18. n(1:2)=", n(1:2)
+                     do i = Z'1', Z'e'
+                        if (i /= n(i) ) stop 18
+                     end do
+                  end subroutine
+
+               sub-array.f90:3: error: syntax:Unterminated literal constant (quote required).
 
 
 Hand coded File Reader
