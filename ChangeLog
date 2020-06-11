@@ -639,6 +639,8 @@ Free Form Preprocessor
                   end subroutine
 
                sub-array.f90:3: error: syntax:Unterminated literal constant (quote required).
+         Note: [11/6] Some HEX Constants contain lower case letters (case handling has changed).
+         Note: [11/6] The "do i" wouldn't be classified properly in fixed form (scanner issue). 
 
 
 Hand coded File Reader
