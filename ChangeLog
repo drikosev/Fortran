@@ -641,8 +641,10 @@ Free Form Preprocessor
                sub-array.f90:3: error: syntax:Unterminated literal constant (quote required).           
          Note: [11/6] Some HEX Constants contain lower case letters (case handling has changed).       (todo)
          Note: [11/6] The "do i" wouldn't be classified properly in fixed form (scanner issue).        (todo)
-         Note: [12/6] My classification rules don't expect BOZ Constants (scanner issue).              (todo)
-                      So, I've to add them to some scanner rules ch/lch/...
+         Note: [12/6] My classification rules don't expect BOZ Constants by the preprocessor. So,      (todo)
+                      I've to add them to some scanner rules ch/lch/...
+         Note: [14/6] The scanner can't return SMAs for BOZ Constants returned by the preprocessor.
+                      Which can be a problem (ie to format strings?).
 
 
 Hand coded File Reader
