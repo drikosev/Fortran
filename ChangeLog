@@ -178,6 +178,9 @@ The Following bug-fix has not been tested very well yet:
                Parsed with Errors: ds_pythia.for
         Note:  Now the keyword REWIND is treated as the CALL and DATA keywords. 
  [2020-03-31]  GNU/DEC extension: Parse an F/G data-edit-desctiptor without a 'w[.d]'.      (done)
+ [2020-06-16]  GNU/PGI extension: accept BOZ Literals in postfix format (ie '1'O, '1'X).    (todo)
+        Note:  See also the <octal-legacy> extension documented on 2018-07-03.
+        Note:  See also the note on 14/6, why the preprocessor shouldn't recognize BOZes. 
 
 
 
