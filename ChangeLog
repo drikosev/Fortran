@@ -558,7 +558,15 @@ Format Scanner
                see an R/R conflict as the "OMP (legacy) parser" does with a Sem. action
                on rule "<char-string-edit-desc>".    
  [2020-03-31]  GNU/DEC extension: Parse an F/G data-edit-desctiptor without a 'w[.d]'.      (done)
-
+ [2020-06-16]  The <boz-literal-constant> should be removed from the format scanner, ie:    (todo)
+               $ cat boz_fmt.f90 && fcheck boz_fmt.f90 2>&1 | head -n 1
+               1     complex :: z 
+               2     format(2b128)
+               3     write(str, 2 )       z
+               4     write(str,'(2b128)') z
+               5     end
+               
+               boz_fmt.f90:4: error: syntax: In Format String, expected: ...
 
 Format Parser
 -------------
