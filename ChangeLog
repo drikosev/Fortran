@@ -182,6 +182,8 @@ The Following bug-fix has not been tested very well yet:
         Note:  See also the <octal-legacy> extension documented on 2018-07-03.
         Note:  See also the note on 14/6, why the preprocessor shouldn't recognize BOZes. 
         Note:  [17/6] pgfortran (19.1) doesn't accept the format '1'B
+        Note:  [18/6] See also the DEC/VMS Extension in the hand coded file reader for
+               octal constants starting with a quotation mark.
 
 
 Legacy parser Issues
@@ -730,7 +732,11 @@ The Following four new features/bug-fixes have not been tested very well yet:
                      end
 
                Parsed with Errors: ds_tauola.f
-
+[2020-06-18]   DEC/VMS Extension: Parse Octal Constants starting with a quotation mark (ie "567).     (todo)
+               This will work well in fixed form, but in free form the constant should be on the
+               same line. A '&' in the constant won't be supported for such a legacy format.
+         Note: A very simple implementation is to make a conversion (ie "567 -> 567B) on request,
+               with a command line option (ie -fdec or /fdec) .
 
 
 Format String Reader
