@@ -736,7 +736,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
          Note: A very simple, but trial, workaround is to make a conversion (ie "567 -> 567B) on
                request, with a command line option (ie -fdec or /fdec), apart format statements.
                This may work well in fixed form, but in free form the constant should be ie on the
-               same line (a '&' around the constant won't be supported for such a legacy format):
+               same line. A '&' around the constant won't be supported for such a legacy format, ie:
                $ cat boz-continuation.f90 && fcheck -fdec boz-continuation.f90
                1     print *, &
                     &"20
