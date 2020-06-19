@@ -735,8 +735,16 @@ The Following four new features/bug-fixes have not been tested very well yet:
 [2020-06-18]   DEC/VMS Extension: Parse Octal Constants starting with a quotation mark (ie "567).     (todo)
          Note: A very simple, but trial, workaround is to make a conversion (ie "567 -> 567B) on
                request, with a command line option (ie -fdec or /fdec), apart format statements.
-               This may work well in fixed form, but in free form the constant should be on the
-               same line (ie a '&' in the constant won't be supported for such a legacy format).
+               This may work well in fixed form, but in free form the constant should be ie on the
+               same line (a '&' around the constant won't be supported for such a legacy format):
+               $ cat boz-continuation.f90 && fcheck -fdec boz-continuation.f90
+               1     print *, &
+                    &"20
+               3     end
+               boz-continuation.f90:2: error: syntax:Unterminated literal constant (double quote required).
+               
+               Parsed with Errors: boz-continuation.f90
+
 
 
 Format String Reader
