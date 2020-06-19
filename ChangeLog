@@ -733,10 +733,10 @@ The Following four new features/bug-fixes have not been tested very well yet:
 
                Parsed with Errors: ds_tauola.f
 [2020-06-18]   DEC/VMS Extension: Parse Octal Constants starting with a quotation mark (ie "567).     (todo)
-               This will work well in fixed form, but in free form the constant should be on the
-               same line. A '&' in the constant won't be supported for such a legacy format.
-         Note: A very simple implementation is to make a conversion (ie "567 -> 567B) on request,
-               with a command line option (ie -fdec or /fdec) .
+         Note: A very simple, but trial, workaround is to make a conversion (ie "567 -> 567B) on
+               request, with a command line option (ie -fdec or /fdec), apart format statements.
+               This may work well in fixed form, but in free form the constant should be on the
+               same line (ie a '&' in the constant won't be supported for such a legacy format).
 
 
 Format String Reader
