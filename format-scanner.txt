@@ -44,7 +44,6 @@
      |     <int-literal-constant> 
      |     <logical-literal-constant> 
      |     <char-literal-constant> 
-     |     <boz-literal-constant> 
      |     <::> 
      |     <lbracket> 
      |     <rbracket> 
@@ -239,59 +238,6 @@ exponent ::=
      |     [ kind-param _ ] <dquoted-literal> 
      |     <char-literal-constant2> 
      |     <hollerith-constant> 
-
-<boz-literal-constant> ::= 
-           <binary-constant> 
-     |     <octal-constant> 
-     |     <hex-constant> 
-     |     <boz-literal-constant2> 
-     |     <octal-legacy> 
-
-<binary-constant> ::= 
-           B <quoted-binary> 
-     |     B <dquoted-binary> 
-
-<quoted-binary> ::= 
-           ' [ <binary_char> ... ] ' 
-
-<binary_char> ::= 
-           0 
-     |     1 
-
-<dquoted-binary> ::= 
-           " [ <binary_char> ... ] " 
-
-<octal-constant> ::= 
-           O <quoted-octal> 
-     |     O <dquoted-octal> 
-
-<quoted-octal> ::= 
-           ' [ <octal_char> ... ] ' 
-
-<octal_char> ::= 
-           { 0 .. 7 } 
-
-<dquoted-octal> ::= 
-           " [ <octal_char> ... ] " 
-
-<hex-constant> ::= 
-           Z <quoted-hex> 
-     |     Z <dquoted-hex> 
-     |     X <quoted-hex> 
-     |     X <dquoted-hex> 
-
-<quoted-hex> ::= 
-           ' [ <hex_char> ... ] ' 
-
-<hex_char> ::= 
-           { 0 .. 9 } 
-     |     { A .. F } 
-
-<dquoted-hex> ::= 
-           " [ <hex_char> ... ] " 
-
-<octal-legacy> ::= 
-           <octal_char> ... B 
 
 <::> ::= 
            : : 
