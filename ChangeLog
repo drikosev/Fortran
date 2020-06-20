@@ -178,7 +178,7 @@ The Following bug-fix has not been tested very well yet:
                Parsed with Errors: ds_pythia.for
         Note:  Now the keyword REWIND is treated as the CALL and DATA keywords. 
  [2020-03-31]  GNU/DEC extension: Parse an F/G data-edit-desctiptor without a 'w[.d]'.      (done)
- [2020-06-16]  GNU/PGI/Intel extension: accept BOZ Literals in postfix format (BOX).        (todo)
+ [2020-06-16]  GNU/PGI/Intel extension: accept BOZ Literals in postfix format (BOX).        (done)
         Note:  See also the <octal-legacy> extension documented on 2018-07-03.
         Note:  See also the note on 14/6, why the preprocessor shouldn't recognize BOZes. 
         Note:  [17/6] pgfortran (19.1) doesn't accept the format '1'B
@@ -560,7 +560,7 @@ Format Scanner
                see an R/R conflict as the "OMP (legacy) parser" does with a Sem. action
                on rule "<char-string-edit-desc>".    
  [2020-03-31]  GNU/DEC extension: Parse an F/G data-edit-desctiptor without a 'w[.d]'.      (done)
- [2020-06-16]  The <boz-literal-constant> should be removed from the format scanner, ie:    (todo)
+ [2020-06-16]  The <boz-literal-constant> should be removed from the format scanner, ie:    (done)
                $ cat boz_fmt.f90 && fcheck boz_fmt.f90 2>&1 | head -n 1
                1     complex :: z 
                2     format(2b128)
@@ -639,7 +639,7 @@ Free Form Preprocessor
                &"number!";
 
                end
-[ 2020-06-08 ] The following subroutine is parsed in the Simulator                                     (todo)
+[ 2020-06-08 ] The following subroutine is parsed in the Simulator                                     (done)
                $  cat sub-array.f90 && fcheck sub-array.f90 2>&1 | head -n 1
                   subroutine array
                     integer :: n( Z'3' ) = [Z'1', Z'2', Z'3', Z'4', Z'5', Z'6', Z'7', &
@@ -652,10 +652,10 @@ Free Form Preprocessor
                   end subroutine
 
                sub-array.f90:3: error: syntax:Unterminated literal constant (quote required).           
-         Note: [11/6] Some HEX Constants contain lower case letters (case handling has changed).       (todo)
-         Note: [11/6] The "do i" wouldn't be classified properly in fixed form (scanner issue).        (todo)
-         Note: [12/6] My classification rules don't expect BOZ Constants by the preprocessor. So,      (todo)
-                      I've to add them to some scanner rules ch/lch/...
+         Note: [11/6] Some HEX Constants contain lower case letters.                                   (done)
+         Note: [11/6] The "do i" wouldn't be classified properly in fixed form (scanner issue).        (done)
+         Note: [12/6] My classification rules don't expect BOZ Constants by the preprocessor. So,      (done)
+                      the preprocessor now returns only the quoted binary/octal/hex sequences. 
          Note: [14/6] The scanner can't return SMAs for BOZ Constants returned by the preprocessor.
                       Which can be a problem (ie to format strings?).
 
@@ -732,7 +732,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                      end
 
                Parsed with Errors: ds_tauola.f
-[2020-06-18]   DEC/VMS Extension: Parse Octal Constants starting with a quotation mark (ie "567).     (todo)
+[2020-06-18]   DEC/VMS Extension: Parse Octal Constants starting with a quotation mark (ie "567).     (done)
          Note: A very simple, but trial, workaround is to make a conversion (ie "567 -> 567B) on
                request, with a command line option (ie -fdec or /fdec), apart format statements.
                This may work well in fixed form, but in free form the constant should be ie on the
