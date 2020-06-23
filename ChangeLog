@@ -737,6 +737,15 @@ The Following four new features/bug-fixes have not been tested very well yet:
                request, with a command line option (ie -fdec or /fdec), apart format statements.
                This may work well in fixed form, but in free form the constant should be ie on the
                same line. A '&' in the constant won't be supported for such a legacy format.
+ [2020-06-23]  Hollerith Constants in numeric expressions (multiplications) aren't supported.        (todo?)
+               In the following (NASTRAN-95) program the expression "82*4H****" is rejected.
+               $ head -n 193 ifx1bd.f | tail -n 4  && fcheck ifx1bd.f 2>&1 | head -n 1
+                     DATA IBD8 /
+                    1     4HCRBE,4H2   , 4HCRBE,4H3   , 4HCRSP,4HLINE, 4HCTRI,4HA3  ,
+                    *     4HTABL,4HEM5 , 4HCPSE,4H2   , 4HCPSE,4H3   , 4HCPSE,4H4   ,
+                    *     4HPPSE,4H    , 82*4H****    /
+               ifx1bd.f:190: error: syntax:Unexpected: letter with value 'H'. Expected: ",", or "/". 
+
 
 
 
