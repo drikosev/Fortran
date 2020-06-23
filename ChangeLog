@@ -534,6 +534,14 @@ Legacy parser Issues
                Parsed with Errors: associate_47.f90
  [2020-03-31]  GNU/DEC extension: Parse an F/G data-edit-desctiptor without a 'w[.d]'.      (done)
  [2020-03-31]  GNU/DEC extension: Allow the last format item to be blank (after  ',').      (done)
+ [2020-06-23]  Omitted <label-do> in <alt-return-spec>                                      (todo)
+               $ head -n 205 mis/feer3.f | tail -n 4  && fcheck mis/feer3.f 2>&1 | head -n1
+                     DO 110 J = 1,NORTHO
+                     II  = 1
+                     NN  = NORD
+                     CALL UNPACK (*110,IFLRVC,DZ(1))
+               mis/feer3.f:205: error: syntax:Unexpected: label with value '0'. Expected... 
+
 
 
 Format Scanner
