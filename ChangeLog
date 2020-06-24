@@ -754,6 +754,17 @@ The Following four new features/bug-fixes have not been tested very well yet:
                     *     4HPPSE,4H    , 82*4H****    /
                ifx1bd.f:190: error: syntax:Unexpected: letter with value 'H'. Expected: ",", or "/". 
 
+ [2020-06-24]  Hollerith Constants are rejected due to wrong state of closed_quotes in fixed         (todo)
+               form code, ie the last "1H*" below isn't recognized as a Hollerith Constant:
+               $ cat ofp1a.f && fcheck ofp1a.f 
+                5052 FORMAT (1H+,39X,'NASTRAN INFORMATION MESSAGE 3308, LOWEST EIGEN',
+                    1       'VALUE FOUND',3X,1H*, /37X,1H*,2X,'AS INDICATED BY THE ',
+                    2       'STURM''S SEQUENCE OF THE DYNAMIC MATRIX',2X,1H*)
+                     END
+
+               ofp1a.f:1: error: syntax:Unexpected: letter with value 'H'. Expected:...
+
+               Parsed with Errors: ofp1a.f
 
 
 
