@@ -542,6 +542,20 @@ Legacy parser Issues
                      CALL UNPACK (*110,IFLRVC,DZ(1))
                mis/feer3.f:205: error: syntax:Unexpected: label with value '0'. Expected... 
 
+ [2020-06-23]  Omitted DOUBLE_PRECISION for an <intrinsic-type-spec> followed by '*'.       (todo)
+               $ cat h-no.f && fcheck h-no.f
+                     BYTE             * 1 H1
+                     CHARACTER        * 1 H2
+                     COMPLEX          * 4 H3
+                     DOUBLE PRECISION * 8 H4
+                     INTEGER          * 4 H5
+                     LOGICAL          * 1 H6
+                     REAL             * 4 H7
+                     END
+               h-no.f:4: error: syntax:Unexpected: '*'. 
+                      Expected: "%", "(", ",", ".", ":", "::", "=", "=>", "[", or "name". 
+
+               Parsed with Errors: h-no.f
 
 
 Format Scanner
