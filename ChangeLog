@@ -542,7 +542,7 @@ Legacy parser Issues
                      CALL UNPACK (*110,IFLRVC,DZ(1))
                mis/feer3.f:205: error: syntax:Unexpected: label with value '0'. Expected... 
 
- [2020-06-23]  Omitted DOUBLE_PRECISION for an <intrinsic-type-spec> followed by '*'.       (todo)
+ [2020-06-24]  Omitted DOUBLE_PRECISION for an <intrinsic-type-spec> followed by '*'.       (todo)
                $ cat h-no.f && fcheck h-no.f
                      BYTE             * 1 H1
                      CHARACTER        * 1 H2
@@ -780,12 +780,17 @@ The Following four new features/bug-fixes have not been tested very well yet:
 
                Parsed with Errors: ofp1a.f
 
+ [2020-06-25]  The line number in the first error below is wrong. It should be 591.                (todo)
+               $ fcheck smc2rs.f
+               smc2rs.f:592: error: syntax:Invalid Characters at Positions 1-5. 
+               smc2rs.f:590: error: syntax:Unexpected: NONE with value '\n'.
+        Note:  The reader prints the 1st error and aborts. So, the 2nd is spurious. 
 
 
 
 Format String Reader
 --------------------
-[ 2019-03-26 ] The existing Reader, likely, isn't aware of Hollerith constants:                       (done)
+[ 2019-03-26 ] The existing Reader, likely, isn't aware of Hollerith constants:                    (done)
                $ cat fm111.f && fcheck fm111.f
                100     format( /11X, 10HCOMPUTED: ,4(2X, I3)  )JUNK
                270     print '(/11X, 10HCOMPUTED: ,4(2X, I3)  )JUNK'
