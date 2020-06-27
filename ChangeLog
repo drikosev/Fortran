@@ -541,7 +541,7 @@ Legacy parser Issues
                      NN  = NORD
                      CALL UNPACK (*110,IFLRVC,DZ(1))
                mis/feer3.f:205: error: syntax:Unexpected: label with value '0'. Expected... 
-
+        Note:  [27/6] Although not very sure, I'll add the <label-do> to <wait-spec> also.
  [2020-06-24]  Omitted DOUBLE_PRECISION for an <intrinsic-type-spec> followed by '*'.       (todo)
                $ cat h-no.f && fcheck h-no.f
                      BYTE             * 1 H1
