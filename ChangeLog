@@ -534,7 +534,7 @@ Legacy parser Issues
                Parsed with Errors: associate_47.f90
  [2020-03-31]  GNU/DEC extension: Parse an F/G data-edit-desctiptor without a 'w[.d]'.      (done)
  [2020-03-31]  GNU/DEC extension: Allow the last format item to be blank (after  ',').      (done)
- [2020-06-23]  Omitted <label-do> in <alt-return-spec>                                      (todo)
+ [2020-06-23]  Omitted <label-do> in <alt-return-spec>                                      (done)
                $ head -n 205 mis/feer3.f | tail -n 4  && fcheck mis/feer3.f 2>&1 | head -n1
                      DO 110 J = 1,NORTHO
                      II  = 1
@@ -542,7 +542,7 @@ Legacy parser Issues
                      CALL UNPACK (*110,IFLRVC,DZ(1))
                mis/feer3.f:205: error: syntax:Unexpected: label with value '0'. Expected... 
         Note:  [27/6] Although not very sure, I'll add the <label-do> to <wait-spec> also.
- [2020-06-24]  Omitted DOUBLE_PRECISION for an <intrinsic-type-spec> followed by '*'.       (todo)
+ [2020-06-24]  Omitted DOUBLE_PRECISION for an <intrinsic-type-spec> followed by '*'.       (done)
                $ cat h-no.f && fcheck h-no.f
                      BYTE             * 1 H1
                      CHARACTER        * 1 H2
@@ -759,7 +759,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                request, with a command line option (ie -fdec or /fdec), apart format statements.
                This may work well in fixed form, but in free form the constant should be ie on the
                same line. A '&' in the constant won't be supported for such a legacy format.
- [2020-06-23]  Hollerith Constants in numeric expressions (multiplications) aren't supported.         (todo)
+ [2020-06-23]  Hollerith Constants in numeric expressions (multiplications) aren't supported.         (done)
                In the following (NASTRAN-95) program the expression "82*4H****" is rejected.
                $ head -n 193 ifx1bd.f | tail -n 4  && fcheck ifx1bd.f 2>&1 | head -n 1
                      DATA IBD8 /
@@ -771,7 +771,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                So, it's not a numeric expression and possibly it could be supported. Yet, this
                reader wasn't designed right from the start to support such legacy code. Several
                cases will remain unsupported, until we rewrite this reader from scratch.
- [2020-06-24]  Hollerith Constants are rejected due to wrong state of closed_quotes in fixed          (todo)
+ [2020-06-24]  Hollerith Constants are rejected due to wrong state of closed_quotes in fixed          (done)
                form code, ie the last "1H*" below isn't recognized as a Hollerith Constant:
                $ cat ofp1a.f && fcheck ofp1a.f 
                 5052 FORMAT (1H+,39X,'NASTRAN INFORMATION MESSAGE 3308, LOWEST EIGEN',
@@ -783,7 +783,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
 
                Parsed with Errors: ofp1a.f
 
- [2020-06-25]  The line number in the first error below is wrong. It should be 591.                (todo)
+ [2020-06-25]  The line number in the first error below is wrong. It should be 591.                (done)
                $ fcheck smc2rs.f
                smc2rs.f:592: error: syntax:Invalid Characters at Positions 1-5. 
                smc2rs.f:590: error: syntax:Unexpected: NONE with value '\n'.
