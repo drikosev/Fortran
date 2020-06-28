@@ -292,6 +292,7 @@ function-stmt ::=
      |     <logical-literal-constant> 
      |     <char-literal-constant> 
      |     <boz-literal-constant> 
+     |     <boz-literal-postfix> 
 
 <designator> ::= 
            <data-ref> 
@@ -412,7 +413,11 @@ function-stmt ::=
      |     <vms-argument> 
 
 <alt-return-spec> ::= 
-           * <label> 
+           * <LABEL> 
+
+<LABEL> ::= 
+           <label> 
+     |     <label-do> 
 
 <vms-argument> ::= 
            <%> VAL <p-actual-arg-spec-list>   /* Tr.warning(L"Argument passing with function '%VAL' is a legacy extension."); */
@@ -545,6 +550,7 @@ keyword ::=
      |     INTEGER * <char-length> 
      |     LOGICAL * <char-length> 
      |     DOUBLE PRECISION * <char-length> 
+     |     DOUBLE_PRECISION * <char-length> 
      |     COMPLEX * <char-length> 
 
 <char-length> ::= 
@@ -2369,10 +2375,6 @@ end-subroutine-stmt ::=
 <assign-stmt> ::= 
            ASSIGN <LABEL> TO <name> 
 
-<LABEL> ::= 
-           <label> 
-     |     <label-do> 
-
 <assignment-stmt> ::= 
            <designator-l> = <expr> 
      |     <designator-l> = <erroneous-stmt> 
@@ -2992,9 +2994,9 @@ end-subroutine-stmt ::=
 
 <wait-spec> ::= 
            UNIT = <file-unit-number> 
-     |     END = <label> 
-     |     EOR = <label> 
-     |     ERR = <label> 
+     |     END = <LABEL> 
+     |     EOR = <LABEL> 
+     |     ERR = <LABEL> 
      |     ID = <scalar-int-expr> 
      |     IOMSG = <variable> 
      |     IOSTAT = <variable> 

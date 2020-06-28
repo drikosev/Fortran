@@ -213,6 +213,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;logical-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;char-literal-constant&gt;&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;boz-literal-constant&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;boz-literal-postfix&gt;&nbsp;
 <BR><BR><STRONG><A name="<designator>">&lt;designator&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<data-ref>">&lt;data-ref&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<vms-location>">&lt;vms-location&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<data-ref>">&lt;data-ref&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<part-ref>">&lt;part-ref&gt;</A>&nbsp;<A href="#<%>">&lt;%&gt;</A>&nbsp;<A href="#<data-ref>">&lt;data-ref&gt;</A>&nbsp;<FONT color="#cc3300">-:</FONT>&nbsp;<FONT color="#cc3300">{</FONT>&nbsp;<A href="#<%>">&lt;%&gt;</A>&nbsp;<FONT color="#cc3300">}</FONT>&nbsp;
@@ -277,7 +278,9 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<alt-return-spec>">&lt;alt-return-spec&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;*&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<vms-argument>">&lt;vms-argument&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<alt-return-spec>">&lt;alt-return-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&lt;label&gt;&nbsp;
+<BR><BR><STRONG><A name="<alt-return-spec>">&lt;alt-return-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;
+<BR><BR><STRONG><A name="<LABEL>">&lt;LABEL&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;label-do&gt;&nbsp;
 <BR><BR><STRONG><A name="<vms-argument>">&lt;vms-argument&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<%>">&lt;%&gt;</A>&nbsp;VAL&nbsp;<A href="#<p-actual-arg-spec-list>">&lt;p-actual-arg-spec-list&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Argument passing with function '%VAL' is a legacy extension."); */</FONT></EM>
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<%>">&lt;%&gt;</A>&nbsp;REF&nbsp;<A href="#<p-actual-arg-spec-list>">&lt;p-actual-arg-spec-list&gt;</A>&nbsp;&nbsp;<EM><FONT color="#a9a9a9">/* Tr.warning(L"Argument passing with function '%REF' is a legacy extension."); */</FONT></EM>
 <BR><BR><STRONG><A name="<%>">&lt;%&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&nbsp;
@@ -352,6 +355,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;INTEGER&nbsp;*&nbsp;<A href="#<char-length>">&lt;char-length&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;LOGICAL&nbsp;*&nbsp;<A href="#<char-length>">&lt;char-length&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DOUBLE&nbsp;PRECISION&nbsp;*&nbsp;<A href="#<char-length>">&lt;char-length&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;DOUBLE_PRECISION&nbsp;*&nbsp;<A href="#<char-length>">&lt;char-length&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;COMPLEX&nbsp;*&nbsp;<A href="#<char-length>">&lt;char-length&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<char-length>">&lt;char-length&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<A href="#<type-param-value>">&lt;type-param-value&gt;</A>&nbsp;)&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;int-literal-constant&gt;&nbsp;
@@ -1423,8 +1427,6 @@
 <BR><BR><STRONG><A name="<type-allocation-list>">&lt;type-allocation-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<type-spec>">&lt;type-spec&gt;</A>&nbsp;&lt;::&gt;&nbsp;<A href="#<allocation>">&lt;allocation&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<type-allocation-list>">&lt;type-allocation-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<allocation>">&lt;allocation&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<assign-stmt>">&lt;assign-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;TO&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;
-<BR><BR><STRONG><A name="<LABEL>">&lt;LABEL&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;&lt;label-do&gt;&nbsp;
 <BR><BR><STRONG><A name="<assignment-stmt>">&lt;assignment-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<designator-l>">&lt;designator-l&gt;</A>&nbsp;=&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<designator-l>">&lt;designator-l&gt;</A>&nbsp;=&nbsp;<A href="#<erroneous-stmt>">&lt;erroneous-stmt&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<designator-l>">&lt;designator-l&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<data-ref-l>">&lt;data-ref-l&gt;</A>&nbsp;
@@ -1769,9 +1771,9 @@
 <BR><BR><STRONG><A name="<wait-spec-list>">&lt;wait-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<wait-spec-list>">&lt;wait-spec-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<wait-spec>">&lt;wait-spec&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<wait-spec>">&lt;wait-spec&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<wait-spec>">&lt;wait-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNIT&nbsp;=&nbsp;<A href="#<file-unit-number>">&lt;file-unit-number&gt;</A>&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;=&nbsp;&lt;label&gt;&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;EOR&nbsp;=&nbsp;&lt;label&gt;&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;ERR&nbsp;=&nbsp;&lt;label&gt;&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;END&nbsp;=&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;EOR&nbsp;=&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;ERR&nbsp;=&nbsp;<A href="#<LABEL>">&lt;LABEL&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;ID&nbsp;=&nbsp;<A href="#<scalar-int-expr>">&lt;scalar-int-expr&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;IOMSG&nbsp;=&nbsp;<A href="#<variable>">&lt;variable&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;IOSTAT&nbsp;=&nbsp;<A href="#<variable>">&lt;variable&gt;</A>&nbsp;
