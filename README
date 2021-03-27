@@ -38,7 +38,28 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
      in our free form Fortran parser, as a "(/" ie is in a format statement a valid sequence of a '(' 
      and a '/' (2018-06-06). The scanners support the directive with an "inversed" logic (2018-09-01).
  [7] One can safely assume that any recent changes in the ChangeLog haven't been tested thoroughly.
+ [8] This grammar of this projected  was originally hosted at
+     http://users.otenet.gr/~drikosev/ ] [accessible until 2021-04-05]
 
+     In short, the above link contains among others a claim that the ENLALR Builder isn't
+     restricted by the LR(K) Condition when it creates deterministic parsers. In example,
+     we can parse free form Fortran without backtracking or forward scanning; the keyword
+     FORMAT is an exception due to some optional commas in Format Items. Yet, the command
+     'fcheck' you can download from this page has a common parser for both fixed and free
+     form Fortran.
+
+     Further, the above link gives a short description about two of my extensions to the
+     LALR algorithm, namely the co-Shift and co-Go algorithms. The former required also
+     some extensions to an otherwise ordinary scanner generator. See also these links:
+
+     Syntaxis.jar; LALR parsing for languages with unreserved keywords 
+     http://compilers.iecc.com/comparch/article/11-11-015
+
+     Syntaxis.jar; a new LALR'(1) Builder [LALR' -> ENLALR]  
+     http://compilers.iecc.com/comparch/article/12-09-010
+
+     The Free Form Fortran parser is mentioned in this message: 
+     http://compilers.iecc.com/comparch/article/13-05-004
 
 
  Files
