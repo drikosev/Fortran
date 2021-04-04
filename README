@@ -53,7 +53,8 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
      some extensions to an otherwise ordinary scanner generator. I've saved these pages
      in a zip file (see the PC project) for those interested in advanced parsing methods. 
 
-     See also these links:
+     Note here that the ERSP Extension in Syntaxis was found to be buggy as mentioned in
+     ChangeLog (find suspended), but this is an optional feature. See also these links:
 
      Syntaxis.jar; LALR parsing for languages with unreserved keywords 
      http://compilers.iecc.com/comparch/article/11-11-015
