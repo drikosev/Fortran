@@ -807,7 +807,7 @@ Format String Reader
 
                Parsed with Errors: fm111.f
         Note:  [30/3] GNU/PGI extension: in Format Strings, turn this error message into a warning.
-
+        Note:  We read in a c.l.f. posting on 11/4/2021 that a compiler must accept junk at the end.   
 
 
  Main Program
