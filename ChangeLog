@@ -559,15 +559,18 @@ Legacy parser Issues
 
                Parsed with Errors: h-no.f
  [2022-03-17]  This program is rejected but the parentheses are valid:                      (todo)
-               $ head -n2 leaky_m.f90 && fcheck leaky_m.f90                        
-               MODULE leaky_m
-                   IMPLICIT NONE (type, external)
-               leaky_m.f90:2: error: syntax:Unexpected: '('. Expected: ";". 
-               leaky_m.f90:62: error: syntax:Unexpected: '('. Expected: ";". 
-               
-               Parsed with Errors: leaky_m.f90
-
-
+               $ head -n2 leaky_m.f90 && fcheck leaky_m.f90                         
+               MODULE leaky_m 
+                   IMPLICIT NONE (type, external) 
+               leaky_m.f90:2: error: syntax:Unexpected: '('. Expected: ";".  
+               leaky_m.f90:62: error: syntax:Unexpected: '('. Expected: ";".  
+                
+               Parsed with Errors: leaky_m.f90 
+ 
+         Note: We don't see the keywords EXTERNAL and TYPE in the expected tokens of the 
+               error message due to default actions. The parser has already reduced: 
+               <implicit-stmt>-> IMPLICIT <NONE> 
+              
 
 
 Format Scanner
