@@ -1213,6 +1213,7 @@ end-map-stmt ::=
 <enumerator-def-stmt> ::= 
            ENUMERATOR <::> <assign-list> 
      |     ENUMERATOR <name-list> 
+     |     ENUMERATOR <erroneous-stmt> 
 
 <assign-list> ::= 
            <assign-list> <,> <assign> 
@@ -1299,7 +1300,8 @@ end-interface-stmt ::=
 <implicit-stmt> ::= 
            IMPLICIT <implicit-spec-list> 
      |     IMPLICIT <NONE> 
-     |     IMPLICIT <NONE> <implicit-none-spec-list> 
+     |     IMPLICIT <NONE> ( <implicit-none-spec-list> ) 
+     |     IMPLICIT <NONE> ( ) 
 
 <implicit-spec-list> ::= 
            <implicit-spec> <,> <implicit-spec-list> 

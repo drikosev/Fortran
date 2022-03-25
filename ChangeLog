@@ -558,7 +558,7 @@ Legacy parser Issues
                       Expected: "%", "(", ",", ".", ":", "::", "=", "=>", "[", or "name". 
 
                Parsed with Errors: h-no.f
- [2022-03-17]  This program is rejected but the parentheses are valid:                      (todo)
+ [2022-03-17]  This program is rejected but the parentheses are valid:                      (done)
                $ head -n2 leaky_m.f90 && fcheck leaky_m.f90                         
                MODULE leaky_m 
                    IMPLICIT NONE (type, external) 

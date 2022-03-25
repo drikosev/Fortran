@@ -736,6 +736,7 @@
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<enumerator-def-stmt>">&lt;enumerator-def-stmt&gt;</A>&nbsp;&lt;;&gt;&nbsp;
 <BR><BR><STRONG><A name="<enumerator-def-stmt>">&lt;enumerator-def-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENUMERATOR&nbsp;&lt;::&gt;&nbsp;<A href="#<assign-list>">&lt;assign-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;ENUMERATOR&nbsp;<A href="#<name-list>">&lt;name-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;ENUMERATOR&nbsp;<A href="#<erroneous-stmt>">&lt;erroneous-stmt&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<assign-list>">&lt;assign-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<assign-list>">&lt;assign-list&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<assign>">&lt;assign&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<assign>">&lt;assign&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<assign>">&lt;assign&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<name>">&lt;name&gt;</A>&nbsp;=&nbsp;<A href="#<expr>">&lt;expr&gt;</A>&nbsp;
@@ -788,7 +789,8 @@
 <BR><BR><STRONG><A name="<implicit-part-stmt>">&lt;implicit-part-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<implicit-stmt>">&lt;implicit-stmt&gt;</A>&nbsp;&lt;;&gt;&nbsp;
 <BR><BR><STRONG><A name="<implicit-stmt>">&lt;implicit-stmt&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPLICIT&nbsp;<A href="#<implicit-spec-list>">&lt;implicit-spec-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;IMPLICIT&nbsp;&lt;NONE&gt;&nbsp;
-<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;IMPLICIT&nbsp;&lt;NONE&gt;&nbsp;<A href="#<implicit-none-spec-list>">&lt;implicit-none-spec-list&gt;</A>&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;IMPLICIT&nbsp;&lt;NONE&gt;&nbsp;(&nbsp;<A href="#<implicit-none-spec-list>">&lt;implicit-none-spec-list&gt;</A>&nbsp;)&nbsp;
+<BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;IMPLICIT&nbsp;&lt;NONE&gt;&nbsp;(&nbsp;)&nbsp;
 <BR><BR><STRONG><A name="<implicit-spec-list>">&lt;implicit-spec-list&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<implicit-spec>">&lt;implicit-spec&gt;</A>&nbsp;<A href="#<,>">&lt;,&gt;</A>&nbsp;<A href="#<implicit-spec-list>">&lt;implicit-spec-list&gt;</A>&nbsp;
 <BR>&nbsp;&nbsp;<FONT color="#cc3300">|</FONT>&nbsp;&nbsp;<A href="#<implicit-spec>">&lt;implicit-spec&gt;</A>&nbsp;
 <BR><BR><STRONG><A name="<implicit-spec>">&lt;implicit-spec&gt;</A></STRONG><FONT color="#cc3300"> ::= </FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="#<declaration-type-spec>">&lt;declaration-type-spec&gt;</A>&nbsp;<A href="#<p-letter-spec-list>">&lt;p-letter-spec-list&gt;</A>&nbsp;
