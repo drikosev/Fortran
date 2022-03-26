@@ -572,6 +572,16 @@ Legacy parser Issues
                <implicit-stmt>-> IMPLICIT <NONE> 
               
 
+ [2022-03-26]  The BNF rule <declaration-type-spec> doesn't contain the 'type (*)':        (todo)
+               $ cat -n implicit-2.f90 && fcheck implicit-2.f90
+                    1	implicit type(*)(a-z)
+                    2	end
+                    3	
+               implicit-2.f90:1: error: syntax:Unexpected: '*'. Expected: "BYTE", 
+               "CHARACTER","COMPLEX", "DOUBLE", "INTEGER", "LOGICAL", "REAL", or "name". 
+
+               Parsed with Errors: implicit-2.f90
+
 
 Format Scanner
 --------------
