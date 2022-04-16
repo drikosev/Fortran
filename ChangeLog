@@ -850,8 +850,20 @@ Format String Reader
              in main we set reader->toUpper(). To avoid few memory leaks, the SimpleParsingTable
              of the Parser (spt2) is constructed only once, whereas the prescanner/lexer/parser
              are deleted in each iteration (it does matter for multiple sources: "fcheck *.f90").
-
+[2022-04-16] Some Unicode file names of erroneous programs aren't displayed properly. Which         (todo)
+             happens because a (char *) file name is passed to a wide char stream (wcerr).  
+             Fixing this bug doesn't restore the problem of printing the '␤' on Windows-8.                         
+             PS /Users/suser/Documents/tests> cat ␤-2.f90 && fcheck ␤-2.f90        
+             print *, "Symbol for New Line (U+2424) : ␤" ?
+             end
              
+             ␤-2.f90:1: error: syntax:Unexpected: '?'. Expected: '**', ',', '.AND.', '.OR.', ';',
+             'add-op', 'concat-op', 'equiv-op', 'mult-op', 'rel-op', or 'user-defined-operator'. 
+
+             Parsed with Errors: â¤-2.f90  
+
+
+
 
  Translator (sem. actions)
 --------------------------
