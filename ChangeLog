@@ -751,6 +751,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                Parsed with Errors: not-a-hollerith.f90
          Note: [28/5] The above program isn't standard conforming, but acceptable by some compilers.
                If a token is split between two lines, a '&' isn't optional in the continuation line.
+         Note: [18/4/2022] Without leading spaces in 2nd line, the parser fails.                      (todo) 
 [2019-05-11]   Skip Fortran Include Directives that aren't well formed and let the parser read them.  (done)
 [2019-05-13]   In fixed form, issue a warning if an INCLUDE directive begins in columns 1-6.          (done)
 [2019-06-15]   The program below is rejected because we check digit > '0', instead of digit >= '0'.   (done)
@@ -852,7 +853,7 @@ Format String Reader
              are deleted in each iteration (it does matter for multiple sources: "fcheck *.f90").
 [2022-04-16] Some Unicode file names of erroneous programs aren't displayed properly. Which         (todo)
              happens because a (char *) file name is passed to a wide char stream (wcerr).  
-             Fixing this bug doesn't restore the problem of printing the '␤' on Windows-8.                         
+                        
              PS /Users/suser/Documents/tests> cat ␤-2.f90 && fcheck ␤-2.f90        
              print *, "Symbol for New Line (U+2424) : ␤" ?
              end
@@ -861,7 +862,7 @@ Format String Reader
              'add-op', 'concat-op', 'equiv-op', 'mult-op', 'rel-op', or 'user-defined-operator'. 
 
              Parsed with Errors: â¤-2.f90  
-
+       Note: Fixing this bug doesn't restore the problem of printing the '␤' on Windows-8. 
 
 
 
