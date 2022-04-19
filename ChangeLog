@@ -832,6 +832,16 @@ The Following four new features/bug-fixes have not been tested very well yet:
                     2	     *                  IBLKC(15)   , IBLKD(15)                       
                PAKBLK.COM:4: error: syntax:Invalid Characters at Positions 1-5. 
 
+ [2022-04-19]  A continuation line beginning with a tab & a digit is still an unsupported          (todo) 
+               legacy extension for fixed form programs.
+               $ cat tab_digit_cont.f && fcheck tab_digit_cont.f  2>&1 | head -n1
+               	INTEGER ::
+               	1H,J
+               	end
+               
+               tab_digit_cont.f:1: error: syntax:Unexpected End Of Statement. Expected: "name". 
+
+
 
 
 Format String Reader
