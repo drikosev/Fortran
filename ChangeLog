@@ -814,6 +814,16 @@ The Following four new features/bug-fixes have not been tested very well yet:
                smc2rs.f:592: error: syntax:Invalid Characters at Positions 1-5. 
                smc2rs.f:590: error: syntax:Unexpected: NONE with value '\n'.
         Note:  The reader prints the 1st error and aborts. So, the 2nd is spurious. 
+ [2022-04-19]  The two lines file 'PAKBLK.COM' has a SUB character at the end of file,             (todo)
+               sometimes used in old legacy systems. But, Java ie supports it as well.
+               Below are listed the first two lines of each file and the syntax error.
+               $ cat -n bldpkn.f      | head -n2 && cat -n PAKBLK.COM | head -n2 && \
+               > fcheck bldpkn.f 2>&1 | head -n1
+                    1	      SUBROUTINE BLDPKN ( FILE, BLOCK,  MCB )                                   
+                    2	      INCLUDE 'PAKBLK.COM'                                                      
+                    1	      COMMON / PAKBLK / ITYPI, ITYPO, ITRAIL, IBLKA(15), IBLKB(15),   
+                    2	     *                  IBLKC(15)   , IBLKD(15)                       
+               PAKBLK.COM:4: error: syntax:Invalid Characters at Positions 1-5. 
 
 
 
@@ -862,7 +872,7 @@ Format String Reader
              'add-op', 'concat-op', 'equiv-op', 'mult-op', 'rel-op', or 'user-defined-operator'. 
 
              Parsed with Errors: â¤-2.f90  
-       Note: Fixing this bug doesn't restore the problem of printing the '␤' on Windows-8. 
+       Note: Fixing this bug doesn't solve the problem of printing the '␤' on Windows-8.1 
 
 
 
