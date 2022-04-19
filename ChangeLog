@@ -660,6 +660,7 @@ Free Form Preprocessor
         Note:  [13/9] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF) hasn't 
                assigned characters. (see https://en.wikipedia.org/wiki/Private_Use_Areas).
 [ 2018-10-20 ] Add warning: Continuation line in character context without a '&'.
+        Note:  [19/4/2022]  Sometime after 2020-06-28 stopped printing if the literal is a BOZ. 
 [ 2019-04-03 ] We don't tokenise unterminated character literals (as expected).                      (done)
 [ 2019-04-05 ] We don't accept statement continuation patterns in character literal constants        (done)
                before the (double) quoted part, ie inside the "kind-param". 
@@ -705,6 +706,12 @@ Free Form Preprocessor
                       the preprocessor now returns only the quoted binary/octal/hex sequences. 
          Note: [14/6] The scanner can't return SMAs for BOZ Constants returned by the preprocessor.
                       Which can be a problem (ie to format strings?).
+[ 2022-04-19 ] No warning for continuation line in character context without a '&', matched as BOZ.    (todo)
+               $ cat octal.f90 && $fcheck octal.f90
+                character(4) :: ch='41&
+                                    41'
+                end
+
 
 
 Hand coded File Reader
