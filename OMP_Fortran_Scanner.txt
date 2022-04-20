@@ -69,6 +69,7 @@
      |     COMMON 
      |     CONCURRENT 
      |     CONTAINS 
+     |     CONTAINS-2 
      |     CONTINUE 
      |     CONTIGUOUS 
      |     COPYIN 
@@ -341,6 +342,7 @@
      |     IBM 
      |     SMP-DO-SERIAL 
      |     OMP 
+     |     OMP-2 
      |     OMP-END-ATOMIC 
      |     OMP-END-DISTRIBUTE 
      |     OMP-END-DISTRIBUTE-PARALLEL-DO 
@@ -414,6 +416,7 @@
      |     <logical-literal-constant> 
      |     <char-literal-constant> 
      |     <boz-literal-constant> 
+     |     <boz-literal-postfix>   /* return Tr.BOZLiteralPostfix(65874,value); */
      |     <spaces> 
      |     <line-comment>   /* Tr.ScannedLineComment(); */
      |     <::> 
@@ -511,6 +514,12 @@ DT ::=
      |     <char-literal-constant-3> 
      |     <unterminated-quoted-literal> 
      |     <unterminated-dquoted-literal> 
+     |     <quoted-binary-2> 
+     |     <dquoted-binary-2> 
+     |     <quoted-octal-2> 
+     |     <dquoted-octal-2> 
+     |     <quoted-hex-2> 
+     |     <dquoted-hex-2> 
 
 <fmt{T|TL|TR}n> ::= 
            { T | T L | T R } { 0 .. 9 }... 
@@ -642,6 +651,9 @@ CONCURRENT ::=
            C O N C U R R E N T 
 
 CONTAINS ::= 
+           C O N T A I N S 
+
+CONTAINS-2 ::= 
            C O N T A I N S 
 
 CONTINUE ::= 
@@ -855,12 +867,7 @@ assign_no ::=
            rest_line -= { [ ch ... ] = [ ch1 ... ] } 
 
 rest_line ::= 
-           { <char-literal-constant2> | <boz-literal-constant2> | <quoted-literal2> | <dquoted-literal2> | { { \u0001 .. \ufffe } -= { \n | \r | ; | = | ! } } }... { \n | \r | ; | = | ! } 
-
-<boz-literal-constant2> ::= 
-           <boz-literal-constant-2> 
-     |     <unterminated-dquoted-boz> 
-     |     <unterminated-quoted-boz> 
+           { <char-literal-constant2> | <quoted-literal2> | <dquoted-literal2> | { { \u0001 .. \ufffe } -= { \n | \r | ; | = | ! } } }... { \n | \r | ; | = | ! } 
 
 <quoted-literal2> ::= 
            ' [ { ' ' | { \u0001 .. \uFFFD } -= { ' | \n | \r } }... ] ' 
@@ -871,14 +878,12 @@ rest_line ::=
 ch ::= 
            \u0001 .. \ufffe 
      |     <char-literal-constant2> 
-     |     <boz-literal-constant2> 
      |     <quoted-literal0> 
      |     <dquoted-literal0> 
 
 ch1 ::= 
            \u0001 .. \ufffe 
      |     <char-literal-constant2> 
-     |     <boz-literal-constant2> 
      |     <quoted-literal1> 
      |     <dquoted-literal1> 
 
@@ -1503,6 +1508,9 @@ SMP ::=
 OMP ::= 
            <!$OMP> 
 
+OMP-2 ::= 
+           <!$OMP> 
+
 OMP-END-ATOMIC ::= 
            OMP [ { \s | \t }... ] E N D [ { \s | \t }... ] A T O M I C 
 
@@ -1749,6 +1757,7 @@ name_f_begin ::=
 
 <lch> ::= 
            { { \u0001 .. \ufffe } -= { \r | \n | ; } } 
+     |     <char-literal-constant2> 
 
 p_name_list_or_bind_result ::= 
            [ { \t | \s }... ] ( [ { \t | \s }... ] [ name [ { [ { \t | \s }... ] , [ { \t | \s }... ] name [ { \t | \s }... ] }... ] ] [ { \t | \s }... ] ) [ { \t | \s }... ] 
@@ -2230,29 +2239,33 @@ DO_KEY ::=
            D O { A .. Z | 0 .. 9 | _ }... 
 
 <lvalue-context> ::= 
-           { [ { \t | \s }... ] = [ { \t | \s }... ] { { \u0001 .. \ufffe } -= { \n | \r | ; } }... { \n | \r | ; } } -= { [ { \t | \s }... ] = [ { \t | \s }... ] <balanced-chars-lvalue> <do-loop-next> [ { \u0001 .. \ufffe }... ] } 
+           { [ { \t | \s }... ] = [ { \t | \s }... ] { { ch2 } -= { \n | \r | ; } }... { \n | \r | ; } } -= { [ { \t | \s }... ] = [ { \t | \s }... ] <balanced-chars-lvalue> <do-loop-next> [ { ch2 }... ] } 
+
+ch2 ::= 
+           \u0001 .. \ufffe 
+     |     <char-literal-constant2> 
 
 <balanced-chars-lvalue> ::= 
            <balanced-lvalue> ... 
 
 <balanced-lvalue> ::= 
-           { \u0001 .. \ufffe } -= { ( | , | \n | \r | ; } 
+           { ch2 } -= { ( | , | \n | \r | ; } 
      |     ( [ <balanced2-lvalue> ... ] ) 
 
 <balanced2-lvalue> ::= 
-           { \u0001 .. \ufffe } -= { ( | ) | \n | \r | ; } 
+           { ch2 } -= { ( | ) | \n | \r | ; } 
      |     ( [ <balanced3-lvalue> ... ] ) 
 
 <balanced3-lvalue> ::= 
-           { \u0001 .. \ufffe } -= { ( | ) | \n | \r | ; } 
+           { ch2 } -= { ( | ) | \n | \r | ; } 
      |     ( [ <balanced4-lvalue> ... ] ) 
 
 <balanced4-lvalue> ::= 
-           { \u0001 .. \ufffe } -= { ( | ) | \n | \r | ; } 
+           { ch2 } -= { ( | ) | \n | \r | ; } 
      |     ( [ <balanced5-lvalue> ... ] ) 
 
 <balanced5-lvalue> ::= 
-           { \u0001 .. \ufffe } -= { ( | ) | \n | \r | ; } 
+           { ch2 } -= { ( | ) | \n | \r | ; } 
 
 <do-loop-next> ::= 
            , [ { \t | \s }... ] <id-start> [ <id-part> ... ] [ { \t | \s }... ] { <ch> -= { \t | \s | = | <id-part> } } 
@@ -2269,6 +2282,7 @@ DO_KEY ::=
 
 <ch> ::= 
            { \u0001 .. \ufffe } 
+     |     <char-literal-constant2> 
 
 CALLorDATAorREWIND_KEY ::= 
            { C A L L | D A T A | R E W I N D } { A .. Z | 0 .. 9 | _ }... 
@@ -2331,15 +2345,10 @@ exponent ::=
      |     [ kind-param _ ] <char-literal-constant2> 
 
 <boz-literal-constant> ::= 
-           <binary-constant> 
-     |     <octal-constant> 
-     |     <hex-constant> 
-     |     <boz-literal-constant2> 
+           { B | O | Z | X } { <quoted-binary> | <dquoted-binary> | <quoted-binary-2> | <dquoted-binary-2> } 
+     |     { O | Z | X } { <quoted-octal> | <dquoted-octal> | <quoted-octal-2> | <dquoted-octal-2> } 
+     |     { Z | X } { <quoted-hex> | <dquoted-hex> | <quoted-hex-2> | <dquoted-hex-2> } 
      |     <octal-legacy> 
-
-<binary-constant> ::= 
-           B <quoted-binary> 
-     |     B <dquoted-binary> 
 
 <quoted-binary> ::= 
            ' [ <binary_char> ... ] ' 
@@ -2351,10 +2360,6 @@ exponent ::=
 <dquoted-binary> ::= 
            " [ <binary_char> ... ] " 
 
-<octal-constant> ::= 
-           O <quoted-octal> 
-     |     O <dquoted-octal> 
-
 <quoted-octal> ::= 
            ' [ <octal_char> ... ] ' 
 
@@ -2364,24 +2369,24 @@ exponent ::=
 <dquoted-octal> ::= 
            " [ <octal_char> ... ] " 
 
-<hex-constant> ::= 
-           Z <quoted-hex> 
-     |     Z <dquoted-hex> 
-     |     X <quoted-hex> 
-     |     X <dquoted-hex> 
-
 <quoted-hex> ::= 
            ' [ <hex_char> ... ] ' 
 
 <hex_char> ::= 
            { 0 .. 9 } 
      |     { A .. F } 
+     |     { a .. f } 
 
 <dquoted-hex> ::= 
            " [ <hex_char> ... ] " 
 
 <octal-legacy> ::= 
            <octal_char> ... B 
+
+<boz-literal-postfix> ::= 
+           { <quoted-binary> | <dquoted-binary> | <quoted-binary-2> | <dquoted-binary-2> } { B | O | X } 
+     |     { <quoted-octal> | <dquoted-octal> | <quoted-octal-2> | <dquoted-octal-2> } { O | X } 
+     |     { <quoted-hex> | <dquoted-hex> | <quoted-hex-2> | <dquoted-hex-2> } X 
 
 <spaces> ::= 
            \n [ { \t | \r | \s | ; | \n | ! [ { { \u0001 .. \t } | { \u000B .. \uFFFD } }... ] }... ] 

@@ -192,3 +192,5 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
     SHA1(fortran-fcheck-2020-04-01.zip) = f0e66329bb5dae59ac4fb009fb18a2b469b278ed
     SHA1(fortran-fcheck-2020-06-21.zip) = 5c91260bf4b363f3db47785eee022ffa882a262c
     SHA1(fortran-fcheck-2020-06-28.zip) = b643c46dcda5eb313194f01f75b555a54c4429ab
+    SHA1(fortran-fcheck-2022-03-25.zip) = f8bc94338cd6297d819bbf8baaf06ef217d48edd
+    SHA1(fortran-fcheck-2022-04-20.zip) = d0bf595db661984ec0eb307ccb5741adf5e23d79

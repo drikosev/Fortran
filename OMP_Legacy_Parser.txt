@@ -84,14 +84,14 @@ end-program-stmt ::=
      |     END <erroneous-stmt>   /* Tr.Unexpected(L"",1004,false); */
      |     end-construct <erroneous-stmt>   /* Tr.Unexpected(L"",1005,false); */
      |     end-unit <erroneous-stmt>   /* Tr.Unexpected(L"",1006,false); */
-     |     OMP omp-end-construct +: { <;> | EOF }   /* Tr.Unexpected($$(1),true,L"omp-end-'%s'-stmt",str(2)+3); */
-     |     OMP END omp-construct-key +: { <;> | EOF }   /* Tr.Unexpected($$(1),false,L"omp-end-'%s'-stmt",str(3)); */
-     |     OMP END <erroneous-stmt>   /* Tr.Unexpected(L"",1003,false); */
-     |     OMP omp-end-construct <erroneous-stmt>   /* Tr.Unexpected(L"",1007,false); */
-     |     OMP END omp-construct-key <erroneous-stmt>   /* Tr.Unexpected(L"",1007,false); */
+     |     OMP-2 omp-end-construct +: { <;> | EOF }   /* Tr.Unexpected($$(1),true,L"omp-end-'%s'-stmt",str(2)+3); */
+     |     OMP-2 END omp-construct-key +: { <;> | EOF }   /* Tr.Unexpected($$(1),false,L"omp-end-'%s'-stmt",str(3)); */
+     |     OMP-2 END <erroneous-stmt>   /* Tr.Unexpected(L"",1003,false); */
+     |     OMP-2 omp-end-construct <erroneous-stmt>   /* Tr.Unexpected(L"",1007,false); */
+     |     OMP-2 END omp-construct-key <erroneous-stmt>   /* Tr.Unexpected(L"",1007,false); */
 
 <missing-end-statement> ::~ 
-           CONTAINS +: { <;> } 
+           CONTAINS-2 +: { <;> } 
 
 unit ::~ 
            FUNCTION 
@@ -696,6 +696,7 @@ keyword ::=
      |     TYPE <p-derived-type-spec> 
      |     CLASS <p-derived-type-spec> 
      |     CLASS <p-star> 
+     |     TYPE <p-star> 
 
 <p-intrinsic-type-spec> ::= 
            ( <intrinsic-type-spec> ) 
@@ -1213,7 +1214,7 @@ end-map-stmt ::=
 <enumerator-def-stmt> ::= 
            ENUMERATOR <::> <assign-list> 
      |     ENUMERATOR <name-list> 
-     |     ENUMERATOR <erroneous-stmt> 
+     |     <erroneous-stmt> 
 
 <assign-list> ::= 
            <assign-list> <,> <assign> 

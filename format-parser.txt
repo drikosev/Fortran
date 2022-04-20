@@ -162,7 +162,7 @@
      |     <char-literal-constant> 
 
 <)> ::= 
-           NONE -: { ) } 
+           NONE +: { EOF } 
      |     ) 
 
 <unlimited-format-item> ::= 

@@ -572,7 +572,7 @@ Legacy parser Issues
                <implicit-stmt>-> IMPLICIT <NONE> 
               
 
- [2022-03-26]  The BNF rule <declaration-type-spec> doesn't contain the 'type (*)':        (todo)
+ [2022-03-26]  The BNF rule <declaration-type-spec> doesn't contain the 'type (*)':        (done)
                $ cat -n implicit-2.f90 && fcheck implicit-2.f90
                     1	implicit type(*)(a-z)
                     2	end
@@ -581,7 +581,7 @@ Legacy parser Issues
                "CHARACTER","COMPLEX", "DOUBLE", "INTEGER", "LOGICAL", "REAL", or "name". 
 
                Parsed with Errors: implicit-2.f90
- [2022-04-20]  The following error messages contain various spurious tokens, due to error  (todo)
+ [2022-04-20]  The following error messages contain various spurious tokens, due to error  (done)
                production <unexpected-end-stmt>. Removing "END_TEAM" is the easier part.     
                Removing the 2nd error message requires error recovery before the keyword 
                ENUMERATOR, but I'd seen in the past the parser fall in an infinitive loop.
@@ -725,7 +725,7 @@ Free Form Preprocessor
                       the preprocessor now returns only the quoted binary/octal/hex sequences. 
          Note: [14/6] The scanner can't return SMAs for BOZ Constants returned by the preprocessor.
                       Which can be a problem (ie to format strings?).
-[ 2022-04-19 ] No warning for continuation line in character context without a '&', matched as BOZ.    (todo)
+[ 2022-04-19 ] No warning for continuation line in character context without a '&', matched as BOZ.    (done)
                $ cat octal.f90 && $fcheck octal.f90
                 character(4) :: ch='41&
                                     41'
@@ -777,7 +777,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                Parsed with Errors: not-a-hollerith.f90
          Note: [28/5] The above program isn't standard conforming, but acceptable by some compilers.
                If a token is split between two lines, a '&' isn't optional in the continuation line.
-         Note: [18/4/2022] Without leading spaces in 2nd line, the parser fails.                      (todo) 
+         Note: [18/4/2022] Without leading spaces in 2nd line, the parser fails.                      (done) 
 [2019-05-11]   Skip Fortran Include Directives that aren't well formed and let the parser read them.  (done)
 [2019-05-13]   In fixed form, issue a warning if an INCLUDE directive begins in columns 1-6.          (done)
 [2019-06-15]   The program below is rejected because we check digit > '0', instead of digit >= '0'.   (done)
@@ -840,7 +840,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                smc2rs.f:592: error: syntax:Invalid Characters at Positions 1-5. 
                smc2rs.f:590: error: syntax:Unexpected: NONE with value '\n'.
         Note:  The reader prints the 1st error and aborts. So, the 2nd is spurious. 
- [2022-04-19]  The two lines file 'PAKBLK.COM' has a SUB character at the end of file,             (todo)
+ [2022-04-19]  The two lines file 'PAKBLK.COM' has a SUB character at the end of file,             (done)
                sometimes used in old legacy systems. But, Java ie supports it as well.
                Below are listed the first two lines of each file and the syntax error.
                $ cat -n bldpkn.f      | head -n2 && cat -n PAKBLK.COM | head -n2 && \
@@ -851,7 +851,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                     2	     *                  IBLKC(15)   , IBLKD(15)                       
                PAKBLK.COM:4: error: syntax:Invalid Characters at Positions 1-5. 
 
- [2022-04-19]  A continuation line beginning with a tab & a digit is still an unsupported          (todo) 
+ [2022-04-19]  A continuation line beginning with a tab & a digit is still an unsupported          (done) 
                legacy extension for fixed form programs.
                $ cat tab_digit_cont.f && fcheck tab_digit_cont.f  2>&1 | head -n1
                	INTEGER ::
@@ -897,7 +897,7 @@ Format String Reader
              in main we set reader->toUpper(). To avoid few memory leaks, the SimpleParsingTable
              of the Parser (spt2) is constructed only once, whereas the prescanner/lexer/parser
              are deleted in each iteration (it does matter for multiple sources: "fcheck *.f90").
-[2022-04-16] Some Unicode file names of erroneous programs aren't displayed properly. Which         (todo)
+[2022-04-16] Some Unicode file names of erroneous programs aren't displayed properly. Which         (done)
              happens because a (char *) file name is passed to a wide char stream (wcerr).  
                         
              PS /Users/suser/Documents/tests> cat ␤-2.f90 && fcheck ␤-2.f90        
