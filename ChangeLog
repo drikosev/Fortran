@@ -581,6 +581,25 @@ Legacy parser Issues
                "CHARACTER","COMPLEX", "DOUBLE", "INTEGER", "LOGICAL", "REAL", or "name". 
 
                Parsed with Errors: implicit-2.f90
+ [2022-04-20]  The following error messages contain various spurious tokens, due to error  (todo)
+               production <unexpected-end-stmt>. Removing "END_TEAM" is the easier part.     
+               Removing the 2nd error message requires error recovery before the keyword 
+               ENUMERATOR, but I'd seen in the past the parser fall in an infinitive loop.
+         Note: Removing the two tokens "!$OMP" and "CONTAINS" normally requires either bug
+               fixes in Syntaxis or discarding the error production <unexpected-end-stmt>.
+               Instead, the new keywords CONTAINS-2/OMP-2 won't appear as expected tokens. 
+               $ cat enum-spurious.f90 && fcheck enum-spurious.f90
+               ENUM, BIND(C)
+                ENUMERATOR :: RED = 4, BLUE = 9
+                ENAMERATOR YELLOW
+               END ENUM
+               END
+
+               enum-spurious.f90:3: error: syntax:Unexpected name with value 'ENAMERATOR'.
+                                 Expected: "!$OMP", "CONTAINS", "END", "END_TEAM",
+                                           "ENUMERATOR", or "label". 
+               enum-spurious.f90:4: error: syntax:Unexpected end-enum-stmt
+                                 Expected: end-program-stmt.
 
 
 Format Scanner
@@ -660,7 +679,7 @@ Free Form Preprocessor
         Note:  [13/9] According to Wikipedia, the Basic Multilingual Plane (U+E000–U+F8FF) hasn't 
                assigned characters. (see https://en.wikipedia.org/wiki/Private_Use_Areas).
 [ 2018-10-20 ] Add warning: Continuation line in character context without a '&'.
-        Note:  [19/4/2022]  Sometime after 2020-06-28 stopped printing if the literal is a BOZ. 
+        Note:  [19/4/2022]  No warning (after 2020-06-28) if the literal is matched as BOZ. 
 [ 2019-04-03 ] We don't tokenise unterminated character literals (as expected).                      (done)
 [ 2019-04-05 ] We don't accept statement continuation patterns in character literal constants        (done)
                before the (double) quoted part, ie inside the "kind-param". 
