@@ -968,3 +968,5 @@ Format String Reader
      available prior to the configuration step. The source code of Whizard (2.8.1) can be found at:
 [*8] https://whizard.hepforge.org/downloads/?f=whizard-2.8.1.tar.gz
 
+     The OMP (Legacy) Parser can parse NASTRAN, a finite element analysis (FEA) program, found at: 
+[*9] https://github.com/nasa/NASTRAN-95
