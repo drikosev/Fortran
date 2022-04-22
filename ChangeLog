@@ -623,7 +623,9 @@ Legacy parser Issues
                                      'TYPE', 'UNION', or 'label'. 
 
                Parsed with Errors: derived.f90
-               
+         Note: [22/4] Several keywords used in legacy/non standard conforming code          (todo)
+               shall not be proposed as expected tokens, ie RECORD, STRUCTURE, UNION.
+
 
 Format Scanner
 --------------
