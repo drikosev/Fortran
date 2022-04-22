@@ -601,6 +601,29 @@ Legacy parser Issues
                enum-spurious.f90:4: error: syntax:Unexpected end-enum-stmt
                                  Expected: end-program-stmt.
 
+               Parsed with Errors: enum-spurious.f90
+         Note: [22/4] Distinct error recovery in other constructs is possibly required,     
+               as we don't just parse statements one by one, but constructs as a whole. 
+ [2022-04-22]  The second error message below is spurious (it should be "Unexpected '?').  (todo)
+               $ cat -n derived.f90 | head -n 10 && fcheck derived.f90
+                    1	module m
+                    2	   type t
+                    3	
+                    4	    contains
+                    5	
+                    6	     	final ft;
+                    7	        procedure, nopass :: p => np ?
+                    8	        generic :: operator(.eq.) => y ?
+                    9	
+                   10	    end type t
+               derived.f90:7: error: syntax:Unexpected: '?'. Expected: ',', or ';'. 
+               derived.f90:8: error: syntax:Unexpected: 'GENERIC'. Expected: 'CHARACTER',
+                                     'CLASS', 'COMPLEX', 'CONTAINS', 'DOUBLE', 'END',
+                                     'INTEGER', 'LOGICAL', 'PROCEDURE', 'REAL', 'RECORD',
+                                     'TYPE', 'UNION', or 'label'. 
+
+               Parsed with Errors: derived.f90
+               
 
 Format Scanner
 --------------
