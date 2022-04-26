@@ -622,6 +622,20 @@ Legacy parser Issues
                Parsed with Errors: derived.f90 
          Note: [23/4] Several keywords used in legacy/non standard conforming code should   (todo)
                better not proposed as expected tokens, ie DEFINE, RECORD, STRUCTURE, UNION.
+ [2022-04-26]  An empty block is rejected.                                                  (todo)
+               $ cat -n empty-block.f90 && fcheck empty-block.f90
+                    1	 integer i
+                    2	 BLOCK
+                    3	 END BLOCK
+                    4	 print *, i
+                    5	 END
+                    6	
+               empty-block.f90:3: error: syntax:Unexpected: 'BLOCK'.
+                                                  Expected: '%', '(', ':', '=', '=>', or '['.
+               empty-block.f90:5: error: syntax:Unexpected end-unit-stmt.
+                                                  Expected: end-block-stmt.
+               Parsed with Errors: empty-block.f90
+               $ 
 
 
 Format Scanner
