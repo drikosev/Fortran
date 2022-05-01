@@ -184,6 +184,24 @@ The Following bug-fix has not been tested very well yet:
         Note:  [17/6] pgfortran (19.1) doesn't accept the format '1'B
         Note:  [18/6] See also the DEC/VMS Extension in the hand coded file reader for
                octal constants starting with a quotation mark.
+ [2022-05-01]  The keyword USE in a <use-stmt> may be followed by another name, but also    (todo)
+               is a prefix of the (connect extension) keyword USEROPEN. Forward scanning
+               is required, likely in USEROPEN and maybe in future OpenMP (5.0) keywords.
+
+               $ cat -n useropen.f && fcheck useropen.f -debug | grep Line=00002
+                    1	      program main_ropen
+                    2	      use ropen, only: ce
+                    3	          open(11, useropen=ce)
+                    4	      end program main_ropen
+                    5	
+                 Line=00002,66106  name-l                    buffer=[USEROPEN] 
+                 Line=00002,00044  ,                         buffer=[,] 
+                 Line=00002,65800  ;                         buffer=[\r] 
+               useropen.f:2: error: syntax:Unexpected: ','. Expected: '%', '(', ':',
+                                                                  '=', '=>', or '['. 
+
+               Parsed with Errors: useropen.f
+
 
 
 Legacy parser Issues
