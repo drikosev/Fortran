@@ -914,6 +914,14 @@ The Following four new features/bug-fixes have not been tested very well yet:
                
                tab_digit_cont.f:1: error: syntax:Unexpected End Of Statement. Expected: "name". 
 
+ [2022-05-02]  In character context, OpenMP Conditional Compilation Directives are ignored.       (todo)
+               $ cat -n cc.f90 && fcheck -fopenmp cc.f90 2>&1 | head -n1
+                    1	!  char.*literal.constant 'better'
+                    2	   print *, 'bet&
+                    3	!$ ter' 
+                    4	end
+               cc.f90:4: error: syntax:Unterminated literal constant (quote required).
+               $ 
 
 
 
