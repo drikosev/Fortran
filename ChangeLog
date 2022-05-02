@@ -913,7 +913,6 @@ The Following four new features/bug-fixes have not been tested very well yet:
                	end
                
                tab_digit_cont.f:1: error: syntax:Unexpected End Of Statement. Expected: "name". 
-
  [2022-05-02]  In character context, OpenMP Conditional Compilation Directives are ignored.       (todo)
                $ cat -n cc.f90 && fcheck -fopenmp cc.f90 2>&1 | head -n1
                     1	!  char.*literal.constant 'better'
@@ -921,9 +920,14 @@ The Following four new features/bug-fixes have not been tested very well yet:
                     3	!$ ter' 
                     4	end
                cc.f90:4: error: syntax:Unterminated literal constant (quote required).
-               $ 
-
-
+ [2022-05-02]  In fixed form, a line following a, non standard, split include-stmt is lost.       (todo)
+               $ cat -n cont_line.for && fcheck cont_line.for -debug -w | grep Line=00004
+                    1	!  boz.*literal.constant Z'AAAA'      
+                    2	      include 
+                    3	     & 'include.inc'
+                    4	      j = int(Z'AAAA')
+                    5	      end
+             
 
 Format String Reader
 --------------------
