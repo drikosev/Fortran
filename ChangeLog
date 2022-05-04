@@ -975,6 +975,8 @@ Format String Reader
 
              Parsed with Errors: â¤-2.f90  
        Note: Fixing this bug doesn't solve the problem of printing the '␤' on Windows-8.1 
+[2022-05-04] Regarding the DEC syntax, our outdated manual just mentions the possibility of        (todo)
+             inaccuracies that however are confirmed now, ie due to missing semantic actions.
 
 
 
