@@ -182,8 +182,8 @@ The Following bug-fix has not been tested very well yet:
         Note:  See also the <octal-legacy> extension documented on 2018-07-03.
         Note:  See also the note on 14/6, why the preprocessor shouldn't recognize BOZes. 
         Note:  [17/6] pgfortran (19.1) doesn't accept the format '1'B
-        Note:  [18/6] See also the DEC/VMS Extension in the hand coded file reader for
-               octal constants starting with a quotation mark.
+        Note:  [18/6] See also the Legacy Extension in the hand coded file reader for
+               octal constants starting with a double quote.
  [2022-05-01]  The keyword USE in a <use-stmt> may be followed by another name, but also    (todo)
                is a prefix of the (connect extension) keyword USEROPEN. Forward scanning
                is required, likely in USEROPEN and maybe in future OpenMP (5.0) keywords.
@@ -201,6 +201,17 @@ The Following bug-fix has not been tested very well yet:
                                                                   '=', '=>', or '['. 
 
                Parsed with Errors: useropen.f
+ [2022-05-06]  In some cases, we can parse (legacy) parameters without parentheses, ie      (todo)
+               when more than one are defined, the statement can't be something else. 
+               $ cat parameters.f && fcheck -fdec -ffixed-form parameters.f 2> /dev/null
+                      parameter i=1*1,    j=2
+                      parameter s=1.0,    t=2.0
+                      parameter u=-1.0,   v=2.0
+                      parameter w=+1.0,   x=2.0
+                      parameter y=-2e+03, z=2.0
+                      end
+        Note:  The option '-fdec' should better be obligatory, since sem. actions needed. 
+        Note:  The Lookahead operator is tricky, not as simple as the 'USEROPEN' keyword.
 
 
 
@@ -860,11 +871,14 @@ The Following four new features/bug-fixes have not been tested very well yet:
                      end
 
                Parsed with Errors: ds_tauola.f
-[2020-06-18]   DEC/VMS Extension: Parse Octal Constants starting with a quotation mark (ie "567).     (done)
+ [2020-06-18]  Legacy Extension: Parse Octal Constants starting with a quotation mark (ie "567).      (done)
          Note: A very simple, but trial, workaround is to make a conversion (ie "567 -> 567B) on
                request, with a command line option (ie -fdec or /fdec), apart format statements.
                This may work well in fixed form, but in free form the constant should be ie on the
                same line. A '&' in the constant won't be supported for such a legacy format.
+         Note: [6/5/2022] It's more accurate to mention it as a Legacy Extension, rather DEC/VMS.     (todo)
+               So, this feature should better be enabled with a distinct option, not the 'fdec'.               
+               In g77 ie it's enabled with the option '-fvxt', in Oracle Fortran with the '-xl'.  
  [2020-06-23]  Hollerith Constants in numeric expressions (multiplications) aren't supported.         (done)
                In the following (NASTRAN-95) program the expression "82*4H****" is rejected.
                $ head -n 193 ifx1bd.f | tail -n 4  && fcheck ifx1bd.f 2>&1 | head -n 1
