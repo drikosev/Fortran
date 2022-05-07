@@ -873,7 +873,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                      end
 
                Parsed with Errors: ds_tauola.f
- [2020-06-18]  Legacy Extension: Parse Octal Constants starting a double quote (ie "567).             (done)
+ [2020-06-18]  Legacy Extension: Parse Octal Constants starting with a double quote (ie "567).        (done)
          Note: A very simple, but trial, workaround is to make a conversion (ie "567 -> 567B) on
                request, with a command line option (ie -fdec or /fdec), apart format statements.
                This may work well in fixed form, but in free form the constant should be ie on the
