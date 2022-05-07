@@ -212,6 +212,8 @@ The Following bug-fix has not been tested very well yet:
                       end
         Note:  The option '-fdec' should better be obligatory, since sem. actions needed. 
         Note:  The Lookahead operator is tricky, not as simple as the 'USEROPEN' keyword.
+        Note:  [07/5] It's better to pass control to a sem. action for all PARAMETER<s> =
+                See:  https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA  
 
 
 
@@ -871,7 +873,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                      end
 
                Parsed with Errors: ds_tauola.f
- [2020-06-18]  Legacy Extension: Parse Octal Constants starting with a quotation mark (ie "567).      (done)
+ [2020-06-18]  Legacy Extension: Parse Octal Constants starting a double quote (ie "567).             (done)
          Note: A very simple, but trial, workaround is to make a conversion (ie "567 -> 567B) on
                request, with a command line option (ie -fdec or /fdec), apart format statements.
                This may work well in fixed form, but in free form the constant should be ie on the
