@@ -201,20 +201,22 @@ The Following bug-fix has not been tested very well yet:
                                                                   '=', '=>', or '['. 
 
                Parsed with Errors: useropen.f
- [2022-05-06]  In some cases, we can parse (legacy) parameters without parentheses, ie      (todo)
-               when more than one are defined, the statement can't be something else. 
-               $ cat parameters.f && fcheck -fdec -ffixed-form parameters.f 2> /dev/null
-                      parameter i=1*1,    j=2
-                      parameter s=1.0,    t=2.0
-                      parameter u=-1.0,   v=2.0
-                      parameter w=+1.0,   x=2.0
-                      parameter y=-2e+03, z=2.0
-                      end
-        Note:  The option '-fdec' should better be obligatory, since sem. actions needed. 
-        Note:  The Lookahead operator is tricky, not as simple as the 'USEROPEN' keyword.
-        Note:  [07/5] It's better to pass control to a sem. action for all PARAMETER<s> =
-                See:  https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA  
-
+ [2022-05-06]  In some cases, we can parse (legacy) parameters without parentheses, ie      (todo) 
+               when more than one are defined, the statement can't be something else.  
+               $ cat parameters.f && fcheck -fdec -ffixed-form parameters.f 2> /dev/null 
+                      parameter i=1*1,    j=2 
+                      parameter s=1.0,    t=2.0 
+                      parameter u=-1.0,   v=2.0 
+                      parameter w=+1.0,   x=2.0 
+                      parameter y=-2e+03, z=2.0 
+                      end 
+        Note:  The option '-fdec' should better be obligatory, since sem. actions needed.   
+        Note:  The Lookahead operator is tricky, not as simple as the 'USEROPEN' keyword. 
+        Note:  [07/5] It's better to pass control to a sem. action for all PARAMETER<s> = 
+               Having posted a question to c.l.f and received feedback, I chose the above. 
+             Q https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA  
+             A https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA/m/ZTRTTf96BAAJ
+             A https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA/m/9pswncW7BAAJ
 
 
 Legacy parser Issues
