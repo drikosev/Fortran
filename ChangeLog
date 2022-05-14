@@ -165,6 +165,7 @@ The Following bug-fix has not been tested very well yet:
                "%", "(", "(/", ".NOT.", "[", "constant", "name", or "user-defined-operator". 
 
                Parsed with Errors: lcoarray-context.f90
+        Note:  [14/5/22] Below there is a subsequent issue. Search "function-bind.f".
  [2019-08-22]  Intel Fortran extension: accept DIRECTORY as a keyword.                      (done) 
  [2019-10-13]  The first Rewind statement below would likely need classification.           (done) 
                $ cat ds_pythia.for && fcheck ds_pythia.for
@@ -217,26 +218,21 @@ The Following bug-fix has not been tested very well yet:
                Having posted a question to c.l.f and received feedback, I chose the above. 
              Q https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA  
              A https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA/m/ZTRTTf96BAAJ
-             A https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA/m/9pswncW7BAAJ
- [2022-05-14]  The context sensitive DEC TYPE (as print) statements are rejected.           (todo)
-               $ cat fmt-string.f && fcheck -fdec fmt-string.f
-                     character(6) :: fmt = "(A6)"
-                     type fmt, 'Hello!'
-                     end
+             A https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA/m/9pswncW7BAAJ  
+ [2022-05-14]  In fixed form, function headers with BIND/RESULT aren't classified ok. As    (todo)
+               it seems, it's a recurring problem.
+               $ cat -n function-bind.f && fcheck function-bind.f
+                    1	      logical(c_bool) function f_s () bind(C)
+                    2	      end 
+               function-bind.f:1: error: syntax:Unexpected: ')'. Expected: "%", "(", "(/",
+                "*", "..", ".NOT.", ":", "[", "boz-literal-postfix", "constant", "name", or
+                "user-defined-operator". 
 
-               fmt-string.f:2: error: syntax:Unexpected: ','. Expected: '(', or ';'. 
-
-               Parsed with Errors: fmt-string.f
-
-        Note:  This change affects also the Scanner and the Translator, as one needs to
-               know the declared entities. Without a C Preprocessor though, we may read
-               twice pretty valid declarations in C conditional directives.
-        Note:  Adding semantic actions to <entity-decl> isn't that easy if the <prefix>     (todo)
-               rule in Functions/Subroutines allows more than one <declaration-type-spec>.
-               Similarly, some extensions or error productions should better be removed.
-               Ie, the extraneous ',' in the following rule makes our task harder:            
-               <type-declaration-stmt> ::= <declaration-type-spec> , <entity-decl-list>
-  
+               Parsed with Errors: function-bind.f
+        Note:  One problem here is that the <larray-context> used in <name-l> proceeds more
+               until it find ")=" or "]=" or "%name=" and on failure returns <name-r>. Also,
+               there is only one accepting rule on backtrack in the state where the name 
+               "functions" is matched. 
 
 
 
@@ -690,6 +686,24 @@ Legacy parser Issues
                                                   Expected: end-block-stmt.
                Parsed with Errors: empty-block.f90
                $ 
+ [2022-05-14]  The context sensitive DEC TYPE (as print) statements are rejected.           (todo)
+               $ cat fmt-string.f && fcheck -fdec fmt-string.f
+                     character(6) :: fmt = "(A6)"
+                     type fmt, 'Hello!'
+                     end
+
+               fmt-string.f:2: error: syntax:Unexpected: ','. Expected: '(', or ';'. 
+
+               Parsed with Errors: fmt-string.f
+
+        Note:  This change affects also the Scanner and the Translator, as one needs to
+               know the declared entities. Without a C Preprocessor though, we may read
+               twice pretty valid declarations in C conditional directives.
+        Note:  Adding semantic actions to <entity-decl> isn't that easy if the <prefix>     (todo)
+               rule in Functions/Subroutines allows more than one <declaration-type-spec>.
+               Similarly, some extensions or error productions should better be removed.
+               Ie, the extraneous ',' in the following rule makes our task harder:            
+               <type-declaration-stmt> ::= <declaration-type-spec> , <entity-decl-list>
 
 
 Format Scanner
@@ -1057,7 +1071,7 @@ Format String Reader
                <prefix-no-type> ::= <prefix-no-type> <prefix-spec>  | <prefix-spec> 
                <prefix-spec> ::= ELEMENTAL | IMPURE | MODULE | PURE | RECURSIVE | NON RECURSIVE
 
-        Note:  The <prefix> can always be implemented as two distinct, left recursive lists 
+        Note:  The <prefix> can always be implemented as two disjoint, left recursive lists 
                where the Co-Go technique, as it seems, is applied smoothly.
 
 
