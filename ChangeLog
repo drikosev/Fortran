@@ -232,7 +232,7 @@ The Following bug-fix has not been tested very well yet:
         Note:  One problem here is that the <larray-context> used in <name-l> proceeds more
                until it find ")=" or "]=" or "%name=" and on failure returns <name-r>. Also,
                there is only one accepting rule on backtrack in the state where the name 
-               "functions" is matched. 
+               "functionf_s" is matched. 
 
 
 
