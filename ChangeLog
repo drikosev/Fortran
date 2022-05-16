@@ -509,6 +509,7 @@ Legacy parser Issues
         Note:  [27/8] To postpone the removal of those temporary actions, I'll add as an 
                extra hack the keywords READ2/WRITE2 that can assist a new semantic action 
                in the scanner return the keywords READ/WRITE in the middle of a statement.  
+        Note:  [16/5/22] Added in ChangeLog-History the file "2022-temporary-actions.diff".
  [2019-03-31]  Except "SUBROUTINE", the keywords in the error message below are spurious.   (done)                   
                $ cat subroutine-1.f90 && fcheck subroutine-1.f90  2>&1 | grep -v "3"
                1     subroutine s
