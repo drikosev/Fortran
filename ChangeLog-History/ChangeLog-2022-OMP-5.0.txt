@@ -1,0 +1,171 @@
+
+ To upgrade 'fcheck' from OpenMP (4.5) to (5.0) a long list of changes are required. So,
+ this separate ChangeLog document may keep things clear. The changes required affect, the
+ Scanner, the Parser, and the Translator. Obviously, it's the minimum effort required just 
+ for parsing.
+
+
+
+ OMP (Legacy) Scanner Issues
+ ---------------------------
+
+[ 2022-05-03 ] Forward scanning will be be added to the newer USER OpenMP (5.0) keyword.           (done)
+        Note:  As noted on 2022-05-01 the USEROPEN keyword needs also forward scanning.
+
+       <token> ::=
+       ...
+       -|USEROPEN
+       +|USER +: <eq-symbol..> /*return Tr.If_key_else_names(action.value.ReduceId,66137,66106);*/
+       +|USEROPEN +: <eq-symbol...>/*return Tr.If_key_else_names(action.value.ReduceId,66137,66106);*/
+       ...
+
+
+[ 2022-05-03 ] The following keywords are required in the newer version.                           (done)                
+
+               <token> ::=
+               ...
+               +    |     ACQUIRE 
+               +    |     ACQ_REL 
+               +    |     AGGREGATE 
+               +    |     ANCESTOR 
+               +    |     ARCH 
+               +    |     ATOMIC_DEFAULT_MEM_ORDER 
+               +    |     BEGIN  
+               +    |     CONDITION 
+               +    |     CONDITIONAL 
+               +    |     CONSTRUCT 
+               +    |     DEPOBJ 
+               +    |     DESTROY 
+               +    |     DETACH 
+               +    |     DEVICE_NUM 
+               +    |     DEVICE_TYPE 
+               +    |     DYNAMIC_ALLOCATORS 
+               +    |     END_METADIRECTIVE
+               +    |     OMP-END-LOOP 
+               +    |     OMP-END-MASTER-TASKLOOP 
+               +    |     OMP-END-MASTER-TASKLOOP-SIMD 
+               +    |     OMP-END-PARALLEL-LOOP 
+               +    |     OMP-END-PARALLEL-MASTER-TASKLOOP 
+               +    |     OMP-END-PARALLEL-MASTER-TASKLOOP-SIMD 
+               +    |     OMP-END-TARGET-TEAMS-LOOP 
+               +    |     OMP-END-TEAMS-LOOP 
+               +    |     EXCLUSIVE 
+               +    |     FILTER 
+               +    |     FOR 
+               +    |     HOST 
+               +    |     IMPLEMENTATION 
+               +    |     INCLUSIVE 
+               +    |     INDIRECT 
+               +    |     INSCAN 
+               +    |     IN_REDUCTION 
+               +    |     ISA 
+               +    |     ITERATOR 
+               +    |     LOOP 
+               +    |     MAPPER 
+               +    |     MASKED 
+               +    |     MATCH 
+               +    |     METADIRECTIVE 
+               +    |     MUTEXINOUTSET 
+               +    |     NOHOST 
+               +    |     NONTEMPORAL 
+               +    |     ORDER 
+               +    |     RELAXED 
+               +    |     REQUIRES 
+               +    |     REVERSE_OFFLOAD 
+               +    |     SCAN 
+               +    |     TASK_REDUCTION 
+               +    |     THREAD 
+               +    |     THREADS 
+               +    |     UNIFIED_ADDRESS 
+               +    |     UNIFIED_SHARED_MEMORY 
+               +    |     USES_ALLOCATORS 
+               +    |     USE_DEVICE_ADDR 
+               +    |     VARIANT 
+               +    |     VENDOR 
+               +    |     WHEN 
+               +    |     <ext_implementation-defined-requirement>
+
+
+
+        
+ OMP (Legacy) Parser Issues
+ --------------------------
+
+[ 2022-05-03 ] The following Syntax Rules are required in the newer version.                        (done)                
+
+               <omp-directive> ::=
+               +     |     <omp-declare-mapper-stmt> 
+               +     |     <omp-declare-variant-stmt> 
+               +     |     <omp-depobj-stmt> 
+               +     |     <omp-loop-construct> 
+               +     |     <omp-master-taskloop-construct> 
+               +     |     <omp-master-taskloop-simd-construct> 
+               +     |     <omp-metadirective-construct> 
+               +     |     <omp-parallel-loop-construct> 
+               +     |     <omp-parallel-master-construct> 
+               +     |     <omp-parallel-master-taskloop-construct> 
+               +     |     <omp-parallel-master-taskloop-simd-construct> 
+               +     |     <omp-requires-directive> 
+               +     |     <omp-target-parallel-loop-construct>
+               +     |     <omp-target-teams-loop-construct> 
+
+
+               <do-block> ::= 
+               +     |     <omp-scan-stmt> 
+               +     |     <omp-cancellation-point-do-stmt> 
+
+
+               <omp-declaration> ::=
+               +     |     <omp-declare-variant-stmt> 
+               +     |     <omp-metadirective-construct> 
+               +     |     <omp-requires-directive> 
+
+
+               <workshare-part-directive> ::= 
+               +     |     <omp-master-taskloop-construct> 
+               +     |     <omp-master-taskloop-simd-construct> 
+               +     |     <omp-metadirective-construct> 
+               +     |     <omp-parallel-master-construct> 
+               +     |     <omp-parallel-master-taskloop-construct> 
+               +     |     <omp-parallel-master-taskloop-simd-construct> 
+
+
+               <omp-do-for-shared-term> ::= 
+               +     |     <omp-loop-stmt> 
+               +     |     <omp-master-taskloop-stmt> 
+               +     |     <omp-master-taskloop-simd-stmt> 
+               +     |     <omp-parallel-loop-stmt> 
+               +     |     <omp-parallel-master-taskloop-stmt> 
+               +     |     <omp-parallel-master-taskloop-simd-stmt> 
+               +     |     <omp-target-parallel-loop-stmt> 
+               +     |     <omp-target-teams-loop-stmt> 
+               +     |     <omp-teams-loop-stmt> 
+
+
+
+[ 2022-05-03 ] The following Syntax Rules must be updated for the newer version.                    (done)                
+               
+               <omp-atomic-update> ::= 
+                 ATOMIC [<omp-atomic-clause-list>[,]] <omp-update-key> [[,] <omp-atomic-clause-list>] 
+               | ATOMIC [<omp-atomic-clause-list>]
+
+               <omp-atomic-capture> ::= 
+                 ATOMIC [<omp-atomic-clause-list> [,]] CAPTURE [[,] <omp-atomic-clause-list>]
+               ...
+               <omp-target-update-stmt> ::=      
+               <omp-taskgroup-stmt> ::=
+               <omp-lastprivate> ::=
+               <omp-teams-construct>  ::=       
+               <omp-target-construct>  ::=       
+               <omp-taskwait>  ::=               
+               <omp-map>  ::=        
+               ...
+
+
+
+
+
+ Translator (sem. actions)
+--------------------------
+[ 2022-05-03 ] Validate that the OpenMP Scan Directive is inside an OpenMP Do Loop.                 (done)
+[ 2022-05-03 ] Validate that the OpenMP CancelDo Directive is inside an OpenMP Do Loop.             (done)
