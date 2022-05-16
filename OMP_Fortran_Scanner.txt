@@ -2,7 +2,10 @@
 #ignore <spaces>
 
 #sma <letter>
+#sma <name-f>
 #sma <name-r>
+#sma TYPE_DEC_LOOKAHEAD
+#sma USER
 
 <token> ::= 
            <fmt{G}w> 
@@ -16,84 +19,115 @@
      |     <fmt{T|TL|TR}n> 
      |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
      |     A 
-     |     C 
-     |     F 
-     |     G 
-     |     I 
-     |     L 
-     |     X 
-     |     P 
-     |     Q 
-     |     DT 
-     |     DC 
-     |     DP 
-     |     BN 
-     |     BZ 
-     |     RU 
-     |     RD 
-     |     RZ 
-     |     RN 
-     |     RC 
-     |     RP 
-     |     SS 
-     |     SP 
-     |     S 
-     |     T 
-     |     TL 
-     |     TR 
      |     ABSTRACT 
      |     ACCESS 
+     |     ACQUIRE 
+     |     ACQUIRED_LOCK 
+     |     ACQ_REL 
      |     ACTION 
      |     ADVANCE 
+     |     AFFINITY 
+     |     AGGREGATE 
+     |     ALIGNED 
      |     ALL 
+     |     ALLOC 
      |     ALLOCATABLE 
      |     ALLOCATE 
+     |     ALWAYS 
+     |     ANCESTOR 
      |     <ANY> 
-     |     ACQUIRED_LOCK 
+     |     ARCH 
      |     ASSIGN 
      |     ASSIGNMENT 
      |     ASSOCIATE 
+     |     ASSOCIATEVARIABLE 
      |     ASYNCHRONOUS 
+     |     ATOMIC 
+     |     ATOMIC_DEFAULT_MEM_ORDER 
+     |     AUTO 
+     |     AUTOMATIC 
      |     BACKSPACE 
+     |     BARRIER 
+     |     BEGIN 
      |     BIND 
      |     BLANK 
      |     BLOCK 
+     |     BLOCKSIZE 
      |     BLOCK_DATA 
+     |     BN 
+     |     BUFFERCOUNT 
+     |     BYTE 
+     |     BZ 
+     |     C 
      |     CALL 
+     |     CANCEL 
+     |     CANCELLATION 
+     |     CAPTURE 
+     |     CARRIAGECONTROL 
      |     CASE 
      |     CHANGE 
      |     CHANGETEAM   /* if ( Tr.free_mode() ) return 66106; */
+     |     CHARACTER 
      |     CLASS 
      |     CLOSE 
      |     CODIMENSION 
+     |     COLLAPSE 
      |     COMMON 
+     |     COMPLEX 
      |     CONCURRENT 
+     |     CONDITION 
+     |     CONDITIONAL 
+     |     CONSTRUCT 
      |     CONTAINS 
      |     CONTAINS-2 
-     |     CONTINUE 
      |     CONTIGUOUS 
+     |     CONTINUE 
+     |     CONVERT 
      |     COPYIN 
+     |     COPYPRIVATE 
      |     CRITICAL 
      |     CYCLE 
      |     DATA 
+     |     DC 
      |     DEALLOCATE 
      |     DECIMAL 
+     |     DECLARE 
      |     DEFAULT 
+     |     DEFAULTFILE 
+     |     DEFAULTMAP 
      |     DEFERRED 
      |     DEFINE 
+     |     DELETE 
      |     DELIM 
+     |     DEPEND 
+     |     DEPOBJ 
+     |     DESTROY 
+     |     DETACH 
+     |     DEVICE 
+     |     DEVICE_NUM 
+     |     DEVICE_TYPE 
      |     DIMENSION 
      |     DIRECT 
      |     DIRECTORY 
+     |     DISPOSE 
+     |     DISTRIBUTE 
+     |     DIST_SCHEDULE 
      |     DO 
+     |     DOUBLE 
      |     DOUBLE_COMPLEX 
      |     DOUBLE_PRECISION 
+     |     DP 
+     |     DT 
+     |     DYNAMIC 
+     |     DYNAMIC_ALLOCATORS 
+     |     EARLY_EXIT 
      |     ELEMENTAL 
      |     ELSE 
      |     ELSE_IF 
      |     ELSE_WHERE 
      |     ENCODING 
      |     END 
+     |     ENDFILE 
      |     END_ASSOCIATE 
      |     END_BLOCK 
      |     END_BLOCK_DATA 
@@ -104,16 +138,20 @@
      |     END_FUNCTION 
      |     END_IF 
      |     END_INTERFACE 
+     |     END_MAP 
+     |     END_METADIRECTIVE 
      |     END_MODULE 
      |     END_PROCEDURE 
      |     END_PROGRAM 
      |     END_SELECT 
+     |     END_STRUCTURE 
      |     END_SUBMODULE 
      |     END_SUBROUTINE 
      |     END_TEAM 
      |     END_TYPE 
+     |     END_UNION 
      |     END_WHERE 
-     |     ENDFILE 
+     |     ENTER 
      |     ENTRY 
      |     ENUM 
      |     ENUMERATOR 
@@ -121,54 +159,103 @@
      |     EOR 
      |     EQUIVALENCE 
      |     ERR 
-     |     <ERROR> 
      |     ERRMSG 
+     |     <ERROR> 
+     |     EVENT 
+     |     EXCLUSIVE 
      |     EXIST 
      |     EXIT 
      |     EXTENDS 
+     |     EXTENDSIZE 
      |     EXTERNAL 
-     |     EVENT 
+     |     F 
      |     FAIL 
      |     FILE 
+     |     FILL 
+     |     FILTER 
      |     FINAL 
+     |     FIRST 
      |     FIRSTPRIVATE 
      |     FLUSH 
      |     FMT 
+     |     FOR 
      |     FORALL 
      |     FORM 
      |     <labeled_FORMAT> +: assign_no   /* Tr.HaveScannedStmt(); */
      |     FORMATTED 
+     |     FROM 
      |     FUNCTION 
+     |     G 
      |     <GENERIC> 
      |     GO 
      |     GOTO 
+     |     GRAINSIZE 
+     |     GUIDED 
+     |     HINT 
+     |     HOST 
+     |     I 
+     |     IAND 
+     |     IBM 
      |     ID 
+     |     IEOR 
      |     IF 
      |     IMAGE 
      |     IMAGES 
+     |     IMPLEMENTATION 
      |     IMPLICIT 
      |     IMPORT 
      |     IMPURE 
      |     IN 
-     |     IN_OUT 
+     |     INBRANCH 
      |     INCLUDE 
+     |     INCLUSIVE 
+     |     INDIRECT 
+     |     INITIALIZER 
+     |     INITIALSIZE 
      |     INQUIRE 
+     |     INSCAN 
+     |     INTEGER 
      |     INTENT 
      |     INTERFACE 
      |     INTRINSIC 
+     |     IN_OUT 
+     |     IN_REDUCTION 
      |     IOLENGTH 
      |     IOMSG 
+     |     IOR 
      |     IOSTAT 
      |     IS 
+     |     ISA 
+     |     IS_DEVICE_PTR 
+     |     ITERATOR 
+     |     <KEY> 
      |     KIND 
+     |     L 
+     |     LASTPRIVATE 
      |     LEN 
+     |     LINEAR 
+     |     LINK 
+     |     LOC 
      |     LOCAL 
      |     LOCAL_INIT 
      |     LOCK 
+     |     LOGICAL 
+     |     LOOP 
+     |     MAP 
+     |     MAPPER 
+     |     MASKED 
      |     MASTER 
+     |     MATCH 
+     |     MAX 
+     |     MAXREC 
      |     MEMORY 
+     |     MERGEABLE 
+     |     METADIRECTIVE 
+     |     MIN 
      |     MODULE 
      |     MOLD 
+     |     MONOTONIC 
+     |     MUTEXINOUTSET 
      |     NAME 
      |     NAMED 
      |     NAMELIST 
@@ -176,171 +263,25 @@
      |     NEW_INDEX 
      |     NEXTREC 
      |     NML 
+     |     NOGROUP 
+     |     NOHOST 
      |     NON 
+     |     <NONE> 
+     |     NONMONOTONIC 
+     |     NONTEMPORAL 
      |     NON_INTRINSIC   /* if ( Tr.free_mode() ) return 66106; */
      |     NON_OVERRIDABLE   /* if ( Tr.free_mode() ) return 66106; */
      |     NON_RECURSIVE   /* if ( Tr.free_mode() ) return 66106; */
-     |     <NONE> 
      |     NOPASS 
-     |     NULLIFY 
-     |     NUM_THREADS 
-     |     NUMBER 
-     |     ONLY 
-     |     OPEN 
-     |     OPENED 
-     |     OPERATOR 
-     |     OPTIONAL 
-     |     OVERRIDABLE 
-     |     OUT 
-     |     PAD 
-     |     PARALLEL 
-     |     PARAMETER 
-     |     PASS 
-     |     PAUSE 
-     |     PENDING 
-     |     POINTER 
-     |     POS 
-     |     POSITION 
-     |     PRINT 
-     |     PRIVATE 
-     |     PROCEDURE 
-     |     PROGRAM 
-     |     PROTECTED 
-     |     PUBLIC 
-     |     PURE 
-     |     RANK 
-     |     READ 
-     |     READ2 
-     |     READWRITE 
-     |     REC 
-     |     RECL 
-     |     RECURSIVE 
-     |     RESULT 
-     |     RETURN 
-     |     REWIND 
-     |     ROUND 
-     |     SAVE 
-     |     SELECT 
-     |     SELECT_CASE 
-     |     SELECT_RANK 
-     |     SELECT_TYPE 
-     |     SEQUENCE 
-     |     SEQUENTIAL 
-     |     SHARED 
-     |     SIGN 
-     |     SIZE 
-     |     SOURCE 
-     |     SPREAD 
-     |     STOP 
-     |     SUBROUTINE 
-     |     SUBMODULE 
-     |     STAT 
-     |     STATUS 
-     |     STREAM 
-     |     SYNC 
-     |     TARGET 
-     |     THEN 
-     |     TO 
-     |     TYPE 
-     |     UNIT 
-     |     UNLOCK 
-     |     USE 
-     |     UNFORMATTED 
-     |     VALUE 
-     |     VOLATILE 
-     |     WAIT 
-     |     WHERE 
-     |     WHILE 
-     |     WRITE 
-     |     WRITE2 
-     |     <ZERO> 
-     |     INTEGER 
-     |     BYTE 
-     |     REAL 
-     |     DOUBLE 
-     |     PRECISION 
-     |     COMPLEX 
-     |     CHARACTER 
-     |     LOGICAL 
-     |     AUTOMATIC 
-     |     LOC 
-     |     MAP 
-     |     RECORD 
-     |     REF 
-     |     STATIC 
-     |     STRUCTURE 
-     |     UNION 
-     |     VAL 
-     |     END_MAP 
-     |     END_STRUCTURE 
-     |     END_UNION 
-     |     ASSOCIATEVARIABLE 
-     |     BLOCKSIZE 
-     |     BUFFERCOUNT 
-     |     CARRIAGECONTROL 
-     |     DEFAULTFILE 
-     |     DISPOSE 
-     |     EXTENDSIZE 
-     |     INITIALSIZE 
-     |     <KEY> 
-     |     MAXREC 
+     |     NOSHARED 
      |     NOSPANBLOCKS 
-     |     ORGANIZATION 
-     |     PROC_BIND 
-     |     READONLY 
-     |     RECORDTYPE 
-     |     RECORDSIZE 
-     |     REDUCTION 
-     |     SHARED 
-     |     USEROPEN 
-     |     AFFINITY 
-     |     ALIGNED 
-     |     ALLOC 
-     |     ALWAYS 
-     |     ATOMIC 
-     |     AUTO 
-     |     BARRIER 
-     |     CANCEL 
-     |     CANCELLATION 
-     |     CAPTURE 
-     |     COLLAPSE 
-     |     COPYPRIVATE 
-     |     DECLARE 
-     |     DEFAULTMAP 
-     |     DELETE 
-     |     DEPEND 
-     |     DEVICE 
-     |     DISTRIBUTE 
-     |     DIST_SCHEDULE 
-     |     DYNAMIC 
-     |     EARLY_EXIT 
-     |     ENTER 
-     |     FIRST 
-     |     FROM 
-     |     GRAINSIZE 
-     |     GUIDED 
-     |     HINT 
-     |     IAND 
-     |     IEOR 
-     |     INBRANCH 
-     |     INITIALIZER 
-     |     IOR 
-     |     IS_DEVICE_PTR 
-     |     LASTPRIVATE 
-     |     LINEAR 
-     |     LINK 
-     |     MAX 
-     |     MERGEABLE 
-     |     MIN 
-     |     MONOTONIC 
-     |     NOGROUP 
-     |     NONMONOTONIC 
      |     NOTINBRANCH 
      |     NOWAIT 
+     |     NULLIFY 
+     |     NUMBER 
      |     NUM_TASKS 
      |     NUM_TEAMS 
-     |     IBM 
-     |     SMP-DO-SERIAL 
+     |     NUM_THREADS 
      |     OMP 
      |     OMP-2 
      |     OMP-END-ATOMIC 
@@ -350,73 +291,204 @@
      |     OMP-END-DISTRIBUTE-SIMD 
      |     OMP-END-DO 
      |     OMP-END-DO-SIMD 
+     |     OMP-END-LOOP 
+     |     OMP-END-MASTER-TASKLOOP 
+     |     OMP-END-MASTER-TASKLOOP-SIMD 
      |     OMP-END-PARALLEL-DO 
      |     OMP-END-PARALLEL-DO-SIMD 
+     |     OMP-END-PARALLEL-LOOP 
+     |     OMP-END-PARALLEL-MASTER-TASKLOOP 
+     |     OMP-END-PARALLEL-MASTER-TASKLOOP-SIMD 
      |     OMP-END-SIMD 
      |     OMP-END-TARGET-PARALLEL-DO 
      |     OMP-END-TARGET-PARALLEL-DO-SIMD 
+     |     OMP-END-TARGET-PARALLEL-LOOP 
+     |     OMP-END-TARGET-SIMD 
      |     OMP-END-TARGET-TEAMS-DISTRIBUTE 
-     |     OMP-END-TARGET-TEAMS-DISTRIBUTE-SIMD 
      |     OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO 
      |     OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD 
-     |     OMP-END-TARGET-SIMD 
+     |     OMP-END-TARGET-TEAMS-DISTRIBUTE-SIMD 
+     |     OMP-END-TARGET-TEAMS-LOOP 
      |     OMP-END-TASKLOOP 
      |     OMP-END-TASKLOOP-SIMD 
      |     OMP-END-TEAMS-DISTRIBUTE 
      |     OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO 
      |     OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD 
      |     OMP-END-TEAMS-DISTRIBUTE-SIMD 
+     |     OMP-END-TEAMS-LOOP 
      |     OMP_PRIV 
+     |     ONLY 
+     |     OPEN 
+     |     OPENED 
+     |     OPERATOR 
+     |     OPTIONAL 
+     |     ORDER 
      |     ORDERED 
+     |     ORGANIZATION 
+     |     OUT 
+     |     OVERRIDABLE 
+     |     P 
+     |     PAD 
+     |     PARALLEL 
+     |     PARAMETER 
+     |     PARAMETER_DEC +: <fdec-par-context>   /* return Tr.sma_fdecpar_else_name(65673,66106) ; */
+     |     PASS 
+     |     PAUSE 
+     |     PENDING 
      |     POINT 
+     |     POINTER 
+     |     POS 
+     |     POSITION 
      |     POST 
+     |     PRECISION 
+     |     PRINT 
      |     PRIORITY 
+     |     PRIVATE 
+     |     PROCEDURE 
+     |     PROC_BIND 
+     |     PROGRAM 
+     |     PROTECTED 
+     |     PUBLIC 
+     |     PURE 
+     |     Q 
+     |     RANK 
+     |     RC 
+     |     RD 
+     |     READ 
+     |     READ2 
+     |     READONLY 
+     |     READWRITE 
+     |     REAL 
+     |     REC 
+     |     RECL 
+     |     RECORD 
+     |     RECORDSIZE 
+     |     RECORDTYPE 
+     |     RECURSIVE 
+     |     REDUCTION 
+     |     REF 
+     |     RELAXED 
      |     RELEASE 
+     |     REQUIRES 
+     |     RESULT 
+     |     RETURN 
+     |     REVERSE_OFFLOAD 
+     |     REWIND 
+     |     RN 
+     |     ROUND 
+     |     RP 
+     |     RU 
      |     RUNTIME 
+     |     RZ 
+     |     S 
      |     SAFELEN 
+     |     SAVE 
      |     SCALAR 
+     |     SCAN 
      |     SCHEDULE 
      |     SECTION 
      |     SECTIONS 
+     |     SELECT 
+     |     SELECT_CASE 
+     |     SELECT_RANK 
+     |     SELECT_TYPE 
+     |     SEQUENCE 
+     |     SEQUENTIAL 
      |     SEQ_CST 
+     |     SHARE 
+     |     SHARED 
+     |     SHARED-2 
+     |     SIGN 
      |     SIMD 
      |     SIMDLEN 
      |     SINGLE 
      |     SINK 
+     |     SIZE 
+     |     SMP-DO-SERIAL 
+     |     SOURCE 
+     |     SP 
+     |     SPREAD 
+     |     SS 
+     |     STAT 
+     |     STATIC 
+     |     STATUS 
+     |     STOP 
+     |     STREAM 
+     |     STRUCTURE 
+     |     SUBMODULE 
+     |     SUBROUTINE 
+     |     SYNC 
+     |     T 
+     |     TARGET 
      |     TASK 
      |     TASKGROUP 
      |     TASKLOOP 
      |     TASKWAIT 
      |     TASKYIELD 
+     |     TASK_REDUCTION 
      |     TEAM 
-     |     TEAM_NUMBER 
      |     TEAMS 
-     |     THREAD_LIMIT 
-     |     THREADPRIVATE 
+     |     TEAM_NUMBER 
+     |     THEN 
+     |     THREAD 
      |     THREADLOCAL 
+     |     THREADPRIVATE 
+     |     THREADS 
+     |     THREAD_LIMIT 
+     |     TL 
+     |     TO 
      |     TOFROM 
+     |     TR 
+     |     TYPE   /* return Tr.if_type_else_fdectype(action.value.ReduceId,67236) ; */
+     |     TYPE_DEC_LOOKAHEAD   /*return Tr.sma_fdectype_else_b(action.value.ReduceId,66137);*/
+     |     TYPE_DEC 
+     |     TYPE_DEC 
+     |     UNFORMATTED 
+     |     UNIFIED_ADDRESS 
+     |     UNIFIED_SHARED_MEMORY 
      |     UNIFORM 
+     |     UNION 
+     |     UNIT 
+     |     UNLOCK 
      |     UNTIED 
      |     UNTIL_COUNT 
      |     UPDATE 
-     |     USE_DEVICE_PTR 
+     |     USE 
+     |     USER +: <eq-symbol..>   /* return Tr.key_or_name( action.value.ReduceId,66137,66106) ; */
+     |     USEROPEN +: <eq-symbol...>   /* return Tr.key_or_name( action.value.ReduceId,66137,66106) ; */
+     |     USES_ALLOCATORS +: <left-parenthesis..>   /* return Tr.key_or_name( action.value.ReduceId,66137,66106) ; */
+     |     USE_DEVICE_ADDR +: <left-parenthesis...>   /* return Tr.key_or_name( action.value.ReduceId,66137,66106) ; */
+     |     USE_DEVICE_PTR +: <left-parenthesis....>   /* return Tr.key_or_name( action.value.ReduceId,66137,66106) ; */
+     |     VAL 
+     |     VALUE 
+     |     VARIANT 
+     |     VENDOR 
+     |     VOLATILE 
      |     WAIT 
+     |     WHEN 
+     |     WHERE 
+     |     WHILE 
      |     WORKSHARE 
+     |     WRITE 
+     |     WRITE2 
+     |     X 
+     |     <ZERO> 
+     |     <ext_implementation-defined-requirement> 
      |     <omp-compound>   /* return Tr.OMPCompound(action.value.ReduceId,66137); */
-     |     <label>   /* return Tr.ReturnLabel( lex() , 65588, 65888); */
-     |     <int-literal-constant> 
      |     <letter> 
-     |     <name-f>   /* return Tr.sma_a_b_else_c(65754,65761,66106) ; */
-     |     <name-l-read>   /* return Tr.If_key_else_names( 65662,66137,66106) ; */
-     |     <name-l-write>   /* return Tr.If_key_else_names( 65664,66137,66106) ; */
+     |     <name-f>   /* return Tr.sma_a_b_else_c(action.value.ReduceId,65754,65761,66137) ; */
+     |     <name-l-read>   /* return Tr.key_or_name( 65662,66137,66106) ; */
+     |     <name-l-write>   /* return Tr.key_or_name( 65664,66137,66106) ; */
      |     <name-l> 
      |     <name-r> 
-     |     <real-literal-constant> 
+     |     <label>   /* return Tr.ReturnLabel( lex() , 65588, 65888); */
      |     <int-literal-constant> 
+     |     <real-literal-constant> 
      |     <logical-literal-constant> 
      |     <char-literal-constant> 
      |     <boz-literal-constant> 
      |     <boz-literal-postfix>   /* return Tr.BOZLiteralPostfix(65874,value); */
+     |     <fdec-real-literal>   /* return Tr.DECReal(action.value.ReduceId,65894); */
      |     <spaces> 
      |     <line-comment>   /* Tr.ScannedLineComment(); */
      |     <::> 
@@ -456,6 +528,8 @@
      |     $ 
      |     \ 
      |     # 
+     |     <{> 
+     |     <}> 
 
 <fmt{G}w> ::= 
            G { 0 .. 9 }... 
@@ -527,53 +601,20 @@ DT ::=
 <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> ::= 
            { I | B | O | Z |[ P ] F |[ P ] E |[ P ] E N |[ P ] E S |[ P ] G |[ P ] D } { 0 .. 9 }... { . } { 0 .. 9 }... 
 
-DC ::= 
-           D C 
-
-DP ::= 
-           D P 
-
-BN ::= 
-           B N 
-
-BZ ::= 
-           B Z 
-
-RU ::= 
-           R U 
-
-RD ::= 
-           R D 
-
-RZ ::= 
-           R Z 
-
-RN ::= 
-           R N 
-
-RC ::= 
-           R C 
-
-RP ::= 
-           R P 
-
-SS ::= 
-           S S 
-
-SP ::= 
-           S P 
-
-TL ::= 
-           T L 
-
-TR ::= 
-           T R 
-
 ABSTRACT ::= 
            A B S T R A C T 
 
 ACCESS ::= 
            A C C E S S 
+
+ACQUIRE ::= 
+           A C Q U I R E 
+
+ACQUIRED_LOCK ::= 
+           A C Q U I R E D _ L O C K 
+
+ACQ_REL ::= 
+           A C Q _ R E L 
 
 ACTION ::= 
            A C T I O N 
@@ -581,8 +622,20 @@ ACTION ::=
 ADVANCE ::= 
            A D V A N C E 
 
+AFFINITY ::= 
+           A F F I N I T Y 
+
+AGGREGATE ::= 
+           A G G R E G A T E 
+
+ALIGNED ::= 
+           A L I G N E D 
+
 ALL ::= 
            A L L 
+
+ALLOC ::= 
+           A L L O C 
 
 ALLOCATABLE ::= 
            A L L O C A T A B L E 
@@ -590,11 +643,17 @@ ALLOCATABLE ::=
 ALLOCATE ::= 
            A L L O C A T E 
 
+ALWAYS ::= 
+           A L W A Y S 
+
+ANCESTOR ::= 
+           A N C E S T O R 
+
 <ANY> ::= 
            A N Y 
 
-ACQUIRED_LOCK ::= 
-           A C Q U I R E D _ L O C K 
+ARCH ::= 
+           A R C H 
 
 ASSIGN ::= 
            A S S I G N 
@@ -605,11 +664,32 @@ ASSIGNMENT ::=
 ASSOCIATE ::= 
            A S S O C I A T E 
 
+ASSOCIATEVARIABLE ::= 
+           A S S O C I A T E V A R I A B L E 
+
 ASYNCHRONOUS ::= 
            A S Y N C H R O N O U S 
 
+ATOMIC ::= 
+           A T O M I C 
+
+ATOMIC_DEFAULT_MEM_ORDER ::= 
+           A T O M I C _ D E F A U L T _ M E M _ O R D E R 
+
+AUTO ::= 
+           A U T O 
+
+AUTOMATIC ::= 
+           A U T O M A T I C 
+
 BACKSPACE ::= 
            B A C K S P A C E 
+
+BARRIER ::= 
+           B A R R I E R 
+
+BEGIN ::= 
+           B E G I N 
 
 BIND ::= 
            B I N D 
@@ -620,11 +700,38 @@ BLANK ::=
 BLOCK ::= 
            B L O C K 
 
+BLOCKSIZE ::= 
+           B L O C K S I Z E 
+
 BLOCK_DATA ::= 
            B L O C K D A T A 
 
+BN ::= 
+           B N 
+
+BUFFERCOUNT ::= 
+           B U F F E R C O U N T 
+
+BYTE ::= 
+           B Y T E 
+
+BZ ::= 
+           B Z 
+
 CALL ::= 
            C A L L 
+
+CANCEL ::= 
+           C A N C E L 
+
+CANCELLATION ::= 
+           C A N C E L L A T I O N 
+
+CAPTURE ::= 
+           C A P T U R E 
+
+CARRIAGECONTROL ::= 
+           C A R R I A G E C O N T R O L 
 
 CASE ::= 
            C A S E 
@@ -635,6 +742,9 @@ CHANGE ::=
 CHANGETEAM ::= 
            C H A N G E T E A M 
 
+CHARACTER ::= 
+           C H A R A C T E R 
+
 CLASS ::= 
            C L A S S 
 
@@ -644,11 +754,26 @@ CLOSE ::=
 CODIMENSION ::= 
            C O D I M E N S I O N 
 
+COLLAPSE ::= 
+           C O L L A P S E 
+
 COMMON ::= 
            C O M M O N 
 
+COMPLEX ::= 
+           C O M P L E X 
+
 CONCURRENT ::= 
            C O N C U R R E N T 
+
+CONDITION ::= 
+           C O N D I T I O N 
+
+CONDITIONAL ::= 
+           C O N D I T I O N A L 
+
+CONSTRUCT ::= 
+           C O N S T R U C T 
 
 CONTAINS ::= 
            C O N T A I N S 
@@ -656,14 +781,20 @@ CONTAINS ::=
 CONTAINS-2 ::= 
            C O N T A I N S 
 
-CONTINUE ::= 
-           C O N T I N U E 
-
 CONTIGUOUS ::= 
            C O N T I G U O U S 
 
+CONTINUE ::= 
+           C O N T I N U E 
+
+CONVERT ::= 
+           C O N V E R T 
+
 COPYIN ::= 
            C O P Y I N 
+
+COPYPRIVATE ::= 
+           C O P Y P R I V A T E 
 
 CRITICAL ::= 
            C R I T I C A L 
@@ -674,14 +805,26 @@ CYCLE ::=
 DATA ::= 
            D A T A 
 
+DC ::= 
+           D C 
+
 DEALLOCATE ::= 
            D E A L L O C A T E 
 
 DECIMAL ::= 
            D E C I M A L 
 
+DECLARE ::= 
+           D E C L A R E 
+
 DEFAULT ::= 
            D E F A U L T 
+
+DEFAULTFILE ::= 
+           D E F A U L T F I L E 
+
+DEFAULTMAP ::= 
+           D E F A U L T M A P 
 
 DEFERRED ::= 
            D E F E R R E D 
@@ -689,8 +832,32 @@ DEFERRED ::=
 DEFINE ::= 
            D E F I N E 
 
+DELETE ::= 
+           D E L E T E 
+
 DELIM ::= 
            D E L I M 
+
+DEPEND ::= 
+           D E P E N D 
+
+DEPOBJ ::= 
+           D E P O B J 
+
+DESTROY ::= 
+           D E S T R O Y 
+
+DETACH ::= 
+           D E T A C H 
+
+DEVICE ::= 
+           D E V I C E 
+
+DEVICE_NUM ::= 
+           D E V I C E _ N U M 
+
+DEVICE_TYPE ::= 
+           D E V I C E _ T Y P E 
 
 DIMENSION ::= 
            D I M E N S I O N 
@@ -701,14 +868,38 @@ DIRECT ::=
 DIRECTORY ::= 
            D I R E C T O R Y 
 
+DISPOSE ::= 
+           D I S P O S E 
+
+DISTRIBUTE ::= 
+           D I S T R I B U T E 
+
+DIST_SCHEDULE ::= 
+           D I S T _ S C H E D U L E 
+
 DO ::= 
            D O 
+
+DOUBLE ::= 
+           D O U B L E 
 
 DOUBLE_COMPLEX ::= 
            D O U B L E C O M P L E X 
 
 DOUBLE_PRECISION ::= 
            D O U B L E P R E C I S I O N 
+
+DP ::= 
+           D P 
+
+DYNAMIC ::= 
+           D Y N A M I C 
+
+DYNAMIC_ALLOCATORS ::= 
+           D Y N A M I C _ A L L O C A T O R S 
+
+EARLY_EXIT ::= 
+           E A R L Y _ E X I T 
 
 ELEMENTAL ::= 
            E L E M E N T A L 
@@ -727,6 +918,9 @@ ENCODING ::=
 
 END ::= 
            E N D 
+
+ENDFILE ::= 
+           E N D F I L E 
 
 END_ASSOCIATE ::= 
            E N D A S S O C I A T E 
@@ -758,6 +952,12 @@ END_IF ::=
 END_INTERFACE ::= 
            E N D I N T E R F A C E 
 
+END_MAP ::= 
+           E N D M A P 
+
+END_METADIRECTIVE ::= 
+           E N D M E T A D I R E C T I V E 
+
 END_MODULE ::= 
            E N D M O D U L E 
 
@@ -769,6 +969,9 @@ END_PROGRAM ::=
 
 END_SELECT ::= 
            E N D S E L E C T 
+
+END_STRUCTURE ::= 
+           E N D S T R U C T U R E 
 
 END_SUBMODULE ::= 
            E N D S U B M O D U L E 
@@ -782,11 +985,14 @@ END_TEAM ::=
 END_TYPE ::= 
            E N D T Y P E 
 
+END_UNION ::= 
+           E N D U N I O N 
+
 END_WHERE ::= 
            E N D W H E R E 
 
-ENDFILE ::= 
-           E N D F I L E 
+ENTER ::= 
+           E N T E R 
 
 ENTRY ::= 
            E N T R Y 
@@ -809,11 +1015,17 @@ EQUIVALENCE ::=
 ERR ::= 
            E R R 
 
+ERRMSG ::= 
+           E R R M S G 
+
 <ERROR> ::= 
            E R R O R 
 
-ERRMSG ::= 
-           E R R M S G 
+EVENT ::= 
+           E V E N T 
+
+EXCLUSIVE ::= 
+           E X C L U S I V E 
 
 EXIST ::= 
            E X I S T 
@@ -824,11 +1036,11 @@ EXIT ::=
 EXTENDS ::= 
            E X T E N D S 
 
+EXTENDSIZE ::= 
+           E X T E N D S I Z E 
+
 EXTERNAL ::= 
            E X T E R N A L 
-
-EVENT ::= 
-           E V E N T 
 
 FAIL ::= 
            F A I L 
@@ -836,8 +1048,17 @@ FAIL ::=
 FILE ::= 
            F I L E 
 
+FILL ::= 
+           F I L L 
+
+FILTER ::= 
+           F I L T E R 
+
 FINAL ::= 
            F I N A L 
+
+FIRST ::= 
+           F I R S T 
 
 FIRSTPRIVATE ::= 
            F I R S T P R I V A T E 
@@ -847,6 +1068,9 @@ FLUSH ::=
 
 FMT ::= 
            F M T 
+
+FOR ::= 
+           F O R 
 
 FORALL ::= 
            F O R A L L 
@@ -896,6 +1120,9 @@ ch1 ::=
 FORMATTED ::= 
            F O R M A T T E D 
 
+FROM ::= 
+           F R O M 
+
 FUNCTION ::= 
            F U N C T I O N 
 
@@ -908,8 +1135,29 @@ GO ::=
 GOTO ::= 
            G O T O 
 
+GRAINSIZE ::= 
+           G R A I N S I Z E 
+
+GUIDED ::= 
+           G U I D E D 
+
+HINT ::= 
+           H I N T 
+
+HOST ::= 
+           H O S T 
+
+IAND ::= 
+           I A N D 
+
+IBM ::= 
+           <!IBM*> 
+
 ID ::= 
            I D 
+
+IEOR ::= 
+           I E O R 
 
 IF ::= 
            I F 
@@ -919,6 +1167,9 @@ IMAGE ::=
 
 IMAGES ::= 
            I M A G E S 
+
+IMPLEMENTATION ::= 
+           I M P L E M E N T A T I O N 
 
 IMPLICIT ::= 
            I M P L I C I T 
@@ -932,14 +1183,32 @@ IMPURE ::=
 IN ::= 
            I N 
 
-IN_OUT ::= 
-           I N O U T 
+INBRANCH ::= 
+           I N B R A N C H 
 
 INCLUDE ::= 
            I N C L U D E 
 
+INCLUSIVE ::= 
+           I N C L U S I V E 
+
+INDIRECT ::= 
+           I N D I R E C T 
+
+INITIALIZER ::= 
+           I N I T I A L I Z E R 
+
+INITIALSIZE ::= 
+           I N I T I A L S I Z E 
+
 INQUIRE ::= 
            I N Q U I R E 
+
+INSCAN ::= 
+           I N S C A N 
+
+INTEGER ::= 
+           I N T E G E R 
 
 INTENT ::= 
            I N T E N T 
@@ -950,11 +1219,20 @@ INTERFACE ::=
 INTRINSIC ::= 
            I N T R I N S I C 
 
+IN_OUT ::= 
+           I N O U T 
+
+IN_REDUCTION ::= 
+           I N _ R E D U C T I O N 
+
 IOLENGTH ::= 
            I O L E N G T H 
 
 IOMSG ::= 
            I O M S G 
+
+IOR ::= 
+           I O R 
 
 IOSTAT ::= 
            I O S T A T 
@@ -962,11 +1240,35 @@ IOSTAT ::=
 IS ::= 
            I S 
 
+ISA ::= 
+           I S A 
+
+IS_DEVICE_PTR ::= 
+           I S _ D E V I C E _ P T R 
+
+ITERATOR ::= 
+           I T E R A T O R 
+
+<KEY> ::= 
+           K E Y 
+
 KIND ::= 
            K I N D 
 
+LASTPRIVATE ::= 
+           L A S T P R I V A T E 
+
 LEN ::= 
            L E N 
+
+LINEAR ::= 
+           L I N E A R 
+
+LINK ::= 
+           L I N K 
+
+LOC ::= 
+           L O C 
 
 LOCAL ::= 
            L O C A L 
@@ -977,17 +1279,57 @@ LOCAL_INIT ::=
 LOCK ::= 
            L O C K 
 
+LOGICAL ::= 
+           L O G I C A L 
+
+LOOP ::= 
+           L O O P 
+
+MAP ::= 
+           M A P 
+
+MAPPER ::= 
+           M A P P E R 
+
+MASKED ::= 
+           M A S K E D 
+
 MASTER ::= 
            M A S T E R 
+     |     M A S K E D 
+
+MATCH ::= 
+           M A T C H 
+
+MAX ::= 
+           M A X 
+
+MAXREC ::= 
+           M A X R E C 
 
 MEMORY ::= 
            M E M O R Y 
+
+MERGEABLE ::= 
+           M E R G E A B L E 
+
+METADIRECTIVE ::= 
+           M E T A D I R E C T I V E 
+
+MIN ::= 
+           M I N 
 
 MODULE ::= 
            M O D U L E 
 
 MOLD ::= 
            M O L D 
+
+MONOTONIC ::= 
+           M O N O T O N I C 
+
+MUTEXINOUTSET ::= 
+           M U T E X I N O U T S E T 
 
 NAME ::= 
            N A M E 
@@ -1010,8 +1352,23 @@ NEXTREC ::=
 NML ::= 
            N M L 
 
+NOGROUP ::= 
+           N O G R O U P 
+
+NOHOST ::= 
+           N O H O S T 
+
 NON ::= 
            N O N 
+
+<NONE> ::= 
+           N O N E 
+
+NONMONOTONIC ::= 
+           N O N M O N O T O N I C 
+
+NONTEMPORAL ::= 
+           N O N T E M P O R A L 
 
 NON_INTRINSIC ::= 
            N O N I N T R I N S I C 
@@ -1022,467 +1379,14 @@ NON_OVERRIDABLE ::=
 NON_RECURSIVE ::= 
            N O N R E C U R S I V E 
 
-<NONE> ::= 
-           N O N E 
-
 NOPASS ::= 
            N O P A S S 
 
-NULLIFY ::= 
-           N U L L I F Y 
-
-NUM_THREADS ::= 
-           N U M _ T H R E A D S 
-
-NUMBER ::= 
-           N U M B E R 
-
-ONLY ::= 
-           O N L Y 
-
-OPEN ::= 
-           O P E N 
-
-OPENED ::= 
-           O P E N E D 
-
-OPERATOR ::= 
-           O P E R A T O R 
-
-OPTIONAL ::= 
-           O P T I O N A L 
-
-OVERRIDABLE ::= 
-           O V E R R I D A B L E 
-
-OUT ::= 
-           O U T 
-
-PAD ::= 
-           P A D 
-
-PARALLEL ::= 
-           P A R A L L E L 
-
-PARAMETER ::= 
-           P A R A M E T E R 
-
-PASS ::= 
-           P A S S 
-
-PAUSE ::= 
-           P A U S E 
-
-PENDING ::= 
-           P E N D I N G 
-
-POINTER ::= 
-           P O I N T E R 
-
-POS ::= 
-           P O S 
-
-POSITION ::= 
-           P O S I T I O N 
-
-PRINT ::= 
-           P R I N T 
-
-PRIVATE ::= 
-           P R I V A T E 
-
-PROCEDURE ::= 
-           P R O C E D U R E 
-
-PROGRAM ::= 
-           P R O G R A M 
-
-PROTECTED ::= 
-           P R O T E C T E D 
-
-PUBLIC ::= 
-           P U B L I C 
-
-PURE ::= 
-           P U R E 
-
-RANK ::= 
-           R A N K 
-
-READ ::= 
-           R E A D 
-
-READ2 ::= 
-           R E A D 
-
-READWRITE ::= 
-           R E A D W R I T E 
-
-REC ::= 
-           R E C 
-
-RECL ::= 
-           R E C L 
-
-RECURSIVE ::= 
-           R E C U R S I V E 
-
-RESULT ::= 
-           R E S U L T 
-
-RETURN ::= 
-           R E T U R N 
-
-REWIND ::= 
-           R E W I N D 
-
-ROUND ::= 
-           R O U N D 
-
-SAVE ::= 
-           S A V E 
-
-SELECT ::= 
-           S E L E C T 
-
-SELECT_CASE ::= 
-           S E L E C T C A S E 
-
-SELECT_RANK ::= 
-           S E L E C T R A N K 
-
-SELECT_TYPE ::= 
-           S E L E C T T Y P E 
-
-SEQUENCE ::= 
-           S E Q U E N C E 
-
-SEQUENTIAL ::= 
-           S E Q U E N T I A L 
-
-SHARED ::= 
-           S H A R E D 
-
-SIGN ::= 
-           S I G N 
-
-SIZE ::= 
-           S I Z E 
-
-SOURCE ::= 
-           S O U R C E 
-
-SPREAD ::= 
-           S P R E A D 
-
-STOP ::= 
-           S T O P 
-
-SUBROUTINE ::= 
-           S U B R O U T I N E 
-
-SUBMODULE ::= 
-           S U B M O D U L E 
-
-STAT ::= 
-           S T A T 
-
-STATUS ::= 
-           S T A T U S 
-
-STREAM ::= 
-           S T R E A M 
-
-SYNC ::= 
-           S Y N C 
-
-TARGET ::= 
-           T A R G E T 
-
-THEN ::= 
-           T H E N 
-
-TO ::= 
-           T O 
-
-TYPE ::= 
-           T Y P E 
-
-UNIT ::= 
-           U N I T 
-
-UNLOCK ::= 
-           U N L O C K 
-
-USE ::= 
-           U S E 
-
-UNFORMATTED ::= 
-           U N F O R M A T T E D 
-
-VALUE ::= 
-           V A L U E 
-
-VOLATILE ::= 
-           V O L A T I L E 
-
-WAIT ::= 
-           W A I T 
-
-WHERE ::= 
-           W H E R E 
-
-WHILE ::= 
-           W H I L E 
-
-WRITE ::= 
-           W R I T E 
-
-WRITE2 ::= 
-           W R I T E 
-
-<ZERO> ::= 
-           Z E R O 
-
-INTEGER ::= 
-           I N T E G E R 
-
-BYTE ::= 
-           B Y T E 
-
-REAL ::= 
-           R E A L 
-
-DOUBLE ::= 
-           D O U B L E 
-
-PRECISION ::= 
-           P R E C I S I O N 
-
-COMPLEX ::= 
-           C O M P L E X 
-
-CHARACTER ::= 
-           C H A R A C T E R 
-
-LOGICAL ::= 
-           L O G I C A L 
-
-AUTOMATIC ::= 
-           A U T O M A T I C 
-
-LOC ::= 
-           L O C 
-
-MAP ::= 
-           M A P 
-
-RECORD ::= 
-           R E C O R D 
-
-REF ::= 
-           R E F 
-
-STATIC ::= 
-           S T A T I C 
-
-STRUCTURE ::= 
-           S T R U C T U R E 
-
-UNION ::= 
-           U N I O N 
-
-VAL ::= 
-           V A L 
-
-END_MAP ::= 
-           E N D M A P 
-
-END_STRUCTURE ::= 
-           E N D S T R U C T U R E 
-
-END_UNION ::= 
-           E N D U N I O N 
-
-ASSOCIATEVARIABLE ::= 
-           A S S O C I A T E V A R I A B L E 
-
-BLOCKSIZE ::= 
-           B L O C K S I Z E 
-
-BUFFERCOUNT ::= 
-           B U F F E R C O U N T 
-
-CARRIAGECONTROL ::= 
-           C A R R I A G E C O N T R O L 
-
-DEFAULTFILE ::= 
-           D E F A U L T F I L E 
-
-DISPOSE ::= 
-           D I S P O S E 
-
-EXTENDSIZE ::= 
-           E X T E N D S I Z E 
-
-INITIALSIZE ::= 
-           I N I T I A L S I Z E 
-
-<KEY> ::= 
-           K E Y 
-
-MAXREC ::= 
-           M A X R E C 
+NOSHARED ::= 
+           N O S H A R E D 
 
 NOSPANBLOCKS ::= 
            N O S P A N B L O C K S 
-
-ORGANIZATION ::= 
-           O R G A N I Z A T I O N 
-
-PROC_BIND ::= 
-           P R O C _ B I N D 
-
-READONLY ::= 
-           R E A D O N L Y 
-
-RECORDTYPE ::= 
-           R E C O R D T Y P E 
-
-RECORDSIZE ::= 
-           R E C O R D S I Z E 
-
-REDUCTION ::= 
-           R E D U C T I O N 
-
-USEROPEN ::= 
-           U S E R O P E N 
-
-AFFINITY ::= 
-           A F F I N I T Y 
-
-ALIGNED ::= 
-           A L I G N E D 
-
-ALLOC ::= 
-           A L L O C 
-
-ALWAYS ::= 
-           A L W A Y S 
-
-ATOMIC ::= 
-           A T O M I C 
-
-AUTO ::= 
-           A U T O 
-
-BARRIER ::= 
-           B A R R I E R 
-
-CANCEL ::= 
-           C A N C E L 
-
-CANCELLATION ::= 
-           C A N C E L L A T I O N 
-
-CAPTURE ::= 
-           C A P T U R E 
-
-COLLAPSE ::= 
-           C O L L A P S E 
-
-COPYPRIVATE ::= 
-           C O P Y P R I V A T E 
-
-DECLARE ::= 
-           D E C L A R E 
-
-DEFAULTMAP ::= 
-           D E F A U L T M A P 
-
-DELETE ::= 
-           D E L E T E 
-
-DEPEND ::= 
-           D E P E N D 
-
-DEVICE ::= 
-           D E V I C E 
-
-DISTRIBUTE ::= 
-           D I S T R I B U T E 
-
-DIST_SCHEDULE ::= 
-           D I S T _ S C H E D U L E 
-
-DYNAMIC ::= 
-           D Y N A M I C 
-
-EARLY_EXIT ::= 
-           E A R L Y _ E X I T 
-
-ENTER ::= 
-           E N T E R 
-
-FIRST ::= 
-           F I R S T 
-
-FROM ::= 
-           F R O M 
-
-GRAINSIZE ::= 
-           G R A I N S I Z E 
-
-GUIDED ::= 
-           G U I D E D 
-
-HINT ::= 
-           H I N T 
-
-IAND ::= 
-           I A N D 
-
-IEOR ::= 
-           I E O R 
-
-INBRANCH ::= 
-           I N B R A N C H 
-
-INITIALIZER ::= 
-           I N I T I A L I Z E R 
-
-IOR ::= 
-           I O R 
-
-IS_DEVICE_PTR ::= 
-           I S _ D E V I C E _ P T R 
-
-LASTPRIVATE ::= 
-           L A S T P R I V A T E 
-
-LINEAR ::= 
-           L I N E A R 
-
-LINK ::= 
-           L I N K 
-
-MAX ::= 
-           M A X 
-
-MERGEABLE ::= 
-           M E R G E A B L E 
-
-MIN ::= 
-           M I N 
-
-MONOTONIC ::= 
-           M O N O T O N I C 
-
-NOGROUP ::= 
-           N O G R O U P 
-
-NONMONOTONIC ::= 
-           N O N M O N O T O N I C 
 
 NOTINBRANCH ::= 
            N O T I N B R A N C H 
@@ -1490,20 +1394,20 @@ NOTINBRANCH ::=
 NOWAIT ::= 
            N O W A I T 
 
+NULLIFY ::= 
+           N U L L I F Y 
+
+NUMBER ::= 
+           N U M B E R 
+
 NUM_TASKS ::= 
            N U M _ T A S K S 
 
 NUM_TEAMS ::= 
            N U M _ T E A M S 
 
-IBM ::= 
-           <!IBM*> 
-
-SMP-DO-SERIAL ::= 
-           SMP [ { \t | \s }... ] D O [ { \t | \s }... ] S E R I A L 
-
-SMP ::= 
-           <!SMP$> 
+NUM_THREADS ::= 
+           N U M _ T H R E A D S 
 
 OMP ::= 
            <!$OMP> 
@@ -1532,11 +1436,29 @@ OMP-END-DO ::=
 OMP-END-DO-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] D O [ { \t | \s }... ] S I M D 
 
+OMP-END-LOOP ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] L O O P 
+
+OMP-END-MASTER-TASKLOOP ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] { M A S T E R | M A S K E D } [ { \t | \s }... ] T A S K L O O P 
+
+OMP-END-MASTER-TASKLOOP-SIMD ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] { M A S T E R | M A S K E D } [ { \t | \s }... ] T A S K L O O P [ { \t | \s }... ] S I M D 
+
 OMP-END-PARALLEL-DO ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O 
 
 OMP-END-PARALLEL-DO-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O [ { \t | \s }... ] S I M D 
+
+OMP-END-PARALLEL-LOOP ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] L O O P 
+
+OMP-END-PARALLEL-MASTER-TASKLOOP ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] { M A S T E R | M A S K E D } [ { \t | \s }... ] T A S K L O O P 
+
+OMP-END-PARALLEL-MASTER-TASKLOOP-SIMD ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] { M A S T E R | M A S K E D } [ { \t | \s }... ] T A S K L O O P [ { \t | \s }... ] S I M D 
 
 OMP-END-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] S I M D 
@@ -1547,11 +1469,14 @@ OMP-END-TARGET-PARALLEL-DO ::=
 OMP-END-TARGET-PARALLEL-DO-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O [ { \t | \s }... ] S I M D 
 
+OMP-END-TARGET-PARALLEL-LOOP ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] L O O P 
+
+OMP-END-TARGET-SIMD ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] S I M D 
+
 OMP-END-TARGET-TEAMS-DISTRIBUTE ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E 
-
-OMP-END-TARGET-TEAMS-DISTRIBUTE-SIMD ::= 
-           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] S I M D 
 
 OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O 
@@ -1559,8 +1484,11 @@ OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO ::=
 OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] P A R A L L E L [ { \t | \s }... ] D O [ { \t | \s }... ] S I M D 
 
-OMP-END-TARGET-SIMD ::= 
-           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] S I M D 
+OMP-END-TARGET-TEAMS-DISTRIBUTE-SIMD ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] S I M D 
+
+OMP-END-TARGET-TEAMS-LOOP ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T A R G E T [ { \t | \s }... ] T E A M S [ { \t | \s }... ] L O O P 
 
 OMP-END-TASKLOOP ::= 
            OMP [ { \s | \t }... ] E N D [ { \s | \t }... ] T A S K L O O P 
@@ -1580,32 +1508,209 @@ OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD ::=
 OMP-END-TEAMS-DISTRIBUTE-SIMD ::= 
            <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T E A M S [ { \t | \s }... ] D I S T R I B U T E [ { \t | \s }... ] S I M D 
 
+OMP-END-TEAMS-LOOP ::= 
+           <!$OMP> [ { \t | \s }... ] E N D [ { \t | \s }... ] T E A M S [ { \t | \s }... ] L O O P 
+
 OMP_PRIV ::= 
            O M P _ P R I V 
+
+ONLY ::= 
+           O N L Y 
+
+OPEN ::= 
+           O P E N 
+
+OPENED ::= 
+           O P E N E D 
+
+OPERATOR ::= 
+           O P E R A T O R 
+
+OPTIONAL ::= 
+           O P T I O N A L 
+
+ORDER ::= 
+           O R D E R 
 
 ORDERED ::= 
            O R D E R E D 
 
+ORGANIZATION ::= 
+           O R G A N I Z A T I O N 
+
+OUT ::= 
+           O U T 
+
+OVERRIDABLE ::= 
+           O V E R R I D A B L E 
+
+PAD ::= 
+           P A D 
+
+PARALLEL ::= 
+           P A R A L L E L 
+
+PARAMETER ::= 
+           P A R A M E T E R 
+
+PARAMETER_DEC ::= 
+           P A R A M E T E R { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] 
+
+<fdec-par-context> ::= 
+           [ { \t | \s }... ] { = } 
+
+PASS ::= 
+           P A S S 
+
+PAUSE ::= 
+           P A U S E 
+
+PENDING ::= 
+           P E N D I N G 
+
 POINT ::= 
            P O I N T 
+
+POINTER ::= 
+           P O I N T E R 
+
+POS ::= 
+           P O S 
+
+POSITION ::= 
+           P O S I T I O N 
 
 POST ::= 
            P O S T 
 
+PRECISION ::= 
+           P R E C I S I O N 
+
+PRINT ::= 
+           P R I N T 
+
 PRIORITY ::= 
            P R I O R I T Y 
+
+PRIVATE ::= 
+           P R I V A T E 
+
+PROCEDURE ::= 
+           P R O C E D U R E 
+
+PROC_BIND ::= 
+           P R O C _ B I N D 
+
+PROGRAM ::= 
+           P R O G R A M 
+
+PROTECTED ::= 
+           P R O T E C T E D 
+
+PUBLIC ::= 
+           P U B L I C 
+
+PURE ::= 
+           P U R E 
+
+RANK ::= 
+           R A N K 
+
+RC ::= 
+           R C 
+
+RD ::= 
+           R D 
+
+READ ::= 
+           R E A D 
+
+READ2 ::= 
+           R E A D 
+
+READONLY ::= 
+           R E A D O N L Y 
+
+READWRITE ::= 
+           R E A D W R I T E 
+
+REAL ::= 
+           R E A L 
+
+REC ::= 
+           R E C 
+
+RECL ::= 
+           R E C L 
+
+RECORD ::= 
+           R E C O R D 
+
+RECORDSIZE ::= 
+           R E C O R D S I Z E 
+
+RECORDTYPE ::= 
+           R E C O R D T Y P E 
+
+RECURSIVE ::= 
+           R E C U R S I V E 
+
+REDUCTION ::= 
+           R E D U C T I O N 
+
+REF ::= 
+           R E F 
+
+RELAXED ::= 
+           R E L A X E D 
 
 RELEASE ::= 
            R E L E A S E 
 
+REQUIRES ::= 
+           R E Q U I R E S 
+
+RESULT ::= 
+           R E S U L T 
+
+RETURN ::= 
+           R E T U R N 
+
+REVERSE_OFFLOAD ::= 
+           R E V E R S E _ O F F L O A D 
+
+REWIND ::= 
+           R E W I N D 
+
+RN ::= 
+           R N 
+
+ROUND ::= 
+           R O U N D 
+
+RP ::= 
+           R P 
+
+RU ::= 
+           R U 
+
 RUNTIME ::= 
            R U N T I M E 
+
+RZ ::= 
+           R Z 
 
 SAFELEN ::= 
            S A F E L E N 
 
+SAVE ::= 
+           S A V E 
+
 SCALAR ::= 
            S C A L A R 
+
+SCAN ::= 
+           S C A N 
 
 SCHEDULE ::= 
            S C H E D U L E 
@@ -1616,8 +1721,38 @@ SECTION ::=
 SECTIONS ::= 
            S E C T I O N S 
 
+SELECT ::= 
+           S E L E C T 
+
+SELECT_CASE ::= 
+           S E L E C T C A S E 
+
+SELECT_RANK ::= 
+           S E L E C T R A N K 
+
+SELECT_TYPE ::= 
+           S E L E C T T Y P E 
+
+SEQUENCE ::= 
+           S E Q U E N C E 
+
+SEQUENTIAL ::= 
+           S E Q U E N T I A L 
+
 SEQ_CST ::= 
            S E Q _ C S T 
+
+SHARE ::= 
+           S H A R E 
+
+SHARED ::= 
+           S H A R E D 
+
+SHARED-2 ::= 
+           S H A R E D 
+
+SIGN ::= 
+           S I G N 
 
 SIMD ::= 
            S I M D 
@@ -1630,6 +1765,57 @@ SINGLE ::=
 
 SINK ::= 
            S I N K 
+
+SIZE ::= 
+           S I Z E 
+
+SMP-DO-SERIAL ::= 
+           SMP [ { \t | \s }... ] D O [ { \t | \s }... ] S E R I A L 
+
+SMP ::= 
+           <!SMP$> 
+
+SOURCE ::= 
+           S O U R C E 
+
+SP ::= 
+           S P 
+
+SPREAD ::= 
+           S P R E A D 
+
+SS ::= 
+           S S 
+
+STAT ::= 
+           S T A T 
+
+STATIC ::= 
+           S T A T I C 
+
+STATUS ::= 
+           S T A T U S 
+
+STOP ::= 
+           S T O P 
+
+STREAM ::= 
+           S T R E A M 
+
+STRUCTURE ::= 
+           S T R U C T U R E 
+
+SUBMODULE ::= 
+           S U B M O D U L E 
+
+SUBROUTINE ::= 
+           S U B R O U T I N E 
+
+SYNC ::= 
+           S Y N C 
+
+TARGET ::= 
+           T A R G E T 
 
 TASK ::= 
            T A S K 
@@ -1646,29 +1832,74 @@ TASKWAIT ::=
 TASKYIELD ::= 
            T A S K Y I E L D 
 
+TASK_REDUCTION ::= 
+           T A S K _ R E D U C T I O N 
+
 TEAM ::= 
            T E A M 
-
-TEAM_NUMBER ::= 
-           T E A M _ N U M B E R 
 
 TEAMS ::= 
            T E A M S 
 
-THREAD_LIMIT ::= 
-           T H R E A D _ L I M I T 
+TEAM_NUMBER ::= 
+           T E A M _ N U M B E R 
 
-THREADPRIVATE ::= 
-           T H R E A D P R I V A T E 
+THEN ::= 
+           T H E N 
+
+THREAD ::= 
+           T H R E A D 
 
 THREADLOCAL ::= 
            T H R E A D L O C A L 
 
+THREADPRIVATE ::= 
+           T H R E A D P R I V A T E 
+
+THREADS ::= 
+           T H R E A D S 
+
+THREAD_LIMIT ::= 
+           T H R E A D _ L I M I T 
+
+TL ::= 
+           T L 
+
+TO ::= 
+           T O 
+
 TOFROM ::= 
            T O F R O M 
 
+TR ::= 
+           T R 
+
+TYPE ::= 
+           T Y P E 
+
+TYPE_DEC_LOOKAHEAD ::= 
+           T Y P E [ { \t | \s }... ] { { 0 .. 9 }... | { { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] } } 
+
+UNFORMATTED ::= 
+           U N F O R M A T T E D 
+
+UNIFIED_ADDRESS ::= 
+           U N I F I E D _ A D D R E S S 
+
+UNIFIED_SHARED_MEMORY ::= 
+           U N I F I E D _ S H A R E D _ M E M O R Y 
+
 UNIFORM ::= 
            U N I F O R M 
+
+UNION ::= 
+           U N I O N 
+
+UNIT ::= 
+           U N I T 
+
+UNLOCK ::= 
+           U N L O C K 
 
 UNTIED ::= 
            U N T I E D 
@@ -1679,11 +1910,77 @@ UNTIL_COUNT ::=
 UPDATE ::= 
            U P D A T E 
 
+USE ::= 
+           U S E 
+
+USER ::= 
+           U S E R 
+
+<eq-symbol..> ::= 
+           [ { \t | \s }... ] { = } 
+
+USEROPEN ::= 
+           U S E R O P E N 
+
+<eq-symbol...> ::= 
+           [ { \t | \s }... ] { = } 
+
+USES_ALLOCATORS ::= 
+           U S E S _ A L L O C A T O R S 
+
+<left-parenthesis..> ::= 
+           [ { \t | \s }... ] { ( } 
+
+USE_DEVICE_ADDR ::= 
+           U S E _ D E V I C E _ A D D R 
+
+<left-parenthesis...> ::= 
+           [ { \t | \s }... ] { ( } 
+
 USE_DEVICE_PTR ::= 
            U S E _ D E V I C E _ P T R 
 
+<left-parenthesis....> ::= 
+           [ { \t | \s }... ] { ( } 
+
+VAL ::= 
+           V A L 
+
+VALUE ::= 
+           V A L U E 
+
+VARIANT ::= 
+           V A R I A N T 
+
+VENDOR ::= 
+           V E N D O R 
+
+VOLATILE ::= 
+           V O L A T I L E 
+
+WAIT ::= 
+           W A I T 
+
+WHEN ::= 
+           W H E N 
+
+WHERE ::= 
+           W H E R E 
+
+WHILE ::= 
+           W H I L E 
+
 WORKSHARE ::= 
            W O R K S H A R E 
+
+WRITE ::= 
+           W R I T E 
+
+WRITE2 ::= 
+           W R I T E 
+
+<ZERO> ::= 
+           Z E R O 
 
 <omp-compound> ::= 
            <omp-compound-value> 
@@ -1711,6 +2008,7 @@ WORKSHARE ::=
      |     D O 
      |     S I M D 
      |     M A S T E R 
+     |     M A S K E D 
      |     O R D E R E D 
      |     S I N G L E 
      |     S E C T I O N S 
@@ -1723,56 +2021,11 @@ WORKSHARE ::=
      |     T A S K G R O U P 
      |     U P D A T E 
 
-<label> ::= 
-           <digit>[1..5] 
-
-<digit> ::= 
-           0 .. 9 
-
-<int-literal-constant> ::= 
-           <digit> ... [ _ kind-param ] 
-
-kind-param ::= 
-           digit-string 
-     |     scalar-int-constant-name 
-
-digit-string ::= 
-           { 0 .. 9 }... 
-
-scalar-int-constant-name ::= 
-           { A .. Z } { A .. Z | 0 .. 9 | _ }... 
-
 <letter> ::= 
            A .. Z 
 
 <name-f> ::= 
-           name_f_begin +: <function-context> 
-     |     name_f_begin2 +: <subroutine-context> 
-
-name_f_begin ::= 
-           { FUNCTION } { { A .. Z } | { 0 .. 9 } | _ }... 
-
-<function-context> ::= 
-           { { [ { \t | \s }... ] ( [ { \t | \s }... ] <lch> ... } } += { p_name_list_or_bind_result } 
-
-<lch> ::= 
-           { { \u0001 .. \ufffe } -= { \r | \n | ; } } 
-     |     <char-literal-constant2> 
-
-p_name_list_or_bind_result ::= 
-           [ { \t | \s }... ] ( [ { \t | \s }... ] [ name [ { [ { \t | \s }... ] , [ { \t | \s }... ] name [ { \t | \s }... ] }... ] ] [ { \t | \s }... ] ) [ { \t | \s }... ] 
-
-name ::= 
-           { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] 
-
-name_f_begin2 ::= 
-           { SUBROUTINE } { A .. Z | 0 .. 9 | _ }... 
-
-<subroutine-context> ::= 
-           { { [ { \t | \s }... ] ( [ { \t | \s }... ] <lch> ... } } += { p_dummy_list_or_bind_result } 
-
-p_dummy_list_or_bind_result ::= 
-           [ { \t | \s }... ] ( [ { \t | \s }... ] [ { name | * } [ { [ { \t | \s }... ] , [ { \t | \s }... ] { name | * } [ { \t | \s }... ] }... ] ] [ { \t | \s }... ] ) [ { \t | \s }... ] 
+           { F U N C T I O N | S U B R O U T I N E } { { A .. Z } | _ } [ { { A .. Z } | { 0 .. 9 } | _ }... ] 
 
 <name-l-read> ::= 
            { R E A D } +: <eq-symbol> 
@@ -1787,11 +2040,15 @@ p_dummy_list_or_bind_result ::=
 <[> ::= 
            \u005b 
 
+<lch> ::= 
+           { { \u0001 .. \ufffe } -= { \r | \n | ; } } 
+     |     <char-literal-constant2> 
+
 <]> ::= 
            \u005d 
 
 <%> ::= 
-           [ { \t | \s }... ] % [ { \t | \s }... ] 
+           [ { \t | \s }... ] { % | . } [ { \t | \s }... ] 
 
 <name-l-write> ::= 
            { W R I T E } +: <eq-symbol> 
@@ -1801,384 +2058,456 @@ p_dummy_list_or_bind_result ::=
            { { [ { \t | \s }... ] { ( | <[> } [ { \t | \s }... ] <lch> ... } } += { [ <lch> ... ] { ) | <]> | <%> { { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] } } [ { \t | \s }... ] = { { \u0001 .. \ufffe } -= = } [ { \u0001 .. \ufffe }... ] } 
 
 <name-l> ::= 
-           not_a_key +: <left-delimiter> 
+           { not_a_key | <use-prefix> } +: <left-delimiter> 
      |     { R E A D | W R I T E } +: <half-left-delimeter> 
-     |     not_cons_keys +: <left-parenthesis> 
+     |     { not_cons_keys | <use-prefix...> } +: <left-parenthesis> 
      |     DO_KEY +: <lvalue-context> 
      |     CALLorDATAorREWIND_KEY +: <call-context> 
      |     CODIMENSION_KEY +: <codimension-context> 
      |     cons_keys +: <larray-context> 
-     |     { key -= { R E A D | W R I T E } } 
+     |     { key -= { R E A D | W R I T E | <use-prefix..> } } 
 
 not_a_key ::= 
            { { _ | A .. Z } [ { _ | A .. Z | 0 .. 9 }... ] } -= { key } 
 
 key ::= 
-           <letter> 
-     |     <fmt{G}w> 
-     |     <fmt{I,B,O,Z,G,L,A}w> 
-     |     <fmt{T|TL|TR}n> 
-     |     A 
-     |     I 
-     |     L 
+           A 
+     |     A B S T R A C T 
+     |     A C C E S S 
+     |     A C Q U I R E 
+     |     A C Q U I R E D _ L O C K 
+     |     A C Q _ R E L 
+     |     A C T I O N 
+     |     A D V A N C E 
+     |     A F F I N I T Y 
+     |     A G G R E G A T E 
+     |     A L I G N E D 
+     |     A L L 
+     |     A L L O C 
+     |     A L L O C A T A B L E 
+     |     A L L O C A T E 
+     |     A L W A Y S 
+     |     A N C E S T O R 
+     |     A N Y 
+     |     A R C H 
+     |     A S S I G N 
+     |     A S S I G N M E N T 
+     |     A S S O C I A T E 
+     |     A S S O C I A T E V A R I A B L E 
+     |     A S Y N C H R O N O U S 
+     |     A T O M I C 
+     |     A T O M I C _ D E F A U L T _ M E M _ O R D E R 
+     |     A U T O 
+     |     A U T O M A T I C 
+     |     B 
+     |     B A C K S P A C E 
+     |     B A R R I E R 
+     |     B E G I N 
+     |     B I N D 
+     |     B L A N K 
+     |     B L O C K 
+     |     B L O C K S I Z E 
+     |     B L O C K D A T A 
+     |     B N 
+     |     B U F F E R C O U N T 
+     |     B Y T E 
+     |     B Z 
      |     C 
+     |     C A L L 
+     |     C A N C E L 
+     |     C A N C E L L A T I O N 
+     |     C A P T U R E 
+     |     C A R R I A G E C O N T R O L 
+     |     C A S E 
+     |     C H A N G E 
+     |     C H A N G E T E A M 
+     |     C H A R A C T E R 
+     |     C L A S S 
+     |     C L O S E 
+     |     C O D I M E N S I O N 
+     |     C O L L A P S E 
+     |     C O M M O N 
+     |     C O M P L E X 
+     |     C O N C U R R E N T 
+     |     C O N D I T I O N 
+     |     C O N D I T I O N A L 
+     |     C O N S T R U C T 
+     |     C O N T A I N S 
+     |     C O N T I G U O U S 
+     |     C O N T I N U E 
+     |     C O N V E R T 
+     |     C O P Y I N 
+     |     C O P Y P R I V A T E 
+     |     C R I T I C A L 
+     |     C Y C L E 
+     |     D 
+     |     D A T A 
+     |     D C 
+     |     D E A L L O C A T E 
+     |     D E C I M A L 
+     |     D E C L A R E 
+     |     D E F A U L T 
+     |     D E F A U L T F I L E 
+     |     D E F A U L T M A P 
+     |     D E F E R R E D 
+     |     D E F I N E 
+     |     D E L E T E 
+     |     D E L I M 
+     |     D E P E N D 
+     |     D E P O B J 
+     |     D E S T R O Y 
+     |     D E T A C H 
+     |     D E V I C E 
+     |     D E V I C E _ N U M 
+     |     D E V I C E _ T Y P E 
+     |     D I M E N S I O N 
+     |     D I R E C T 
+     |     D I R E C T O R Y 
+     |     D I S P O S E 
+     |     D I S T R I B U T E 
+     |     D I S T _ S C H E D U L E 
+     |     D O 
+     |     D O U B L E 
+     |     D O U B L E C O M P L E X 
+     |     D O U B L E P R E C I S I O N 
+     |     D P 
+     |     D T 
+     |     D Y N A M I C 
+     |     D Y N A M I C _ A L L O C A T O R S 
+     |     E 
+     |     E A R L Y _ E X I T 
+     |     E L E M E N T A L 
+     |     E L S E 
+     |     E L S E I F 
+     |     E L S E W H E R E 
+     |     E N C O D I N G 
+     |     E N D 
+     |     E N D F I L E 
+     |     E N D A S S O C I A T E 
+     |     E N D B L O C K 
+     |     E N D B L O C K D A T A 
+     |     E N D C R I T I C A L 
+     |     E N D D O 
+     |     E N D E N U M 
+     |     E N D F O R A L L 
+     |     E N D F U N C T I O N 
+     |     E N D I F 
+     |     E N D I N T E R F A C E 
+     |     E N D M A P 
+     |     E N D M E T A D I R E C T I V E 
+     |     E N D M O D U L E 
+     |     E N D P R O C E D U R E 
+     |     E N D P R O G R A M 
+     |     E N D S E L E C T 
+     |     E N D S T R U C T U R E 
+     |     E N D S U B M O D U L E 
+     |     E N D S U B R O U T I N E 
+     |     E N D T E A M 
+     |     E N D T Y P E 
+     |     E N D U N I O N 
+     |     E N D W H E R E 
+     |     E N T E R 
+     |     E N T R Y 
+     |     E N U M 
+     |     E N U M E R A T O R 
+     |     E O F 
+     |     E O R 
+     |     E Q U I V A L E N C E 
+     |     E R R 
+     |     E R R M S G 
+     |     E R R O R 
+     |     E V E N T 
+     |     E X C L U S I V E 
+     |     E X I S T 
+     |     E X I T 
+     |     E X T E N D S 
+     |     E X T E N D S I Z E 
+     |     E X T E R N A L 
      |     F 
+     |     F A I L 
+     |     F I L E 
+     |     F I L L 
+     |     F I L T E R 
+     |     F I N A L 
+     |     F I R S T 
+     |     F I R S T P R I V A T E 
+     |     F L U S H 
+     |     F M T 
+     |     F O R 
+     |     F O R A L L 
+     |     F O R M 
+     |     F O R M A T T E D 
+     |     F R O M 
+     |     F U N C T I O N 
      |     G 
-     |     X 
+     |     G E N E R I C 
+     |     G O 
+     |     G O T O 
+     |     G R A I N S I Z E 
+     |     G U I D E D 
+     |     H 
+     |     H I N T 
+     |     H O S T 
+     |     I 
+     |     I A N D 
+     |     I D 
+     |     I E O R 
+     |     I F 
+     |     I M A G E 
+     |     I M A G E S 
+     |     I M P L E M E N T A T I O N 
+     |     I M P L I C I T 
+     |     I M P O R T 
+     |     I M P U R E 
+     |     I N 
+     |     I N B R A N C H 
+     |     I N C L U D E 
+     |     I N C L U S I V E 
+     |     I N D I R E C T 
+     |     I N I T I A L I Z E R 
+     |     I N I T I A L S I Z E 
+     |     I N Q U I R E 
+     |     I N S C A N 
+     |     I N T E G E R 
+     |     I N T E N T 
+     |     I N T E R F A C E 
+     |     I N T R I N S I C 
+     |     I N O U T 
+     |     I N _ R E D U C T I O N 
+     |     I O L E N G T H 
+     |     I O M S G 
+     |     I O R 
+     |     I O S T A T 
+     |     I S 
+     |     I S A 
+     |     I S _ D E V I C E _ P T R 
+     |     I T E R A T O R 
+     |     J 
+     |     K 
+     |     K E Y 
+     |     K I N D 
+     |     L 
+     |     L A S T P R I V A T E 
+     |     L E N 
+     |     L I N E A R 
+     |     L I N K 
+     |     L O C 
+     |     L O C A L 
+     |     L O C A L _ I N I T 
+     |     L O C K 
+     |     L O G I C A L 
+     |     L O O P 
+     |     M 
+     |     M A P 
+     |     M A P P E R 
+     |     M A S K E D 
+     |     M A S T E R 
+     |     M A T C H 
+     |     M A X 
+     |     M A X R E C 
+     |     M E M O R Y 
+     |     M E R G E A B L E 
+     |     M E T A D I R E C T I V E 
+     |     M I N 
+     |     M O D U L E 
+     |     M O L D 
+     |     M O N O T O N I C 
+     |     M U T E X I N O U T S E T 
+     |     N 
+     |     N A M E 
+     |     N A M E D 
+     |     N A M E L I S T 
+     |     N E W U N I T 
+     |     N E W _ I N D E X 
+     |     N E X T R E C 
+     |     N M L 
+     |     N O G R O U P 
+     |     N O H O S T 
+     |     N O N 
+     |     N O N E 
+     |     N O N M O N O T O N I C 
+     |     N O N T E M P O R A L 
+     |     N O N I N T R I N S I C 
+     |     N O N O V E R R I D A B L E 
+     |     N O N R E C U R S I V E 
+     |     N O P A S S 
+     |     N O S H A R E D 
+     |     N O S P A N B L O C K S 
+     |     N O T I N B R A N C H 
+     |     N O W A I T 
+     |     N U L L I F Y 
+     |     N U M B E R 
+     |     N U M _ T A S K S 
+     |     N U M _ T E A M S 
+     |     N U M _ T H R E A D S 
+     |     O 
+     |     O M P _ P R I V 
+     |     O N L Y 
+     |     O P E N 
+     |     O P E N E D 
+     |     O P E R A T O R 
+     |     O P T I O N A L 
+     |     O R D E R 
+     |     O R D E R E D 
+     |     O R G A N I Z A T I O N 
+     |     O U T 
+     |     O V E R R I D A B L E 
      |     P 
+     |     P A D 
+     |     P A R A L L E L 
+     |     P A R A M E T E R 
+     |     P A S S 
+     |     P A U S E 
+     |     P E N D I N G 
+     |     P O I N T 
+     |     P O I N T E R 
+     |     P O S 
+     |     P O S I T I O N 
+     |     P O S T 
+     |     P R E C I S I O N 
+     |     P R I N T 
+     |     P R I O R I T Y 
+     |     P R I V A T E 
+     |     P R O C E D U R E 
+     |     P R O C _ B I N D 
+     |     P R O G R A M 
+     |     P R O T E C T E D 
+     |     P U B L I C 
+     |     P U R E 
      |     Q 
-     |     DT 
-     |     DC 
-     |     DP 
-     |     BN 
-     |     BZ 
-     |     RU 
-     |     RD 
-     |     RZ 
-     |     RN 
-     |     RC 
-     |     RP 
-     |     SS 
-     |     SP 
+     |     R 
+     |     R A N K 
+     |     R C 
+     |     R D 
+     |     R E A D 
+     |     R E A D O N L Y 
+     |     R E A D W R I T E 
+     |     R E A L 
+     |     R E C 
+     |     R E C L 
+     |     R E C O R D 
+     |     R E C O R D S I Z E 
+     |     R E C O R D T Y P E 
+     |     R E C U R S I V E 
+     |     R E D U C T I O N 
+     |     R E F 
+     |     R E L A X E D 
+     |     R E L E A S E 
+     |     R E Q U I R E S 
+     |     R E S U L T 
+     |     R E T U R N 
+     |     R E V E R S E _ O F F L O A D 
+     |     R E W I N D 
+     |     R N 
+     |     R O U N D 
+     |     R P 
+     |     R U 
+     |     R U N T I M E 
+     |     R Z 
      |     S 
+     |     S A F E L E N 
+     |     S A V E 
+     |     S C A L A R 
+     |     S C A N 
+     |     S C H E D U L E 
+     |     S E C T I O N 
+     |     S E C T I O N S 
+     |     S E L E C T 
+     |     S E L E C T C A S E 
+     |     S E L E C T R A N K 
+     |     S E L E C T T Y P E 
+     |     S E Q U E N C E 
+     |     S E Q U E N T I A L 
+     |     S E Q _ C S T 
+     |     S H A R E 
+     |     S H A R E D 
+     |     S I G N 
+     |     S I M D 
+     |     S I M D L E N 
+     |     S I N G L E 
+     |     S I N K 
+     |     S I Z E 
+     |     S O U R C E 
+     |     S P 
+     |     S P R E A D 
+     |     S S 
+     |     S T A T 
+     |     S T A T I C 
+     |     S T A T U S 
+     |     S T O P 
+     |     S T R E A M 
+     |     S T R U C T U R E 
+     |     S U B M O D U L E 
+     |     S U B R O U T I N E 
+     |     S Y N C 
      |     T 
-     |     TL 
-     |     TR 
-     |     ABSTRACT 
-     |     ACCESS 
-     |     ACTION 
-     |     ADVANCE 
-     |     ALL 
-     |     ALLOCATABLE 
-     |     ALLOCATE 
-     |     <ANY> 
-     |     ACQUIRED_LOCK 
-     |     ASSIGN 
-     |     ASSIGNMENT 
-     |     ASSOCIATE 
-     |     ASYNCHRONOUS 
-     |     BACKSPACE 
-     |     BIND 
-     |     BLANK 
-     |     BLOCK 
-     |     BLOCK_DATA 
-     |     CALL 
-     |     CASE 
-     |     CHANGE 
-     |     CHANGETEAM 
-     |     CLASS 
-     |     CLOSE 
-     |     CODIMENSION 
-     |     COMMON 
-     |     CONCURRENT 
-     |     CONTAINS 
-     |     CONTINUE 
-     |     CONTIGUOUS 
-     |     CRITICAL 
-     |     CYCLE 
-     |     DATA 
-     |     DEALLOCATE 
-     |     DECIMAL 
-     |     DEFAULT 
-     |     DEFERRED 
-     |     DEFINE 
-     |     DELIM 
-     |     DIMENSION 
-     |     DIRECT 
-     |     DIRECTORY 
-     |     DO 
-     |     DOUBLE_COMPLEX 
-     |     DOUBLE_PRECISION 
-     |     ELEMENTAL 
-     |     ELSE 
-     |     ELSE_IF 
-     |     ELSE_WHERE 
-     |     ENCODING 
-     |     END 
-     |     END_ASSOCIATE 
-     |     END_BLOCK 
-     |     END_BLOCK_DATA 
-     |     END_CRITICAL 
-     |     END_DO 
-     |     END_ENUM 
-     |     END_FORALL 
-     |     END_FUNCTION 
-     |     END_IF 
-     |     END_INTERFACE 
-     |     END_MODULE 
-     |     END_PROCEDURE 
-     |     END_PROGRAM 
-     |     END_SELECT 
-     |     END_SUBMODULE 
-     |     END_SUBROUTINE 
-     |     END_TEAM 
-     |     END_TYPE 
-     |     END_WHERE 
-     |     ENDFILE 
-     |     ENTRY 
-     |     ENUM 
-     |     ENUMERATOR 
-     |     <EOF> 
-     |     EOR 
-     |     EQUIVALENCE 
-     |     ERR 
-     |     <ERROR> 
-     |     ERRMSG 
-     |     EXIST 
-     |     EXTENDS 
-     |     EXTERNAL 
-     |     FAIL 
-     |     FILE 
-     |     FINAL 
-     |     FLUSH 
-     |     FMT 
-     |     FORALL 
-     |     FORM 
-     |     FORMATTED 
-     |     FUNCTION 
-     |     <GENERIC> 
-     |     GO 
-     |     GOTO 
-     |     ID 
-     |     IF 
-     |     IMAGE 
-     |     IMAGES 
-     |     IMPLICIT 
-     |     IMPORT 
-     |     IMPURE 
-     |     IN 
-     |     IN_OUT 
-     |     INCLUDE 
-     |     INQUIRE 
-     |     INTENT 
-     |     INTERFACE 
-     |     INTRINSIC 
-     |     IOLENGTH 
-     |     IOMSG 
-     |     IOSTAT 
-     |     IS 
-     |     KIND 
-     |     LEN 
-     |     LOCAL 
-     |     LOCAL_INIT 
-     |     LOCK 
-     |     MEMORY 
-     |     MODULE 
-     |     MOLD 
-     |     NAME 
-     |     NAMED 
-     |     NAMELIST 
-     |     NEWUNIT 
-     |     NEW_INDEX 
-     |     NEXTREC 
-     |     NML 
-     |     NON 
-     |     NON_INTRINSIC 
-     |     NON_OVERRIDABLE 
-     |     NON_RECURSIVE 
-     |     <NONE> 
-     |     NOPASS 
-     |     NULLIFY 
-     |     NUMBER 
-     |     ONLY 
-     |     OPEN 
-     |     OPENED 
-     |     OPERATOR 
-     |     OPTIONAL 
-     |     OVERRIDABLE 
-     |     OUT 
-     |     PAD 
-     |     PARAMETER 
-     |     PASS 
-     |     PAUSE 
-     |     PENDING 
-     |     POINTER 
-     |     POS 
-     |     POSITION 
-     |     PRINT 
-     |     PRIVATE 
-     |     PROCEDURE 
-     |     PROGRAM 
-     |     PROTECTED 
-     |     PUBLIC 
-     |     PURE 
-     |     RANK 
-     |     READ 
-     |     READWRITE 
-     |     REC 
-     |     RECL 
-     |     RECURSIVE 
-     |     RESULT 
-     |     RETURN 
-     |     REWIND 
-     |     ROUND 
-     |     SAVE 
-     |     SELECT 
-     |     SELECT_CASE 
-     |     SELECT_RANK 
-     |     SELECT_TYPE 
-     |     SEQUENCE 
-     |     SEQUENTIAL 
-     |     SIGN 
-     |     SIZE 
-     |     SOURCE 
-     |     STOP 
-     |     SUBROUTINE 
-     |     SUBMODULE 
-     |     STAT 
-     |     STATUS 
-     |     STREAM 
-     |     SYNC 
-     |     TARGET 
-     |     THEN 
-     |     TO 
-     |     TYPE 
-     |     UNIT 
-     |     UNLOCK 
-     |     USE 
-     |     UNFORMATTED 
-     |     VALUE 
-     |     VOLATILE 
-     |     WAIT 
-     |     WHERE 
-     |     WHILE 
-     |     WRITE 
-     |     <ZERO> 
-     |     INTEGER 
-     |     BYTE 
-     |     REAL 
-     |     DOUBLE 
-     |     PRECISION 
-     |     COMPLEX 
-     |     CHARACTER 
-     |     LOGICAL 
-     |     AUTOMATIC 
-     |     LOC 
-     |     MAP 
-     |     RECORD 
-     |     REF 
-     |     STATIC 
-     |     STRUCTURE 
-     |     UNION 
-     |     VAL 
-     |     END_MAP 
-     |     END_STRUCTURE 
-     |     END_UNION 
-     |     ASSOCIATEVARIABLE 
-     |     BLOCKSIZE 
-     |     BUFFERCOUNT 
-     |     CARRIAGECONTROL 
-     |     DEFAULTFILE 
-     |     DISPOSE 
-     |     EXTENDSIZE 
-     |     INITIALSIZE 
-     |     <KEY> 
-     |     MAXREC 
-     |     NOSPANBLOCKS 
-     |     ORGANIZATION 
-     |     READONLY 
-     |     RECORDTYPE 
-     |     RECORDSIZE 
-     |     SHARED 
-     |     USEROPEN 
-     |     CLOSE 
-     |     COPYIN 
-     |     FIRSTPRIVATE 
-     |     MASTER 
-     |     NUM_THREADS 
-     |     PARALLEL 
-     |     PROC_BIND 
-     |     REDUCTION 
-     |     SHARED 
-     |     SPREAD 
-     |     AFFINITY 
-     |     ALIGNED 
-     |     ALLOC 
-     |     ALWAYS 
-     |     ATOMIC 
-     |     AUTO 
-     |     BARRIER 
-     |     CANCEL 
-     |     CANCELLATION 
-     |     CAPTURE 
-     |     COLLAPSE 
-     |     COPYPRIVATE 
-     |     DECLARE 
-     |     DEFAULTMAP 
-     |     DELETE 
-     |     DEPEND 
-     |     DEVICE 
-     |     DISTRIBUTE 
-     |     DIST_SCHEDULE 
-     |     DYNAMIC 
-     |     EARLY_EXIT 
-     |     ENTER 
-     |     FIRST 
-     |     FROM 
-     |     GRAINSIZE 
-     |     GUIDED 
-     |     HINT 
-     |     IAND 
-     |     IEOR 
-     |     INBRANCH 
-     |     INITIALIZER 
-     |     IOR 
-     |     IS_DEVICE_PTR 
-     |     LASTPRIVATE 
-     |     LINEAR 
-     |     LINK 
-     |     MAX 
-     |     MERGEABLE 
-     |     MIN 
-     |     MONOTONIC 
-     |     NOGROUP 
-     |     NONMONOTONIC 
-     |     NOTINBRANCH 
-     |     NOWAIT 
-     |     NUM_TASKS 
-     |     NUM_TEAMS 
-     |     OMP_PRIV 
-     |     ORDERED 
-     |     POINT 
-     |     POST 
-     |     PRIORITY 
-     |     RELEASE 
-     |     RUNTIME 
-     |     SAFELEN 
-     |     SCALAR 
-     |     SCHEDULE 
-     |     SECTION 
-     |     SECTIONS 
-     |     SEQ_CST 
-     |     SIMD 
-     |     SIMDLEN 
-     |     SINGLE 
-     |     SINK 
-     |     TASK 
-     |     TASKGROUP 
-     |     TASKLOOP 
-     |     TASKWAIT 
-     |     TEAM 
-     |     TEAM_NUMBER 
-     |     TASKYIELD 
-     |     TEAMS 
-     |     THREAD_LIMIT 
-     |     THREADLOCAL 
-     |     THREADPRIVATE 
-     |     TOFROM 
-     |     UNIFORM 
-     |     UNTIED 
-     |     UNTIL_COUNT 
-     |     UPDATE 
-     |     USE_DEVICE_PTR 
-     |     WAIT 
-     |     WORKSHARE 
+     |     T A R G E T 
+     |     T A S K 
+     |     T A S K G R O U P 
+     |     T A S K L O O P 
+     |     T A S K W A I T 
+     |     T A S K Y I E L D 
+     |     T A S K _ R E D U C T I O N 
+     |     T E A M 
+     |     T E A M S 
+     |     T E A M _ N U M B E R 
+     |     T H E N 
+     |     T H R E A D 
+     |     T H R E A D L O C A L 
+     |     T H R E A D P R I V A T E 
+     |     T H R E A D S 
+     |     T H R E A D _ L I M I T 
+     |     T L 
+     |     T O 
+     |     T O F R O M 
+     |     T R 
+     |     T Y P E 
+     |     U 
+     |     U N F O R M A T T E D 
+     |     U N I F I E D _ A D D R E S S 
+     |     U N I F I E D _ S H A R E D _ M E M O R Y 
+     |     U N I F O R M 
+     |     U N I O N 
+     |     U N I T 
+     |     U N L O C K 
+     |     U N T I E D 
+     |     U N T I L _ C O U N T 
+     |     U P D A T E 
+     |     U S E 
+     |     V 
+     |     V A L 
+     |     V A L U E 
+     |     V A R I A N T 
+     |     V E N D O R 
+     |     V O L A T I L E 
+     |     W 
+     |     W A I T 
+     |     W A I T 
+     |     W H E N 
+     |     W H E R E 
+     |     W H I L E 
+     |     W O R K S H A R E 
+     |     W R I T E 
+     |     X 
+     |     Y 
+     |     Z 
+     |     Z E R O 
+     |     <ext_implementation-defined-requirement> 
+     |     { I | B | O | Z | G | L | A } { 0 .. 9 }... 
+     |     { T | T L | T R } { 0 .. 9 }... 
+
+<use-prefix> ::= 
+           U S E R 
+     |     U S E R O P E N 
+     |     U S E S _ A L L O C A T O R S 
+     |     U S E _ D E V I C E _ A D D R 
+     |     U S E _ D E V I C E _ P T R 
 
 <left-delimiter> ::= 
-           [ { \t | \s }... ] { % | : | <[> | = } 
+           [ { \t | \s }... ] { % | . | : | <[> | = } 
 
 <half-left-delimeter> ::= 
-           [ { \t | \s }... ] { % | : | <[> } 
+           [ { \t | \s }... ] { % | . | : | <[> } 
 
 not_cons_keys ::= 
            { { _ | A .. Z } [ { _ | A .. Z | 0 .. 9 }... ] } -= { cons_keys | key } 
@@ -2198,23 +2527,23 @@ cons_keys ::=
      |     DEFINE FILE UNIT 
 
 cons_key_begin ::= 
-           IMPLICIT 
-     |     TYPE 
+           CALL 
      |     CLASS 
-     |     CALL 
-     |     DO 
-     |     <prfx> 
-     |     END_INTERFACE 
-     |     FUNCTION 
-     |     SUBROUTINE 
-     |     DIMENSION 
      |     COMMON 
+     |     DATA 
+     |     DIMENSION 
+     |     DO 
+     |     END_INTERFACE 
+     |     ENTRY 
+     |     FUNCTION 
      |     GO TO 
      |     GOTO 
-     |     DATA 
-     |     ENTRY 
+     |     IMPLICIT 
      |     INTERFACE 
      |     REWIND 
+     |     SUBROUTINE 
+     |     TYPE 
+     |     <prfx> 
 
 <prfx> ::= 
            INTEGER 
@@ -2231,6 +2560,13 @@ cons_key_begin ::=
      |     MODULE 
      |     PURE 
      |     RECURSIVE 
+
+<use-prefix...> ::= 
+           U S E R 
+     |     U S E R O P E N 
+     |     U S E S _ A L L O C A T O R S 
+     |     U S E _ D E V I C E _ A D D R 
+     |     U S E _ D E V I C E _ P T R 
 
 <left-parenthesis> ::= 
            [ { \t | \s }... ] { ( } 
@@ -2302,8 +2638,34 @@ CODIMENSION_KEY ::=
 <larray-context> ::= 
            { { [ { \t | \s }... ] { ( | <[> } [ { \t | \s }... ] <lch> ... } } += { [ <lch> ... ] { ) | <]> | <%> { { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] } } [ { \t | \s }... ] = { { \u0001 .. \ufffe } -= = } [ { \u0001 .. \ufffe }... ] } 
 
+<use-prefix..> ::= 
+           U S E R 
+     |     U S E R O P E N 
+     |     U S E S _ A L L O C A T O R S 
+     |     U S E _ D E V I C E _ A D D R 
+     |     U S E _ D E V I C E _ P T R 
+
 <name-r> ::= 
            { A .. Z | _ } [ { A .. Z | 0 .. 9 | _ }... ] 
+
+<label> ::= 
+           <digit>[1..5] 
+
+<digit> ::= 
+           0 .. 9 
+
+<int-literal-constant> ::= 
+           <digit> ... [ _ kind-param ] 
+
+kind-param ::= 
+           digit-string 
+     |     scalar-int-constant-name 
+
+digit-string ::= 
+           { 0 .. 9 }... 
+
+scalar-int-constant-name ::= 
+           { A .. Z } { A .. Z | 0 .. 9 | _ }... 
 
 <real-literal-constant> ::= 
            <digit-string .> +: <non-letter> 
@@ -2387,6 +2749,10 @@ exponent ::=
            { <quoted-binary> | <dquoted-binary> | <quoted-binary-2> | <dquoted-binary-2> } { B | O | X } 
      |     { <quoted-octal> | <dquoted-octal> | <quoted-octal-2> | <dquoted-octal-2> } { O | X } 
      |     { <quoted-hex> | <dquoted-hex> | <quoted-hex-2> | <dquoted-hex-2> } X 
+
+<fdec-real-literal> ::= 
+           significand E 
+     |     digit-string E 
 
 <spaces> ::= 
            \n [ { \t | \r | \s | ; | \n | ! [ { { \u0001 .. \t } | { \u000B .. \uFFFD } }... ] }... ] 
@@ -2530,4 +2896,10 @@ exponent ::=
 
 <..> ::= 
            . . 
+
+<{> ::= 
+           \u007b 
+
+<}> ::= 
+           \u007d 
 

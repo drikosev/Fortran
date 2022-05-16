@@ -1,3 +1,4 @@
+#disambiguate <dec-format>
 #disambiguate <expr>
 #disambiguate <part-name-p-section-subscript-list-l>
 #disambiguate <unexpected-end-stmt>
@@ -15,6 +16,7 @@
 #sma OMP-END-DO
 #sma OMP-END-PARALLEL-DO
 #sma OMP-END-TASKLOOP
+#sma TYPE_DEC_LOOKAHEAD
 
 <grm> ::= 
            <program> 
@@ -33,16 +35,17 @@
      |     <module> 
      |     <submodule> 
      |     <block-data> 
+     |     <out-of-unit-directive> 
 
 <main-program> ::= 
            <end-program-stmt;> 
      |     <internal-subprogram-part> <end-program-stmt;> 
      |     <stmts> <end-program-stmt;> 
      |     <stmts> <internal-subprogram-part> <end-program-stmt;> 
-     |     <program-stmt> <end-program-stmt;> 
-     |     <program-stmt> <internal-subprogram-part> <end-program-stmt;> 
-     |     <program-stmt> <stmts> <end-program-stmt;> 
-     |     <program-stmt> <stmts> <internal-subprogram-part> <end-program-stmt;> 
+     |     <program-stmt;> <end-program-stmt;> 
+     |     <program-stmt;> <internal-subprogram-part> <end-program-stmt;> 
+     |     <program-stmt;> <stmts> <end-program-stmt;> 
+     |     <program-stmt;> <stmts> <internal-subprogram-part> <end-program-stmt;> 
 
 <end-program-stmt;> ::= 
            <end-program-stmt> <;> 
@@ -55,11 +58,11 @@
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-program-stmt",1,true);*/
 
 end-program-stmt ::= 
-           END 
-     |     END PROGRAM +: { <;> | EOF } 
-     |     END_PROGRAM +: { <;> | EOF } 
-     |     END PROGRAM <program_name> +: { <;> | EOF } 
-     |     END_PROGRAM <program_name> +: { <;> | EOF } 
+           END   /* Tr.onEndProgram($$(0),NULL); */
+     |     END PROGRAM +: { <;> | EOF }   /* Tr.onEndProgram($$(0),NULL); */
+     |     END_PROGRAM +: { <;> | EOF }   /* Tr.onEndProgram($$(0),NULL); */
+     |     END PROGRAM <program_name> +: { <;> | EOF }   /* Tr.onEndProgram($$(0),str(3)); */
+     |     END_PROGRAM <program_name> +: { <;> | EOF }   /* Tr.onEndProgram($$(0),str(2)); */
 
 <program_name> ::= 
            <name> 
@@ -119,6 +122,7 @@ construct-key ::~
      |     IF 
      |     INTERFACE 
      |     MAP 
+     |     METADIRECTIVE 
      |     SELECT 
      |     TEAM 
      |     TYPE 
@@ -154,9 +158,13 @@ omp-end-construct ::~
 
 omp-construct-key ::~ 
            ATOMIC 
+     |     MASKED 
      |     MASTER 
+     |     METADIRECTIVE 
      |     ORDERED 
      |     PARALLEL 
+     |     PARALLEL MASKED   /* synthesize(1); syncat(L"-"); syncat(str(2)); */
+     |     PARALLEL MASTER   /* synthesize(1); syncat(L"-"); syncat(str(2)); */
      |     PARALLEL SECTIONS   /* synthesize(1); syncat(L"-"); syncat(str(2)); */
      |     PARALLEL WORKSHARE   /* synthesize(1); syncat(L"-"); syncat(str(2)); */
      |     SINGLE 
@@ -179,7 +187,7 @@ omp-construct-key ::~
 <internal-subprogram> ::= 
            <function-subprogram> 
      |     <subroutine-subprogram> 
-     |     ERROR <;> 
+     |     <erroneous-stmt> <;> 
 
 <function-subprogram> ::= 
            <function-stmt> <end-function-stmt;> 
@@ -199,14 +207,14 @@ omp-construct-key ::~
      |     function-stmt +: EOF 
 
 function-stmt ::= 
-           FUNCTION <name> <(> <)> 
-     |     FUNCTION <name> <(> <)> <sufix> 
-     |     FUNCTION <name> <(> <name-list> <)> 
-     |     FUNCTION <name> <(> <name-list> <)> <sufix> 
-     |     <prefix> FUNCTION <name> <(> <)> 
-     |     <prefix> FUNCTION <name> <(> <)> <sufix> 
-     |     <prefix> FUNCTION <name> <(> <name-list> <)> 
-     |     <prefix> FUNCTION <name> <(> <name-list> <)> <sufix> 
+           FUNCTION <name> <(> <)>   /* Tr.onFunction($$all,0,2,0,0); */
+     |     FUNCTION <name> <(> <)> <sufix>   /* Tr.onFunction($$all,0,2,0,5); */
+     |     FUNCTION <name> <(> <name-list> <)>   /* Tr.onFunction($$all,0,2,4,0); */
+     |     FUNCTION <name> <(> <name-list> <)> <sufix>   /* Tr.onFunction($$all,0,2,4,6); */
+     |     <prefix> FUNCTION <name> <(> <)>   /* Tr.onFunction($$all,1,3,0,0); */
+     |     <prefix> FUNCTION <name> <(> <)> <sufix>   /* Tr.onFunction($$all,1,3,0,6); */
+     |     <prefix> FUNCTION <name> <(> <name-list> <)>   /* Tr.onFunction($$all,1,3,5,0); */
+     |     <prefix> FUNCTION <name> <(> <name-list> <)> <sufix>   /* Tr.onFunction($$all,1,3,5,7); */
      |     FUNCTION <erroneous-stmt> 
 
 <(> ::= 
@@ -281,6 +289,7 @@ function-stmt ::=
 <primary> ::= 
            <constant> 
      |     <real-literal-constant> 
+     |     <fdec-real-literal> 
      |     <designator> 
      |     <array-constructor> 
      |     <structure-constructor> 
@@ -515,10 +524,6 @@ keyword ::=
 
 <p-expr> ::= 
            ( <expr> ) 
-     |     <bug-expr> 
-
-<bug-expr> ::~ 
-           ( <expr> +: { THEN | FUNCTION | <;> | <name> | = }   /* printf ( " Unbalanced ( needs ) " ) ; */
 
 <p-kind-set-expr> ::= 
            ( <kind-set-expr> ) 
@@ -676,10 +681,15 @@ keyword ::=
            NONE -: { , | ) | BIND | RESULT } 
 
 <prefix> ::= 
-           <prefix> <prefix1> 
-     |     <prefix1> 
+           <prefix1> 
+     |     <prefix2> 
 
 <prefix1> ::= 
+           <prefix1> <prefix-no-type> 
+     |     <declaration-type-spec> 
+     |     <record-type-spec> 
+
+<prefix-no-type> ::= 
            ELEMENTAL 
      |     IMPURE 
      |     MODULE 
@@ -687,8 +697,6 @@ keyword ::=
      |     RECURSIVE 
      |     NON RECURSIVE 
      |     NON_RECURSIVE 
-     |     <declaration-type-spec> 
-     |     <record-type-spec> 
 
 <declaration-type-spec> ::= 
            <intrinsic-type-spec> 
@@ -710,22 +718,28 @@ keyword ::=
 <record-type-spec> ::= 
            RECORD / <type-name> / 
 
+<prefix2> ::= 
+           <prefix2> <prefix-no-type> 
+     |     <prefix2> <declaration-type-spec> -: { <type-key> } 
+     |     <prefix2> <record-type-spec> -: { <type-key> } 
+     |     <prefix-no-type> 
+
 <end-function-stmt;> ::= 
            <end-function-stmt> <;> 
      |     <end-function-stmt> +: EOF 
 
 <end-function-stmt> ::= 
            end-function-stmt 
-     |     <label> end-function-stmt 
+     |     <label> end-function-stmt   /* Tr.onLabel($$(0),$$(1),$$(2)); */
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-function-stmt",1,true);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-function-stmt",1,true);*/
 
 end-function-stmt ::= 
-           END 
-     |     END FUNCTION +: { <;> | EOF } 
-     |     END FUNCTION <name> +: { <;> | EOF } 
-     |     END_FUNCTION +: { <;> | EOF } 
-     |     END_FUNCTION <name> +: { <;> | EOF } 
+           END   /* Tr.onEndFunction($$(0),NULL); */
+     |     END FUNCTION +: { <;> | EOF }   /* Tr.onEndFunction($$(0),NULL); */
+     |     END FUNCTION <name> +: { <;> | EOF }   /* Tr.onEndFunction($$(0),str(3)); */
+     |     END_FUNCTION +: { <;> | EOF }   /* Tr.onEndFunction($$(0),NULL); */
+     |     END_FUNCTION <name> +: { <;> | EOF }   /* Tr.onEndFunction($$(0),str(2)); */
 
 <stmts> ::= 
            <stmts> <stmt> 
@@ -745,15 +759,15 @@ end-function-stmt ::=
      |     <use-part-stmt> 
 
 <declaration-construct> ::= 
-           <derived-type-def> <;> 
-     |     <enum-def> <;> 
-     |     <generic-stmt> <;> 
-     |     <interface-block> <;> 
-     |     <parameter-stmt> <;> 
-     |     <procedure-declaration-stmt> <;> 
-     |     <other-specification-stmt> <;> 
-     |     <type-declaration-stmt> <;> 
-     |     <stmt-function-stmt> <;> 
+           <derived-type-def> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <enum-def> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <generic-stmt> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <interface-block> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <parameter-stmt> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <procedure-declaration-stmt> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <other-specification-stmt> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <type-declaration-stmt> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <stmt-function-stmt> <;>   /* Tr.onConstruct($$(0),$$(1)); */
 
 <derived-type-def> ::= 
            <derived-type-stmt> <end-type-stmt> 
@@ -764,17 +778,10 @@ end-function-stmt ::=
      |     <derived-type-stmt> <type-param-def-stmts> <type-bound-procedure-part> <end-type-stmt> 
      |     <derived-type-stmt> <type-param-def-stmts> <component-part> <end-type-stmt> 
      |     <derived-type-stmt> <type-param-def-stmts> <component-part> <type-bound-procedure-part> <end-type-stmt> 
-     |     <derived-structure-stmt> <end-structure-stmt> 
-     |     <derived-structure-stmt> <type-bound-procedure-part> <end-structure-stmt> 
-     |     <derived-structure-stmt> <component-structure-part> <end-structure-stmt> 
-     |     <derived-structure-stmt> <component-structure-part> <type-bound-procedure-part> <end-structure-stmt> 
-     |     <derived-structure-stmt> <type-param-def-stmts> <end-structure-stmt> 
-     |     <derived-structure-stmt> <type-param-def-stmts> <type-bound-procedure-part> <end-structure-stmt> 
-     |     <derived-structure-stmt> <type-param-def-stmts> <component-structure-part> <end-structure-stmt> 
-     |     <derived-structure-stmt> <type-param-def-stmts> <component-structure-part> <type-bound-procedure-part> <end-structure-stmt> 
+     |     <derived-structure-def> 
 
 <derived-type-stmt> ::= 
-           TYPE <type-name> <;> 
+           TYPE <type-name> <;>   /* return Tr.onSimpleType($$(0),$$(2)); */
      |     TYPE <type-name> ( <name-list> ) <;> 
      |     TYPE <::> <type-name> <;> 
      |     TYPE <::> <type-name> ( <name-list> ) <;> 
@@ -825,6 +832,7 @@ end-type-stmt ::=
            <type-bound-procedure-stmt;> 
      |     <type-bound-generic-stmt;> 
      |     <final-procedure-stmt;> 
+     |     <erroneous-stmt> 
 
 <type-bound-procedure-stmt;> ::= 
            <type-bound-procedure-stmt> <;> 
@@ -834,6 +842,7 @@ end-type-stmt ::=
      |     PROCEDURE <::> <type-bound-proc-decl-list> 
      |     PROCEDURE <,> <binding-attr-list> <::> <type-bound-proc-decl-list> 
      |     PROCEDURE ( <interface-name> ) <,> <binding-attr-list> <::> <binding-name-list> 
+     |     PROCEDURE <erroneous-stmt> 
 
 <type-bound-proc-decl-list> ::= 
            <type-bound-proc-decl-list> <,> <type-bound-proc-decl> 
@@ -874,6 +883,7 @@ end-type-stmt ::=
 <type-bound-generic-stmt> ::= 
            <GENERIC> <::> <generic-spec> <=rangle> <binding-name-list> 
      |     <GENERIC> <,> <access-spec> <::> <generic-spec> <=rangle> <binding-name-list> 
+     |     <GENERIC> <erroneous-stmt> 
 
 <generic-spec> ::= 
            <generic-name> 
@@ -924,6 +934,7 @@ end-type-stmt ::=
 <final-procedure-stmt> ::= 
            FINAL <final-subroutine-name-list> 
      |     FINAL <::> <final-subroutine-name-list> 
+     |     FINAL <erroneous-stmt> <;> 
 
 <final-subroutine-name-list> ::= 
            <name-list> 
@@ -939,7 +950,7 @@ end-type-stmt ::=
 <component-def-stmt> ::= 
            <data-component-def-stmt> 
      |     <proc-component-def-stmt> 
-     |     ERROR <;> 
+     |     <erroneous-stmt> <;> 
 
 <data-component-def-stmt> ::= 
            <declaration-type-spec> <component-decl-list> <;> 
@@ -973,6 +984,8 @@ end-type-stmt ::=
 
 <component-initialization> ::= 
            <initialization> 
+     |     <initialization-obsolete> 
+     |     <empty-initializer> 
 
 <initialization> ::= 
            = <constant-expr> 
@@ -987,6 +1000,40 @@ end-type-stmt ::=
 
 <function-reference> ::= 
            <data-ref> 
+
+<initialization-obsolete> ::= 
+           / <data-stmt-value-list> / 
+
+<data-stmt-value-list> ::= 
+           <data-stmt-value-list> <,> <data-stmt-value> 
+     |     <data-stmt-value> 
+
+<data-stmt-value> ::= 
+           <data-stmt-constant> 
+     |     <data-stmt-repeat> * <data-stmt-constant> 
+
+<data-stmt-constant> ::= 
+           <constant> 
+     |     <constant-subobject> 
+     |     <signed-int-literal-constant> 
+     |     <signed-real-literal-constant> 
+     |     <null-init> 
+     |     <initial-data-target> 
+     |     <structure-constructor> 
+     |     <p-complex-literal-pair> 
+
+<constant-subobject> ::= 
+           <designator> 
+
+<initial-data-target> ::= 
+           <designator> 
+
+<data-stmt-repeat> ::= 
+           <constant> 
+     |     <constant-subobject> 
+
+<empty-initializer> ::~ 
+           / / 
 
 <[coarray-spec]> ::= 
            <lbracket> <coarray-spec> <rbracket> 
@@ -1048,6 +1095,7 @@ end-type-stmt ::=
 <proc-component-def-stmt> ::= 
            PROCEDURE ( ) <,> <proc-component-attr-spec-list> <::> <proc-decl-list> <;> 
      |     PROCEDURE <p-proc-interface> <,> <proc-component-attr-spec-list> <::> <proc-decl-list> <;> 
+     |     PROCEDURE <erroneous-stmt> 
 
 <proc-component-attr-spec-list> ::= 
            <proc-component-attr-spec-list> <,> <proc-component-attr-spec> 
@@ -1104,6 +1152,7 @@ end-type-stmt ::=
 
 <type-param-def-stmt> ::= 
            <integer-type> <,> <type-param-attr-spec> <::> <type-param-decl-list> <;> 
+     |     <erroneous-stmt> 
 
 <integer-type> ::= 
            BYTE 
@@ -1123,13 +1172,20 @@ end-type-stmt ::=
            <name> 
      |     <name> = <expr> 
 
+<derived-structure-def> ::= 
+           <derived-structure-stmt> <end-structure-stmt> 
+     |     <derived-structure-stmt> <component-structure-part> <end-structure-stmt> 
+     |     <derived-structure-stmt> <type-param-def-stmts> <end-structure-stmt> 
+     |     <derived-structure-stmt> <type-param-def-stmts> <component-structure-part> <end-structure-stmt> 
+
 <derived-structure-stmt> ::= 
            STRUCTURE / <type-name> / <;> 
-     |     STRUCTURE / <type-name> / ( <name-list> ) <;> 
+     |     STRUCTURE / <type-name> / <component-decl-list> <;> 
+     |     STRUCTURE <component-decl-list> <;>   /* Tr.onAnonymousStruct($$(0),$$(2)); */
      |     STRUCTURE <::> / <type-name> / <;> 
-     |     STRUCTURE <::> / <type-name> / ( <name-list> ) <;> 
+     |     STRUCTURE <::> / <type-name> / <component-decl-list> <;> 
      |     STRUCTURE <,> <type-attr-spec-list> <::> / <type-name> / <;> 
-     |     STRUCTURE <,> <type-attr-spec-list> <::> / <type-name> / ( <name-list> ) <;> 
+     |     STRUCTURE <,> <type-attr-spec-list> <::> / <type-name> / <component-decl-list> <;> 
 
 <end-structure-stmt> ::= 
            end-structure-stmt 
@@ -1144,16 +1200,48 @@ end-structure-stmt ::=
      |     END_STRUCTURE <type-name> 
 
 <component-structure-part> ::= 
-           <component-structure-part> <component-def-stmt> 
-     |     <component-def-stmt> 
-     |     <component-structure-part> <label> <component-def-stmt> 
-     |     <label> <component-def-stmt> 
+           <component-structure-part> <structure-def-stmt> 
+     |     <structure-def-stmt> 
+     |     <component-structure-part> <label> <structure-def-stmt> 
+     |     <label> <structure-def-stmt> 
      |     <component-structure-part> <type-param-union-stmt> 
      |     <type-param-union-stmt> 
      |     <component-structure-part> <label> <type-param-union-stmt> 
      |     <label> <type-param-union-stmt> 
      |     <private-or-sequence> 
      |     <label> <private-or-sequence> 
+     |     <component-structure-part> <derived-structure-def> <;> 
+     |     <derived-structure-def> <;> 
+     |     <component-structure-part> <label> <derived-structure-def> <;> 
+     |     <label> <derived-structure-def> <;> 
+
+<structure-def-stmt> ::= 
+           <structure-component-def-stmt> 
+     |     <erroneous-stmt> <;> 
+
+<structure-component-def-stmt> ::= 
+           <declaration-type-spec> <component-decl-list> <;> 
+     |     <declaration-type-spec> <structure-comp-fill> <;> 
+     |     <declaration-type-spec> <::> <component-decl-list> <;> 
+     |     <declaration-type-spec> <,> <structure-component-attr-spec-list> <::> <component-decl-list> <;> 
+     |     <record-type-spec> <component-decl-list> <;> 
+     |     <record-type-spec> <structure-comp-fill> <;> 
+     |     <record-type-spec> <::> <component-decl-list> <;> 
+     |     <record-type-spec> <,> <structure-component-attr-spec-list> <::> <component-decl-list> <;> 
+
+<structure-comp-fill> ::= 
+           <%> FILL 
+
+<structure-component-attr-spec-list> ::= 
+           <structure-component-attr-spec-list> <,> <structure-component-attr-spec> 
+     |     <structure-component-attr-spec> 
+
+<structure-component-attr-spec> ::= 
+           ALLOCATABLE 
+     |     CODIMENSION <[coarray-spec]> 
+     |     CONTIGUOUS 
+     |     DIMENSION ( <component-array-spec> ) 
+     |     POINTER 
 
 <type-param-union-stmt> ::= 
            <union-stmt> <end-union-stmt> <;> 
@@ -1293,7 +1381,7 @@ end-interface-stmt ::=
      |     <use-part-stmt> 
      |     <entry-part-stmt> 
      |     <omp-declaration> 
-     |     ERROR <;> 
+     |     <erroneous-stmt> <;> 
 
 <implicit-part-stmt> ::= 
            <implicit-stmt> <;> 
@@ -1426,15 +1514,79 @@ end-interface-stmt ::=
      |     * 
 
 <omp-declaration> ::= 
-           <omp-declare-reduction> 
-     |     <omp-declare-simd> 
+           <omp-declare-mapper-stmt> 
+     |     <omp-declare-reduction-stmt> 
+     |     <omp-declare-simd-stmt> 
      |     <omp-declare-target-stmt> 
-     |     <omp-threadprivate> 
+     |     <omp-declare-variant-stmt> 
+     |     <omp-metadirective-construct> 
+     |     <omp-requires-directive> 
+     |     <omp-threadprivate-stmt> 
      |     <ibm-threadlocal> 
 
+<omp-declare-mapper-stmt> ::= 
+           OMP <omp-declare-mapper> <\n> 
+
+<omp-declare-mapper> ::= 
+           DECLARE MAPPER ( <omp-type> <::> <omp-var> ) 
+     |     DECLARE MAPPER ( <omp-type> <::> <omp-var> ) <omp-mapper-clause-list> 
+     |     DECLARE MAPPER ( <omp-mapper-identifier> : <omp-type> <::> <omp-var> ) 
+     |     DECLARE MAPPER ( <omp-mapper-identifier> : <omp-type> <::> <omp-var> ) <omp-mapper-clause-list> 
+
+<omp-type> ::= 
+           <name> 
+
+<omp-var> ::= 
+           <data-ref> 
+
+<omp-mapper-clause-list> ::= 
+           <omp-mapper-clause-list> , <omp-mapper-clause> 
+     |     <omp-mapper-clause-list> <omp-mapper-clause> 
+     |     <omp-mapper-clause> 
+
+<omp-mapper-clause> ::= 
+           MAP ( <omp-list> ) 
+     |     MAP ( <omp-mapper-type> : <omp-list> ) 
+     |     MAP ( <omp-map-type-modifier-list> <omp-mapper-type> : <omp-list> ) 
+
+<omp-list> ::= 
+           <omp-list> , <omp-item> 
+     |     <omp-item> 
+
+<omp-item> ::= 
+           <variable> 
+     |     <slashed-name> 
+
+<slashed-name> ::= 
+           / <name> / 
+
+<omp-mapper-type> ::= 
+           TO 
+     |     FROM 
+     |     TOFROM 
+     |     ALLOC 
+
+<omp-map-type-modifier-list> ::= 
+           <omp-map-type-modifier-list> , <omp-map-type-modifier> 
+     |     <omp-map-type-modifier-list> <omp-map-type-modifier> 
+     |     <omp-map-type-modifier> 
+
+<omp-map-type-modifier> ::= 
+           ALWAYS 
+     |     CLOSE 
+
+<omp-mapper-identifier> ::= 
+           <name> 
+
+<\n> ::= 
+           <;>   /* Tr.ErrorIfStarts( str(1),';', L"Unexpected ';' in OpenMP Directive. Expected New Line. " ) ; */
+
+<omp-declare-reduction-stmt> ::= 
+           OMP <omp-declare-reduction> <\n> 
+
 <omp-declare-reduction> ::= 
-           OMP DECLARE REDUCTION ( <reduction-identifier> : <omp-type-list> : <omp-combiner> ) <\n> 
-     |     OMP DECLARE REDUCTION ( <reduction-identifier> : <omp-type-list> : <omp-combiner> ) <omp-initializer-clause> <\n> 
+           DECLARE REDUCTION ( <reduction-identifier> : <omp-type-list> : <omp-combiner> ) 
+     |     DECLARE REDUCTION ( <reduction-identifier> : <omp-type-list> : <omp-combiner> ) <omp-initializer-clause> 
 
 <reduction-identifier> ::= 
            <name> 
@@ -1459,9 +1611,6 @@ end-interface-stmt ::=
            <designator> = <expr> 
      |     <designator> -: { = } 
 
-<\n> ::= 
-           <;>   /* Tr.ErrorIfStarts( str(1),';', L"Unexpected ';' in OpenMP Directive. Expected New Line. " ) ; */
-
 <omp-initializer-clause> ::= 
            INITIALIZER ( <omp-initializer-expr> ) 
 
@@ -1469,11 +1618,14 @@ end-interface-stmt ::=
            OMP_PRIV = <expr> 
      |     <procedure-name> <p-actual-arg-spec-list> 
 
+<omp-declare-simd-stmt> ::= 
+           OMP <omp-declare-simd> <\n> 
+
 <omp-declare-simd> ::= 
-           OMP DECLARE SIMD <\n> 
-     |     OMP DECLARE SIMD ( <procedure-name> ) <\n> 
-     |     OMP DECLARE SIMD <declare-simd-clause-list> <\n> 
-     |     OMP DECLARE SIMD ( <procedure-name> ) <declare-simd-clause-list> <\n> 
+           DECLARE SIMD 
+     |     DECLARE SIMD ( <procedure-name> ) 
+     |     DECLARE SIMD <declare-simd-clause-list> 
+     |     DECLARE SIMD ( <procedure-name> ) <declare-simd-clause-list> 
 
 <declare-simd-clause-list> ::= 
            <declare-simd-clause-list> , <declare-simd-clause> 
@@ -1493,36 +1645,28 @@ end-interface-stmt ::=
 
 <omp-linear> ::= 
            LINEAR ( <omp-list> ) 
-     |     LINEAR ( <omp-list> : linear-step ) 
+     |     LINEAR ( <omp-list> : <omp-linear-step> ) 
 
-<omp-list> ::= 
-           <omp-list> , <omp-item> 
-     |     <omp-item> 
-
-<omp-item> ::= 
-           <variable> 
-     |     <slashed-name> 
-
-<slashed-name> ::= 
-           / <name> / 
-
-linear-step ::= 
+<omp-linear-step> ::= 
            <scalar-int-constant-expr> 
 
 <omp-aligned> ::= 
            ALIGNED ( <omp-list> ) 
-     |     ALIGNED ( <omp-list> : alignment ) 
+     |     ALIGNED ( <omp-list> : <omp-alignment> ) 
 
-alignment ::= 
+<omp-alignment> ::= 
            <scalar-int-expr> 
 
 <omp-uniform> ::= 
            UNIFORM ( <omp-list> ) 
 
 <omp-declare-target-stmt> ::= 
-           OMP DECLARE TARGET <\n> 
-     |     OMP DECLARE TARGET <declare-target-clause-list> <\n> 
-     |     OMP DECLARE TARGET ( <omp-extended-list> ) <\n> 
+           OMP <omp-declare-target> <\n> 
+
+<omp-declare-target> ::= 
+           DECLARE TARGET 
+     |     DECLARE TARGET <declare-target-clause-list> 
+     |     DECLARE TARGET ( <omp-extended-list> ) 
 
 <declare-target-clause-list> ::= 
            <declare-target-clause-list> , <declare-target-clause> 
@@ -1530,761 +1674,1522 @@ alignment ::=
      |     <declare-target-clause> 
 
 <declare-target-clause> ::= 
-           <omp-to> 
+           <omp-target-to> 
+     |     <omp-target-enter> 
+     |     <omp-target-indirect> 
      |     <omp-link> 
+     |     <omp-device-type> 
 
-<omp-to> ::= 
-           TO ( <omp-list> ) 
-
-<omp-link> ::= 
-           LINK ( <omp-list> ) 
+<omp-target-to> ::= 
+           TO ( <omp-extended-list> ) 
 
 <omp-extended-list> ::= 
            <omp-list> 
 
-<omp-threadprivate> ::= 
-           OMP THREADPRIVATE ( <omp-list> ) <\n> 
+<omp-target-enter> ::= 
+           ENTER ( <omp-extended-list> ) 
 
-<ibm-threadlocal> ::= 
-           IBM THREADLOCAL <threadlocal-entity-list> <\n> 
-     |     IBM THREADLOCAL <::> <threadlocal-entity-list> <\n> 
+<omp-target-indirect> ::= 
+           INDIRECT ( ) 
+     |     INDIRECT ( <omp-invoked-by-fptr> ) 
 
-<threadlocal-entity-list> ::= 
-           <threadlocal-entity-list> , <omp-common-block-name> 
-     |     <omp-common-block-name> 
+<omp-invoked-by-fptr> ::= 
+           <omp-var> 
+     |     <logical-literal-constant> 
 
-<omp-common-block-name> ::= 
-           / <name> / 
+<omp-link> ::= 
+           LINK ( <omp-list> ) 
 
-<special-stmt;> ::= 
-           <format-stmt> <;> 
-     |     <include-stmt> <;> 
-     |     <label> <include-stmt> <;> 
+<omp-device-type> ::= 
+           DEVICE_TYPE ( HOST ) 
+     |     DEVICE_TYPE ( NOHOST ) 
+     |     DEVICE_TYPE ( <ANY> ) 
 
-<format-stmt> ::= 
-           <label-format> <format-specification>   /* Tr.ParsedFormatStmt($$(0), $$(1),$$(2),true); */
-     |     <label-format> <erroneous-stmt>   /* Tr.ParsedFormatStmt($$(0), $$(1),$$(2),false); */
+<omp-declare-variant-stmt> ::= 
+           OMP <omp-declare-variant> <\n> 
 
-<label-format> ::= 
-           <labeled_FORMAT>   /* Tr.OnLabelFormatPair($$(0),$$(1)); */
+<omp-declare-variant> ::= 
+           DECLARE VARIANT ( <omp-variant-proc-name> ) <omp-variant-clause> 
+     |     DECLARE VARIANT ( <omp-base-proc-name> : <omp-variant-proc-name> ) <omp-variant-clause> 
 
-<format-specification> ::= 
-           ( ) 
-     |     ( <format-items> ) 
-     |     ( <unlimited-format-item> ) 
-     |     ( <format-items> , <unlimited-format-item> ) 
+<omp-variant-proc-name> ::= 
+           <name> 
 
-<format-items> ::= 
-           <format-items> , <format-item> 
-     |     <format-items> , +: { ) }   /* Tr.warning(L"Last Format Item is Blank."); */
-     |     <format-items> <format-item> 
-     |     <format-item> 
+<omp-variant-clause> ::= 
+           MATCH ( <omp-context-selector-specification> ) 
 
-<format-item> ::= 
-           <char-or-edit-desc> +: { , | : | / | ) } 
-     |     <r> <data-edit-desc> +: { , | : | / | ) } 
-     |     <control-edit-desc> 
-     |     ( <format-items> ) +: { , | : | / | ) } 
-     |     <r> ( <format-items> ) +: { , | : | / | ) } 
-     |     <char-or-edit-desc> +: { <follow-data-edit-desc> }   /* Tr.warning( L"No Comma after the data-edit-descriptor: ", str(1) ); */
-     |     <r> <data-edit-desc> +: { <follow-data-edit-desc> }   /* Tr.warning( L"No Comma after the data-edit-descriptor: ", str(2) ); */
+<omp-context-selector-specification> ::= 
+           <omp-trait-set-selector-list> 
 
-<char-or-edit-desc> ::= 
-           <data-edit-desc> 
-     |     <char-string-edit-desc> 
+<omp-trait-set-selector-list> ::= 
+           <omp-trait-set-selector-list> , <omp-trait-set-selector> 
+     |     <omp-trait-set-selector> 
 
-<data-edit-desc> ::= 
-           <fmt{G}w> 
-     |     <fmt{I,B,O,Z,G,L,A}w> 
-     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
-     |     <fmt{I,B,O,Z}w . d> 
-     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
-     |     <fmt{E,EN,ES,G,EX}w . d E e> 
-     |     A 
-     |     F   /* Tr.warning(L"Positive width required after descriptor F."); synthesize(1); */
-     |     G   /* Tr.warning(L"Positive width required after descriptor G."); synthesize(1); */
-     |     I   /* Tr.warning(L"Positive width required after descriptor I."); synthesize(1); */
-     |     L   /* Tr.warning(L"Positive width required after descriptor L."); synthesize(1); */
-     |     Q   /* Tr.warning(L"The Q descriptor (Character Count) is non standard."); synthesize(1); */
-     |     <fmt{Q}w . d>   /* Tr.warning(L"The Q descriptor '%s' is non standard.",str(1)); synthesize(1); */
-     |     <fmt{E}w . d{D|Q}e>   /* Tr.warning(L"The E descriptor '%s' is non standard.",str(1)); synthesize(1); */
-     |     <fmt dt & char-literal-constant> <p-v-list>   /* synthesize(1); syncat(L"(...)"); */
-     |     <fmt dt & char-literal-constant> 
-     |     DT <p-v-list>   /* synthesize(1); syncat(L"(...)"); */
-     |     DT 
-     |     $ 
-     |     \ 
+<omp-trait-set-selector> ::= 
+           CONSTRUCT = <{> <omp-trait-selector-construct-list> <}> 
+     |     DEVICE = <{> <omp-trait-selector-device-list> <}> 
+     |     IMPLEMENTATION = <{> <omp-trait-selector-device-list> <}> 
+     |     USER = <{> <omp-trait-selector-condition-list> <}> 
 
-<p-v-list> ::= 
-           ( <v-list> ) 
+<omp-trait-selector-construct-list> ::= 
+           <omp-trait-selector-construct-list> , <omp-trait-selector-construct> 
+     |     <omp-trait-selector-construct> 
 
-<v-list> ::= 
-           <v-list> , <v> 
-     |     <v> 
+<omp-trait-selector-construct> ::= 
+           <omp-trait-selector-construct-name> 
+     |     <omp-trait-selector-construct-name> ( <omp-trait-property-list> ) 
+     |     <omp-trait-selector-construct-name> ( <omp-trait-score> : <omp-trait-property-list> ) 
 
-<v> ::= 
-           <signed-int-literal-constant> 
+<omp-trait-selector-construct-name> ::= 
+           DO 
+     |     TARGET 
+     |     TEAMS 
+     |     PARALLEL 
+     |     SIMD 
 
-<char-string-edit-desc> ::= 
-           <char-literal-constant>   /* Tr. OnCharEditDescriptor(str(1)); synthesize(1); */
+<omp-trait-property-list> ::= 
+           <omp-trait-property-list> , <omp-trait-property> 
+     |     <omp-trait-property> 
 
-<r> ::= 
-           <int-literal-constant> 
-     |     <sign> <int-literal-constant> 
+<omp-trait-property> ::= 
+           <expr> 
+     |     <ANY> 
 
-<control-edit-desc> ::= 
-           <position-edit-desc> +: { <,> | : | / | ) } 
-     |     <position-edit-desc> +: { <data-edit-desc-first> } 
-     |     <sign-edit-desc> +: { <,> | : | / | ) } 
-     |     <blank-interp-edit-desc> +: { <,> | : | / | ) } 
-     |     <round-edit-desc> +: { <,> | : | / | ) } 
-     |     <decimal-edit-desc> +: { <,> | : | / | ) } 
-     |     <control-edit-descr-no-comma> 
+<omp-trait-score> ::= 
+           SCORE ( <omp-score-expression> ) 
 
-<position-edit-desc> ::= 
-           T <n> 
-     |     TL <n> 
-     |     TR <n> 
-     |     <fmt{T|TL|TR}n> 
-     |     <n> X 
-     |     X   /* Tr.warning(L"Positive width should precede the position edit descriptor 'X'."); */
+<omp-score-expression> ::= 
+           <expr> 
 
-<n> ::= 
-           <int-literal-constant> 
-     |     NONE +: { , | : | / | ) }   /* Tr.error(L"Positive width required after a T, TL, or TR."); */
+<omp-trait-selector-device-list> ::= 
+           <omp-trait-selector-device-list> , <omp-trait-selector-device> 
+     |     <omp-trait-selector-device-list> , <omp-trait-selector-vendor> 
+     |     <omp-trait-selector-device> 
+     |     <omp-trait-selector-vendor> 
 
-<data-edit-desc-first> ::= 
-           <fmt{G}w> 
-     |     <fmt{I,B,O,Z,G,L,A}w> 
-     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
-     |     <fmt{I,B,O,Z}w . d> 
-     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
-     |     <fmt{E,EN,ES,G,EX}w . d E e> 
-     |     A 
-     |     <fmt dt & char-literal-constant> 
-     |     DT 
-     |     $ 
-     |     \ 
+<omp-trait-selector-device> ::= 
+           <omp-trait-selector-device-type> 
+     |     <omp-trait-selector-device-type> ( <omp-trait-property-list> ) 
+     |     <omp-trait-selector-device-type> ( <omp-trait-score> : <omp-trait-property-list> ) 
 
-<sign-edit-desc> ::= 
-           SS 
-     |     SP 
-     |     S 
+<omp-trait-selector-device-type> ::= 
+           ARCH 
+     |     KIND 
+     |     ISA 
 
-<blank-interp-edit-desc> ::= 
-           BN 
-     |     BZ 
+<omp-trait-selector-vendor> ::= 
+           VENDOR ( <name-list> ) 
 
-<round-edit-desc> ::= 
-           RU 
-     |     RD 
-     |     RZ 
-     |     RN 
-     |     RC 
-     |     RP 
+<omp-trait-selector-condition-list> ::= 
+           <omp-trait-selector-condition-list> , <omp-trait-selector-condition> 
+     |     <omp-trait-selector-condition> 
 
-<decimal-edit-desc> ::= 
-           DC 
-     |     DP 
+<omp-trait-selector-condition> ::= 
+           CONDITION ( <expr> ) 
 
-<control-edit-descr-no-comma> ::= 
-           / 
-     |     <r> / 
-     |     : 
-     |     <k> P 
+<omp-base-proc-name> ::= 
+           <name> 
 
-<k> ::= 
-           <int-literal-constant> 
-     |     <sign> <int-literal-constant> 
+<omp-metadirective-construct> ::= 
+           <omp-begin-metadirective> structured-block <omp-end-metadirective;> 
+     |     <omp-begin-metadirective> <omp-end-metadirective;> 
+     |     <omp-metadirective-stmt> 
 
-<follow-data-edit-desc> ::= 
-           <fmt{G}w> 
-     |     <fmt{I,B,O,Z,G,L,A}w> 
-     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
-     |     <fmt{I,B,O,Z}w . d> 
-     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
-     |     <fmt{E,EN,ES,G,EX}w . d E e> 
-     |     A 
-     |     <fmt dt & char-literal-constant> 
-     |     <fmt dt & char-literal-constant> 
-     |     DT 
-     |     <char-literal-constant> 
+<omp-begin-metadirective> ::= 
+           OMP BEGIN METADIRECTIVE <\n> 
+     |     OMP BEGIN METADIRECTIVE <omp-metadirective-clause-list> <\n> 
 
-<unlimited-format-item> ::= 
-           * ( <format-items> ) 
+<omp-metadirective-clause-list> ::= 
+           <omp-metadirective-clause-list> , <omp-metadirective-clause> 
+     |     <omp-metadirective-clause-list> <omp-metadirective-clause> 
+     |     <omp-metadirective-clause> 
 
-<include-stmt> ::= 
-           INCLUDE <char-literal-constant>   /* Tr.OnIncludeStatement(str(2)); */
+<omp-metadirective-clause> ::= 
+           WHEN ( <omp-context-selector-specification> : ) 
+     |     WHEN ( <omp-context-selector-specification> : <omp-directive-variant> ) 
+     |     DEFAULT ( <omp-directive-variant> ) 
 
-<subroutine-stmt> ::= 
-           <subroutine-stmt;> 
+<omp-directive-variant> ::= 
+           <omp-directive-name-clause> 
 
-<subroutine-stmt;> ::= 
-           subroutine-stmt <;> 
-     |     subroutine-stmt +: EOF 
+<omp-directive-name-clause> ::= 
+           <omp-atomic-capture> 
+     |     <omp-atomic-update> 
+     |     <omp-barrier> 
+     |     <omp-cancel> 
+     |     <omp-cancel-do> 
+     |     <omp-cancel-sections> 
+     |     <omp-cancellation-point> 
+     |     <omp-cancellation-point-do> 
+     |     <omp-cancellation-point-sections> 
+     |     <omp-critical> 
+     |     <omp-declare-mapper> 
+     |     <omp-declare-reduction> 
+     |     <omp-declare-simd> 
+     |     <omp-declare-target> 
+     |     <omp-declare-variant> 
+     |     <omp-depobj> 
+     |     <omp-distribute> 
+     |     <omp-distribute-parallel-do> 
+     |     <omp-distribute-parallel-do-simd> 
+     |     <omp-distribute-simd> 
+     |     <omp-do> 
+     |     <omp-do-simd> 
+     |     <omp-flush> 
+     |     <omp-loop> 
+     |     <omp-master> 
+     |     <omp-master-taskloop> 
+     |     <omp-master-taskloop-simd> 
+     |     <omp-ordered> 
+     |     <omp-ordered-depend> 
+     |     <omp-parallel> 
+     |     <omp-parallel-do> 
+     |     <omp-parallel-do-simd> 
+     |     <omp-parallel-loop> 
+     |     <omp-parallel-master> 
+     |     <omp-parallel-master-taskloop> 
+     |     <omp-parallel-master-taskloop-simd> 
+     |     <omp-parallel-sections> 
+     |     <omp-parallel-workshare> 
+     |     <omp-requires> 
+     |     <omp-scan> 
+     |     <omp-section> 
+     |     <omp-sections> 
+     |     <omp-simd> 
+     |     <omp-single> 
+     |     <omp-target> 
+     |     <omp-target-data> 
+     |     <omp-target-enter-data> 
+     |     <omp-target-exit-data> 
+     |     <omp-target-parallel> 
+     |     <omp-target-parallel-do> 
+     |     <omp-target-parallel-do-simd> 
+     |     <omp-target-simd> 
+     |     <omp-target-teams> 
+     |     <omp-target-teams-distribute> 
+     |     <omp-target-teams-distribute-simd> 
+     |     <omp-target-teams-distribute-parallel-do> 
+     |     <omp-target-teams-distribute-parallel-do-simd> 
+     |     <omp-target-parallel-loop> 
+     |     <omp-target-teams-loop> 
+     |     <omp-target-update> 
+     |     <omp-taskgroup> 
+     |     <omp-task> 
+     |     <omp-taskloop> 
+     |     <omp-taskloop-simd> 
+     |     <omp-taskwait> 
+     |     <omp-taskyield> 
+     |     <omp-teams> 
+     |     <omp-teams-distribute> 
+     |     <omp-teams-loop> 
+     |     <omp-teams-distribute-parallel-do> 
+     |     <omp-teams-distribute-parallel-do-simd> 
+     |     <omp-teams-distribute-simd> 
+     |     <omp-threadprivate> 
+     |     <omp-workshare> 
 
-subroutine-stmt ::= 
-           SUBROUTINE <name> 
-     |     SUBROUTINE <name> <(> <)> 
-     |     SUBROUTINE <name> <(> <)> <language-binding-spec> 
-     |     SUBROUTINE <name> <(> <dummy-arg-list> <)> 
-     |     SUBROUTINE <name> <(> <dummy-arg-list> <)> <language-binding-spec> 
-     |     <prefix> SUBROUTINE <name> 
-     |     <prefix> SUBROUTINE <name> <(> <)> 
-     |     <prefix> SUBROUTINE <name> <(> <)> <language-binding-spec> 
-     |     <prefix> SUBROUTINE <name> <(> <dummy-arg-list> <)> 
-     |     <prefix> SUBROUTINE <name> <(> <dummy-arg-list> <)> <language-binding-spec> 
+<omp-atomic-capture> ::= 
+           ATOMIC CAPTURE 
+     |     ATOMIC CAPTURE <omp-atomic-clause-list> 
+     |     ATOMIC CAPTURE , <omp-atomic-clause-list> 
+     |     ATOMIC <omp-atomic-clause-list> CAPTURE 
+     |     ATOMIC <omp-atomic-clause-list> CAPTURE <omp-atomic-clause-list> 
+     |     ATOMIC <omp-atomic-clause-list> CAPTURE , <omp-atomic-clause-list> 
+     |     ATOMIC <omp-atomic-clause-list> , CAPTURE 
+     |     ATOMIC <omp-atomic-clause-list> , CAPTURE <omp-atomic-clause-list> 
+     |     ATOMIC <omp-atomic-clause-list> , CAPTURE , <omp-atomic-clause-list> 
 
-<end-subroutine-stmt;> ::= 
-           <end-subroutine-stmt> <;> 
-     |     <end-subroutine-stmt> +: EOF 
+<omp-atomic-clause-list> ::= 
+           <omp-atomic-clause-list> , <omp-atomic-clause> 
+     |     <omp-atomic-clause-list> <omp-atomic-clause> 
+     |     <omp-atomic-clause> 
 
-<end-subroutine-stmt> ::= 
-           end-subroutine-stmt 
-     |     <label> end-subroutine-stmt 
-     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-subroutine-stmt",1,true);*/
-     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-subroutine-stmt",1,true);*/
+<omp-atomic-clause> ::= 
+           <omp-atomic-mem-order> 
+     |     <omp-hint> 
 
-end-subroutine-stmt ::= 
-           END 
-     |     END SUBROUTINE +: { <;> | EOF } 
-     |     END SUBROUTINE <name> +: { <;> | EOF } 
-     |     END_SUBROUTINE 
-     |     END_SUBROUTINE <name> +: { <;> | EOF } 
+<omp-atomic-mem-order> ::= 
+           SEQ_CST 
+     |     ACQ_REL 
+     |     RELEASE 
+     |     ACQUIRE 
+     |     RELAXED 
 
-<procedure-stmt> ::= 
-           PROCEDURE <name-list> <;> 
-     |     PROCEDURE <::> <name-list> <;> 
-     |     MODULE PROCEDURE <name-list> <;> 
-     |     MODULE PROCEDURE <::> <name-list> <;> 
+<omp-hint> ::= 
+           HINT ( hint-expression ) 
 
-<parameter-stmt> ::= 
-           PARAMETER <p-named-constant-def-list> 
-     |     PARAMETER <named-constant-def-list> 
+hint-expression ::= 
+           <scalar-int-expr> 
 
-<p-named-constant-def-list> ::= 
-           ( <named-constant-def-list> ) 
+<omp-atomic-update> ::= 
+           ATOMIC <omp-update-key> 
+     |     ATOMIC <omp-update-key> <omp-atomic-clause-list> 
+     |     ATOMIC <omp-update-key> , <omp-atomic-clause-list> 
+     |     ATOMIC <omp-atomic-clause-list> <omp-update-key> 
+     |     ATOMIC <omp-atomic-clause-list> <omp-update-key> <omp-atomic-clause-list> 
+     |     ATOMIC <omp-atomic-clause-list> <omp-update-key> , <omp-atomic-clause-list> 
+     |     ATOMIC <omp-atomic-clause-list> , <omp-update-key> 
+     |     ATOMIC <omp-atomic-clause-list> , <omp-update-key> <omp-atomic-clause-list> 
+     |     ATOMIC <omp-atomic-clause-list> , <omp-update-key> , <omp-atomic-clause-list> 
+     |     ATOMIC 
+     |     ATOMIC <omp-atomic-clause-list> 
 
-<named-constant-def-list> ::= 
-           <named-constant-def-list> <,> <named-constant-def> 
-     |     <named-constant-def> 
+<omp-update-key> ::= 
+           READ 
+     |     UPDATE 
+     |     WRITE 
 
-<named-constant-def> ::= 
-           <named-constant> = <constant-expr> 
+<omp-barrier> ::= 
+           BARRIER 
 
-<procedure-declaration-stmt> ::= 
-           PROCEDURE ( ) <proc-decl-list> 
-     |     PROCEDURE ( ) <::> <proc-decl-list> 
-     |     PROCEDURE ( ) <,> <proc-attr-spec-list> <::> <proc-decl-list> 
-     |     PROCEDURE <p-proc-interface> <proc-decl-list> 
-     |     PROCEDURE <p-proc-interface> <::> <proc-decl-list> 
-     |     PROCEDURE <p-proc-interface> <,> <proc-attr-spec-list> <::> <proc-decl-list> 
+<omp-cancel> ::= 
+           CANCEL <omp-construct-type-clause> 
+     |     CANCEL <omp-construct-type-clause> <cancel-if-clause> 
+     |     CANCEL <omp-construct-type-clause> , <cancel-if-clause> 
 
-<proc-attr-spec-list> ::= 
-           <proc-attr-spec-list> <,> <proc-attr-spec> 
-     |     <proc-attr-spec> 
+<omp-construct-type-clause> ::= 
+           PARALLEL 
+     |     TASKGROUP 
 
-<proc-attr-spec> ::= 
-           <access-spec> 
-     |     <language-binding-spec> 
-     |     INTENT <p-intent-spec> 
-     |     OPTIONAL 
-     |     POINTER 
-     |     SAVE 
+<cancel-if-clause> ::= 
+           <omp-if-cond> 
+     |     IF ( CANCEL : <scalar-logical-expression> ) 
 
-<p-intent-spec> ::= 
-           ( <intent-spec> ) 
+<omp-if-cond> ::= 
+           IF ( <scalar-logical-expression> ) 
 
-<intent-spec> ::= 
+<scalar-logical-expression> ::= 
+           <expr> 
+
+<omp-cancel-do> ::= 
+           CANCEL DO -: { IF } 
+     |     CANCEL DO <cancel-if-clause> 
+     |     CANCEL DO , <cancel-if-clause> 
+
+<omp-cancel-sections> ::= 
+           CANCEL SECTIONS -: { IF } 
+     |     CANCEL SECTIONS <cancel-if-clause> 
+     |     CANCEL SECTIONS , <cancel-if-clause> 
+
+<omp-cancellation-point> ::= 
+           CANCELLATION POINT <omp-construct-type-clause> 
+
+<omp-cancellation-point-do> ::= 
+           CANCELLATION POINT DO 
+
+<omp-cancellation-point-sections> ::= 
+           CANCELLATION POINT SECTIONS 
+
+<omp-critical> ::= 
+           CRITICAL 
+     |     CRITICAL ( <name> ) 
+     |     CRITICAL ( <name> ) <omp-hint> 
+
+<omp-depobj> ::= 
+           DEPOBJ ( <omp-depobj-name> ) <omp-depobj-clause-list> 
+
+<omp-depobj-name> ::= 
+           <expr> 
+
+<omp-depobj-clause-list> ::= 
+           <omp-depobj-clause-list> <omp-depobj-clause> 
+     |     <omp-depobj-clause> 
+
+<omp-depobj-clause> ::= 
+           DEPEND ( <omp-dependence-type> : <omp-locator> ) 
+     |     DESTROY 
+     |     UPDATE ( <omp-dependence-type> ) 
+
+<omp-dependence-type> ::= 
            IN 
      |     OUT 
      |     IN_OUT 
      |     IN OUT 
+     |     MUTEXINOUTSET 
+     |     DEPOBJ 
 
-<other-specification-stmt> ::= 
-           <access-stmt> 
-     |     <allocatable-stmt> 
-     |     <asynchronous-stmt> 
-     |     <bind-stmt> 
-     |     <codimension-stmt> 
-     |     <common-stmt> 
-     |     <data-stmt> 
-     |     <dimension-stmt> 
-     |     <equivalence-stmt> 
-     |     <external-stmt> 
-     |     <intent-stmt> 
-     |     <intrinsic-stmt> 
-     |     <namelist-stmt> 
-     |     <optional-stmt> 
-     |     <pointer-stmt> 
-     |     <cray-pointer-stmt> 
-     |     <protected-stmt> 
-     |     <save-stmt> 
-     |     <target-stmt> 
-     |     <volatile-stmt> 
-     |     <value-stmt> 
+<omp-locator> ::= 
+           <omp-var> 
+     |     <omp-var> <add-op> <omp-non-negative integer> 
 
-<access-stmt> ::= 
-           <access-spec> 
-     |     <access-spec> <access-id-list> +: { <;> } 
-     |     <access-spec> <::> <access-id-list> +: { <;> } 
+<omp-non-negative integer> ::= 
+           <name> 
+     |     <constant> 
 
-<access-id-list> ::= 
-           <access-id-list> <,> <access-id> +: { <;> | <,> } 
-     |     <access-id> 
+<omp-distribute> ::= 
+           DISTRIBUTE 
+     |     DISTRIBUTE <distribute-clause-list> 
 
-<access-id> ::= 
-           <use-name> 
-     |     <generic-spec> 
+<distribute-clause-list> ::= 
+           <distribute-clause-list> , <distribute-clause> 
+     |     <distribute-clause-list> <distribute-clause> 
+     |     <distribute-clause> 
 
-<allocatable-stmt> ::= 
-           ALLOCATABLE <allocatable-decl-list> 
-     |     ALLOCATABLE <::> <allocatable-decl-list> 
+<distribute-clause> ::= 
+           <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-lastprivate> 
+     |     <omp-collapse> 
+     |     <omp-dest-schedule> 
 
-<allocatable-decl-list> ::= 
-           <allocatable-decl-list> <,> <allocatable-decl> 
-     |     <allocatable-decl> 
+<omp-private> ::= 
+           PRIVATE ( <omp-list> ) 
 
-<allocatable-decl> ::= 
-           <object-name> 
-     |     <object-name> <[coarray-spec]> 
-     |     <object-name> ( <array-spec> ) 
-     |     <object-name> ( <array-spec> ) <[coarray-spec]> 
+<omp-firstprivate> ::= 
+           FIRSTPRIVATE ( <omp-list> ) 
 
-<object-name> ::= 
+<omp-lastprivate> ::= 
+           LASTPRIVATE ( <omp-list> ) 
+     |     LASTPRIVATE ( <lastprivate-modifier> : <omp-list> ) 
+
+<lastprivate-modifier> ::= 
+           CONDITIONAL 
+
+<omp-collapse> ::= 
+           COLLAPSE ( <scalar-int-constant-expr> ) 
+
+<omp-dest-schedule> ::= 
+           DIST_SCHEDULE ( <omp-schedule-kind> ) 
+     |     DIST_SCHEDULE ( <omp-schedule-kind> , <chunk_size> ) 
+
+<omp-schedule-kind> ::= 
+           STATIC 
+     |     DYNAMIC 
+     |     GUIDED 
+     |     AUTO 
+     |     AFFINITY   /* Tr.warning(L"Affinity is a vendor specific, deprecated schedule kind."); */
+     |     RUNTIME 
+
+<chunk_size> ::= 
+           <scalar-int-expr> 
+
+<omp-distribute-parallel-do> ::= 
+           DISTRIBUTE PARALLEL DO -: { SIMD } 
+     |     DISTRIBUTE PARALLEL DO <distribute-parallel-do-clause-list> -: { SIMD } 
+
+<distribute-parallel-do-clause-list> ::= 
+           <distribute-parallel-do-clause-list> , <distribute-parallel-do-clause> 
+     |     <distribute-parallel-do-clause-list> <distribute-parallel-do-clause> 
+     |     <distribute-parallel-do-clause> 
+
+<distribute-parallel-do-clause> ::= 
+           <distribute-clause> 
+     |     <parallel-clause> 
+     |     <omp-do-clause> 
+
+<parallel-clause> ::= 
+           <omp-if-cond> 
+     |     <omp-if-parallel> 
+     |     <omp-num-threads> 
+     |     <omp-default> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-shared> 
+     |     COPYIN ( <omp-list> ) 
+     |     <omp-reduction> 
+     |     <omp-procedure-bind> 
+
+<omp-if-parallel> ::= 
+           IF ( PARALLEL : <scalar-logical-expression> ) 
+
+<omp-num-threads> ::= 
+           NUM_THREADS ( <scalar-int-expr> ) 
+
+<omp-default> ::= 
+           DEFAULT ( <default-parallel> ) 
+
+<default-parallel> ::= 
+           PRIVATE 
+     |     FIRSTPRIVATE 
+     |     SHARED 
+     |     <NONE> 
+
+<omp-shared> ::= 
+           SHARED ( <omp-list> ) 
+
+<omp-reduction> ::= 
+           REDUCTION ( <reduction-identifier> : <omp-list> ) 
+     |     REDUCTION ( <reduction-modifier> , <reduction-identifier> : <omp-list> ) 
+
+<reduction-modifier> ::= 
+           INSCAN 
+     |     TASK 
+     |     DEFAULT 
+
+<omp-procedure-bind> ::= 
+           PROC_BIND ( <proc-bind-argument> ) 
+
+<proc-bind-argument> ::= 
+           MASKED 
+     |     MASTER 
+     |     CLOSE 
+     |     SPREAD 
+
+<omp-do-clause> ::= 
+           <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-lastprivate> 
+     |     <omp-linear> 
+     |     <omp-reduction> 
+     |     <omp-schedule> 
+     |     <omp-collapse> 
+     |     <omp-ordered-clause> 
+     |     <omp-allocate> 
+     |     <omp-order> 
+
+<omp-schedule> ::= 
+           SCHEDULE ( <omp-schedule-kind> ) 
+     |     SCHEDULE ( <omp-schedule-kind> , <scalar-int-expr> ) 
+     |     SCHEDULE ( <omp-schedule-midifiers> : <omp-schedule-kind> ) 
+     |     SCHEDULE ( <omp-schedule-midifiers> : <omp-schedule-kind> , <scalar-int-expr> ) 
+
+<omp-schedule-midifiers> ::= 
+           <omp-schedule-midifier> 
+     |     <omp-schedule-midifier> , <omp-schedule-midifier> 
+
+<omp-schedule-midifier> ::= 
+           MONOTONIC 
+     |     NONMONOTONIC 
+     |     SIMD 
+
+<omp-ordered-clause> ::= 
+           ORDERED ( <scalar-int-constant-expr> ) 
+     |     ORDERED 
+
+<omp-allocate> ::= 
+           ALLOCATE ( <omp-list> ) 
+     |     ALLOCATE ( <omp-allocator> : <omp-list> ) 
+
+<omp-allocator> ::= 
            <name> 
 
-<array-spec> ::= 
-           <explicit-shape-spec-list> 
-     |     <assumed-shape-spec-list> 
-     |     <deferred-shape-spec> 
-     |     <assumed-size-spec-list> 
-     |     <implied-shape-spec-list> 
-     |     <assumed-rank-spec> 
-
-<assumed-shape-spec-list> ::= 
-           <assumed-shape-spec-list> <,> <assumed-shape-spec> 
-     |     <assumed-shape-spec> 
-
-<assumed-shape-spec> ::= 
-           : 
-     |     <lower-bound> : 
-
-<assumed-size-spec-list> ::= 
-           <assumed-size-spec-list> <,> <explicit-shape-spec> +: , 
-     |     <explicit-shape-spec> 
-     |     <assumed-size-spec-list> <,> <implied-shape-spec> -: , 
-     |     <implied-shape-spec> 
-
-<implied-shape-spec> ::= 
-           * 
-     |     <lower-bound> : * 
-
-<implied-shape-spec-list> ::= 
-           <implied-shape-spec-list> <,> <implied-shape-spec> 
-     |     <implied-shape-spec> 
-
-<assumed-rank-spec> ::= 
-           <..> 
-
-<asynchronous-stmt> ::= 
-           ASYNCHRONOUS <name-list> 
-     |     ASYNCHRONOUS <::> <name-list> 
-
-<bind-stmt> ::= 
-           <language-binding-spec> <bind-entity-list> 
-     |     <language-binding-spec> <::> <bind-entity-list> 
-
-<bind-entity-list> ::= 
-           <bind-entity-list> <,> <bind-entity> 
-     |     <bind-entity> 
-
-<bind-entity> ::= 
-           <name> 
-     |     / <common-block-name> / 
-
-<common-block-name> ::= 
-           <name> 
-
-<codimension-stmt> ::= 
-           CODIMENSION <codimension-decl-list> 
-     |     CODIMENSION <::> <codimension-decl-list> 
-
-<codimension-decl-list> ::= 
-           <codimension-decl-list> <,> <codimension-decl> 
-     |     <codimension-decl> 
-
-<codimension-decl> ::= 
-           <name> <[coarray-spec]> 
-
-<common-stmt> ::= 
-           COMMON <common-block-list> 
-
-<common-block-list> ::= 
-           <common-block-list> <,> <common-block> 
-     |     <common-block-list> <common-block> 
-     |     <common-block> 
-
-<common-block> ::= 
-           <common-block-object> 
-     |     / / <common-block-object> 
-     |     / <common-block-name> / <common-block-object> 
-
-<common-block-object> ::= 
-           <variable-name> 
-     |     <variable-name> <p-array-spec> 
-
-<variable-name> ::= 
-           <name> 
-
-<p-array-spec> ::= 
-           ( <array-spec> ) 
-
-<data-stmt> ::= 
-           <data-stmt-sets> 
-
-<data-stmt-sets> ::= 
-           <data-stmt-sets> <,> <data-stmt-set> 
-     |     <data-stmt-sets> <data-stmt-set> 
-     |     <data-stmt-set-first> 
-
-<data-stmt-set> ::= 
-           <data-stmt-object-list> / <data-stmt-value-list> / 
-
-<data-stmt-object-list> ::= 
-           <data-stmt-object-list> <,> <data-stmt-object> 
-     |     <data-stmt-object> 
-
-<data-stmt-object> ::= 
-           <data-ref> 
-     |     <data-implied-do> 
-
-<data-implied-do> ::= 
-           ( <data-i-do-object-list> <,> <data-i-do-cntrl> ) 
-
-<data-i-do-object-list> ::= 
-           <data-i-do-object-list> <,> <data-i-do-object> 
-     |     <data-i-do-object> 
-
-<data-i-do-object> ::= 
-           <data-ref> 
-     |     <data-implied-do> 
-     |     <expr> 
-
-<data-i-do-cntrl> ::= 
-           <key = expr> <,> <expr> 
-     |     <key = expr> <,> <expr> <,> <expr> 
-
-<data-stmt-value-list> ::= 
-           <data-stmt-value-list> <,> <data-stmt-value> 
-     |     <data-stmt-value> 
-
-<data-stmt-value> ::= 
-           <data-stmt-constant> 
-     |     <data-stmt-repeat> * <data-stmt-constant> 
-
-<data-stmt-constant> ::= 
-           <constant> 
-     |     <constant-subobject> 
-     |     <signed-int-literal-constant> 
-     |     <signed-real-literal-constant> 
-     |     <null-init> 
-     |     <initial-data-target> 
-     |     <structure-constructor> 
-     |     <p-complex-literal-pair> 
-
-<constant-subobject> ::= 
-           <designator> 
-
-<initial-data-target> ::= 
-           <designator> 
-
-<data-stmt-repeat> ::= 
-           <constant> 
-     |     <constant-subobject> 
-
-<data-stmt-set-first> ::= 
-           <data-stmt-object-list-first> / <data-stmt-value-list> / 
-
-<data-stmt-object-list-first> ::= 
-           <data-stmt-object-list-first> <,> <data-stmt-object> 
-     |     <data-stmt-object-first> 
-
-<data-stmt-object-first> ::= 
-           DATA <data-ref> 
-     |     DATA <data-implied-do> 
-
-<dimension-stmt> ::= 
-           DIMENSION <array-named-specs> 
-     |     DIMENSION <::> <array-named-specs> 
-
-<array-named-specs> ::= 
-           <array-named-specs> <,> <array-named-spec> 
-     |     <array-named-spec> 
-
-<array-named-spec> ::= 
-           <name> <p-array-spec> 
-
-<equivalence-stmt> ::= 
-           <equivalence-set-list> 
-
-<equivalence-set-list> ::= 
-           <equivalence-set-list> <,> <equivalence-set> 
-     |     <equivalence-set-first> 
-
-<equivalence-set> ::= 
-           ( <equivalence-pair> ) 
-
-<equivalence-pair> ::= 
-           <equivalence-object-list> 
-
-<equivalence-object-list> ::= 
-           <equivalence-object-list> <,> <equivalence-object> 
-     |     <equivalence-object> 
-
-<equivalence-object> ::= 
-           <variable-name> 
-     |     <array-element> 
-
-<array-element> ::= 
-           <data-ref> 
-
-<equivalence-set-first> ::= 
-           EQUIVALENCE <p-equivalence-pair> 
-
-<p-equivalence-pair> ::= 
-           ( <equivalence-pair> ) 
-
-<external-stmt> ::= 
-           EXTERNAL <name-list> 
-     |     EXTERNAL <::> <name-list> 
-
-<intent-stmt> ::= 
-           INTENT <p-intent-spec> <dummy-arg-name-list> 
-     |     INTENT <p-intent-spec> <::> <dummy-arg-name-list> 
-
-<dummy-arg-name-list> ::= 
-           <name-list> 
-
-<intrinsic-stmt> ::= 
-           INTRINSIC <name-list> 
-     |     INTRINSIC <::> <name-list> 
-
-<namelist-stmt> ::= 
-           NAMELIST <name-lists> 
-
-<name-lists> ::= 
-           <name-lists> <,> / <name> / <name> 
-     |     <name-lists> / <name> / <name> 
-     |     <name-lists> <,> <name> 
-     |     / <name> / <name> 
-
-<optional-stmt> ::= 
-           OPTIONAL <dummy-arg-name-list> 
-     |     OPTIONAL <::> <dummy-arg-name-list> 
-
-<pointer-stmt> ::= 
-           POINTER <pointer-decl-list> 
-     |     POINTER <::> <pointer-decl-list> 
-
-<pointer-decl-list> ::= 
-           <pointer-decl-list> <,> <pointer-decl> 
-     |     <pointer-decl> 
-
-<pointer-decl> ::= 
-           <object-name> 
-     |     <object-name> <p-deferred-shape-spec-list> 
-
-<p-deferred-shape-spec-list> ::= 
-           ( <deferred-shape-spec-list> ) 
-
-<cray-pointer-stmt> ::= 
-           POINTER <cray-list> 
-
-<cray-list> ::= 
-           <cray-list> , <p-pointer-pair> 
-     |     <p-pointer-pair> 
-
-<p-pointer-pair> ::= 
-           ( <pointer-pair> ) 
-
-<pointer-pair> ::= 
-           <name> <,> <expr> 
-
-<protected-stmt> ::= 
-           PROTECTED <name-list> 
-     |     PROTECTED <::> <name-list> 
-
-<save-stmt> ::= 
-           SAVE 
-     |     SAVE <saved-entity-list> 
-     |     SAVE <::> <saved-entity-list> 
-     |     <dec-static> <saved-entity-list> 
-     |     <dec-static> <::> <saved-entity-list> 
-
-<saved-entity-list> ::= 
-           <saved-entity-list> <,> <saved-entity> 
-     |     <saved-entity> 
-
-<saved-entity> ::= 
-           <object-name> 
-     |     <object-name> <initialization-in-save-error> 
-     |     / <common-block-name> / 
-
-<initialization-in-save-error> ::~ 
-           <initialization>   /* Tr.error(L"Initialization in a SAVE statement"); */
-
-<dec-static> ::= 
-           AUTOMATIC 
-     |     STATIC 
-
-<target-stmt> ::= 
-           TARGET <target-decl-list> 
-     |     TARGET <::> <target-decl-list> 
-
-<target-decl-list> ::= 
-           <target-decl-list> <,> <target-decl> 
-     |     <target-decl> 
-
-<target-decl> ::= 
-           <object-name> 
-     |     <object-name> <[coarray-spec]> 
-     |     <object-name> <p-array-spec> 
-     |     <object-name> <p-array-spec> <[coarray-spec]> 
-
-<volatile-stmt> ::= 
-           VOLATILE <name-list> 
-     |     VOLATILE <::> <name-list> 
-
-<value-stmt> ::= 
-           VALUE <dummy-arg-name-list> 
-     |     VALUE <::> <dummy-arg-name-list> 
-
-<type-declaration-stmt> ::= 
-           <declaration-type-spec> <entity-decl-list> 
-     |     <declaration-type-spec> , <entity-decl-list>   /* Tr.warning (L" Non Portable ',' between the type and a variable.");*/
-     |     <declaration-type-spec> <::> <entity-decl-init-list> 
-     |     <declaration-type-spec> , <attr-spec-list> <::> <entity-decl-init-list> 
-     |     <declaration-type-spec> , <::> <entity-decl-init-list>   /* Tr.warning (L" Non Portable ',' without an attributes list.");*/
-     |     <record-type-spec> <entity-decl-list> 
-     |     <record-type-spec> <::> <entity-decl-init-list> 
-     |     <record-type-spec> , <attr-spec-list> <::> <entity-decl-init-list> 
-     |     <record-type-spec> , <::> <entity-decl-init-list>   /* Tr.warning (L" Non Portable ',' without an attributes list.");*/
-     |     <type-declaration-error> 
-
-<entity-decl-list> ::= 
-           <entity-decl-list> <,> <entity-decl> 
-     |     <entity-decl-first> 
-     |     <entity-decl-list> <,> <entity-decl> <initialization~> 
-     |     <entity-decl-first> <initialization~> 
-
-<entity-decl> ::= 
-           <name> 
-     |     <name> * <char-length> 
-     |     <name> <[coarray-spec]> 
-     |     <name> <[coarray-spec]> * <char-length> 
-     |     <name> <p-array-spec2> 
-     |     <name> <p-array-spec2> * <char-length> 
-     |     <name> * <char-length> <p-array-spec2>   /* Tr.warning (L" Non Portable array declaration '%s' *<element-size>(dimension)",str(1)); */
-     |     <name> ( <array-spec> ) <[coarray-spec]> 
-     |     <name> ( <array-spec> ) <[coarray-spec]> * <char-length> 
-
-<p-array-spec2> ::= 
-           ( <array-spec> ) 
-
-<entity-decl-first> ::= 
-           <name> 
-     |     <name> * <char-length> 
-     |     <name> <[coarray-spec]> 
-     |     <name> <[coarray-spec]> * <char-length> 
-     |     <name> <p-array-spec2> 
-     |     <name> <p-array-spec2> * <char-length> 
-     |     <name> * <char-length> <p-array-spec2>   /* Tr.warning (L" Non Portable array declaration '%s' *<element-size>(dimension)",str(1)); */
-     |     <name> ( <array-spec> ) <[coarray-spec]> 
-     |     <name> ( <array-spec> ) <[coarray-spec]> * <char-length> 
-
-<initialization~> ::= 
-           <initialization-error> 
-     |     <initialization-obsolete> 
-
-<initialization-error> ::~ 
-           <initialization>   /* Tr.error(L"Initialization without ::"); */
-
-<initialization-obsolete> ::= 
-           / <constant-expr> / 
-
-<entity-decl-init-list> ::= 
-           <entity-decl-init-list> <,> <entity-decl> 
-     |     <entity-decl-first> 
-     |     <entity-decl-init-list> <,> <entity-decl> <initialization> 
-     |     <entity-decl-first> <initialization> 
-
-<attr-spec-list> ::= 
-           <attr-spec-list> <,> <attr-spec> 
-     |     <attr-spec> 
-
-<attr-spec> ::= 
-           <access-spec> 
+<omp-order> ::= 
+           ORDER ( CONCURRENT ) 
+
+<omp-distribute-parallel-do-simd> ::= 
+           DISTRIBUTE PARALLEL DO SIMD 
+     |     DISTRIBUTE PARALLEL DO SIMD <distribute-parallel-do-simd-clause-list> 
+
+<distribute-parallel-do-simd-clause-list> ::= 
+           <distribute-parallel-do-simd-clause-list> , <distribute-parallel-do-simd-clause> 
+     |     <distribute-parallel-do-simd-clause-list> <distribute-parallel-do-simd-clause> 
+     |     <distribute-parallel-do-simd-clause> 
+
+<distribute-parallel-do-simd-clause> ::= 
+           <distribute-clause> 
+     |     <parallel-do-simd-clause> 
+
+<parallel-do-simd-clause> ::= 
+           <parallel-clause> 
+     |     <omp-do-simd-clause> 
+
+<omp-do-simd-clause> ::= 
+           <omp-do-clause> 
+     |     <simd-clause> 
+
+<simd-clause> ::= 
+           <omp-if-simd> 
+     |     <omp-safelen> 
+     |     <omp-simdlen> 
+     |     <omp-linear> 
+     |     <omp-aligned> 
+     |     <omp-nontemporal> 
+     |     <omp-private> 
+     |     <omp-lastprivate> 
+     |     <omp-reduction> 
+     |     <omp-collapse> 
+     |     <omp-order> 
+     |     EARLY_EXIT 
+
+<omp-if-simd> ::= 
+           <omp-if-cond> 
+     |     IF ( SIMD : <scalar-logical-expression> ) 
+
+<omp-safelen> ::= 
+           SAFELEN ( <scalar-int-constant-expr> ) 
+
+<omp-nontemporal> ::= 
+           NONTEMPORAL ( <omp-list> ) 
+
+<omp-distribute-simd> ::= 
+           DISTRIBUTE SIMD 
+     |     DISTRIBUTE SIMD <distribute-simd-clause-list> 
+
+<distribute-simd-clause-list> ::= 
+           <distribute-simd-clause-list> , <omp-distribute-simd-clause> 
+     |     <distribute-simd-clause-list> <omp-distribute-simd-clause> 
+     |     <omp-distribute-simd-clause> 
+
+<omp-distribute-simd-clause> ::= 
+           <distribute-clause> 
+     |     <simd-clause> 
+
+<omp-do> ::= 
+           DO 
+     |     DO <do-clause-list> 
+
+<do-clause-list> ::= 
+           <do-clause-list> , <omp-do-clause> 
+     |     <do-clause-list> <omp-do-clause> 
+     |     <omp-do-clause> 
+
+<omp-do-simd> ::= 
+           DO SIMD 
+     |     DO SIMD <do-simd-clause-list> 
+
+<do-simd-clause-list> ::= 
+           <do-simd-clause-list> , <omp-do-simd-clause> 
+     |     <do-simd-clause-list> <omp-do-simd-clause> 
+     |     <omp-do-simd-clause> 
+
+<omp-flush> ::= 
+           FLUSH 
+     |     FLUSH ( <omp-list> ) 
+     |     FLUSH <omp-flush-mem-order> 
+     |     FLUSH <omp-flush-mem-order> ( <omp-list> ) 
+
+<omp-flush-mem-order> ::= 
+           ACQ_REL 
+     |     RELEASE 
+     |     ACQUIRE 
+
+<omp-loop> ::= 
+           LOOP 
+     |     LOOP <loop-clause-list> 
+
+<loop-clause-list> ::= 
+           <loop-clause-list> , <omp-loop-clause> 
+     |     <loop-clause-list> <omp-loop-clause> 
+     |     <omp-loop-clause> 
+
+<omp-loop-clause> ::= 
+           <omp-bind> 
+     |     <omp-collapse> 
+     |     <omp-order> 
+     |     <omp-private> 
+     |     <omp-lastprivate> 
+     |     <omp-reduction> 
+
+<omp-bind> ::= 
+           BIND ( TEAMS ) 
+     |     BIND ( PARALLEL ) 
+     |     BIND ( THREAD ) 
+
+<omp-master> ::= 
+           MASTER 
+     |     MASTER <omp-filter>   /* synthesize(2); */
+
+<omp-filter> ::= 
+           FILTER ( <omp-thread_num> ) 
+
+<omp-thread_num> ::= 
+           <expr> 
+
+<omp-master-taskloop> ::= 
+           MASTER TASKLOOP 
+     |     MASTER TASKLOOP <master-taskloop-clause-list> 
+
+<master-taskloop-clause-list> ::= 
+           <master-taskloop-clause-list> , <master-taskloop-clause> 
+     |     <master-taskloop-clause-list> <master-taskloop-clause> 
+     |     <master-taskloop-clause> 
+
+<master-taskloop-clause> ::= 
+           <taskloop-clause> 
+     |     <masked-clause> 
+
+<taskloop-clause> ::= 
+           <omp-if-cond> 
+     |     <omp-if-task> 
+     |     <omp-shared> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-lastprivate> 
+     |     <omp-reduction> 
+     |     <omp-in-reduction> 
+     |     <omp-default> 
+     |     <omp-grainsize> 
+     |     <omp-num-tasks> 
+     |     <omp-collapse> 
+     |     <omp-final> 
+     |     <omp-priority> 
+     |     UNTIED 
+     |     MERGEABLE 
+     |     NOGROUP 
+
+<omp-if-task> ::= 
+           IF ( <name> : <scalar-logical-expression> ) 
+
+<omp-in-reduction> ::= 
+           IN_REDUCTION ( <reduction-identifier> : <omp-list> ) 
+
+<omp-grainsize> ::= 
+           GRAINSIZE ( <scalar-int-expr> ) 
+
+<omp-num-tasks> ::= 
+           NUM_TASKS ( <scalar-int-expr> ) 
+
+<omp-final> ::= 
+           FINAL ( <scalar-logical-expression> ) 
+
+<omp-priority> ::= 
+           PRIORITY ( <omp-priority-value> ) 
+
+<omp-priority-value> ::= 
+           <scalar-int-expr> 
+
+<masked-clause> ::= 
+           <omp-filter> 
+
+<omp-master-taskloop-simd> ::= 
+           MASTER TASKLOOP SIMD 
+     |     MASTER TASKLOOP SIMD <master-taskloop-simd-clause-list> 
+
+<master-taskloop-simd-clause-list> ::= 
+           <master-taskloop-simd-clause-list> , <omp-master-taskloop-simd-clause> 
+     |     <master-taskloop-simd-clause-list> <omp-master-taskloop-simd-clause> 
+     |     <omp-master-taskloop-simd-clause> 
+
+<omp-master-taskloop-simd-clause> ::= 
+           <taskloop-clause> 
+     |     <masked-clause> 
+     |     <simd-clause> 
+
+<omp-ordered> ::= 
+           ORDERED 
+     |     ORDERED <ordered-clause-list> 
+
+<ordered-clause-list> ::= 
+           <ordered-clause-list> , <ordered-clause> 
+     |     <ordered-clause-list> <ordered-clause> 
+     |     <ordered-clause> 
+
+<ordered-clause> ::= 
+           SIMD 
+     |     THREADS 
+
+<omp-ordered-depend> ::= 
+           ORDERED <ordered-depend-clause-list> 
+
+<ordered-depend-clause-list> ::= 
+           <ordered-depend-clause-list> , <ordered-depend-clause> 
+     |     <ordered-depend-clause-list> <ordered-depend-clause> 
+     |     <ordered-depend-clause> 
+
+<ordered-depend-clause> ::= 
+           DEPEND ( SOURCE ) 
+     |     DEPEND ( SINK : <omp-locator-list> ) 
+
+<omp-locator-list> ::= 
+           <omp-locator-list> , <omp-locator> 
+     |     <omp-locator> 
+
+<omp-parallel> ::= 
+           PARALLEL 
+     |     PARALLEL <parallel-clause-list> 
+
+<parallel-clause-list> ::= 
+           <parallel-clause-list> , <parallel-clause> 
+     |     <parallel-clause-list> <parallel-clause> 
+     |     <parallel-clause> 
+
+<omp-parallel-do> ::= 
+           PARALLEL DO 
+     |     PARALLEL DO <parallel-do-clause-list> 
+
+<parallel-do-clause-list> ::= 
+           <parallel-do-clause-list> , <parallel-do-clause> 
+     |     <parallel-do-clause-list> <parallel-do-clause> 
+     |     <parallel-do-clause> 
+
+<parallel-do-clause> ::= 
+           <parallel-clause> 
+     |     <omp-lastprivate> 
+     |     <omp-linear> 
+     |     <omp-schedule> 
+     |     <omp-collapse> 
+     |     <omp-ordered-clause> 
+
+<omp-parallel-do-simd> ::= 
+           PARALLEL DO SIMD 
+     |     PARALLEL DO SIMD <parallel-do-simd-clause-list> 
+
+<parallel-do-simd-clause-list> ::= 
+           <parallel-do-simd-clause-list> , <parallel-do-simd-clause> 
+     |     <parallel-do-simd-clause-list> <parallel-do-simd-clause> 
+     |     <parallel-do-simd-clause> 
+
+<omp-parallel-loop> ::= 
+           PARALLEL LOOP 
+     |     PARALLEL LOOP <parallel-loop-clause-list> 
+
+<parallel-loop-clause-list> ::= 
+           <parallel-loop-clause-list> , <omp-parallel-loop-clause> 
+     |     <parallel-loop-clause-list> <omp-parallel-loop-clause> 
+     |     <omp-parallel-loop-clause> 
+
+<omp-parallel-loop-clause> ::= 
+           <parallel-clause> 
+     |     <omp-loop-clause> 
+
+<omp-parallel-master> ::= 
+           PARALLEL MASTER 
+     |     PARALLEL MASTER <parallel-clause-list> 
+
+<omp-parallel-master-taskloop> ::= 
+           PARALLEL MASTER TASKLOOP 
+     |     PARALLEL MASTER TASKLOOP <parallel-taskloop-clause-list> 
+
+<parallel-taskloop-clause-list> ::= 
+           <parallel-taskloop-clause-list> , <parallel-taskloop-clause> 
+     |     <parallel-taskloop-clause-list> <parallel-taskloop-clause> 
+     |     <parallel-taskloop-clause> 
+
+<parallel-taskloop-clause> ::= 
+           <parallel-clause> 
+     |     <taskloop-clause> 
+     |     <masked-clause> 
+
+<omp-parallel-master-taskloop-simd> ::= 
+           PARALLEL MASTER TASKLOOP SIMD   /* synthesize(2); */
+     |     PARALLEL MASTER TASKLOOP SIMD <parallel-taskloop-simd-clause-list>   /* synthesize(2); */
+
+<parallel-taskloop-simd-clause-list> ::= 
+           <parallel-taskloop-simd-clause-list> , <parallel-taskloop-simd-clause> 
+     |     <parallel-taskloop-simd-clause-list> <parallel-taskloop-simd-clause> 
+     |     <parallel-taskloop-simd-clause> 
+
+<parallel-taskloop-simd-clause> ::= 
+           <parallel-clause> 
+     |     <taskloop-clause> 
+     |     <simd-clause> 
+     |     <masked-clause> 
+
+<omp-parallel-sections> ::= 
+           PARALLEL SECTIONS 
+     |     PARALLEL SECTIONS <parallel-sections-clause-list> 
+
+<parallel-sections-clause-list> ::= 
+           <parallel-sections-clause-list> , <parallel-sections-clause> 
+     |     <parallel-sections-clause-list> <parallel-sections-clause> 
+     |     <parallel-sections-clause> 
+
+<parallel-sections-clause> ::= 
+           <parallel-clause> 
+     |     <omp-lastprivate> 
+     |     <omp-reduction> 
+
+<omp-parallel-workshare> ::= 
+           PARALLEL WORKSHARE 
+     |     PARALLEL WORKSHARE <parallel-clause-list> 
+
+<omp-requires> ::= 
+           REQUIRES <omp-requires-clause-list> 
+
+<omp-requires-clause-list> ::= 
+           <omp-requires-clause-list> , <omp-requires-clause> 
+     |     <omp-requires-clause-list> <omp-requires-clause> 
+     |     <omp-requires-clause> 
+
+<omp-requires-clause> ::= 
+           REVERSE_OFFLOAD 
+     |     UNIFIED_ADDRESS 
+     |     UNIFIED_SHARED_MEMORY 
+     |     ATOMIC_DEFAULT_MEM_ORDER ( <omp-mem-order> ) 
+     |     DYNAMIC_ALLOCATORS 
+     |     <ext_implementation-defined-requirement> 
+
+<omp-mem-order> ::= 
+           SEQ_CST 
+     |     ACQ_REL 
+     |     RELAXED 
+
+<omp-scan> ::= 
+           SCAN 
+     |     SCAN <omp-scan-clause> 
+
+<omp-scan-clause> ::= 
+           <omp-inclusive> 
+     |     <omp-exclusive> 
+
+<omp-inclusive> ::= 
+           INCLUSIVE ( <omp-list> ) 
+
+<omp-exclusive> ::= 
+           EXCLUSIVE ( <omp-list> ) 
+
+<omp-section> ::= 
+           SECTION 
+
+<omp-sections> ::= 
+           SECTIONS 
+     |     SECTIONS <sections-clause-list> 
+
+<sections-clause-list> ::= 
+           <sections-clause-list> , <sections-clause> 
+     |     <sections-clause-list> <sections-clause> 
+     |     <sections-clause> 
+
+<sections-clause> ::= 
+           <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-lastprivate> 
+     |     <omp-reduction> 
+
+<omp-simd> ::= 
+           SIMD 
+     |     SIMD <simd-clause-list> 
+
+<simd-clause-list> ::= 
+           <simd-clause-list> , <simd-clause> 
+     |     <simd-clause-list> <simd-clause> 
+     |     <simd-clause> 
+
+<omp-single> ::= 
+           SINGLE 
+     |     SINGLE <single-clause-list> 
+
+<single-clause-list> ::= 
+           <single-clause-list> , <single-clause> 
+     |     <single-clause-list> <single-clause> 
+     |     <single-clause> 
+
+<single-clause> ::= 
+           <omp-private> 
+     |     <omp-firstprivate> 
+
+<omp-target> ::= 
+           TARGET 
+     |     TARGET <target-clause-list> 
+
+<target-clause-list> ::= 
+           <target-clause-list> , <target-clause> 
+     |     <target-clause-list> <target-clause> 
+     |     <target-clause> 
+
+<target-clause> ::= 
+           <omp-if-cond> 
+     |     <omp-if-target> 
+     |     <omp-device> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-in-reduction> 
+     |     <omp-map> 
+     |     <omp-is-device-ptr> 
+     |     <omp-defaultmap> 
+     |     NOWAIT 
+     |     <omp-depend> 
+     |     <omp-allocate> 
+     |     <omp-uses-allocators> 
+
+<omp-if-target> ::= 
+           IF ( TARGET : <scalar-logical-expression> ) 
+
+<omp-device> ::= 
+           DEVICE ( <scalar-int-expr> ) 
+     |     DEVICE ( <omp-device-modifier> : <scalar-int-expr> ) 
+
+<omp-device-modifier> ::= 
+           ANCESTOR 
+     |     DEVICE_NUM 
+
+<omp-map> ::= 
+           MAP ( <omp-locator-list> ) 
+     |     MAP ( <omp-map-type> : <omp-locator-list> ) 
+     |     MAP ( <map-type-modifier-list> <omp-map-type> : <omp-locator-list> ) 
+     |     MAP ( <map-type-modifier-list> , <omp-map-type> : <omp-locator-list> ) 
+
+<omp-map-type> ::= 
+           TO 
+     |     FROM 
+     |     TOFROM 
+     |     ALLOC 
+     |     RELEASE 
+     |     DELETE 
+
+<map-type-modifier-list> ::= 
+           <map-type-modifier-list> , <map-type-modifier> 
+     |     <map-type-modifier-list> <map-type-modifier> 
+     |     <map-type-modifier> 
+
+<map-type-modifier> ::= 
+           ALWAYS 
+     |     CLOSE 
+     |     <omp-mapper-identifier-pair> 
+
+<omp-mapper-identifier-pair> ::= 
+           MAPPER <omp-p-mapper-identifier> 
+
+<omp-p-mapper-identifier> ::= 
+           ( <omp-mapper-identifier> ) 
+
+<omp-is-device-ptr> ::= 
+           IS_DEVICE_PTR ( <omp-list> ) 
+
+<omp-defaultmap> ::= 
+           DEFAULTMAP ( <omp-implicit-behavior> ) 
+     |     DEFAULTMAP ( <omp-implicit-behavior> : <omp-variable-category> ) 
+
+<omp-implicit-behavior> ::= 
+           ALLOC 
+     |     TO 
+     |     FROM 
+     |     TOFROM 
+     |     FIRSTPRIVATE 
+     |     <NONE> 
+     |     DEFAULT 
+
+<omp-variable-category> ::= 
+           SCALAR 
+     |     AGGREGATE 
      |     ALLOCATABLE 
-     |     ASYNCHRONOUS 
-     |     CODIMENSION <[coarray-spec]> 
-     |     CONTIGUOUS 
-     |     DIMENSION <p-array-spec> 
-     |     EXTERNAL 
-     |     INTENT <p-intent-spec> 
-     |     INTRINSIC 
-     |     <language-binding-spec> 
-     |     OPTIONAL 
-     |     PARAMETER 
      |     POINTER 
-     |     PROTECTED 
-     |     SAVE 
-     |     TARGET 
-     |     VALUE 
-     |     VOLATILE 
-     |     <dec-static> 
-     |     <keyword-l>   /* Tr.error(L"Expecting an Attribute Specification but read:", str(1)); */
 
-<keyword-l> ::? 
-           keyword   /* synthesize(1); */
+<omp-depend> ::= 
+           DEPEND ( <omp-dependence-type> : <omp-locator-list> ) 
+     |     DEPEND ( <omp-depend-modifier> , <omp-dependence-type> : <omp-locator-list> ) 
+     |     DEPEND ( SOURCE ) 
+     |     DEPEND ( SINK : <omp-locator-list> ) 
 
-<type-declaration-error> ::~ 
-           <declaration-type-spec> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
-     |     <character*length> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
-     |     <record-type-spec> , <attr-spec-list> +: { <;> }   /* Tr.error(L"A '::' must follow an attributes list."); */
+<omp-depend-modifier> ::= 
+           ITERATOR ( <omp-iterators-definition> ) 
 
-<stmt-function-stmt> ::= 
-           <function-declaration> = <expr> 
+<omp-iterators-definition> ::= 
+           <name> = <omp-range-specification> 
+     |     <omp-iterator-type> <name> = <omp-range-specification> 
 
-<function-declaration> ::= 
-           <part-name-l> <p-name-list-l> +: { = } 
+<omp-range-specification> ::= 
+           <subscript-triplet> 
 
-<part-name-l> ::= 
-           <name-l> 
+<omp-iterator-type> ::= 
+           <type-specifier> 
 
-<p-name-list-l> ::= 
-           ( <name-list-l> ) 
+<type-specifier> ::= 
+           <type-spec> 
+     |     <declaration-type-spec> 
 
-<name-list-l> ::= 
-           <name-list-l> , <name> 
-     |     <name> 
+<omp-uses-allocators> ::= 
+           USES_ALLOCATORS ( <omp-allocators-traits-list> ) 
+
+<omp-allocators-traits-list> ::= 
+           <omp-allocators-traits-list> <omp-allocator-traits> 
+     |     <omp-allocator-traits> 
+
+<omp-allocator-traits> ::= 
+           <omp-allocator> 
+     |     <omp-allocator> ( <omp-allocator-traits-array> ) 
+
+<omp-allocator-traits-array> ::= 
+           <name> 
+
+<omp-target-data> ::= 
+           TARGET DATA 
+     |     TARGET DATA <target-data-clause-list> 
+
+<target-data-clause-list> ::= 
+           <target-data-clause-list> , <target-data-clause> 
+     |     <target-data-clause-list> <target-data-clause> 
+     |     <target-data-clause> 
+
+<target-data-clause> ::= 
+           <omp-if-target-data> 
+     |     <omp-device> 
+     |     <omp-map> 
+     |     <omp-use-device-ptr> 
+     |     <omp-use-device-addr> 
+
+<omp-if-target-data> ::= 
+           <omp-if-cond> 
+     |     IF ( TARGET DATA : <scalar-logical-expression> ) 
+
+<omp-use-device-ptr> ::= 
+           USE_DEVICE_PTR ( <omp-list> ) 
+
+<omp-use-device-addr> ::= 
+           USE_DEVICE_ADDR ( <omp-list> ) 
+
+<omp-target-enter-data> ::= 
+           TARGET ENTER DATA 
+     |     TARGET ENTER DATA <target-enter-data-clause-list> 
+
+<target-enter-data-clause-list> ::= 
+           <target-enter-data-clause-list> , <target-enter-data-clause> 
+     |     <target-enter-data-clause-list> <target-enter-data-clause> 
+     |     <target-enter-data-clause> 
+
+<target-enter-data-clause> ::= 
+           <omp-if-target-enter-data> 
+     |     <omp-device> 
+     |     <omp-map> 
+     |     <omp-depend> 
+     |     NOWAIT 
+
+<omp-if-target-enter-data> ::= 
+           <omp-if-cond> 
+     |     IF ( TARGET ENTER DATA : <scalar-logical-expression> ) 
+
+<omp-target-exit-data> ::= 
+           TARGET EXIT DATA 
+     |     TARGET EXIT DATA <target-exit-data-clause-list> 
+
+<target-exit-data-clause-list> ::= 
+           <target-exit-data-clause-list> , <target-exit-data-clause> 
+     |     <target-exit-data-clause-list> <target-exit-data-clause> 
+     |     <target-exit-data-clause> 
+
+<target-exit-data-clause> ::= 
+           <omp-if-target-exit-data> 
+     |     <omp-device> 
+     |     <omp-map> 
+     |     <omp-depend> 
+     |     NOWAIT 
+
+<omp-if-target-exit-data> ::= 
+           <omp-if-cond> 
+     |     IF ( TARGET EXIT DATA : <scalar-logical-expression> ) 
+
+<omp-target-parallel> ::= 
+           TARGET PARALLEL 
+     |     TARGET PARALLEL <target-parallel-clause-list> 
+
+<target-parallel-clause-list> ::= 
+           <target-parallel-clause-list> , <target-parallel-clause> 
+     |     <target-parallel-clause-list> <target-parallel-clause> 
+     |     <target-parallel-clause> 
+
+<target-parallel-clause> ::= 
+           <omp-if-cond> 
+     |     <omp-if-parallel> 
+     |     <omp-if-target> 
+     |     <omp-num-threads> 
+     |     <omp-default> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-shared> 
+     |     <omp-reduction> 
+     |     <omp-procedure-bind> 
+     |     <omp-device> 
+     |     <omp-map> 
+     |     <omp-is-device-ptr> 
+     |     <omp-defaultmap> 
+     |     NOWAIT 
+     |     <omp-depend> 
+
+<omp-target-parallel-do> ::= 
+           TARGET PARALLEL DO 
+     |     TARGET PARALLEL DO <target-parallel-do-clause-list> 
+
+<target-parallel-do-clause-list> ::= 
+           <target-parallel-do-clause-list> , <target-parallel-do-clause> 
+     |     <target-parallel-do-clause-list> <target-parallel-do-clause> 
+     |     <target-parallel-do-clause> 
+
+<target-parallel-do-clause> ::= 
+           <target-parallel-clause> 
+     |     <omp-lastprivate> 
+     |     <omp-linear> 
+     |     <omp-schedule> 
+     |     <omp-collapse> 
+     |     <omp-ordered-clause> 
+
+<omp-target-parallel-do-simd> ::= 
+           TARGET PARALLEL DO SIMD 
+     |     TARGET PARALLEL DO SIMD <target-parallel-do-simd-clause-list> 
+
+<target-parallel-do-simd-clause-list> ::= 
+           <target-parallel-do-simd-clause-list> , <target-parallel-do-simd-clause> 
+     |     <target-parallel-do-simd-clause-list> <target-parallel-do-simd-clause> 
+     |     <target-parallel-do-simd-clause> 
+
+<target-parallel-do-simd-clause> ::= 
+           <target-parallel-clause> 
+     |     COPYIN ( <omp-list> ) 
+     |     <simd-clause> 
+
+<omp-target-simd> ::= 
+           TARGET SIMD 
+     |     TARGET SIMD <target-simd-clause-list> 
+
+<target-simd-clause-list> ::= 
+           <target-simd-clause-list> , <target-simd-clause> 
+     |     <target-simd-clause-list> <target-simd-clause> 
+     |     <target-simd-clause> 
+
+<target-simd-clause> ::= 
+           <target-clause> 
+     |     <simd-clause> 
+
+<omp-target-teams> ::= 
+           TARGET TEAMS 
+     |     TARGET TEAMS <target-teams-clause-list> 
+
+<target-teams-clause-list> ::= 
+           <target-teams-clause-list> , <target-teams-clause> 
+     |     <target-teams-clause-list> <target-teams-clause> 
+     |     <target-teams-clause> 
+
+<target-teams-clause> ::= 
+           <target-clause> 
+     |     <teams-clause> 
+
+<teams-clause> ::= 
+           <omp-num-teams> 
+     |     <omp-thread-limit> 
+     |     <omp-team-default> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-shared> 
+     |     <omp-reduction> 
+     |     <omp-allocate> 
+
+<omp-num-teams> ::= 
+           NUM_TEAMS ( <scalar-int-expr> ) 
+
+<omp-thread-limit> ::= 
+           THREAD_LIMIT ( <scalar-int-expr> ) 
+
+<omp-team-default> ::= 
+           DEFAULT ( <omp-team-default-option> ) 
+
+<omp-team-default-option> ::= 
+           FIRST 
+     |     FIRSTPRIVATE 
+     |     SHARED 
+     |     <NONE> 
+
+<omp-target-teams-distribute> ::= 
+           TARGET TEAMS DISTRIBUTE 
+     |     TARGET TEAMS DISTRIBUTE <target-teams-distribute-clause-list> 
+
+<target-teams-distribute-clause-list> ::= 
+           <target-teams-distribute-clause-list> , <target-teams-distribute-clause> 
+     |     <target-teams-distribute-clause-list> <target-teams-distribute-clause> 
+     |     <target-teams-distribute-clause> 
+
+<target-teams-distribute-clause> ::= 
+           <target-clause> 
+     |     <teams-distribute-clause> 
+
+<teams-distribute-clause> ::= 
+           <omp-num-teams> 
+     |     <omp-thread-limit> 
+     |     <omp-team-default> 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-shared> 
+     |     <omp-reduction> 
+     |     <omp-lastprivate> 
+     |     <omp-collapse> 
+     |     <omp-dest-schedule> 
+
+<omp-target-teams-distribute-simd> ::= 
+           TARGET TEAMS DISTRIBUTE SIMD 
+     |     TARGET TEAMS DISTRIBUTE SIMD <target-teams-distribute-simd-clause-list> 
+
+<target-teams-distribute-simd-clause-list> ::= 
+           <target-teams-distribute-simd-clause-list> , <target-teams-distribute-simd-clause> 
+     |     <target-teams-distribute-simd-clause-list> <target-teams-distribute-simd-clause> 
+     |     <target-teams-distribute-simd-clause> 
+
+<target-teams-distribute-simd-clause> ::= 
+           <target-clause> 
+     |     <teams-distribute-simd-clause> 
+
+<teams-distribute-simd-clause> ::= 
+           <teams-clause> 
+     |     <omp-distribute-simd-clause> 
+
+<omp-target-teams-distribute-parallel-do> ::= 
+           TARGET TEAMS DISTRIBUTE PARALLEL DO 
+     |     TARGET TEAMS DISTRIBUTE PARALLEL DO <target-teams-distribute-parallel-do-clause-list> 
+
+<target-teams-distribute-parallel-do-clause-list> ::= 
+           <target-teams-distribute-parallel-do-clause-list> , <target-teams-distribute-parallel-do-clause> 
+     |     <target-teams-distribute-parallel-do-clause-list> <target-teams-distribute-parallel-do-clause> 
+     |     <target-teams-distribute-parallel-do-clause> 
+
+<target-teams-distribute-parallel-do-clause> ::= 
+           <target-clause> 
+     |     <teams-distribute-parallel-do-clause> 
+
+<teams-distribute-parallel-do-clause> ::= 
+           <teams-clause> 
+     |     <distribute-parallel-do-clause> 
+
+<omp-target-teams-distribute-parallel-do-simd> ::= 
+           TARGET TEAMS DISTRIBUTE PARALLEL DO SIMD 
+     |     TARGET TEAMS DISTRIBUTE PARALLEL DO SIMD <target-teams-distribute-parallel-do-simd-clause-list> 
+
+<target-teams-distribute-parallel-do-simd-clause-list> ::= 
+           <target-teams-distribute-parallel-do-simd-clause-list> , <target-teams-distribute-parallel-do-simd-clause> 
+     |     <target-teams-distribute-parallel-do-simd-clause-list> <target-teams-distribute-parallel-do-simd-clause> 
+     |     <target-teams-distribute-parallel-do-simd-clause> 
+
+<target-teams-distribute-parallel-do-simd-clause> ::= 
+           <target-clause> 
+     |     <teams-distribute-parallel-do-simd-clause> 
+
+<teams-distribute-parallel-do-simd-clause> ::= 
+           <teams-clause> 
+     |     <distribute-parallel-do-simd-clause> 
+
+<omp-target-parallel-loop> ::= 
+           TARGET PARALLEL LOOP 
+     |     TARGET PARALLEL LOOP <target-parallel-loop-clause-list> 
+
+<target-parallel-loop-clause-list> ::= 
+           <target-parallel-loop-clause-list> , <omp-target-parallel-loop-clause> 
+     |     <target-parallel-loop-clause-list> <omp-target-parallel-loop-clause> 
+     |     <omp-target-parallel-loop-clause> 
+
+<omp-target-parallel-loop-clause> ::= 
+           <target-parallel-clause> 
+     |     <omp-loop-clause> 
+
+<omp-target-teams-loop> ::= 
+           TARGET TEAMS LOOP 
+     |     TARGET TEAMS LOOP <target-teams-loop-clause-list> 
+
+<target-teams-loop-clause-list> ::= 
+           <target-teams-loop-clause-list> , <omp-target-teams-loop-clause> 
+     |     <target-teams-loop-clause-list> <omp-target-teams-loop-clause> 
+     |     <omp-target-teams-loop-clause> 
+
+<omp-target-teams-loop-clause> ::= 
+           <target-teams-clause> 
+     |     <omp-loop-clause> 
+
+<omp-target-update> ::= 
+           TARGET UPDATE 
+     |     TARGET UPDATE <target-update-clause-list> 
+
+<target-update-clause-list> ::= 
+           <target-update-clause-list> , <target-update-clause> 
+     |     <target-update-clause-list> <target-update-clause> 
+     |     <target-update-clause> 
+
+<target-update-clause> ::= 
+           <omp-if-target-update> 
+     |     <omp-device> 
+     |     NOWAIT 
+     |     <omp-depend> 
+     |     <omp-motion-clause> 
+
+<omp-if-target-update> ::= 
+           <omp-if-cond> 
+     |     IF ( TARGET UPDATE : <scalar-logical-expression> ) 
+
+<omp-motion-clause> ::= 
+           <omp-to> 
+     |     <omp-from> 
+
+<omp-to> ::= 
+           TO ( <omp-list> ) 
+     |     TO ( <omp-mapper-identifier-pair> : <omp-list> ) 
+
+<omp-from> ::= 
+           FROM ( <omp-list> ) 
+     |     FROM ( <omp-mapper-identifier-pair> : <omp-list> ) 
+
+<omp-taskgroup> ::= 
+           TASKGROUP 
+     |     TASKGROUP <omp-taskgroup-clause-list> 
+
+<omp-taskgroup-clause-list> ::= 
+           <omp-taskgroup-clause-list> , <omp-taskgroup-clause> 
+     |     <omp-taskgroup-clause-list> <omp-taskgroup-clause> 
+     |     <omp-taskgroup-clause> 
+
+<omp-taskgroup-clause> ::= 
+           <omp-task-reduction> 
+     |     <omp-allocate> 
+
+<omp-task-reduction> ::= 
+           TASK_REDUCTION ( <reduction-identifier> : <omp-list> ) 
+
+<omp-task> ::= 
+           TASK 
+     |     TASK <task-clause-list> 
+
+<task-clause-list> ::= 
+           <task-clause-list> , <task-clause> 
+     |     <task-clause-list> <task-clause> 
+     |     <task-clause> 
+
+<task-clause> ::= 
+           <omp-if-cond> 
+     |     <omp-if-task> 
+     |     <omp-final> 
+     |     UNTIED 
+     |     <task-default> 
+     |     MERGEABLE 
+     |     <omp-private> 
+     |     <omp-firstprivate> 
+     |     <omp-shared> 
+     |     <omp-in-reduction> 
+     |     <omp-depend> 
+     |     <omp-priority> 
+     |     <omp-allocate> 
+     |     <omp-affinity> 
+     |     <omp-detach> 
+
+<task-default> ::= 
+           DEFAULT ( PRIVATE ) 
+     |     DEFAULT ( FIRSTPRIVATE ) 
+     |     DEFAULT ( SHARED ) 
+     |     DEFAULT ( <NONE> ) 
+
+<omp-affinity> ::= 
+           AFFINITY ( <omp-locator-list> ) 
+     |     AFFINITY ( <omp-aff-modifier> : <omp-locator-list> ) 
+
+<omp-aff-modifier> ::= 
+           <omp-depend-modifier> 
+
+<omp-detach> ::= 
+           DETACH ( <omp-event-handle> ) 
+
+<omp-event-handle> ::= 
+           <omp-var> 
+
+<omp-taskloop> ::= 
+           TASKLOOP 
+     |     TASKLOOP <taskloop-clause-list> 
+
+<taskloop-clause-list> ::= 
+           <taskloop-clause-list> , <taskloop-clause> 
+     |     <taskloop-clause-list> <taskloop-clause> 
+     |     <taskloop-clause> 
+
+<omp-taskloop-simd> ::= 
+           TASKLOOP SIMD 
+     |     TASKLOOP SIMD <taskloop-simd-clause-list> 
+
+<taskloop-simd-clause-list> ::= 
+           <taskloop-simd-clause-list> , <taskloop-simd-clause> 
+     |     <taskloop-simd-clause-list> <taskloop-simd-clause> 
+     |     <taskloop-simd-clause> 
+
+<taskloop-simd-clause> ::= 
+           <taskloop-clause> 
+     |     <simd-clause> 
+
+<omp-taskwait> ::= 
+           TASKWAIT 
+     |     TASKWAIT <omp-taskwait-clause-list> 
+
+<omp-taskwait-clause-list> ::= 
+           <omp-taskwait-clause-list> , <omp-taskwait-clause> 
+     |     <omp-taskwait-clause-list> <omp-taskwait-clause> 
+     |     <omp-taskwait-clause> 
+
+<omp-taskwait-clause> ::= 
+           <omp-depend-clause> 
+     |     NOWAIT 
+
+<omp-depend-clause> ::= 
+           DEPEND ( <omp-dependence-type> : <actual-arg-spec-list> ) 
+     |     DEPEND ( <omp-depend-modifier> , <omp-dependence-type> : <actual-arg-spec-list> ) 
+
+<omp-taskyield> ::= 
+           TASKYIELD 
+
+<omp-teams> ::= 
+           TEAMS 
+     |     TEAMS <teams-clause-list> 
+
+<teams-clause-list> ::= 
+           <teams-clause-list> , <teams-clause> 
+     |     <teams-clause-list> <teams-clause> 
+     |     <teams-clause> 
+
+<omp-teams-distribute> ::= 
+           TEAMS DISTRIBUTE 
+     |     TEAMS DISTRIBUTE <teams-distribute-clause-list> 
+
+<teams-distribute-clause-list> ::= 
+           <teams-distribute-clause-list> , <teams-distribute-clause> 
+     |     <teams-distribute-clause-list> <teams-distribute-clause> 
+     |     <teams-distribute-clause> 
+
+<omp-teams-loop> ::= 
+           TEAMS LOOP 
+     |     TEAMS LOOP <teams-loop-clause-list> 
+
+<teams-loop-clause-list> ::= 
+           <teams-loop-clause-list> , <omp-teams-loop-clause> 
+     |     <teams-loop-clause-list> <omp-teams-loop-clause> 
+     |     <omp-teams-loop-clause> 
+
+<omp-teams-loop-clause> ::= 
+           <teams-clause> 
+     |     <omp-loop-clause> 
+
+<omp-teams-distribute-parallel-do> ::= 
+           TEAMS DISTRIBUTE PARALLEL DO 
+     |     TEAMS DISTRIBUTE PARALLEL DO <teams-distribute-parallel-do-clause-list> 
+
+<teams-distribute-parallel-do-clause-list> ::= 
+           <teams-distribute-parallel-do-clause-list> , <teams-distribute-parallel-do-clause> 
+     |     <teams-distribute-parallel-do-clause-list> <teams-distribute-parallel-do-clause> 
+     |     <teams-distribute-parallel-do-clause> 
+
+<omp-teams-distribute-parallel-do-simd> ::= 
+           TEAMS DISTRIBUTE PARALLEL DO SIMD 
+     |     TEAMS DISTRIBUTE PARALLEL DO SIMD <teams-distribute-parallel-do-simd-clause-list> 
+
+<teams-distribute-parallel-do-simd-clause-list> ::= 
+           <teams-distribute-parallel-do-simd-clause-list> , <teams-distribute-parallel-do-simd-clause> 
+     |     <teams-distribute-parallel-do-simd-clause-list> <teams-distribute-parallel-do-simd-clause> 
+     |     <teams-distribute-parallel-do-simd-clause> 
+
+<omp-teams-distribute-simd> ::= 
+           TEAMS DISTRIBUTE SIMD 
+     |     TEAMS DISTRIBUTE SIMD <teams-distribute-simd-clause-list> 
+
+<teams-distribute-simd-clause-list> ::= 
+           <teams-distribute-simd-clause-list> , <teams-distribute-simd-clause> 
+     |     <teams-distribute-simd-clause-list> <teams-distribute-simd-clause> 
+     |     <teams-distribute-simd-clause> 
+
+<omp-threadprivate> ::= 
+           THREADPRIVATE ( <omp-list> ) 
+
+<omp-workshare> ::= 
+           WORKSHARE 
+
+structured-block ::= 
+           <block> 
+
+<block> ::= 
+           <block> <executable-construct;> 
+     |     <block> <omp-directive> 
+     |     <block> <special-stmt;> 
+     |     <executable-construct;> 
+     |     <omp-directive> 
+     |     <special-stmt;> 
+     |     <block> <label> <executable-construct;> 
+     |     <label> <executable-construct;> 
+
+<executable-construct;> ::= 
+           <execution-part-construct> 
 
 <execution-part-construct> ::= 
-           <action-stmt> <;> 
-     |     <associate-construct> <;> 
-     |     <block-construct> <;> 
-     |     <case-construct> <;> 
-     |     <change-team-construct> <;> 
-     |     <critical-construct> <;> 
-     |     <do-construct> <;> 
-     |     <forall-construct> <;> 
-     |     <if-construct> <;> 
-     |     <select-rank-construct> <;> 
-     |     <select-type-construct> <;> 
-     |     <where-construct> <;> 
-     |     <entry-stmt> <;> 
-     |     <data-stmt> <;> 
-     |     ERROR <;> 
+           <action-stmt> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <associate-construct> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <block-construct> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <case-construct> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <change-team-construct> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <critical-construct> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <do-construct> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <forall-construct> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <if-construct> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <select-rank-construct> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <select-type-construct> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <where-construct> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <entry-stmt> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <data-stmt> <;>   /* Tr.onConstruct($$(0),$$(1)); */
+     |     <erroneous-stmt> <;>   /* Tr.onConstruct($$(0),$$(1)); */
 
 <action-stmt> ::= 
            <allocate-stmt> 
@@ -2376,7 +3281,7 @@ end-subroutine-stmt ::=
      |     <type-allocation-list> <,> <allocation> 
 
 <assign-stmt> ::= 
-           ASSIGN <LABEL> TO <name> 
+           ASSIGN <LABEL> TO <name>   /* Tr.onAssignLabel($$(0),$$(2),$$(4)); */
 
 <assignment-stmt> ::= 
            <designator-l> = <expr> 
@@ -2399,6 +3304,9 @@ end-subroutine-stmt ::=
      |     <part-name-p-section-subscript-list-l> <p-substring-range-l> 
      |     <part-name-p-section-subscript-list-l> <image-selector-l> -: { ( } 
      |     <part-name-p-section-subscript-list-l> <image-selector-l> <p-substring-range-l> 
+
+<part-name-l> ::= 
+           <name-l> 
 
 <image-selector-l> ::= 
            <lbracket> <cosubscript-list> <rbracket> 
@@ -2429,6 +3337,16 @@ end-subroutine-stmt ::=
 
 <named-arg-spec-l> ::= 
            keyword = <actual-arg> 
+
+<function-declaration> ::= 
+           <part-name-l> <p-name-list-l> +: { = } 
+
+<p-name-list-l> ::= 
+           ( <name-list-l> ) 
+
+<name-list-l> ::= 
+           <name-list-l> , <name> 
+     |     <name> 
 
 <backspace-stmt> ::= 
            BACKSPACE <p-position-spec-list> 
@@ -2709,12 +3627,32 @@ end-subroutine-stmt ::=
      |     STREAM = <char-variable> 
      |     UNFORMATTED = <char-variable> 
      |     WRITE = <char-variable> 
+     |     <inquire-extension> = <expr> 
 
 <file-name-expr> ::= 
            <expr> 
 
 <logical-variable> ::= 
            <variable> 
+
+<inquire-extension> ::= 
+           ASSOCIATEVARIABLE 
+     |     BLOCKSIZE 
+     |     BUFFERCOUNT 
+     |     CARRIAGECONTROL 
+     |     DEFAULTFILE 
+     |     DISPOSE 
+     |     EXTENDSIZE 
+     |     INITIALSIZE 
+     |     <KEY> 
+     |     MAXREC 
+     |     NOSPANBLOCKS 
+     |     ORGANIZATION 
+     |     RECORDTYPE 
+     |     RECORDSIZE 
+     |     SHARE 
+     |     USEROPEN 
+     |     TYPE 
 
 <inquire-p-inquire-length> ::= 
            INQUIRE <p-inquire-length> 
@@ -2801,6 +3739,7 @@ end-subroutine-stmt ::=
            ( <file-unit-number> ) 
      |     ( <file-unit-number> <,> <connect-spec-list> ) 
      |     ( <connect-spec-list> ) 
+     |     ( <connect-spec-list> <,> <connect-flag-list> ) 
 
 <connect-spec-list> ::= 
            <connect-spec-list> <,> <connect-spec> 
@@ -2834,6 +3773,7 @@ end-subroutine-stmt ::=
      |     BLOCKSIZE 
      |     BUFFERCOUNT 
      |     CARRIAGECONTROL 
+     |     CONVERT 
      |     DEFAULTFILE 
      |     DISPOSE 
      |     EXTENDSIZE 
@@ -2843,12 +3783,21 @@ end-subroutine-stmt ::=
      |     NAME 
      |     NOSPANBLOCKS 
      |     ORGANIZATION 
-     |     READONLY 
      |     RECORDTYPE 
      |     RECORDSIZE 
-     |     SHARED 
+     |     SHARE 
      |     USEROPEN 
      |     TYPE 
+
+<connect-flag-list> ::= 
+           <connect-flag-list> <,> <connect-flag> 
+     |     <connect-flag-list> <,> <connect-spec> 
+     |     <connect-flag> 
+
+<connect-flag> ::= 
+           NOSHARED 
+     |     SHARED-2 
+     |     READONLY 
 
 <pause-stmt> ::= 
            PAUSE 
@@ -2857,6 +3806,7 @@ end-subroutine-stmt ::=
 <print-stmt> ::= 
            PRINT <format>   /*Tr.onPrint($$(0),$$(2)); */
      |     PRINT <format> <,> <output-item-list>   /*Tr.onPrint($$(0),$$(2),$$(4)); */
+     |     <dec-print-stmt> 
 
 <format> ::= 
            <char-expr> 
@@ -2866,6 +3816,15 @@ end-subroutine-stmt ::=
 
 <char-expr> ::= 
            <expr> 
+
+<dec-print-stmt> ::= 
+           TYPE_DEC <format> +: <;>   /*Tr.onPrint($$(0),$$(2)); */
+     |     TYPE_DEC <format> <,> <output-item-list>   /*Tr.onPrint($$(0),$$(2),$$(4)); */
+     |     <type-dec> <format> +: <;>   /*Tr.onPrint($$(0),$$(2)); */
+     |     <type-dec> <format> <,> <output-item-list>   /*Tr.onPrint($$(0),$$(2),$$(4)); */
+
+<type-dec> ::= 
+           TYPE -: { <name-l> | <name-r> | % | ( | <lbracket> } 
 
 <read-stmt> ::= 
            <read-control> 
@@ -3110,28 +4069,250 @@ continue-stmt ::=
 <construct-name-l> ::= 
            <name-l> 
 
-<block> ::= 
-           <block> <executable-construct;> 
-     |     <block> <omp-directive> 
-     |     <block> <special-stmt;> 
-     |     <executable-construct;> 
-     |     <omp-directive> 
-     |     <special-stmt;> 
-     |     <block> <label> <executable-construct;> 
-     |     <label> <executable-construct;> 
+<end-associate-stmt> ::= 
+           end-associate-stmt 
+     |     <label> end-associate-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0), L"end-associate-stmt",11,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0), L"end-associate-stmt",11,false);*/
 
-<executable-construct;> ::= 
-           <execution-part-construct> 
+end-associate-stmt ::= 
+           END ASSOCIATE 
+     |     END ASSOCIATE <construct-name> 
+     |     END_ASSOCIATE 
+     |     END_ASSOCIATE <construct-name> 
+
+<block-construct> ::= 
+           <block-stmt;> <stmts> <end-block-stmt> 
+     |     <block-stmt;> <end-block-stmt> 
+
+<block-stmt;> ::= 
+           <block-stmt> <;> 
+
+<block-stmt> ::= 
+           BLOCK 
+     |     <construct-name-l> : BLOCK   /* Tr.onBlock($$(0),$$(1)); */
+
+<end-block-stmt> ::= 
+           end-block-stmt 
+     |     <label> end-block-stmt   /* Tr.onLabel($$(0),$$(1),$$(2)); */
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-block-stmt",12,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-block-stmt",12,false);*/
+
+end-block-stmt ::= 
+           END BLOCK -: { <name> }   /* Tr.onEndBlock($$(0),NULL); */
+     |     END BLOCK <construct-name>   /* Tr.onEndBlock($$(0),str(3)); */
+     |     END_BLOCK -: { <name> }   /* Tr.onEndBlock($$(0),NULL); */
+     |     END_BLOCK <construct-name>   /* Tr.onEndBlock($$(0),str(2)); */
+
+<case-construct> ::= 
+           <select-case-stmt> <end-select-stmt> 
+     |     <select-case-stmt> <case-blocks> <end-select-stmt> 
+
+<select-case-stmt> ::= 
+           select-case-stmt <;> 
+     |     <construct-name-l> : select-case-stmt <;> 
+
+select-case-stmt ::= 
+           SELECT CASE <p-expr> 
+     |     SELECT_CASE <p-expr> 
+
+<end-select-stmt> ::= 
+           end-select-stmt 
+     |     <label> end-select-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-select-stmt",15,false);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-select-stmt",15,false);*/
+
+end-select-stmt ::= 
+           END SELECT 
+     |     END SELECT <construct-name> 
+     |     END_SELECT 
+     |     END_SELECT <construct-name> 
+
+<case-blocks> ::= 
+           <case-block> 
+
+<case-block> ::= 
+           <case-block> <special-stmt;> 
+     |     <case-block> <executable-construct;> 
+     |     <case-block> <label> <executable-construct;> 
+     |     <case-block> <omp-directive> 
+     |     <case-block> <case-stmt> 
+     |     <case-block> <label> <case-stmt> 
+     |     <label> <case-stmt> 
+     |     <case-stmt> 
+
+<special-stmt;> ::= 
+           <format-stmt> <;> 
+     |     <include-stmt> <;> 
+     |     <label> <include-stmt> <;> 
+
+<format-stmt> ::= 
+           <label-format> <format-specification>   /* Tr.ParsedFormatStmt($$(0), $$(1),$$(2),true); */
+     |     <label-format> <erroneous-stmt>   /* Tr.ParsedFormatStmt($$(0), $$(1),$$(2),false); */
+
+<label-format> ::= 
+           <labeled_FORMAT>   /* Tr.OnLabelFormatPair($$(0),$$(1)); */
+
+<format-specification> ::= 
+           ( ) 
+     |     ( <format-items> ) 
+     |     ( <unlimited-format-item> ) 
+     |     ( <format-items> , <unlimited-format-item> ) 
+
+<format-items> ::= 
+           <format-items> , <format-item> 
+     |     <format-items> , +: { ) }   /* Tr.warning(L"Last Format Item is Blank."); */
+     |     <format-items> <format-item> 
+     |     <format-item> 
+
+<format-item> ::= 
+           <char-or-edit-desc> +: { , | : | / | ) } 
+     |     <r> <data-edit-desc> +: { , | : | / | ) } 
+     |     <control-edit-desc> 
+     |     ( <format-items> ) +: { , | : | / | ) } 
+     |     <r> ( <format-items> ) +: { , | : | / | ) } 
+     |     <char-or-edit-desc> +: { <follow-data-edit-desc> }   /* Tr.warning( L"No Comma after the data-edit-descriptor: ", str(1) ); */
+     |     <r> <data-edit-desc> +: { <follow-data-edit-desc> }   /* Tr.warning( L"No Comma after the data-edit-descriptor: ", str(2) ); */
+
+<char-or-edit-desc> ::= 
+           <data-edit-desc> 
+     |     <char-string-edit-desc> 
+
+<data-edit-desc> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
+     |     <fmt{E,EN,ES,G,EX}w . d E e> 
+     |     A 
+     |     F   /* Tr.warning(L"Positive width required after descriptor F."); synthesize(1); */
+     |     G   /* Tr.warning(L"Positive width required after descriptor G."); synthesize(1); */
+     |     I   /* Tr.warning(L"Positive width required after descriptor I."); synthesize(1); */
+     |     L   /* Tr.warning(L"Positive width required after descriptor L."); synthesize(1); */
+     |     Q   /* Tr.warning(L"The Q descriptor (Character Count) is non standard."); synthesize(1); */
+     |     <fmt{Q}w . d>   /* Tr.warning(L"The Q descriptor '%s' is non standard.",str(1)); synthesize(1); */
+     |     <fmt{E}w . d{D|Q}e>   /* Tr.warning(L"The E descriptor '%s' is non standard.",str(1)); synthesize(1); */
+     |     <fmt dt & char-literal-constant> <p-v-list>   /* synthesize(1); syncat(L"(...)"); */
+     |     <fmt dt & char-literal-constant> 
+     |     DT <p-v-list>   /* synthesize(1); syncat(L"(...)"); */
+     |     DT 
+     |     $ 
+     |     \ 
+
+<p-v-list> ::= 
+           ( <v-list> ) 
+
+<v-list> ::= 
+           <v-list> , <v> 
+     |     <v> 
+
+<v> ::= 
+           <signed-int-literal-constant> 
+
+<char-string-edit-desc> ::= 
+           <char-literal-constant>   /* Tr. OnCharEditDescriptor(str(1)); synthesize(1); */
+
+<r> ::= 
+           <int-literal-constant> 
+     |     <sign> <int-literal-constant> 
+
+<control-edit-desc> ::= 
+           <position-edit-desc> +: { <,> | : | / | ) } 
+     |     <position-edit-desc> +: { <data-edit-desc-first> } 
+     |     <sign-edit-desc> +: { <,> | : | / | ) } 
+     |     <blank-interp-edit-desc> +: { <,> | : | / | ) } 
+     |     <round-edit-desc> +: { <,> | : | / | ) } 
+     |     <decimal-edit-desc> +: { <,> | : | / | ) } 
+     |     <control-edit-descr-no-comma> 
+
+<position-edit-desc> ::= 
+           T <n> 
+     |     TL <n> 
+     |     TR <n> 
+     |     <fmt{T|TL|TR}n> 
+     |     <n> X 
+     |     X   /* Tr.warning(L"Positive width should precede the position edit descriptor 'X'."); */
+
+<n> ::= 
+           <int-literal-constant> 
+     |     NONE +: { , | : | / | ) }   /* Tr.error(L"Positive width required after a T, TL, or TR."); */
+
+<data-edit-desc-first> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
+     |     <fmt{E,EN,ES,G,EX}w . d E e> 
+     |     A 
+     |     <fmt dt & char-literal-constant> 
+     |     DT 
+     |     $ 
+     |     \ 
+
+<sign-edit-desc> ::= 
+           SS 
+     |     SP 
+     |     S 
+
+<blank-interp-edit-desc> ::= 
+           BN 
+     |     BZ 
+
+<round-edit-desc> ::= 
+           RU 
+     |     RD 
+     |     RZ 
+     |     RN 
+     |     RC 
+     |     RP 
+
+<decimal-edit-desc> ::= 
+           DC 
+     |     DP 
+
+<control-edit-descr-no-comma> ::= 
+           / 
+     |     <r> / 
+     |     : 
+     |     <k> P 
+
+<k> ::= 
+           <int-literal-constant> 
+     |     <sign> <int-literal-constant> 
+
+<follow-data-edit-desc> ::= 
+           <fmt{G}w> 
+     |     <fmt{I,B,O,Z,G,L,A}w> 
+     |     <fmt{I,B,O,Z,F,E,EN,ES,G,D}w . d> 
+     |     <fmt{I,B,O,Z}w . d> 
+     |     <fmt{F,E,EN,ES,G,D,EX}w . d> 
+     |     <fmt{E,EN,ES,G,EX}w . d E e> 
+     |     A 
+     |     <fmt dt & char-literal-constant> 
+     |     <fmt dt & char-literal-constant> 
+     |     DT 
+     |     <char-literal-constant> 
+
+<unlimited-format-item> ::= 
+           * ( <format-items> ) 
+
+<include-stmt> ::= 
+           INCLUDE <char-literal-constant>   /* Tr.OnIncludeStatement(str(2)); */
 
 <omp-directive> ::= 
            <omp-atomic-construct> 
-     |     <omp-barrier> 
+     |     <omp-barrier-stmt> 
      |     <omp-cancel-stmt> 
      |     <omp-cancellation-point-stmt> 
      |     <omp-critical-construct> 
-     |     <omp-declare-reduction> 
-     |     <omp-declare-simd> 
+     |     <omp-declare-mapper-stmt> 
+     |     <omp-declare-reduction-stmt> 
+     |     <omp-declare-simd-stmt> 
      |     <omp-declare-target-stmt> 
+     |     <omp-declare-variant-stmt> 
+     |     <omp-depobj-stmt> 
      |     <omp-distribute-construct> 
      |     <omp-distribute-parallel-do-construct> 
      |     <omp-distribute-parallel-do-simd-construct> 
@@ -3140,13 +4321,22 @@ continue-stmt ::=
      |     <omp-do-simd-construct> 
      |     <smp-do-serial> 
      |     <omp-flush-stmt> 
+     |     <omp-loop-construct> 
      |     <omp-master-construct> 
+     |     <omp-master-taskloop-construct> 
+     |     <omp-master-taskloop-simd-construct> 
+     |     <omp-metadirective-construct> 
      |     <omp-ordered-construct> 
      |     <omp-parallel-construct> 
-     |     <omp-parallel-workshare-construct> 
      |     <omp-parallel-do-construct> 
      |     <omp-parallel-do-simd-construct> 
+     |     <omp-parallel-loop-construct> 
+     |     <omp-parallel-master-construct> 
+     |     <omp-parallel-master-taskloop-construct> 
+     |     <omp-parallel-master-taskloop-simd-construct> 
      |     <omp-parallel-sections-construct> 
+     |     <omp-parallel-workshare-construct> 
+     |     <omp-requires-directive> 
      |     <ibm-schedule-stmt> 
      |     <omp-sections-construct> 
      |     <omp-simd-construct> 
@@ -3158,12 +4348,14 @@ continue-stmt ::=
      |     <omp-target-parallel-construct> 
      |     <omp-target-parallel-do-construct> 
      |     <omp-target-parallel-do-simd-construct> 
+     |     <omp-target-parallel-loop-construct> 
      |     <omp-target-simd-construct> 
      |     <omp-target-teams-construct> 
      |     <omp-target-teams-distribute-construct> 
      |     <omp-target-teams-distribute-simd-construct> 
      |     <omp-target-teams-distribute-parallel-do-construct> 
      |     <omp-target-teams-distribute-parallel-do-simd-construct> 
+     |     <omp-target-teams-loop-construct> 
      |     <omp-target-update-stmt> 
      |     <omp-taskgroup-construct> 
      |     <omp-task-construct> 
@@ -3176,7 +4368,8 @@ continue-stmt ::=
      |     <omp-teams-distribute-parallel-do-construct> 
      |     <omp-teams-distribute-parallel-do-simd-construct> 
      |     <omp-teams-distribute-simd-construct> 
-     |     <omp-threadprivate> 
+     |     <omp-teams-loop-construct> 
+     |     <omp-threadprivate-stmt> 
      |     <ibm-threadlocal> 
      |     <omp-workshare-construct> 
 
@@ -3189,24 +4382,7 @@ continue-stmt ::=
      |     <omp-atomic-update-stmt> update-statement -: { OMP-END-ATOMIC } 
 
 <omp-atomic-update-stmt> ::= 
-           OMP ATOMIC <atomic-update-clause> <\n> 
-     |     OMP ATOMIC <atomic-update-clause> seq_cst <\n> 
-     |     OMP ATOMIC <atomic-update-clause> , seq_cst <\n> 
-     |     OMP ATOMIC seq_cst <atomic-update-clause> <\n> 
-     |     OMP ATOMIC seq_cst , <atomic-update-clause> <\n> 
-     |     OMP ATOMIC <atomic-update-clause> seq_cst <\n> 
-     |     OMP ATOMIC <atomic-update-clause> , seq_cst <\n> 
-     |     OMP ATOMIC <\n> 
-     |     OMP ATOMIC seq_cst <\n> 
-     |     OMP ATOMIC , seq_cst <\n> 
-
-<atomic-update-clause> ::= 
-           READ 
-     |     UPDATE 
-     |     WRITE 
-
-seq_cst ::= 
-           SEQ_CST 
+           OMP <omp-atomic-update> <\n> 
 
 update-statement ::= 
            <assignment-stmt> <;> 
@@ -3226,51 +4402,27 @@ omp-end-atomic-stmt ::=
            
 
 <omp-atomic-capture-stmt> ::= 
-           OMP ATOMIC CAPTURE <\n> 
-     |     OMP ATOMIC CAPTURE seq_cst <\n> 
-     |     OMP ATOMIC CAPTURE , seq_cst <\n> 
-     |     OMP ATOMIC seq_cst CAPTURE <\n> 
-     |     OMP ATOMIC seq_cst , CAPTURE <\n> 
-     |     OMP ATOMIC CAPTURE seq_cst <\n> 
-     |     OMP ATOMIC CAPTURE , seq_cst <\n> 
+           OMP <omp-atomic-capture> <\n> 
 
-<omp-barrier> ::= 
-           OMP BARRIER <\n> 
+<omp-barrier-stmt> ::= 
+           OMP <omp-barrier> <\n> 
 
 <omp-cancel-stmt> ::= 
-           OMP CANCEL <omp-construct-type-clause> <\n> 
-     |     OMP CANCEL <omp-construct-type-clause> <cancel-if-clause> <\n> 
-     |     OMP CANCEL <omp-construct-type-clause> , <cancel-if-clause> <\n> 
+           omp-cancel-stmt <\n> 
 
-<omp-construct-type-clause> ::= 
-           PARALLEL 
-     |     SECTIONS 
-     |     DO 
-     |     TASKGROUP 
-
-<cancel-if-clause> ::= 
-           IF ( <scalar-logical-expression> ) 
-
-<scalar-logical-expression> ::= 
-           <expr> 
+omp-cancel-stmt ::= 
+           OMP <omp-cancel> 
+     |     OMP <omp-cancel-do>   /* Tr.onOMPCancelDo($$(0),$$(2),68151); //check in DoLoop;*/
 
 <omp-cancellation-point-stmt> ::= 
-           OMP CANCELLATION POINT <omp-construct-type-clause> <\n> 
+           OMP <omp-cancellation-point> <\n> 
 
 <omp-critical-construct> ::= 
            <omp-critical-stmt> structured-block <omp-end-critical;> 
      |     <omp-critical-stmt> <omp-end-critical;> 
 
 <omp-critical-stmt> ::= 
-           OMP CRITICAL <\n> 
-     |     OMP CRITICAL ( <name> ) <\n> 
-     |     OMP CRITICAL ( <name> ) HINT ( hint-expression ) <\n> 
-
-hint-expression ::= 
-           <scalar-int-expr> 
-
-structured-block ::= 
-           <block> 
+           OMP <omp-critical> <\n> 
 
 <omp-end-critical;> ::= 
            <omp-end-critical> <\n> 
@@ -3285,58 +4437,21 @@ omp-end-critical ::=
      |     OMP END_CRITICAL +: { <;> } 
      |     OMP END_CRITICAL ( <name> ) +: { <;> } 
 
+<omp-depobj-stmt> ::= 
+           OMP <omp-depobj> <\n> 
+
 <omp-distribute-construct> ::= 
            <omp-distribute-stmt> <do-loop> <omp-end-distribute-stmt> 
      |     <omp-distribute-stmt> <omp-end-distribute-stmt> 
      |     <omp-distribute-stmt> <do-loop> -: { OMP-END-DISTRIBUTE } 
 
 <omp-distribute-stmt> ::= 
-           OMP DISTRIBUTE <\n> 
-     |     OMP DISTRIBUTE <distribute-clause-list> <\n> 
-
-<distribute-clause-list> ::= 
-           <distribute-clause-list> , <distribute-clause> 
-     |     <distribute-clause-list> <distribute-clause> 
-     |     <distribute-clause> 
-
-<distribute-clause> ::= 
-           <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-lastprivate> 
-     |     <omp-collapse> 
-     |     <omp-dest-schedule> 
-
-<omp-private> ::= 
-           PRIVATE ( <omp-list> ) 
-
-<omp-firstprivate> ::= 
-           FIRSTPRIVATE ( <omp-list> ) 
-
-<omp-lastprivate> ::= 
-           LASTPRIVATE ( <omp-list> ) 
-
-<omp-collapse> ::= 
-           COLLAPSE ( <scalar-int-constant-expr> ) 
-
-<omp-dest-schedule> ::= 
-           DIST_SCHEDULE ( <omp-schedule-kind> ) 
-     |     DIST_SCHEDULE ( <omp-schedule-kind> , <chunk_size> ) 
-
-<omp-schedule-kind> ::= 
-           STATIC 
-     |     DYNAMIC 
-     |     GUIDED 
-     |     AUTO 
-     |     AFFINITY   /* Tr.warning(L"Affinity is a vendor specific, deprecated schedule kind."); */
-     |     RUNTIME 
-
-<chunk_size> ::= 
-           <scalar-int-expr> 
+           OMP <omp-distribute> <\n> 
 
 <do-loop> ::= 
            <do-construct> <;> 
      |     <label> <do-construct> <;> 
-     |     ERROR <;>   /* Tr.error(L"Expected immediatelly only a DO Construct."); */
+     |     <erroneous-stmt> <;>   /* Tr.error(L"Expected immediatelly only a DO Construct."); */
 
 <do-construct> ::= 
            <block-do-construct> 
@@ -3385,12 +4500,28 @@ loop-control ::=
 <do-block> ::= 
            <do-block> <executable-construct;> 
      |     <do-block> <omp-directive> 
+     |     <do-block> <omp-scan-stmt> 
+     |     <do-block> <omp-cancellation-point-do-stmt> 
      |     <do-block> <special-stmt;> 
      |     <executable-construct;> 
      |     <omp-directive> 
+     |     <omp-scan-stmt> 
+     |     <omp-cancellation-point-do-stmt> 
      |     <special-stmt;> 
      |     <do-block> <label> <executable-construct;> 
      |     <label> <executable-construct;> 
+
+<omp-scan-stmt> ::= 
+           omp-scan-stmt <\n> 
+
+omp-scan-stmt ::= 
+           OMP <omp-scan>   /* Tr.onOMPScan($$(0),$$(2),68151); //check in DoLoop;*/
+
+<omp-cancellation-point-do-stmt> ::= 
+           omp-cancellation-point-do-stmt <\n> 
+
+omp-cancellation-point-do-stmt ::= 
+           OMP <omp-cancellation-point-do>   /* Tr.onOMPCancelDo($$(0),$$(2),68151); //check in DoLoop;*/
 
 <end-do-stmt> ::= 
            end-do-stmt 
@@ -3464,7 +4595,7 @@ label-do-stmt ::=
      |     <write-stmt> 
      |     <computed-goto-stmt> 
      |     continue-stmt 
-     |     ERROR <;> 
+     |     <erroneous-stmt> <;> 
 
 <outer-shared-do-construct> ::= 
            <label-do-stmt> <do-body> <inner-shared-do-construct> 
@@ -3495,519 +4626,128 @@ label-do-shared-stmt ::=
            <do-term-action-stmt> 
 
 <omp-do-for-shared-term> ::= 
-           <omp-do-stmt> 
-     |     <parallel-do-stmt> 
-     |     <omp-simd-stmt> 
-     |     <omp-do-simd-stmt> 
-     |     <target-parallel-do-simd-stmt> 
+           <omp-distribute-parallel-do-stmt> 
+     |     <omp-distribute-parallel-do-simd-stmt> 
      |     <omp-distribute-stmt> 
      |     <omp-distribute-simd-stmt> 
-     |     <distribute-parallel-do-simd-stmt> 
-     |     <distribute-parallel-do-stmt> 
-     |     <parallel-do-simd-stmt> 
-     |     <target-parallel-do-stmt> 
+     |     <omp-do-stmt> 
+     |     <omp-do-simd-stmt> 
+     |     <omp-loop-stmt> 
+     |     <omp-master-taskloop-stmt> 
+     |     <omp-master-taskloop-simd-stmt> 
+     |     <omp-parallel-do-stmt> 
+     |     <omp-parallel-do-simd-stmt> 
+     |     <omp-parallel-loop-stmt> 
+     |     <omp-parallel-master-taskloop-stmt> 
+     |     <omp-parallel-master-taskloop-simd-stmt> 
+     |     <omp-simd-stmt> 
+     |     <omp-target-parallel-do-stmt> 
+     |     <omp-target-parallel-do-simd-stmt> 
+     |     <omp-target-parallel-loop-stmt> 
      |     <omp-target-simd-stmt> 
-     |     <target-teams-distribute-stmt> 
-     |     <target-teams-distribute-simd-stmt> 
-     |     <target-teams-distribute-parallel-do-stmt> 
-     |     <target-teams-distribute-parallel-do-simd-stmt> 
+     |     <omp-target-teams-distribute-stmt> 
+     |     <omp-target-teams-distribute-simd-stmt> 
+     |     <omp-target-teams-distribute-parallel-do-stmt> 
+     |     <omp-target-teams-distribute-parallel-do-simd-stmt> 
+     |     <omp-target-teams-loop-stmt> 
      |     <omp-taskloop-stmt> 
      |     <omp-taskloop-simd-stmt> 
      |     <omp-teams-distribute-stmt> 
-     |     <teams-distribute-parallel-do-stmt> 
-     |     <teams-distribute-parallel-do-simd-stmt> 
+     |     <omp-teams-distribute-parallel-do-stmt> 
+     |     <omp-teams-distribute-parallel-do-simd-stmt> 
      |     <omp-teams-distribute-simd-stmt> 
+     |     <omp-teams-loop-stmt> 
      |     <smp-do-serial-stmt> 
 
-<omp-do-stmt> ::= 
-           OMP DO <\n> 
-     |     OMP DO <do-clause-list> <\n> 
+<omp-distribute-parallel-do-stmt> ::= 
+           OMP <omp-distribute-parallel-do> <\n> 
 
-<do-clause-list> ::= 
-           <do-clause-list> , <omp-do-clause> 
-     |     <do-clause-list> <omp-do-clause> 
-     |     <omp-do-clause> 
-
-<omp-do-clause> ::= 
-           <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-lastprivate> 
-     |     <omp-linear> 
-     |     <omp-reduction> 
-     |     <omp-schedule> 
-     |     <omp-collapse> 
-     |     <omp-ordered> 
-
-<omp-reduction> ::= 
-           REDUCTION ( <reduction-identifier> : <omp-list> ) 
-
-<omp-schedule> ::= 
-           SCHEDULE ( <omp-schedule-kind> ) 
-     |     SCHEDULE ( <omp-schedule-kind> , <scalar-int-expr> ) 
-     |     SCHEDULE ( <omp-schedule-midifiers> : <omp-schedule-kind> ) 
-     |     SCHEDULE ( <omp-schedule-midifiers> : <omp-schedule-kind> , <scalar-int-expr> ) 
-
-<omp-schedule-midifiers> ::= 
-           <omp-schedule-midifier> 
-     |     <omp-schedule-midifier> , <omp-schedule-midifier> 
-
-<omp-schedule-midifier> ::= 
-           MONOTONIC 
-     |     NONMONOTONIC 
-     |     SIMD 
-
-<omp-ordered> ::= 
-           ORDERED ( <scalar-int-constant-expr> ) 
-     |     ORDERED 
-
-<parallel-do-stmt> ::= 
-           OMP PARALLEL DO <\n> 
-     |     OMP PARALLEL DO <parallel-do-clause-list> <\n> 
-
-<parallel-do-clause-list> ::= 
-           <parallel-do-clause-list> , <parallel-do-clause> 
-     |     <parallel-do-clause-list> <parallel-do-clause> 
-     |     <parallel-do-clause> 
-
-<parallel-do-clause> ::= 
-           <parallel-clause> 
-     |     <omp-lastprivate> 
-     |     <omp-linear> 
-     |     <omp-schedule> 
-     |     <omp-collapse> 
-     |     <omp-ordered> 
-
-<parallel-clause> ::= 
-           IF ( <scalar-logical-expression> ) 
-     |     IF ( PARALLEL : <scalar-logical-expression> ) 
-     |     <omp-num-threads> 
-     |     <omp-default> 
-     |     <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-shared> 
-     |     COPYIN ( <omp-list> ) 
-     |     <omp-reduction> 
-     |     <omp-procedure-bind> 
-
-<omp-num-threads> ::= 
-           NUM_THREADS ( <scalar-int-expr> ) 
-
-<omp-default> ::= 
-           DEFAULT ( <default-parallel> ) 
-
-<default-parallel> ::= 
-           PRIVATE 
-     |     FIRSTPRIVATE 
-     |     SHARED 
-     |     <NONE> 
-
-<omp-shared> ::= 
-           SHARED ( <omp-list> ) 
-
-<omp-procedure-bind> ::= 
-           PROC_BIND ( <proc-bind-argument> ) 
-
-<proc-bind-argument> ::= 
-           MASTER 
-     |     CLOSE 
-     |     SPREAD 
-
-<omp-simd-stmt> ::= 
-           OMP SIMD <\n> 
-     |     OMP SIMD <simd-clause-list> <\n> 
-
-<simd-clause-list> ::= 
-           <simd-clause-list> , <simd-clause> 
-     |     <simd-clause-list> <simd-clause> 
-     |     <simd-clause> 
-
-<simd-clause> ::= 
-           <omp-safelen> 
-     |     <omp-simdlen> 
-     |     <omp-linear> 
-     |     <omp-aligned> 
-     |     <omp-private> 
-     |     <omp-lastprivate> 
-     |     <omp-reduction> 
-     |     <omp-collapse> 
-     |     EARLY_EXIT 
-
-<omp-safelen> ::= 
-           SAFELEN ( <scalar-int-constant-expr> ) 
-
-<omp-do-simd-stmt> ::= 
-           OMP DO SIMD <\n> 
-     |     OMP DO SIMD <do-simd-clause-list> <\n> 
-
-<do-simd-clause-list> ::= 
-           <do-simd-clause-list> , <omp-do-simd-clause> 
-     |     <do-simd-clause-list> <omp-do-simd-clause> 
-     |     <omp-do-simd-clause> 
-
-<omp-do-simd-clause> ::= 
-           <omp-do-clause> 
-     |     <simd-clause> 
-
-<target-parallel-do-simd-stmt> ::= 
-           OMP TARGET PARALLEL DO SIMD <\n> 
-     |     OMP TARGET PARALLEL DO SIMD <target-parallel-do-simd-clause-list> <\n> 
-
-<target-parallel-do-simd-clause-list> ::= 
-           <target-parallel-do-simd-clause-list> , <target-parallel-do-simd-clause> 
-     |     <target-parallel-do-simd-clause-list> <target-parallel-do-simd-clause> 
-     |     <target-parallel-do-simd-clause> 
-
-<target-parallel-do-simd-clause> ::= 
-           IF ( <scalar-logical-expression> ) 
-     |     IF ( PARALLEL : <scalar-logical-expression> ) 
-     |     <omp-num-threads> 
-     |     <omp-default> 
-     |     <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-shared> 
-     |     COPYIN ( <omp-list> ) 
-     |     <omp-reduction> 
-     |     <omp-procedure-bind> 
-     |     <simd-clause> 
+<omp-distribute-parallel-do-simd-stmt> ::= 
+           OMP <omp-distribute-parallel-do-simd> <\n> 
 
 <omp-distribute-simd-stmt> ::= 
-           OMP DISTRIBUTE SIMD <\n> 
-     |     OMP DISTRIBUTE SIMD <distribute-simd-clause-list> <\n> 
+           OMP <omp-distribute-simd> <\n> 
 
-<distribute-simd-clause-list> ::= 
-           <distribute-simd-clause-list> , <omp-distribute-simd-clause> 
-     |     <distribute-simd-clause-list> <omp-distribute-simd-clause> 
-     |     <omp-distribute-simd-clause> 
+<omp-do-stmt> ::= 
+           OMP <omp-do> <\n> 
 
-<omp-distribute-simd-clause> ::= 
-           <distribute-clause> 
-     |     <simd-clause> 
+<omp-do-simd-stmt> ::= 
+           OMP <omp-do-simd> <\n> 
 
-<distribute-parallel-do-simd-stmt> ::= 
-           OMP DISTRIBUTE PARALLEL DO SIMD <\n> 
-     |     OMP DISTRIBUTE PARALLEL DO SIMD <distribute-parallel-do-simd-clause-list> <\n> 
+<omp-loop-stmt> ::= 
+           OMP <omp-loop> <\n> 
 
-<distribute-parallel-do-simd-clause-list> ::= 
-           <distribute-parallel-do-simd-clause-list> , <distribute-parallel-do-simd-clause> 
-     |     <distribute-parallel-do-simd-clause-list> <distribute-parallel-do-simd-clause> 
-     |     <distribute-parallel-do-simd-clause> 
+<omp-master-taskloop-stmt> ::= 
+           OMP <omp-master-taskloop> <\n> 
 
-<distribute-parallel-do-simd-clause> ::= 
-           <distribute-clause> 
-     |     <parallel-do-simd-clause> 
+<omp-master-taskloop-simd-stmt> ::= 
+           OMP <omp-master-taskloop-simd> <\n> 
 
-<parallel-do-simd-clause> ::= 
-           <parallel-clause> 
-     |     <omp-do-simd-clause> 
+<omp-parallel-do-stmt> ::= 
+           OMP <omp-parallel-do> <\n> 
 
-<distribute-parallel-do-stmt> ::= 
-           OMP DISTRIBUTE PARALLEL DO <\n> 
-     |     OMP DISTRIBUTE PARALLEL DO <distribute-parallel-do-clause-list> <\n> 
+<omp-parallel-do-simd-stmt> ::= 
+           OMP <omp-parallel-do-simd> <\n> 
 
-<distribute-parallel-do-clause-list> ::= 
-           <distribute-parallel-do-clause-list> , <distribute-parallel-do-clause> 
-     |     <distribute-parallel-do-clause-list> <distribute-parallel-do-clause> 
-     |     <distribute-parallel-do-clause> 
+<omp-parallel-loop-stmt> ::= 
+           OMP <omp-parallel-loop> <\n> 
 
-<distribute-parallel-do-clause> ::= 
-           <distribute-clause> 
-     |     <parallel-do-clause> 
+<omp-parallel-master-taskloop-stmt> ::= 
+           OMP <omp-parallel-master-taskloop> <\n> 
 
-<parallel-do-simd-stmt> ::= 
-           OMP PARALLEL DO SIMD <\n> 
-     |     OMP PARALLEL DO SIMD <parallel-do-simd-clause-list> <\n> 
+<omp-parallel-master-taskloop-simd-stmt> ::= 
+           OMP <omp-parallel-master-taskloop-simd> <\n>   /* synthesize(2); */
 
-<parallel-do-simd-clause-list> ::= 
-           <parallel-do-simd-clause-list> , <parallel-do-simd-clause> 
-     |     <parallel-do-simd-clause-list> <parallel-do-simd-clause> 
-     |     <parallel-do-simd-clause> 
+<omp-simd-stmt> ::= 
+           OMP <omp-simd> <\n> 
 
-<target-parallel-do-stmt> ::= 
-           OMP TARGET PARALLEL DO <\n> 
-     |     OMP TARGET PARALLEL DO <target-parallel-do-clause-list> <\n> 
+<omp-target-parallel-do-stmt> ::= 
+           OMP <omp-target-parallel-do> <\n> 
 
-<target-parallel-do-clause-list> ::= 
-           <target-parallel-do-clause-list> , <target-parallel-do-clause> 
-     |     <target-parallel-do-clause-list> <target-parallel-do-clause> 
-     |     <target-parallel-do-clause> 
+<omp-target-parallel-do-simd-stmt> ::= 
+           OMP <omp-target-parallel-do-simd> <\n> 
 
-<target-parallel-do-clause> ::= 
-           <target-parallel-clause> 
-     |     <omp-lastprivate> 
-     |     <omp-linear> 
-     |     <omp-schedule> 
-     |     <omp-collapse> 
-     |     <omp-ordered> 
-
-<target-parallel-clause> ::= 
-           IF ( <scalar-logical-expression> ) 
-     |     IF ( PARALLEL : <scalar-logical-expression> ) 
-     |     IF ( TARGET : <scalar-logical-expression> ) 
-     |     <omp-num-threads> 
-     |     <omp-default> 
-     |     <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-shared> 
-     |     <omp-reduction> 
-     |     <omp-procedure-bind> 
-     |     <omp-device> 
-     |     <omp-map> 
-     |     <omp-is-device-ptr> 
-     |     <omp-defaultmap> 
-     |     NOWAIT 
-     |     <omp-depend> 
-
-<omp-device> ::= 
-           DEVICE ( <scalar-int-expr> ) 
-
-<omp-map> ::= 
-           MAP ( <omp-list> ) 
-     |     MAP ( <omp-map-type> : <omp-list> ) 
-     |     MAP ( <map-type-modifier> <omp-map-type> : <omp-list> ) 
-     |     MAP ( <map-type-modifier> , <omp-map-type> : <omp-list> ) 
-
-<omp-map-type> ::= 
-           TO 
-     |     FROM 
-     |     TOFROM 
-     |     ALLOC 
-     |     RELEASE 
-     |     DELETE 
-
-<map-type-modifier> ::= 
-           ALWAYS 
-
-<omp-is-device-ptr> ::= 
-           IS_DEVICE_PTR ( <omp-list> ) 
-
-<omp-defaultmap> ::= 
-           DEFAULTMAP ( TOFROM : SCALAR ) 
-
-<omp-depend> ::= 
-           DEPEND ( <intent-spec> : <actual-arg-spec-list> ) 
-     |     DEPEND ( SOURCE ) 
-     |     DEPEND ( SINK : <name> ) 
+<omp-target-parallel-loop-stmt> ::= 
+           OMP <omp-target-parallel-loop> <\n> 
 
 <omp-target-simd-stmt> ::= 
-           OMP TARGET SIMD <\n> 
-     |     OMP TARGET SIMD <target-simd-clause-list> <\n> 
+           OMP <omp-target-simd> <\n> 
 
-<target-simd-clause-list> ::= 
-           <target-simd-clause-list> , <target-simd-clause> 
-     |     <target-simd-clause-list> <target-simd-clause> 
-     |     <target-simd-clause> 
+<omp-target-teams-distribute-stmt> ::= 
+           OMP <omp-target-teams-distribute> <\n> 
 
-<target-simd-clause> ::= 
-           <target-clause> 
-     |     <simd-clause> 
+<omp-target-teams-distribute-simd-stmt> ::= 
+           OMP <omp-target-teams-distribute-simd> <\n> 
 
-<target-clause> ::= 
-           <omp-if-target> 
-     |     <omp-device> 
-     |     <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-map> 
-     |     <omp-is-device-ptr> 
-     |     <omp-defaultmap> 
-     |     NOWAIT 
-     |     <omp-depend> 
+<omp-target-teams-distribute-parallel-do-stmt> ::= 
+           OMP <omp-target-teams-distribute-parallel-do> <\n> 
 
-<omp-if-target> ::= 
-           IF ( <scalar-logical-expression> ) 
-     |     IF ( TARGET : <scalar-logical-expression> ) 
+<omp-target-teams-distribute-parallel-do-simd-stmt> ::= 
+           OMP <omp-target-teams-distribute-parallel-do-simd> <\n> 
 
-<target-teams-distribute-stmt> ::= 
-           OMP TARGET TEAMS DISTRIBUTE <\n> 
-     |     OMP TARGET TEAMS DISTRIBUTE <target-teams-distribute-clause-list> <\n> 
-
-<target-teams-distribute-clause-list> ::= 
-           <target-teams-distribute-clause-list> , <target-teams-distribute-clause> 
-     |     <target-teams-distribute-clause-list> <target-teams-distribute-clause> 
-     |     <target-teams-distribute-clause> 
-
-<target-teams-distribute-clause> ::= 
-           <target-clause> 
-     |     <teams-distribute-clause> 
-
-<teams-distribute-clause> ::= 
-           <omp-num-teams> 
-     |     <omp-thread-limit> 
-     |     <omp-team-default> 
-     |     <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-shared> 
-     |     <omp-reduction> 
-     |     <omp-lastprivate> 
-     |     <omp-collapse> 
-     |     <omp-dest-schedule> 
-
-<omp-num-teams> ::= 
-           NUM_TEAMS ( <scalar-int-expr> ) 
-
-<omp-thread-limit> ::= 
-           THREAD_LIMIT ( <scalar-int-expr> ) 
-
-<omp-team-default> ::= 
-           DEFAULT ( <omp-team-default-option> ) 
-
-<omp-team-default-option> ::= 
-           FIRST 
-     |     FIRSTPRIVATE 
-     |     SHARED 
-     |     <NONE> 
-
-<target-teams-distribute-simd-stmt> ::= 
-           OMP TARGET TEAMS DISTRIBUTE SIMD <\n> 
-     |     OMP TARGET TEAMS DISTRIBUTE SIMD <target-teams-distribute-simd-clause-list> <\n> 
-
-<target-teams-distribute-simd-clause-list> ::= 
-           <target-teams-distribute-simd-clause-list> , <target-teams-distribute-simd-clause> 
-     |     <target-teams-distribute-simd-clause-list> <target-teams-distribute-simd-clause> 
-     |     <target-teams-distribute-simd-clause> 
-
-<target-teams-distribute-simd-clause> ::= 
-           <target-clause> 
-     |     <teams-distribute-simd-clause> 
-
-<teams-distribute-simd-clause> ::= 
-           <teams-clause> 
-     |     <omp-distribute-simd-clause> 
-
-<teams-clause> ::= 
-           <omp-num-teams> 
-     |     <omp-thread-limit> 
-     |     <omp-team-default> 
-     |     <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-shared> 
-     |     <omp-reduction> 
-
-<target-teams-distribute-parallel-do-stmt> ::= 
-           OMP TARGET TEAMS DISTRIBUTE PARALLEL DO <\n> 
-     |     OMP TARGET TEAMS DISTRIBUTE PARALLEL DO <target-teams-distribute-parallel-do-clause-list> <\n> 
-
-<target-teams-distribute-parallel-do-clause-list> ::= 
-           <target-teams-distribute-parallel-do-clause-list> , <target-teams-distribute-parallel-do-clause> 
-     |     <target-teams-distribute-parallel-do-clause-list> <target-teams-distribute-parallel-do-clause> 
-     |     <target-teams-distribute-parallel-do-clause> 
-
-<target-teams-distribute-parallel-do-clause> ::= 
-           <target-clause> 
-     |     <teams-distribute-parallel-do-clause> 
-
-<teams-distribute-parallel-do-clause> ::= 
-           <teams-clause> 
-     |     <distribute-parallel-do-clause> 
-
-<target-teams-distribute-parallel-do-simd-stmt> ::= 
-           OMP TARGET TEAMS DISTRIBUTE PARALLEL DO SIMD <\n> 
-     |     OMP TARGET TEAMS DISTRIBUTE PARALLEL DO SIMD <target-teams-distribute-parallel-do-simd-clause-list> <\n> 
-
-<target-teams-distribute-parallel-do-simd-clause-list> ::= 
-           <target-teams-distribute-parallel-do-simd-clause-list> , <target-teams-distribute-parallel-do-simd-clause> 
-     |     <target-teams-distribute-parallel-do-simd-clause-list> <target-teams-distribute-parallel-do-simd-clause> 
-     |     <target-teams-distribute-parallel-do-simd-clause> 
-
-<target-teams-distribute-parallel-do-simd-clause> ::= 
-           <target-clause> 
-     |     <teams-distribute-parallel-do-simd-clause> 
-
-<teams-distribute-parallel-do-simd-clause> ::= 
-           <teams-clause> 
-     |     <distribute-parallel-do-simd-clause> 
+<omp-target-teams-loop-stmt> ::= 
+           OMP <omp-target-teams-loop> <\n> 
 
 <omp-taskloop-stmt> ::= 
-           OMP TASKLOOP <\n> 
-     |     OMP TASKLOOP <taskloop-clause-list> <\n> 
-
-<taskloop-clause-list> ::= 
-           <taskloop-clause-list> , <taskloop-clause> 
-     |     <taskloop-clause-list> <taskloop-clause> 
-     |     <taskloop-clause> 
-
-<taskloop-clause> ::= 
-           <omp-if-task> 
-     |     <omp-shared> 
-     |     <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-lastprivate> 
-     |     <omp-default> 
-     |     <omp-grainsize> 
-     |     <omp-num-tasks> 
-     |     <omp-collapse> 
-     |     <omp-final> 
-     |     <omp-priority> 
-     |     UNTIED 
-     |     MERGEABLE 
-     |     NOGROUP 
-
-<omp-if-task> ::= 
-           IF ( <scalar-logical-expression> ) 
-     |     IF ( <name> : <scalar-logical-expression> ) 
-
-<omp-grainsize> ::= 
-           GRAINSIZE ( <scalar-int-expr> ) 
-
-<omp-num-tasks> ::= 
-           NUM_TASKS ( <scalar-int-expr> ) 
-
-<omp-final> ::= 
-           FINAL ( <scalar-logical-expression> ) 
-
-<omp-priority> ::= 
-           PRIORITY ( <omp-priority-value> ) 
-
-<omp-priority-value> ::= 
-           <scalar-int-expr> 
+           OMP <omp-taskloop> <\n> 
 
 <omp-taskloop-simd-stmt> ::= 
-           OMP TASKLOOP SIMD <\n> 
-     |     OMP TASKLOOP SIMD <taskloop-simd-clause-list> <\n> 
-
-<taskloop-simd-clause-list> ::= 
-           <taskloop-simd-clause-list> , <taskloop-simd-clause> 
-     |     <taskloop-simd-clause-list> <taskloop-simd-clause> 
-     |     <taskloop-simd-clause> 
-
-<taskloop-simd-clause> ::= 
-           <taskloop-clause> 
-     |     <simd-clause> 
+           OMP <omp-taskloop-simd> <\n> 
 
 <omp-teams-distribute-stmt> ::= 
-           OMP TEAMS DISTRIBUTE <\n> 
-     |     OMP TEAMS DISTRIBUTE <teams-distribute-clause-list> <\n> 
+           OMP <omp-teams-distribute> <\n> 
 
-<teams-distribute-clause-list> ::= 
-           <teams-distribute-clause-list> , <teams-distribute-clause> 
-     |     <teams-distribute-clause-list> <teams-distribute-clause> 
-     |     <teams-distribute-clause> 
+<omp-teams-distribute-parallel-do-stmt> ::= 
+           OMP <omp-teams-distribute-parallel-do> <\n> 
 
-<teams-distribute-parallel-do-stmt> ::= 
-           OMP TEAMS DISTRIBUTE PARALLEL DO <\n> 
-     |     OMP TEAMS DISTRIBUTE PARALLEL DO <teams-distribute-parallel-do-clause-list> <\n> 
-
-<teams-distribute-parallel-do-clause-list> ::= 
-           <teams-distribute-parallel-do-clause-list> , <teams-distribute-parallel-do-clause> 
-     |     <teams-distribute-parallel-do-clause-list> <teams-distribute-parallel-do-clause> 
-     |     <teams-distribute-parallel-do-clause> 
-
-<teams-distribute-parallel-do-simd-stmt> ::= 
-           OMP TEAMS DISTRIBUTE PARALLEL DO SIMD <\n> 
-     |     OMP TEAMS DISTRIBUTE PARALLEL DO SIMD <teams-distribute-parallel-do-simd-clause-list> <\n> 
-
-<teams-distribute-parallel-do-simd-clause-list> ::= 
-           <teams-distribute-parallel-do-simd-clause-list> , <teams-distribute-parallel-do-simd-clause> 
-     |     <teams-distribute-parallel-do-simd-clause-list> <teams-distribute-parallel-do-simd-clause> 
-     |     <teams-distribute-parallel-do-simd-clause> 
+<omp-teams-distribute-parallel-do-simd-stmt> ::= 
+           OMP <omp-teams-distribute-parallel-do-simd> <\n> 
 
 <omp-teams-distribute-simd-stmt> ::= 
-           OMP TEAMS DISTRIBUTE SIMD <\n> 
-     |     OMP TEAMS DISTRIBUTE SIMD <teams-distribute-simd-clause-list> <\n> 
+           OMP <omp-teams-distribute-simd> <\n> 
 
-<teams-distribute-simd-clause-list> ::= 
-           <teams-distribute-simd-clause-list> , <teams-distribute-simd-clause> 
-     |     <teams-distribute-simd-clause-list> <teams-distribute-simd-clause> 
-     |     <teams-distribute-simd-clause> 
+<omp-teams-loop-stmt> ::= 
+           OMP <omp-teams-loop> <\n> 
 
 <smp-do-serial-stmt> ::= 
            SMP-DO-SERIAL <\n> 
@@ -4019,9 +4759,9 @@ omp-end-distribute-stmt ::=
            OMP-END-DISTRIBUTE +: { <;> } 
 
 <omp-distribute-parallel-do-construct> ::= 
-           <distribute-parallel-do-stmt> <do-loop> <omp-end-distribute-parallel-do-stmt> 
-     |     <distribute-parallel-do-stmt> <omp-end-distribute-parallel-do-stmt> 
-     |     <distribute-parallel-do-stmt> <do-loop> -: { OMP-END-DISTRIBUTE-PARALLEL-DO } 
+           <omp-distribute-parallel-do-stmt> <do-loop> <omp-end-distribute-parallel-do-stmt> 
+     |     <omp-distribute-parallel-do-stmt> <omp-end-distribute-parallel-do-stmt> 
+     |     <omp-distribute-parallel-do-stmt> <do-loop> -: { OMP-END-DISTRIBUTE-PARALLEL-DO } 
 
 <omp-end-distribute-parallel-do-stmt> ::= 
            omp-end-distribute-parallel-do-stmt <\n> 
@@ -4030,9 +4770,9 @@ omp-end-distribute-parallel-do-stmt ::=
            OMP-END-DISTRIBUTE-PARALLEL-DO +: { <;> } 
 
 <omp-distribute-parallel-do-simd-construct> ::= 
-           <distribute-parallel-do-simd-stmt> <do-loop> <omp-end-distribute-parallel-do-simd-stmt> 
-     |     <distribute-parallel-do-simd-stmt> <omp-end-distribute-parallel-do-simd-stmt> 
-     |     <distribute-parallel-do-simd-stmt> <do-loop> -: { OMP-END-DISTRIBUTE-PARALLEL-DO-SIMD } 
+           <omp-distribute-parallel-do-simd-stmt> <do-loop> <omp-end-distribute-parallel-do-simd-stmt> 
+     |     <omp-distribute-parallel-do-simd-stmt> <omp-end-distribute-parallel-do-simd-stmt> 
+     |     <omp-distribute-parallel-do-simd-stmt> <do-loop> -: { OMP-END-DISTRIBUTE-PARALLEL-DO-SIMD } 
 
 <omp-end-distribute-parallel-do-simd-stmt> ::= 
            omp-end-distribute-parallel-do-simd-stmt <\n> 
@@ -4078,15 +4818,25 @@ omp-end-do-simd-stmt ::=
            <smp-do-serial-stmt> <do-loop> 
 
 <omp-flush-stmt> ::= 
-           OMP FLUSH <\n> 
-     |     OMP FLUSH ( <omp-list> ) <\n> 
+           OMP <omp-flush> <\n> 
+
+<omp-loop-construct> ::= 
+           <omp-loop-stmt> <do-loop> <omp-end-loop-stmt> 
+     |     <omp-loop-stmt> <omp-end-loop-stmt> 
+     |     <omp-loop-stmt> <do-loop> -: { OMP-END-LOOP } 
+
+<omp-end-loop-stmt> ::= 
+           omp-end-loop-stmt <\n> 
+
+omp-end-loop-stmt ::= 
+           OMP-END-LOOP +: { <;> } 
 
 <omp-master-construct> ::= 
            <omp-master-stmt> structured-block <omp-end-master-stmt;> 
      |     <omp-master-stmt> <omp-end-master-stmt;> 
 
 <omp-master-stmt> ::= 
-           OMP MASTER <\n> 
+           OMP <omp-master> <\n> 
 
 <omp-end-master-stmt;> ::= 
            <omp-end-master-stmt> <\n> 
@@ -4098,23 +4848,35 @@ omp-end-do-simd-stmt ::=
 omp-end-master-stmt ::= 
            OMP END MASTER +: { <;> } 
 
+<omp-master-taskloop-construct> ::= 
+           <omp-master-taskloop-stmt> <do-loop> <omp-end-master-taskloop-stmt> 
+     |     <omp-master-taskloop-stmt> <omp-end-master-taskloop-stmt> 
+     |     <omp-master-taskloop-stmt> <do-loop> -: { OMP-END-MASTER-TASKLOOP } 
+
+<omp-end-master-taskloop-stmt> ::= 
+           omp-end-master-taskloop-stmt <\n> 
+
+omp-end-master-taskloop-stmt ::= 
+           OMP-END-MASTER-TASKLOOP +: { <;> } 
+
+<omp-master-taskloop-simd-construct> ::= 
+           <omp-master-taskloop-simd-stmt> <do-loop> <omp-end-master-taskloop-simd-stmt> 
+     |     <omp-master-taskloop-simd-stmt> <omp-end-master-taskloop-simd-stmt> 
+     |     <omp-master-taskloop-simd-stmt> <do-loop> -: { OMP-END-MASTER-TASKLOOP-SIMD } 
+
+<omp-end-master-taskloop-simd-stmt> ::= 
+           omp-end-master-taskloop-simd-stmt <\n> 
+
+omp-end-master-taskloop-simd-stmt ::= 
+           OMP-END-MASTER-TASKLOOP-SIMD +: { <;> } 
+
 <omp-ordered-construct> ::= 
            <omp-ordered-stmt> structured-block <omp-end-ordered-stmt;> 
      |     <omp-ordered-stmt> <omp-end-ordered-stmt;> 
      |     <omp-ordered-depend-stmt> 
 
 <omp-ordered-stmt> ::= 
-           OMP ORDERED <\n> 
-     |     OMP ORDERED <ordered-clause-list> <\n> 
-
-<ordered-clause-list> ::= 
-           <ordered-clause-list> , <ordered-clause> 
-     |     <ordered-clause-list> <ordered-clause> 
-     |     <ordered-clause> 
-
-<ordered-clause> ::= 
-           SIMD 
-     |     THREADS 
+           OMP <omp-ordered> <\n> 
 
 <omp-end-ordered-stmt;> ::= 
            <omp-end-ordered-stmt> <\n> 
@@ -4127,29 +4889,14 @@ omp-end-ordered-stmt ::=
            OMP END ORDERED +: { <;> } 
 
 <omp-ordered-depend-stmt> ::= 
-           OMP ORDERED <ordered-depend-clause-list> <\n> 
-
-<ordered-depend-clause-list> ::= 
-           <ordered-depend-clause-list> , <ordered-depend-clause> 
-     |     <ordered-depend-clause-list> <ordered-depend-clause> 
-     |     <ordered-depend-clause> 
-
-<ordered-depend-clause> ::= 
-           DEPEND ( SOURCE ) 
-     |     DEPEND ( SINK : <omp-list> ) 
+           OMP <omp-ordered-depend> <\n> 
 
 <omp-parallel-construct> ::= 
            <parallel-stmt> structured-block <omp-end-parallel-stmt;> 
      |     <parallel-stmt> <omp-end-parallel-stmt;> 
 
 <parallel-stmt> ::= 
-           OMP PARALLEL <\n> 
-     |     OMP PARALLEL <parallel-clause-list> <\n> 
-
-<parallel-clause-list> ::= 
-           <parallel-clause-list> , <parallel-clause> 
-     |     <parallel-clause-list> <parallel-clause> 
-     |     <parallel-clause> 
+           OMP <omp-parallel> <\n> 
 
 <omp-end-parallel-stmt;> ::= 
            <omp-end-parallel-stmt> <\n> 
@@ -4161,13 +4908,122 @@ omp-end-ordered-stmt ::=
 omp-end-parallel-stmt ::= 
            OMP END PARALLEL +: { <;> } 
 
+<omp-parallel-do-construct> ::= 
+           <omp-parallel-do-stmt> <do-loop> <omp-end-parallel-do-stmt> 
+     |     <omp-parallel-do-stmt> <omp-end-parallel-do-stmt> 
+     |     <omp-parallel-do-stmt> <do-loop> -: { OMP-END-PARALLEL-DO } 
+
+<omp-end-parallel-do-stmt> ::= 
+           omp-end-parallel-do-stmt <\n> 
+
+omp-end-parallel-do-stmt ::= 
+           OMP-END-PARALLEL-DO +: { <;> } 
+
+<omp-parallel-do-simd-construct> ::= 
+           <omp-parallel-do-simd-stmt> <do-loop> <omp-end-parallel-do-simd-stmt> 
+     |     <omp-parallel-do-simd-stmt> <omp-end-parallel-do-simd-stmt> 
+     |     <omp-parallel-do-simd-stmt> <do-loop> -: { OMP-END-PARALLEL-DO-SIMD } 
+
+<omp-end-parallel-do-simd-stmt> ::= 
+           omp-end-parallel-do-simd-stmt <\n> 
+
+omp-end-parallel-do-simd-stmt ::= 
+           OMP-END-PARALLEL-DO-SIMD +: { <;> } 
+
+<omp-parallel-loop-construct> ::= 
+           <omp-parallel-loop-stmt> <do-loop> <omp-end-parallel-loop-stmt> 
+     |     <omp-parallel-loop-stmt> <omp-end-parallel-loop-stmt> 
+     |     <omp-parallel-loop-stmt> <do-loop> -: { OMP-END-PARALLEL-LOOP } 
+
+<omp-end-parallel-loop-stmt> ::= 
+           omp-end-parallel-loop-stmt <\n> 
+
+omp-end-parallel-loop-stmt ::= 
+           OMP-END-PARALLEL-LOOP +: { <;> } 
+
+<omp-parallel-master-construct> ::= 
+           <omp-parallel-master-stmt> structured-block <omp-end-parallel-master-stmt;> 
+     |     <omp-parallel-master-stmt> <omp-end-parallel-master-stmt;> 
+
+<omp-parallel-master-stmt> ::= 
+           OMP <omp-parallel-master> <\n> 
+
+<omp-end-parallel-master-stmt;> ::= 
+           <omp-end-parallel-master-stmt> <\n> 
+
+<omp-end-parallel-master-stmt> ::= 
+           omp-end-parallel-master-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-stmt",72,false);*/
+
+omp-end-parallel-master-stmt ::= 
+           OMP END PARALLEL MASTER +: { <;> }   /* synthesize(4); */
+
+<omp-parallel-master-taskloop-construct> ::= 
+           <omp-parallel-master-taskloop-stmt> <do-loop> <omp-end-parallel-master-taskloop-stmt> 
+     |     <omp-parallel-master-taskloop-stmt> <omp-end-parallel-master-taskloop-stmt> 
+     |     <omp-parallel-master-taskloop-stmt> <do-loop> -: { OMP-END-PARALLEL-MASTER-TASKLOOP } 
+
+<omp-end-parallel-master-taskloop-stmt> ::= 
+           omp-end-parallel-master-taskloop-stmt <\n> 
+
+omp-end-parallel-master-taskloop-stmt ::= 
+           OMP-END-PARALLEL-MASTER-TASKLOOP +: { <;> } 
+
+<omp-parallel-master-taskloop-simd-construct> ::= 
+           <omp-parallel-master-taskloop-simd-stmt> <do-loop> <omp-end-parallel-master-taskloop-simd-stmt>   /* Tr.onMaster($$(1),$$(3)); */
+     |     <omp-parallel-master-taskloop-simd-stmt> <omp-end-parallel-master-taskloop-simd-stmt>   /* Tr.onMaster($$(1),$$(2)); */
+     |     <omp-parallel-master-taskloop-simd-stmt> <do-loop> -: { OMP-END-PARALLEL-MASTER-TASKLOOP-SIMD } 
+
+<omp-end-parallel-master-taskloop-simd-stmt> ::= 
+           omp-end-parallel-master-taskloop-simd-stmt <\n>   /* synthesize(1); */
+
+omp-end-parallel-master-taskloop-simd-stmt ::= 
+           OMP-END-PARALLEL-MASTER-TASKLOOP-SIMD +: { <;> }   /* synthesize(1); */
+
+<omp-parallel-sections-construct> ::= 
+           <omp-parallel-sections-stmt> <block> <omp-section-block> <omp-end-parallel-sections-stmt> 
+     |     <omp-parallel-sections-stmt> <omp-section-block> <omp-end-parallel-sections-stmt> 
+     |     <omp-parallel-sections-stmt> <block> <omp-end-parallel-sections-stmt> 
+     |     <omp-parallel-sections-stmt> <omp-end-parallel-sections-stmt> 
+
+<omp-parallel-sections-stmt> ::= 
+           OMP <omp-parallel-sections> <\n> 
+
+<omp-section-block> ::= 
+           <omp-section-block> <executable-construct;> 
+     |     <omp-section-block> <omp-directive> 
+     |     <omp-section-block> <special-stmt;> 
+     |     <omp-section-block> <label> <executable-construct;> 
+     |     <omp-section-block> <omp-section-stmt> 
+     |     <omp-section-block> <omp-cancel-sections-stmt> 
+     |     <omp-section-block> <omp-cancellation-point-sections-stmt> 
+     |     <omp-section-stmt> 
+     |     <omp-cancel-sections-stmt> 
+     |     <omp-cancellation-point-sections-stmt> 
+
+<omp-section-stmt> ::= 
+           OMP <omp-section> <\n> 
+
+<omp-cancel-sections-stmt> ::= 
+           OMP <omp-cancel-sections> <\n> 
+
+<omp-cancellation-point-sections-stmt> ::= 
+           OMP <omp-cancellation-point-sections> <\n> 
+
+<omp-end-parallel-sections-stmt> ::= 
+           omp-end-parallel-sections-stmt <\n> 
+     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-sections-stmt",57,false);*/
+
+omp-end-parallel-sections-stmt ::= 
+           OMP END PARALLEL SECTIONS +: { <;> } 
+     |     OMP END PARALLEL SECTIONS NOWAIT +: { <;> } 
+
 <omp-parallel-workshare-construct> ::= 
            <parallel-workshare-stmt> structured-block <omp-end-parallel-workshare-stmt;> 
      |     <parallel-workshare-stmt> <omp-end-parallel-workshare-stmt;> 
 
 <parallel-workshare-stmt> ::= 
-           OMP PARALLEL WORKSHARE <\n> 
-     |     OMP PARALLEL WORKSHARE <parallel-clause-list> <\n> 
+           OMP <omp-parallel-workshare> <\n> 
 
 <omp-end-parallel-workshare-stmt;> ::= 
            <omp-end-parallel-workshare-stmt> <\n> 
@@ -4179,88 +5035,19 @@ omp-end-parallel-stmt ::=
 omp-end-parallel-workshare-stmt ::= 
            OMP END PARALLEL WORKSHARE +: { <;> } 
 
-<omp-parallel-do-construct> ::= 
-           <parallel-do-stmt> <do-loop> <omp-end-parallel-do-stmt> 
-     |     <parallel-do-stmt> <omp-end-parallel-do-stmt> 
-     |     <parallel-do-stmt> <do-loop> -: { OMP-END-PARALLEL-DO } 
-
-<omp-end-parallel-do-stmt> ::= 
-           omp-end-parallel-do-stmt <\n> 
-
-omp-end-parallel-do-stmt ::= 
-           OMP-END-PARALLEL-DO +: { <;> } 
-
-<omp-parallel-do-simd-construct> ::= 
-           <parallel-do-simd-stmt> <do-loop> <omp-end-parallel-do-simd-stmt> 
-     |     <parallel-do-simd-stmt> <omp-end-parallel-do-simd-stmt> 
-     |     <parallel-do-simd-stmt> <do-loop> -: { OMP-END-PARALLEL-DO-SIMD } 
-
-<omp-end-parallel-do-simd-stmt> ::= 
-           omp-end-parallel-do-simd-stmt <\n> 
-
-omp-end-parallel-do-simd-stmt ::= 
-           OMP-END-PARALLEL-DO-SIMD +: { <;> } 
-
-<omp-parallel-sections-construct> ::= 
-           <omp-parallel-sections-stmt> <block> <omp-sections> <omp-end-parallel-sections-stmt> 
-     |     <omp-parallel-sections-stmt> <omp-sections> <omp-end-parallel-sections-stmt> 
-     |     <omp-parallel-sections-stmt> <block> <omp-end-parallel-sections-stmt> 
-     |     <omp-parallel-sections-stmt> <omp-end-parallel-sections-stmt> 
-
-<omp-parallel-sections-stmt> ::= 
-           OMP PARALLEL SECTIONS <\n> 
-     |     OMP PARALLEL SECTIONS <parallel-sections-clause-list> <\n> 
-
-<parallel-sections-clause-list> ::= 
-           <parallel-sections-clause-list> , <parallel-sections-clause> 
-     |     <parallel-sections-clause-list> <parallel-sections-clause> 
-     |     <parallel-sections-clause> 
-
-<parallel-sections-clause> ::= 
-           <parallel-clause> 
-     |     <omp-lastprivate> 
-     |     <omp-reduction> 
-
-<omp-sections> ::= 
-           <omp-sections> <executable-construct;> 
-     |     <omp-sections> <omp-directive> 
-     |     <omp-sections> <special-stmt;> 
-     |     <omp-sections> <label> <executable-construct;> 
-     |     <omp-sections> <section-stmt> 
-     |     <section-stmt> 
-
-<section-stmt> ::= 
-           OMP SECTION <\n> 
-
-<omp-end-parallel-sections-stmt> ::= 
-           omp-end-parallel-sections-stmt <\n> 
-     |     <unexpected-end-stmt> <;>   /* Tr.UnBalanced( $$(0),L"omp-end-parallel-sections-stmt",57,false);*/
-
-omp-end-parallel-sections-stmt ::= 
-           OMP END PARALLEL SECTIONS +: { <;> } 
-     |     OMP END PARALLEL SECTIONS NOWAIT +: { <;> } 
+<omp-requires-directive> ::= 
+           OMP <omp-requires> <\n> 
 
 <ibm-schedule-stmt> ::= 
            OMP <omp-schedule> <\n>   /* Tr.warning(L"The Schedule Statement is vendor specific & deprecated."); */
 
 <omp-sections-construct> ::= 
-           <omp-sections-stmt> <block> <omp-sections> <end-sections-stmt> 
-     |     <omp-sections-stmt> <omp-sections> <end-sections-stmt> 
+           <omp-sections-stmt> <block> <omp-section-block> <end-sections-stmt> 
+     |     <omp-sections-stmt> <omp-section-block> <end-sections-stmt> 
+     |     <omp-sections-stmt> <end-sections-stmt> 
 
 <omp-sections-stmt> ::= 
-           OMP SECTIONS <\n> 
-     |     OMP SECTIONS <sections-clause-list> <\n> 
-
-<sections-clause-list> ::= 
-           <sections-clause-list> , <sections-clause> 
-     |     <sections-clause-list> <sections-clause> 
-     |     <sections-clause> 
-
-<sections-clause> ::= 
-           <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-lastprivate> 
-     |     <omp-reduction> 
+           OMP <omp-sections> <\n> 
 
 <end-sections-stmt> ::= 
            OMP END SECTIONS <\n> 
@@ -4282,17 +5069,7 @@ omp-end-simd-stmt ::=
      |     <omp-single-stmt> <omp-end-single-stmt;> 
 
 <omp-single-stmt> ::= 
-           OMP SINGLE <\n> 
-     |     OMP SINGLE <single-clause-list> <\n> 
-
-<single-clause-list> ::= 
-           <single-clause-list> , <single-clause> 
-     |     <single-clause-list> <single-clause> 
-     |     <single-clause> 
-
-<single-clause> ::= 
-           <omp-private> 
-     |     <omp-firstprivate> 
+           OMP <omp-single> <\n> 
 
 <omp-end-single-stmt;> ::= 
            <omp-end-single-stmt> <\n> 
@@ -4322,13 +5099,7 @@ omp-end-single-stmt ::=
      |     <omp-target-stmt> <omp-end-target-stmt;> 
 
 <omp-target-stmt> ::= 
-           OMP TARGET <\n> 
-     |     OMP TARGET <target-clause-list> <\n> 
-
-<target-clause-list> ::= 
-           <target-clause-list> , <target-clause> 
-     |     <target-clause-list> <target-clause> 
-     |     <target-clause> 
+           OMP <omp-target> <\n> 
 
 <omp-end-target-stmt;> ::= 
            <omp-end-target-stmt> <\n> 
@@ -4345,26 +5116,7 @@ omp-end-target-stmt ::=
      |     <omp-target-data-stmt> <omp-end-target-data-stmt;> 
 
 <omp-target-data-stmt> ::= 
-           OMP TARGET DATA <\n> 
-     |     OMP TARGET DATA <target-data-clause-list> <\n> 
-
-<target-data-clause-list> ::= 
-           <target-data-clause-list> , <target-data-clause> 
-     |     <target-data-clause-list> <target-data-clause> 
-     |     <target-data-clause> 
-
-<target-data-clause> ::= 
-           <omp-if-target-data> 
-     |     <omp-device> 
-     |     <omp-map> 
-     |     <omp-use-device-ptr> 
-
-<omp-if-target-data> ::= 
-           IF ( <scalar-logical-expression> ) 
-     |     IF ( TARGET DATA : <scalar-logical-expression> ) 
-
-<omp-use-device-ptr> ::= 
-           USE_DEVICE_PTR ( <omp-list> ) 
+           OMP <omp-target-data> <\n> 
 
 <omp-end-target-data-stmt;> ::= 
            <omp-end-target-data-stmt> <\n> 
@@ -4377,57 +5129,17 @@ omp-end-target-data-stmt ::=
            OMP END TARGET DATA +: { <;> } 
 
 <omp-target-enter-data-stmt> ::= 
-           OMP TARGET ENTER DATA <\n> 
-     |     OMP TARGET ENTER DATA <target-enter-data-clause-list> <\n> 
-
-<target-enter-data-clause-list> ::= 
-           <target-enter-data-clause-list> , <target-enter-data-clause> 
-     |     <target-enter-data-clause-list> <target-enter-data-clause> 
-     |     <target-enter-data-clause> 
-
-<target-enter-data-clause> ::= 
-           <omp-if-target-enter-data> 
-     |     <omp-device> 
-     |     <omp-map> 
-     |     <omp-depend> 
-     |     NOWAIT 
-
-<omp-if-target-enter-data> ::= 
-           IF ( <scalar-logical-expression> ) 
-     |     IF ( TARGET ENTER DATA : <scalar-logical-expression> ) 
+           OMP <omp-target-enter-data> <\n> 
 
 <omp-target-exit-data-stmt> ::= 
-           OMP TARGET EXIT DATA <\n> 
-     |     OMP TARGET EXIT DATA <target-exit-data-clause-list> <\n> 
-
-<target-exit-data-clause-list> ::= 
-           <target-exit-data-clause-list> , <target-exit-data-clause> 
-     |     <target-exit-data-clause-list> <target-exit-data-clause> 
-     |     <target-exit-data-clause> 
-
-<target-exit-data-clause> ::= 
-           <omp-if-target-exit-data> 
-     |     <omp-device> 
-     |     <omp-map> 
-     |     <omp-depend> 
-     |     NOWAIT 
-
-<omp-if-target-exit-data> ::= 
-           IF ( <scalar-logical-expression> ) 
-     |     IF ( TARGET EXIT DATA : <scalar-logical-expression> ) 
+           OMP <omp-target-exit-data> <\n> 
 
 <omp-target-parallel-construct> ::= 
            <target-parallel-stmt> structured-block <omp-end-target-parallel-stmt;> 
      |     <target-parallel-stmt> <omp-end-target-parallel-stmt;> 
 
 <target-parallel-stmt> ::= 
-           OMP TARGET PARALLEL <\n> 
-     |     OMP TARGET PARALLEL <target-parallel-clause-list> <\n> 
-
-<target-parallel-clause-list> ::= 
-           <target-parallel-clause-list> , <target-parallel-clause> 
-     |     <target-parallel-clause-list> <target-parallel-clause> 
-     |     <target-parallel-clause> 
+           OMP <omp-target-parallel> <\n> 
 
 <omp-end-target-parallel-stmt;> ::= 
            <omp-end-target-parallel-stmt> <\n> 
@@ -4440,9 +5152,9 @@ omp-end-target-parallel-stmt ::=
            OMP END TARGET PARALLEL +: { <;> } 
 
 <omp-target-parallel-do-construct> ::= 
-           <target-parallel-do-stmt> <do-loop> <omp-end-target-parallel-do-stmt> 
-     |     <target-parallel-do-stmt> <omp-end-target-parallel-do-stmt> 
-     |     <target-parallel-do-stmt> <do-loop> -: { OMP-END-TARGET-PARALLEL-DO } 
+           <omp-target-parallel-do-stmt> <do-loop> <omp-end-target-parallel-do-stmt> 
+     |     <omp-target-parallel-do-stmt> <omp-end-target-parallel-do-stmt> 
+     |     <omp-target-parallel-do-stmt> <do-loop> -: { OMP-END-TARGET-PARALLEL-DO } 
 
 <omp-end-target-parallel-do-stmt> ::= 
            omp-end-target-parallel-do-stmt <\n> 
@@ -4451,15 +5163,26 @@ omp-end-target-parallel-do-stmt ::=
            OMP-END-TARGET-PARALLEL-DO +: { <;> } 
 
 <omp-target-parallel-do-simd-construct> ::= 
-           <target-parallel-do-simd-stmt> <do-loop> <omp-end-target-parallel-do-simd-stmt> 
-     |     <target-parallel-do-simd-stmt> <omp-end-target-parallel-do-simd-stmt> 
-     |     <target-parallel-do-simd-stmt> <do-loop> -: { OMP-END-TARGET-PARALLEL-DO-SIMD } 
+           <omp-target-parallel-do-simd-stmt> <do-loop> <omp-end-target-parallel-do-simd-stmt> 
+     |     <omp-target-parallel-do-simd-stmt> <omp-end-target-parallel-do-simd-stmt> 
+     |     <omp-target-parallel-do-simd-stmt> <do-loop> -: { OMP-END-TARGET-PARALLEL-DO-SIMD } 
 
 <omp-end-target-parallel-do-simd-stmt> ::= 
            omp-end-target-parallel-do-simd-stmt <\n> 
 
 omp-end-target-parallel-do-simd-stmt ::= 
            OMP-END-TARGET-PARALLEL-DO-SIMD +: { <;> } 
+
+<omp-target-parallel-loop-construct> ::= 
+           <omp-target-parallel-loop-stmt> <do-loop> <omp-end-target-parallel-loop-stmt> 
+     |     <omp-target-parallel-loop-stmt> <omp-end-target-parallel-loop-stmt> 
+     |     <omp-target-parallel-loop-stmt> <do-loop> -: { OMP-END-TARGET-PARALLEL-LOOP } 
+
+<omp-end-target-parallel-loop-stmt> ::= 
+           omp-end-target-parallel-loop-stmt <\n> 
+
+omp-end-target-parallel-loop-stmt ::= 
+           OMP-END-TARGET-PARALLEL-LOOP +: { <;> } 
 
 <omp-target-simd-construct> ::= 
            <omp-target-simd-stmt> <do-loop> <omp-end-target-simd-stmt> 
@@ -4477,17 +5200,7 @@ omp-end-target-simd-stmt ::=
      |     <omp-target-teams-stmt> <omp-end-target-teams-stmt;> 
 
 <omp-target-teams-stmt> ::= 
-           OMP TARGET TEAMS <\n> 
-     |     OMP TARGET TEAMS <target-teams-clause-list> <\n> 
-
-<target-teams-clause-list> ::= 
-           <target-teams-clause-list> , <target-teams-clause> 
-     |     <target-teams-clause-list> <target-teams-clause> 
-     |     <target-teams-clause> 
-
-<target-teams-clause> ::= 
-           <target-clause> 
-     |     <teams-clause> 
+           OMP <omp-target-teams> <\n> 
 
 <omp-end-target-teams-stmt;> ::= 
            <omp-end-target-teams-stmt> <\n> 
@@ -4500,9 +5213,9 @@ omp-end-target-teams-stmt ::=
            OMP END TARGET TEAMS +: { <;> } 
 
 <omp-target-teams-distribute-construct> ::= 
-           <target-teams-distribute-stmt> <do-loop> <omp-end-target-teams-distribute-stmt> 
-     |     <target-teams-distribute-stmt> <omp-end-target-teams-distribute-stmt> 
-     |     <target-teams-distribute-stmt> <do-loop> -: { OMP-END-TARGET-TEAMS-DISTRIBUTE } 
+           <omp-target-teams-distribute-stmt> <do-loop> <omp-end-target-teams-distribute-stmt> 
+     |     <omp-target-teams-distribute-stmt> <omp-end-target-teams-distribute-stmt> 
+     |     <omp-target-teams-distribute-stmt> <do-loop> -: { OMP-END-TARGET-TEAMS-DISTRIBUTE } 
 
 <omp-end-target-teams-distribute-stmt> ::= 
            omp-end-target-teams-distribute-stmt <\n> 
@@ -4511,9 +5224,9 @@ omp-end-target-teams-distribute-stmt ::=
            OMP-END-TARGET-TEAMS-DISTRIBUTE +: { <;> } 
 
 <omp-target-teams-distribute-simd-construct> ::= 
-           <target-teams-distribute-simd-stmt> <do-loop> <omp-end-target-teams-distribute-simd-stmt> 
-     |     <target-teams-distribute-simd-stmt> <omp-end-target-teams-distribute-simd-stmt> 
-     |     <target-teams-distribute-simd-stmt> <do-loop> -: { OMP-END-TARGET-TEAMS-DISTRIBUTE-SIMD } 
+           <omp-target-teams-distribute-simd-stmt> <do-loop> <omp-end-target-teams-distribute-simd-stmt> 
+     |     <omp-target-teams-distribute-simd-stmt> <omp-end-target-teams-distribute-simd-stmt> 
+     |     <omp-target-teams-distribute-simd-stmt> <do-loop> -: { OMP-END-TARGET-TEAMS-DISTRIBUTE-SIMD } 
 
 <omp-end-target-teams-distribute-simd-stmt> ::= 
            omp-end-target-teams-distribute-simd-stmt <\n> 
@@ -4522,9 +5235,9 @@ omp-end-target-teams-distribute-simd-stmt ::=
            OMP-END-TARGET-TEAMS-DISTRIBUTE-SIMD +: { <;> } 
 
 <omp-target-teams-distribute-parallel-do-construct> ::= 
-           <target-teams-distribute-parallel-do-stmt> <do-loop> <omp-end-target-teams-distribute-parallel-do-stmt> 
-     |     <target-teams-distribute-parallel-do-stmt> <omp-end-target-teams-distribute-parallel-do-stmt> 
-     |     <target-teams-distribute-parallel-do-stmt> <do-loop> -: { OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO } 
+           <omp-target-teams-distribute-parallel-do-stmt> <do-loop> <omp-end-target-teams-distribute-parallel-do-stmt> 
+     |     <omp-target-teams-distribute-parallel-do-stmt> <omp-end-target-teams-distribute-parallel-do-stmt> 
+     |     <omp-target-teams-distribute-parallel-do-stmt> <do-loop> -: { OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO } 
 
 <omp-end-target-teams-distribute-parallel-do-stmt> ::= 
            omp-end-target-teams-distribute-parallel-do-stmt <\n> 
@@ -4533,9 +5246,9 @@ omp-end-target-teams-distribute-parallel-do-stmt ::=
            OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO +: { <;> } 
 
 <omp-target-teams-distribute-parallel-do-simd-construct> ::= 
-           <target-teams-distribute-parallel-do-simd-stmt> <do-loop> <omp-end-target-teams-distribute-parallel-do-simd-stmt> 
-     |     <target-teams-distribute-parallel-do-simd-stmt> <omp-end-target-teams-distribute-parallel-do-simd-stmt> 
-     |     <target-teams-distribute-parallel-do-simd-stmt> <do-loop> -: { OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD } 
+           <omp-target-teams-distribute-parallel-do-simd-stmt> <do-loop> <omp-end-target-teams-distribute-parallel-do-simd-stmt> 
+     |     <omp-target-teams-distribute-parallel-do-simd-stmt> <omp-end-target-teams-distribute-parallel-do-simd-stmt> 
+     |     <omp-target-teams-distribute-parallel-do-simd-stmt> <do-loop> -: { OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD } 
 
 <omp-end-target-teams-distribute-parallel-do-simd-stmt> ::= 
            omp-end-target-teams-distribute-parallel-do-simd-stmt <\n> 
@@ -4543,39 +5256,26 @@ omp-end-target-teams-distribute-parallel-do-stmt ::=
 omp-end-target-teams-distribute-parallel-do-simd-stmt ::= 
            OMP-END-TARGET-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD +: { <;> } 
 
+<omp-target-teams-loop-construct> ::= 
+           <omp-target-teams-loop-stmt> <do-loop> <omp-end-target-teams-loop-stmt> 
+     |     <omp-target-teams-loop-stmt> <omp-end-target-teams-loop-stmt> 
+     |     <omp-target-teams-loop-stmt> <do-loop> -: { OMP-END-TARGET-TEAMS-LOOP } 
+
+<omp-end-target-teams-loop-stmt> ::= 
+           omp-end-target-teams-loop-stmt <\n> 
+
+omp-end-target-teams-loop-stmt ::= 
+           OMP-END-TARGET-TEAMS-LOOP +: { <;> } 
+
 <omp-target-update-stmt> ::= 
-           OMP TARGET UPDATE <\n> 
-     |     OMP TARGET UPDATE <target-update-clause-list> <\n> 
-
-<target-update-clause-list> ::= 
-           <target-update-clause-list> , <target-update-clause> 
-     |     <target-update-clause-list> <target-update-clause> 
-     |     <target-update-clause> 
-
-<target-update-clause> ::= 
-           <omp-if-target-update> 
-     |     <omp-device> 
-     |     NOWAIT 
-     |     <omp-depend> 
-     |     <omp-motion-clause> 
-
-<omp-if-target-update> ::= 
-           IF ( <scalar-logical-expression> ) 
-     |     IF ( TARGET UPDATE : <scalar-logical-expression> ) 
-
-<omp-motion-clause> ::= 
-           <omp-to> 
-     |     <omp-from> 
-
-<omp-from> ::= 
-           FROM ( <omp-list> ) 
+           OMP <omp-target-update> <\n> 
 
 <omp-taskgroup-construct> ::= 
            <omp-taskgroup-stmt> structured-block <omp-end-taskgroup-stmt;> 
      |     <omp-taskgroup-stmt> <omp-end-taskgroup-stmt;> 
 
 <omp-taskgroup-stmt> ::= 
-           OMP TASKGROUP <\n> 
+           OMP <omp-taskgroup> <\n> 
 
 <omp-end-taskgroup-stmt;> ::= 
            <omp-end-taskgroup-stmt> <\n> 
@@ -4592,29 +5292,7 @@ omp-end-taskgroup-stmt ::=
      |     <omp-task-stmt> <omp-end-task-stmt> 
 
 <omp-task-stmt> ::= 
-           OMP TASK <\n> 
-     |     OMP TASK <task-clause-list> <\n> 
-
-<task-clause-list> ::= 
-           <task-clause-list> , <task-clause> 
-     |     <task-clause-list> <task-clause> 
-     |     <task-clause> 
-
-<task-clause> ::= 
-           <omp-if-task> 
-     |     <omp-final> 
-     |     UNTIED 
-     |     <task-default> 
-     |     MERGEABLE 
-     |     <omp-private> 
-     |     <omp-firstprivate> 
-     |     <omp-shared> 
-     |     <omp-depend> 
-     |     <omp-priority> 
-
-<task-default> ::= 
-           DEFAULT ( SHARED ) 
-     |     DEFAULT ( <NONE> ) 
+           OMP <omp-task> <\n> 
 
 <omp-end-task-stmt> ::= 
            omp-end-task-stmt <\n> 
@@ -4646,23 +5324,17 @@ omp-end-taskloop-simd-stmt ::=
            OMP-END-TASKLOOP-SIMD +: { <;> } 
 
 <omp-taskwait-stmt> ::= 
-           OMP TASKWAIT <\n> 
+           OMP <omp-taskwait> <\n> 
 
 <omp-taskyield-stmt> ::= 
-           OMP TASKYIELD <\n> 
+           OMP <omp-taskyield> <\n> 
 
 <omp-teams-construct> ::= 
            <omp-teams-stmt> structured-block <omp-end-teams-stmt;> 
      |     <omp-teams-stmt> <omp-end-teams-stmt;> 
 
 <omp-teams-stmt> ::= 
-           OMP TEAMS <\n> 
-     |     OMP TEAMS <teams-clause-list> <\n> 
-
-<teams-clause-list> ::= 
-           <teams-clause-list> , <teams-clause> 
-     |     <teams-clause-list> <teams-clause> 
-     |     <teams-clause> 
+           OMP <omp-teams> <\n> 
 
 <omp-end-teams-stmt;> ::= 
            <omp-end-teams-stmt> <\n> 
@@ -4686,9 +5358,9 @@ omp-end-teams-distribute-stmt ::=
            OMP-END-TEAMS-DISTRIBUTE +: { <;> } 
 
 <omp-teams-distribute-parallel-do-construct> ::= 
-           <teams-distribute-parallel-do-stmt> <do-loop> <omp-end-teams-distribute-parallel-do-stmt> 
-     |     <teams-distribute-parallel-do-stmt> <omp-end-teams-distribute-parallel-do-stmt> 
-     |     <teams-distribute-parallel-do-stmt> <do-loop> -: { OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO } 
+           <omp-teams-distribute-parallel-do-stmt> <do-loop> <omp-end-teams-distribute-parallel-do-stmt> 
+     |     <omp-teams-distribute-parallel-do-stmt> <omp-end-teams-distribute-parallel-do-stmt> 
+     |     <omp-teams-distribute-parallel-do-stmt> <do-loop> -: { OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO } 
 
 <omp-end-teams-distribute-parallel-do-stmt> ::= 
            omp-end-teams-distribute-parallel-do-stmt <\n> 
@@ -4697,9 +5369,9 @@ omp-end-teams-distribute-parallel-do-stmt ::=
            OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO +: { <;> } 
 
 <omp-teams-distribute-parallel-do-simd-construct> ::= 
-           <teams-distribute-parallel-do-simd-stmt> <do-loop> <omp-end-teams-distribute-parallel-do-simd-stmt> 
-     |     <teams-distribute-parallel-do-simd-stmt> <omp-end-teams-distribute-parallel-do-simd-stmt> 
-     |     <teams-distribute-parallel-do-simd-stmt> <do-loop> -: { OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD } 
+           <omp-teams-distribute-parallel-do-simd-stmt> <do-loop> <omp-end-teams-distribute-parallel-do-simd-stmt> 
+     |     <omp-teams-distribute-parallel-do-simd-stmt> <omp-end-teams-distribute-parallel-do-simd-stmt> 
+     |     <omp-teams-distribute-parallel-do-simd-stmt> <do-loop> -: { OMP-END-TEAMS-DISTRIBUTE-PARALLEL-DO-SIMD } 
 
 <omp-end-teams-distribute-parallel-do-simd-stmt> ::= 
            omp-end-teams-distribute-parallel-do-simd-stmt <\n> 
@@ -4718,11 +5390,36 @@ omp-end-teams-distribute-parallel-do-simd-stmt ::=
 omp-end-teams-distribute-simd-stmt ::= 
            OMP-END-TEAMS-DISTRIBUTE-SIMD +: { <;> } 
 
+<omp-teams-loop-construct> ::= 
+           <omp-teams-loop-stmt> <do-loop> <omp-end-teams-loop-stmt> 
+     |     <omp-teams-loop-stmt> <omp-end-teams-loop-stmt> 
+     |     <omp-teams-loop-stmt> <do-loop> -: { OMP-END-TEAMS-LOOP } 
+
+<omp-end-teams-loop-stmt> ::= 
+           omp-end-teams-loop-stmt <\n> 
+
+omp-end-teams-loop-stmt ::= 
+           OMP-END-TEAMS-LOOP +: { <;> } 
+
+<omp-threadprivate-stmt> ::= 
+           OMP <omp-threadprivate> <\n> 
+
+<ibm-threadlocal> ::= 
+           IBM THREADLOCAL <threadlocal-entity-list> <\n> 
+     |     IBM THREADLOCAL <::> <threadlocal-entity-list> <\n> 
+
+<threadlocal-entity-list> ::= 
+           <threadlocal-entity-list> , <omp-common-block-name> 
+     |     <omp-common-block-name> 
+
+<omp-common-block-name> ::= 
+           / <name> / 
+
 <omp-workshare-construct> ::= 
            <omp-workshare-stmt> <workshare-block> <omp-end-workshare-stmt> 
 
 <omp-workshare-stmt> ::= 
-           OMP WORKSHARE <\n> 
+           OMP <omp-workshare> <\n> 
 
 <workshare-block> ::= 
            <workshare-block> <workshare-part-construct> 
@@ -4736,7 +5433,7 @@ omp-end-teams-distribute-simd-stmt ::=
            <workshare-action-stmt> <;> 
      |     <forall-construct> <;> 
      |     <where-construct> <;> 
-     |     ERROR <;> 
+     |     <erroneous-stmt> <;> 
 
 <workshare-action-stmt> ::= 
            <assignment-stmt> 
@@ -4839,7 +5536,13 @@ masked-elsewhere-stmt ::=
 <workshare-part-directive> ::= 
            <omp-atomic-construct> 
      |     <omp-critical-construct> 
+     |     <omp-master-taskloop-construct> 
+     |     <omp-master-taskloop-simd-construct> 
+     |     <omp-metadirective-construct> 
      |     <omp-parallel-construct> 
+     |     <omp-parallel-master-construct> 
+     |     <omp-parallel-master-taskloop-construct> 
+     |     <omp-parallel-master-taskloop-simd-construct> 
      |     <omp-parallel-workshare-construct> 
      |     <omp-parallel-do-construct> 
      |     <omp-parallel-sections-construct> 
@@ -4851,74 +5554,6 @@ masked-elsewhere-stmt ::=
 omp-end-workshare-stmt ::= 
            OMP END WORKSHARE +: { <;> } 
      |     OMP END WORKSHARE NOWAIT +: { <;> } 
-
-<end-associate-stmt> ::= 
-           end-associate-stmt 
-     |     <label> end-associate-stmt 
-     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0), L"end-associate-stmt",11,false);*/
-     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0), L"end-associate-stmt",11,false);*/
-
-end-associate-stmt ::= 
-           END ASSOCIATE 
-     |     END ASSOCIATE <construct-name> 
-     |     END_ASSOCIATE 
-     |     END_ASSOCIATE <construct-name> 
-
-<block-construct> ::= 
-           <block-stmt> <stmts> <end-block-stmt> 
-
-<block-stmt> ::= 
-           BLOCK <;> 
-     |     <construct-name-l> : BLOCK <;> 
-
-<end-block-stmt> ::= 
-           end-block-stmt 
-     |     <label> end-block-stmt 
-     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-block-stmt",12,false);*/
-     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-block-stmt",12,false);*/
-
-end-block-stmt ::= 
-           END BLOCK 
-     |     END BLOCK <construct-name> 
-     |     END_BLOCK 
-     |     END_BLOCK <construct-name> 
-
-<case-construct> ::= 
-           <select-case-stmt> <end-select-stmt> 
-     |     <select-case-stmt> <case-blocks> <end-select-stmt> 
-
-<select-case-stmt> ::= 
-           select-case-stmt <;> 
-     |     <construct-name-l> : select-case-stmt <;> 
-
-select-case-stmt ::= 
-           SELECT CASE <p-expr> 
-     |     SELECT_CASE <p-expr> 
-
-<end-select-stmt> ::= 
-           end-select-stmt 
-     |     <label> end-select-stmt 
-     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-select-stmt",15,false);*/
-     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"end-select-stmt",15,false);*/
-
-end-select-stmt ::= 
-           END SELECT 
-     |     END SELECT <construct-name> 
-     |     END_SELECT 
-     |     END_SELECT <construct-name> 
-
-<case-blocks> ::= 
-           <case-block> 
-
-<case-block> ::= 
-           <case-block> <special-stmt;> 
-     |     <case-block> <executable-construct;> 
-     |     <case-block> <label> <executable-construct;> 
-     |     <case-block> <omp-directive> 
-     |     <case-block> <case-stmt> 
-     |     <case-block> <label> <case-stmt> 
-     |     <label> <case-stmt> 
-     |     <case-stmt> 
 
 <case-stmt> ::= 
            case-stmt <;> 
@@ -4970,6 +5605,9 @@ CHANGE_TEAM ::=
 
 <coarray-association> ::= 
            <codimension-decl> <=rangle> <selector> 
+
+<codimension-decl> ::= 
+           <name> <[coarray-spec]> 
 
 <selector> ::= 
            <variable> 
@@ -5157,6 +5795,505 @@ type-guard-stmt ::=
 <p-type-spec> ::= 
            ( <type-spec> ) 
 
+<data-stmt> ::= 
+           <data-stmt-sets> 
+
+<data-stmt-sets> ::= 
+           <data-stmt-sets> <,> <data-stmt-set> 
+     |     <data-stmt-sets> <data-stmt-set> 
+     |     <data-stmt-set-first> 
+
+<data-stmt-set> ::= 
+           <data-stmt-object-list> / <data-stmt-value-list> / 
+
+<data-stmt-object-list> ::= 
+           <data-stmt-object-list> <,> <data-stmt-object> 
+     |     <data-stmt-object> 
+
+<data-stmt-object> ::= 
+           <data-ref> 
+     |     <data-implied-do> 
+
+<data-implied-do> ::= 
+           ( <data-i-do-object-list> <,> <data-i-do-cntrl> ) 
+
+<data-i-do-object-list> ::= 
+           <data-i-do-object-list> <,> <data-i-do-object> 
+     |     <data-i-do-object> 
+
+<data-i-do-object> ::= 
+           <data-ref> 
+     |     <data-implied-do> 
+     |     <expr> 
+
+<data-i-do-cntrl> ::= 
+           <key = expr> <,> <expr> 
+     |     <key = expr> <,> <expr> <,> <expr> 
+
+<data-stmt-set-first> ::= 
+           <data-stmt-object-list-first> / <data-stmt-value-list> / 
+
+<data-stmt-object-list-first> ::= 
+           <data-stmt-object-list-first> <,> <data-stmt-object> 
+     |     <data-stmt-object-first> 
+
+<data-stmt-object-first> ::= 
+           DATA <data-ref> 
+     |     DATA <data-implied-do> 
+
+<omp-end-metadirective;> ::= 
+           <omp-end-metadirective> <\n> 
+
+<omp-end-metadirective> ::= 
+           omp-end-metadirective 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced( $$(0),L"omp-end-critical",71,false);*/
+
+omp-end-metadirective ::= 
+           OMP END METADIRECTIVE +: { <;> } 
+     |     OMP END_METADIRECTIVE +: { <;> } 
+
+<omp-metadirective-stmt> ::= 
+           OMP METADIRECTIVE <\n> 
+     |     OMP METADIRECTIVE <omp-metadirective-clause-list> <\n> 
+
+<subroutine-stmt> ::= 
+           <subroutine-stmt;> 
+
+<subroutine-stmt;> ::= 
+           subroutine-stmt <;> 
+     |     subroutine-stmt +: EOF 
+
+subroutine-stmt ::= 
+           SUBROUTINE <name>   /* Tr.onSub($$all,0,2,0,0); */
+     |     SUBROUTINE <name> <(> <)>   /* Tr.onSub($$all,0,2,0,0); */
+     |     SUBROUTINE <name> <(> <)> <language-binding-spec>   /* Tr.onSub($$all,0,2,0,5); */
+     |     SUBROUTINE <name> <(> <dummy-arg-list> <)>   /* Tr.onSub($$all,0,2,4,0); */
+     |     SUBROUTINE <name> <(> <dummy-arg-list> <)> <language-binding-spec>   /* Tr.onSub($$all,0,2,4,6); */
+     |     <prefix> SUBROUTINE <name>   /* Tr.onSub($$all,1,3,0,0); */
+     |     <prefix> SUBROUTINE <name> <(> <)>   /* Tr.onSub($$all,1,3,0,0); */
+     |     <prefix> SUBROUTINE <name> <(> <)> <language-binding-spec>   /* Tr.onSub($$all,1,3,0,6); */
+     |     <prefix> SUBROUTINE <name> <(> <dummy-arg-list> <)>   /* Tr.onSub($$all,1,3,5,0); */
+     |     <prefix> SUBROUTINE <name> <(> <dummy-arg-list> <)> <language-binding-spec>   /* Tr.onSub($$all,1,3,5,7); */
+
+<end-subroutine-stmt;> ::= 
+           <end-subroutine-stmt> <;> 
+     |     <end-subroutine-stmt> +: EOF 
+
+<end-subroutine-stmt> ::= 
+           end-subroutine-stmt 
+     |     <label> end-subroutine-stmt 
+     |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-subroutine-stmt",1,true);*/
+     |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0), L"end-subroutine-stmt",1,true);*/
+
+end-subroutine-stmt ::= 
+           END   /* Tr.onEndSub($$(0),NULL); */
+     |     END SUBROUTINE +: { <;> | EOF }   /* Tr.onEndSub($$(0),NULL); */
+     |     END SUBROUTINE <name> +: { <;> | EOF }   /* Tr.onEndSub($$(0),str(3)); */
+     |     END_SUBROUTINE   /* Tr.onEndSub($$(0),NULL); */
+     |     END_SUBROUTINE <name> +: { <;> | EOF }   /* Tr.onEndSub($$(0),str(2)); */
+
+<procedure-stmt> ::= 
+           PROCEDURE <name-list> <;> 
+     |     PROCEDURE <::> <name-list> <;> 
+     |     MODULE PROCEDURE <name-list> <;> 
+     |     MODULE PROCEDURE <::> <name-list> <;> 
+
+<parameter-stmt> ::= 
+           PARAMETER <p-named-constant-def-list> 
+     |     PARAMETER <named-constant-def-list> 
+
+<p-named-constant-def-list> ::= 
+           ( <named-constant-def-list> ) 
+
+<named-constant-def-list> ::= 
+           <named-constant-def-list> <,> <named-constant-def> 
+     |     <named-constant-def> 
+
+<named-constant-def> ::= 
+           <named-constant> = <constant-expr> 
+
+<procedure-declaration-stmt> ::= 
+           PROCEDURE ( ) <proc-decl-list> 
+     |     PROCEDURE ( ) <::> <proc-decl-list> 
+     |     PROCEDURE ( ) <,> <proc-attr-spec-list> <::> <proc-decl-list> 
+     |     PROCEDURE <p-proc-interface> <proc-decl-list> 
+     |     PROCEDURE <p-proc-interface> <::> <proc-decl-list> 
+     |     PROCEDURE <p-proc-interface> <,> <proc-attr-spec-list> <::> <proc-decl-list> 
+
+<proc-attr-spec-list> ::= 
+           <proc-attr-spec-list> <,> <proc-attr-spec> 
+     |     <proc-attr-spec> 
+
+<proc-attr-spec> ::= 
+           <access-spec> 
+     |     <language-binding-spec> 
+     |     INTENT <p-intent-spec> 
+     |     OPTIONAL 
+     |     POINTER 
+     |     SAVE 
+
+<p-intent-spec> ::= 
+           ( <intent-spec> ) 
+
+<intent-spec> ::= 
+           IN 
+     |     OUT 
+     |     IN_OUT 
+     |     IN OUT 
+
+<other-specification-stmt> ::= 
+           <access-stmt> 
+     |     <allocatable-stmt> 
+     |     <asynchronous-stmt> 
+     |     <bind-stmt> 
+     |     <codimension-stmt> 
+     |     <common-stmt> 
+     |     <data-stmt> 
+     |     <dimension-stmt> 
+     |     <equivalence-stmt> 
+     |     <external-stmt> 
+     |     <intent-stmt> 
+     |     <intrinsic-stmt> 
+     |     <namelist-stmt> 
+     |     <optional-stmt> 
+     |     <pointer-stmt> 
+     |     <cray-pointer-stmt> 
+     |     <protected-stmt> 
+     |     <save-stmt> 
+     |     <target-stmt> 
+     |     <volatile-stmt> 
+     |     <value-stmt> 
+
+<access-stmt> ::= 
+           <access-spec> 
+     |     <access-spec> <access-id-list> +: { <;> } 
+     |     <access-spec> <::> <access-id-list> +: { <;> } 
+
+<access-id-list> ::= 
+           <access-id-list> <,> <access-id> +: { <;> | <,> } 
+     |     <access-id> 
+
+<access-id> ::= 
+           <use-name> 
+     |     <generic-spec> 
+
+<allocatable-stmt> ::= 
+           ALLOCATABLE <allocatable-decl-list> 
+     |     ALLOCATABLE <::> <allocatable-decl-list> 
+
+<allocatable-decl-list> ::= 
+           <allocatable-decl-list> <,> <allocatable-decl> 
+     |     <allocatable-decl> 
+
+<allocatable-decl> ::= 
+           <object-name> 
+     |     <object-name> <[coarray-spec]> 
+     |     <object-name> ( <array-spec> ) 
+     |     <object-name> ( <array-spec> ) <[coarray-spec]> 
+
+<object-name> ::= 
+           <name> 
+
+<array-spec> ::= 
+           <explicit-shape-spec-list> 
+     |     <assumed-shape-spec-list> 
+     |     <deferred-shape-spec> 
+     |     <assumed-size-spec-list> 
+     |     <implied-shape-spec-list> 
+     |     <assumed-rank-spec> 
+
+<assumed-shape-spec-list> ::= 
+           <assumed-shape-spec-list> <,> <assumed-shape-spec> 
+     |     <assumed-shape-spec> 
+
+<assumed-shape-spec> ::= 
+           : 
+     |     <lower-bound> : 
+
+<assumed-size-spec-list> ::= 
+           <assumed-size-spec-list> <,> <explicit-shape-spec> +: , 
+     |     <explicit-shape-spec> 
+     |     <assumed-size-spec-list> <,> <implied-shape-spec> -: , 
+     |     <implied-shape-spec> 
+
+<implied-shape-spec> ::= 
+           * 
+     |     <lower-bound> : * 
+
+<implied-shape-spec-list> ::= 
+           <implied-shape-spec-list> <,> <implied-shape-spec> 
+     |     <implied-shape-spec> 
+
+<assumed-rank-spec> ::= 
+           <..> 
+
+<asynchronous-stmt> ::= 
+           ASYNCHRONOUS <name-list> 
+     |     ASYNCHRONOUS <::> <name-list> 
+
+<bind-stmt> ::= 
+           <language-binding-spec> <bind-entity-list> 
+     |     <language-binding-spec> <::> <bind-entity-list> 
+
+<bind-entity-list> ::= 
+           <bind-entity-list> <,> <bind-entity> 
+     |     <bind-entity> 
+
+<bind-entity> ::= 
+           <name> 
+     |     / <common-block-name> / 
+
+<common-block-name> ::= 
+           <name> 
+
+<codimension-stmt> ::= 
+           CODIMENSION <codimension-decl-list> 
+     |     CODIMENSION <::> <codimension-decl-list> 
+
+<codimension-decl-list> ::= 
+           <codimension-decl-list> <,> <codimension-decl> 
+     |     <codimension-decl> 
+
+<common-stmt> ::= 
+           COMMON <common-block-list> 
+
+<common-block-list> ::= 
+           <common-block-list> <,> <common-block> 
+     |     <common-block-list> <common-block> 
+     |     <common-block> 
+
+<common-block> ::= 
+           <common-block-object> 
+     |     / / <common-block-object> 
+     |     / <common-block-name> / <common-block-object> 
+
+<common-block-object> ::= 
+           <variable-name> 
+     |     <variable-name> <p-array-spec> 
+
+<variable-name> ::= 
+           <name> 
+
+<p-array-spec> ::= 
+           ( <array-spec> ) 
+
+<dimension-stmt> ::= 
+           DIMENSION <array-named-specs> 
+     |     DIMENSION <::> <array-named-specs> 
+
+<array-named-specs> ::= 
+           <array-named-specs> <,> <array-named-spec> 
+     |     <array-named-spec> 
+
+<array-named-spec> ::= 
+           <name> <p-array-spec> 
+
+<equivalence-stmt> ::= 
+           <equivalence-set-list> 
+
+<equivalence-set-list> ::= 
+           <equivalence-set-list> <,> <equivalence-set> 
+     |     <equivalence-set-first> 
+
+<equivalence-set> ::= 
+           ( <equivalence-pair> ) 
+
+<equivalence-pair> ::= 
+           <equivalence-object-list> 
+
+<equivalence-object-list> ::= 
+           <equivalence-object-list> <,> <equivalence-object> 
+     |     <equivalence-object> 
+
+<equivalence-object> ::= 
+           <variable-name> 
+     |     <array-element> 
+
+<array-element> ::= 
+           <data-ref> 
+
+<equivalence-set-first> ::= 
+           EQUIVALENCE <p-equivalence-pair> 
+
+<p-equivalence-pair> ::= 
+           ( <equivalence-pair> ) 
+
+<external-stmt> ::= 
+           EXTERNAL <name-list> 
+     |     EXTERNAL <::> <name-list> 
+
+<intent-stmt> ::= 
+           INTENT <p-intent-spec> <dummy-arg-name-list> 
+     |     INTENT <p-intent-spec> <::> <dummy-arg-name-list> 
+
+<dummy-arg-name-list> ::= 
+           <name-list> 
+
+<intrinsic-stmt> ::= 
+           INTRINSIC <name-list> 
+     |     INTRINSIC <::> <name-list> 
+
+<namelist-stmt> ::= 
+           NAMELIST <name-lists> 
+
+<name-lists> ::= 
+           <name-lists> <,> / <name> / <name>   /* Tr.onNMLList($$(0),$$(1),$$(4),$$(6)); */
+     |     <name-lists> / <name> / <name>   /* Tr.onNMLList($$(0),$$(1),$$(3),$$(5)); */
+     |     <name-lists> <,> <name>   /* Tr.onNMLNext($$(0),$$(1),$$(3)); */
+     |     / <name> / <name>   /* Tr.onNMLFirst($$(0),$$(2),$$(4)); */
+
+<optional-stmt> ::= 
+           OPTIONAL <dummy-arg-name-list> 
+     |     OPTIONAL <::> <dummy-arg-name-list> 
+
+<pointer-stmt> ::= 
+           POINTER <pointer-decl-list> 
+     |     POINTER <::> <pointer-decl-list> 
+
+<pointer-decl-list> ::= 
+           <pointer-decl-list> <,> <pointer-decl> 
+     |     <pointer-decl> 
+
+<pointer-decl> ::= 
+           <object-name> 
+     |     <object-name> <p-deferred-shape-spec-list> 
+
+<p-deferred-shape-spec-list> ::= 
+           ( <deferred-shape-spec-list> ) 
+
+<cray-pointer-stmt> ::= 
+           POINTER <cray-list> 
+
+<cray-list> ::= 
+           <cray-list> , <p-pointer-pair> 
+     |     <p-pointer-pair> 
+
+<p-pointer-pair> ::= 
+           ( <pointer-pair> ) 
+
+<pointer-pair> ::= 
+           <name> <,> <expr> 
+
+<protected-stmt> ::= 
+           PROTECTED <name-list> 
+     |     PROTECTED <::> <name-list> 
+
+<save-stmt> ::= 
+           SAVE 
+     |     SAVE <saved-entity-list> 
+     |     SAVE <::> <saved-entity-list> 
+     |     <dec-static> <saved-entity-list> 
+     |     <dec-static> <::> <saved-entity-list> 
+
+<saved-entity-list> ::= 
+           <saved-entity-list> <,> <saved-entity> 
+     |     <saved-entity> 
+
+<saved-entity> ::= 
+           <object-name> 
+     |     <object-name> <initialization-in-save-error> 
+     |     / <common-block-name> / 
+
+<initialization-in-save-error> ::~ 
+           <initialization>   /* Tr.error(L"Initialization in a SAVE statement"); */
+
+<dec-static> ::= 
+           AUTOMATIC 
+     |     STATIC 
+
+<target-stmt> ::= 
+           TARGET <target-decl-list> 
+     |     TARGET <::> <target-decl-list> 
+
+<target-decl-list> ::= 
+           <target-decl-list> <,> <target-decl> 
+     |     <target-decl> 
+
+<target-decl> ::= 
+           <object-name> 
+     |     <object-name> <[coarray-spec]> 
+     |     <object-name> <p-array-spec> 
+     |     <object-name> <p-array-spec> <[coarray-spec]> 
+
+<volatile-stmt> ::= 
+           VOLATILE <name-list> 
+     |     VOLATILE <::> <name-list> 
+
+<value-stmt> ::= 
+           VALUE <dummy-arg-name-list> 
+     |     VALUE <::> <dummy-arg-name-list> 
+
+<type-declaration-stmt> ::= 
+           <declaration-type-spec> <entity-decl-list> 
+     |     <declaration-type-spec> <::> <entity-decl-init-list> 
+     |     <declaration-type-spec> , <attr-spec-list> <::> <entity-decl-init-list> 
+     |     <declaration-type-spec> , <::> <entity-decl-init-list>   /* Tr.warning (L" Non Portable ',' without an attributes list.");*/
+     |     <record-type-spec> <entity-decl-list> 
+     |     <record-type-spec> <::> <entity-decl-init-list> 
+     |     <record-type-spec> , <attr-spec-list> <::> <entity-decl-init-list> 
+     |     <record-type-spec> , <::> <entity-decl-init-list>   /* Tr.warning (L" Non Portable ',' without an attributes list.");*/
+
+<entity-decl-list> ::= 
+           <entity-decl-list> <,> <entity-decl> 
+     |     <entity-decl> 
+     |     <entity-decl-list> <,> <entity-decl> <initialization-obsolete> 
+     |     <entity-decl> <initialization-obsolete> 
+
+<entity-decl> ::= 
+           <entity> 
+     |     <entity> * <char-length> 
+     |     <entity> <[coarray-spec]> 
+     |     <entity> <[coarray-spec]> * <char-length> 
+     |     <entity> <p-array-spec2> 
+     |     <entity> <p-array-spec2> * <char-length> 
+     |     <entity> * <char-length> <p-array-spec2>   /* Tr.warning (L" Non Portable array declaration '%s' *<element-size>(dimension)",str(1)); */
+     |     <entity> ( <array-spec> ) <[coarray-spec]> 
+     |     <entity> ( <array-spec> ) <[coarray-spec]> * <char-length> 
+
+<entity> ::= 
+           <name>   /* Tr.onEntity($$(0),$$(1)); */
+
+<p-array-spec2> ::= 
+           ( <array-spec> ) 
+
+<entity-decl-init-list> ::= 
+           <entity-decl-init-list> <,> <entity-decl> 
+     |     <entity-decl> 
+     |     <entity-decl-init-list> <,> <entity-decl> <initialization> 
+     |     <entity-decl> <initialization> 
+
+<attr-spec-list> ::= 
+           <attr-spec-list> <,> <attr-spec> 
+     |     <attr-spec> 
+
+<attr-spec> ::= 
+           <access-spec> 
+     |     ALLOCATABLE 
+     |     ASYNCHRONOUS 
+     |     CODIMENSION <[coarray-spec]> 
+     |     CONTIGUOUS 
+     |     DIMENSION <p-array-spec> 
+     |     EXTERNAL 
+     |     INTENT <p-intent-spec> 
+     |     INTRINSIC 
+     |     <language-binding-spec> 
+     |     OPTIONAL 
+     |     PARAMETER 
+     |     POINTER 
+     |     PROTECTED 
+     |     SAVE 
+     |     TARGET 
+     |     VALUE 
+     |     VOLATILE 
+     |     <dec-static> 
+     |     <keyword-l>   /* Tr.error(L"Expecting an Attribute Specification but read:", str(1)); */
+
+<keyword-l> ::? 
+           keyword   /* synthesize(1); */
+
+<stmt-function-stmt> ::= 
+           <function-declaration> = <expr> 
+
 <subroutine-subprogram> ::= 
            <subroutine-stmt> <end-subroutine-stmt;> 
      |     <subroutine-stmt> <internal-subprogram-part> <end-subroutine-stmt;> 
@@ -5167,23 +6304,35 @@ type-guard-stmt ::=
      |     <label> <subroutine-stmt> <stmts> <end-subroutine-stmt;> 
      |     <label> <subroutine-stmt> <stmts> <internal-subprogram-part> <end-subroutine-stmt;> 
 
+<program-stmt;> ::= 
+           <program-stmt> <;> 
+
 <program-stmt> ::= 
-           PROGRAM <program_name> <;> 
-     |     <label> PROGRAM <program_name> <;> 
+           program-stmt 
+     |     <label> program-stmt   /* Tr.onLabel($$(0),$$(1),$$(2)); */
+
+program-stmt ::= 
+           PROGRAM <program_name>   /* Tr.onProgram($$(0),$$(2)); */
 
 <external-subprogram> ::= 
            <function-subprogram> 
      |     <subroutine-subprogram> 
 
 <module> ::= 
-           <module-stmt> <end-module-stmt;> 
-     |     <module-stmt> <module-subprogram-part> <end-module-stmt;> 
-     |     <module-stmt> <spec-stmts> <end-module-stmt;> 
-     |     <module-stmt> <spec-stmts> <module-subprogram-part> <end-module-stmt;> 
+           <module-stmt;> <end-module-stmt;> 
+     |     <module-stmt;> <module-subprogram-part> <end-module-stmt;> 
+     |     <module-stmt;> <spec-stmts> <end-module-stmt;> 
+     |     <module-stmt;> <spec-stmts> <module-subprogram-part> <end-module-stmt;> 
+
+<module-stmt;> ::= 
+           <module-stmt> <;> 
 
 <module-stmt> ::= 
-           MODULE <module-name> <;> 
-     |     <label> MODULE <module-name> <;> 
+           module-stmt 
+     |     <label> module-stmt   /* Tr.onLabel($$(0),$$(1),$$(2)); */
+
+module-stmt ::= 
+           MODULE <module-name>   /* Tr.onModule($$(0),$$(2)); */
 
 <end-module-stmt;> ::= 
            <end-module-stmt> <;> 
@@ -5191,16 +6340,16 @@ type-guard-stmt ::=
 
 <end-module-stmt> ::= 
            end-module-stmt 
-     |     <label> end-module-stmt 
+     |     <label> end-module-stmt   /* Tr.onLabel($$(0),$$(1),$$(2)); */
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-module-stmt",1,true);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-module-stmt",1,true);*/
 
 end-module-stmt ::= 
-           END 
-     |     END MODULE +: { <;> | EOF } 
-     |     END MODULE <module-name> +: { <;> | EOF } 
-     |     END_MODULE +: { <;> | EOF } 
-     |     END_MODULE <module-name> +: { <;> | EOF } 
+           END   /* Tr.onEndModule($$(0),NULL); */
+     |     END MODULE +: { <;> | EOF }   /* Tr.onEndModule($$(0),NULL); */
+     |     END MODULE <module-name> +: { <;> | EOF }   /* Tr.onEndModule($$(0),str(3)); */
+     |     END_MODULE +: { <;> | EOF }   /* Tr.onEndModule($$(0),NULL); */
+     |     END_MODULE <module-name> +: { <;> | EOF }   /* Tr.onEndModule($$(0),str(2)); */
 
 <module-subprogram-part> ::= 
            <module-subprograms> 
@@ -5215,20 +6364,20 @@ end-module-stmt ::=
      |     <separate-module-subprogram> 
 
 <separate-module-subprogram> ::= 
-           <mp-subprogram-stmt> <end-mp-subprogram-stmt;> 
-     |     <mp-subprogram-stmt> <internal-subprogram-part> <end-mp-subprogram-stmt;> 
-     |     <mp-subprogram-stmt> <stmts> <end-mp-subprogram-stmt;> 
-     |     <mp-subprogram-stmt> <stmts> <internal-subprogram-part> <end-mp-subprogram-stmt;> 
-     |     <label> <mp-subprogram-stmt> <end-mp-subprogram-stmt;> 
-     |     <label> <mp-subprogram-stmt> <internal-subprogram-part> <end-mp-subprogram-stmt;> 
-     |     <label> <mp-subprogram-stmt> <stmts> <end-mp-subprogram-stmt;> 
-     |     <label> <mp-subprogram-stmt> <stmts> <internal-subprogram-part> <end-mp-subprogram-stmt;> 
-
-<mp-subprogram-stmt> ::= 
-           <mp-subprogram-stmt;> 
+           <mp-subprogram-stmt;> <end-mp-subprogram-stmt;> 
+     |     <mp-subprogram-stmt;> <internal-subprogram-part> <end-mp-subprogram-stmt;> 
+     |     <mp-subprogram-stmt;> <stmts> <end-mp-subprogram-stmt;> 
+     |     <mp-subprogram-stmt;> <stmts> <internal-subprogram-part> <end-mp-subprogram-stmt;> 
 
 <mp-subprogram-stmt;> ::= 
-           MODULE PROCEDURE <procedure-name> <;> 
+           <mp-subprogram-stmt> <;> 
+
+<mp-subprogram-stmt> ::= 
+           mp-subprogram-stmt 
+     |     <label> mp-subprogram-stmt   /* Tr.onLabel($$(0),$$(1),$$(2)); */
+
+mp-subprogram-stmt ::= 
+           MODULE PROCEDURE <procedure-name>   /* Tr.onMPSub($$(0),$$(3)); */
 
 <end-mp-subprogram-stmt;> ::= 
            <end-mp-subprogram-stmt> <;> 
@@ -5236,26 +6385,32 @@ end-module-stmt ::=
 
 <end-mp-subprogram-stmt> ::= 
            end-mp-subprogram-stmt 
-     |     <label> end-mp-subprogram-stmt 
+     |     <label> end-mp-subprogram-stmt   /* Tr.onLabel($$(0),$$(1),$$(2)); */
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-mp-subprogram-stmt",1,true);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-mp-subprogram-stmt",1,true);*/
 
 end-mp-subprogram-stmt ::= 
-           END 
-     |     END PROCEDURE +: { <;> } 
-     |     END PROCEDURE <procedure-name> +: { <;> } 
-     |     END_PROCEDURE +: { <;> } 
-     |     END_PROCEDURE <procedure-name> +: { <;> } 
+           END   /* Tr.onEndMPSub($$(0),NULL); */
+     |     END PROCEDURE +: { <;> }   /* Tr.onEndMPSub($$(0),NULL); */
+     |     END PROCEDURE <procedure-name> +: { <;> }   /* Tr.onEndMPSub($$(0),str(3)); */
+     |     END_PROCEDURE +: { <;> }   /* Tr.onEndMPSub($$(0),NULL); */
+     |     END_PROCEDURE <procedure-name> +: { <;> }   /* Tr.onEndMPSub($$(0),str(2)); */
 
 <submodule> ::= 
-           <submodule-stmt> <end-submodule-stmt;> 
-     |     <submodule-stmt> <module-subprogram-part> <end-submodule-stmt;> 
-     |     <submodule-stmt> <spec-stmts> <end-submodule-stmt;> 
-     |     <submodule-stmt> <spec-stmts> <module-subprogram-part> <end-submodule-stmt;> 
+           <submodule-stmt;> <end-submodule-stmt;> 
+     |     <submodule-stmt;> <module-subprogram-part> <end-submodule-stmt;> 
+     |     <submodule-stmt;> <spec-stmts> <end-submodule-stmt;> 
+     |     <submodule-stmt;> <spec-stmts> <module-subprogram-part> <end-submodule-stmt;> 
+
+<submodule-stmt;> ::= 
+           <submodule-stmt> <;> 
 
 <submodule-stmt> ::= 
-           SUBMODULE <(> <parent-identifier> <)> <module-name> <;> 
-     |     <label> SUBMODULE <(> <parent-identifier> <)> <module-name> <;> 
+           submodule-stmt 
+     |     <label> submodule-stmt   /* Tr.onLabel($$(0),$$(1),$$(2)); */
+
+submodule-stmt ::= 
+           SUBMODULE <(> <parent-identifier> <)> <module-name>   /* Tr.onSubModule($$(0),$$(3), $$(5)); */
 
 <parent-identifier> ::= 
            <ancestor-module-name> 
@@ -5273,30 +6428,33 @@ end-mp-subprogram-stmt ::=
 
 <end-submodule-stmt> ::= 
            end-submodule-stmt 
-     |     <label> end-submodule-stmt 
+     |     <label> end-submodule-stmt   /* Tr.onLabel($$(0),$$(1),$$(2)); */
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-submodule-stmt",1,true);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-submodule-stmt",1,true);*/
 
 end-submodule-stmt ::= 
-           END 
-     |     END SUBMODULE 
-     |     END SUBMODULE <module-name> 
-     |     END_SUBMODULE 
-     |     END_SUBMODULE <module-name> 
+           END   /* Tr.onEndSubModule($$(0),NULL); */
+     |     END SUBMODULE   /* Tr.onEndSubModule($$(0),NULL); */
+     |     END SUBMODULE <module-name>   /* Tr.onEndSubModule($$(0),str(3)); */
+     |     END_SUBMODULE   /* Tr.onEndSubModule($$(0),NULL); */
+     |     END_SUBMODULE <module-name>   /* Tr.onEndSubModule($$(0),str(2)); */
 
 <block-data> ::= 
-           <block-data-stmt> <end-block-data-stmt;> 
-     |     <block-data-stmt> <spec-stmts> <end-block-data-stmt;> 
+           <block-data-stmt;> <end-block-data-stmt;> 
+     |     <block-data-stmt;> <spec-stmts> <end-block-data-stmt;> 
+
+<block-data-stmt;> ::= 
+           <block-data-stmt> <;> 
 
 <block-data-stmt> ::= 
-           BLOCK DATA <;> 
-     |     BLOCK DATA <block-data-name> <;> 
-     |     <label> BLOCK DATA <;> 
-     |     <label> BLOCK DATA <block-data-name> <;> 
-     |     BLOCK_DATA <;> 
-     |     BLOCK_DATA <block-data-name> <;> 
-     |     <label> BLOCK_DATA <;> 
-     |     <label> BLOCK_DATA <block-data-name> <;> 
+           block-data-stmt 
+     |     <label> block-data-stmt   /* Tr.onLabel($$(0),$$(1),$$(2)); */
+
+block-data-stmt ::= 
+           BLOCK DATA +: { <;> } 
+     |     BLOCK DATA <block-data-name>   /* Tr.onBData($$(0),$$(3)); */
+     |     BLOCK_DATA +: { <;> } 
+     |     BLOCK_DATA <block-data-name>   /* Tr.onBData($$(0),$$(2)); */
 
 <block-data-name> ::= 
            <name> 
@@ -5307,17 +6465,29 @@ end-submodule-stmt ::=
 
 <end-block-data-stmt> ::= 
            end-block-data-stmt 
-     |     <label> end-block-data-stmt 
+     |     <label> end-block-data-stmt   /* Tr.onLabel($$(0),$$(1),$$(2)); */
      |     <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-block-data-stmt",1,true);*/
      |     <label> <unexpected-end-stmt>   /* Tr.UnBalanced($$(0),L"end-block-data-stmt",1,true);*/
 
 end-block-data-stmt ::= 
-           END 
-     |     END BLOCK DATA 
-     |     END BLOCK DATA <block-data-name> 
-     |     END_BLOCK 
-     |     END_BLOCK DATA 
-     |     END_BLOCK DATA <block-data-name> 
-     |     END_BLOCK_DATA 
-     |     END_BLOCK_DATA <block-data-name> 
+           END   /* Tr.onEndBData($$(0),NULL); */
+     |     END BLOCK DATA   /* Tr.onEndBData($$(0),NULL); */
+     |     END BLOCK DATA <block-data-name>   /* Tr.onEndBData($$(0),str(4)); */
+     |     END_BLOCK   /* Tr.onEndBData($$(0),NULL); */
+     |     END_BLOCK DATA   /* Tr.onEndBData($$(0),NULL); */
+     |     END_BLOCK DATA <block-data-name>   /* Tr.onEndBData($$(0),str(3)); */
+     |     END_BLOCK_DATA   /* Tr.onEndBData($$(0),NULL); */
+     |     END_BLOCK_DATA <block-data-name>   /* Tr.onEndBData($$(0),str(2)); */
+
+<out-of-unit-directive> ::? 
+           <omp-requires-directive> +: { <unit-context> }   /* Tr.warning(L"OpenMP Directive not in Program Unit."); */
+
+<unit-context> ::= 
+           BLOCK 
+     |     BLOCK_DATA 
+     |     FUNCTION 
+     |     MODULE 
+     |     SUBMODULE 
+     |     SUBROUTINE 
+     |     PROGRAM 
 
