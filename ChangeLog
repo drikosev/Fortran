@@ -186,7 +186,7 @@ The Following bug-fix has not been tested very well yet:
         Note:  [17/6] pgfortran (19.1) doesn't accept the format '1'B
         Note:  [18/6] See also the Legacy Extension in the hand coded file reader for
                octal constants starting with a double quote.
- [2022-05-01]  The keyword USE in a <use-stmt> may be followed by another name, but also    (todo)
+ [2022-05-01]  The keyword USE in a <use-stmt> may be followed by another name, but also    (done)
                is a prefix of the (connect extension) keyword USEROPEN. Forward scanning
                is required, likely in USEROPEN and maybe in future OpenMP (5.0) keywords.
 
@@ -203,7 +203,7 @@ The Following bug-fix has not been tested very well yet:
                                                                   '=', '=>', or '['. 
 
                Parsed with Errors: useropen.f
- [2022-05-06]  In some cases, we can parse (legacy) parameters without parentheses, ie      (todo) 
+ [2022-05-06]  In some cases, we can parse (legacy) parameters without parentheses, ie      (done) 
                when more than one are defined, the statement can't be something else.  
                $ cat parameters.f && fcheck -fdec -ffixed-form parameters.f 2> /dev/null 
                       parameter i=1*1,    j=2 
@@ -219,7 +219,7 @@ The Following bug-fix has not been tested very well yet:
              Q https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA  
              A https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA/m/ZTRTTf96BAAJ
              A https://groups.google.com/g/comp.lang.fortran/c/E_5fVdqCvwA/m/9pswncW7BAAJ  
- [2022-05-14]  In fixed form, function headers with BIND/RESULT aren't classified ok. As    (todo)
+ [2022-05-14]  In fixed form, function headers with BIND/RESULT aren't classified ok. As    (done)
                it seems, it's a recurring problem.
                $ cat -n function-bind.f && fcheck function-bind.f
                     1	      logical(c_bool) function f_s () bind(C)
@@ -233,7 +233,7 @@ The Following bug-fix has not been tested very well yet:
                until it find ")=" or "]=" or "%name=" and on failure returns <name-r>. Also,
                there is only one accepting rule on backtrack in the state where the name 
                "functionf_s" is matched. 
-        Note:  [16/5] BTW, the scanner should also search for ".name=", not just "%name=",  (todo)
+        Note:  [16/5] BTW, the scanner should also search for ".name=", not just "%name=",  (done)
                due to DEC structures; ie the stmt "rewinded(1).m = 1;" isn't classified ok! 
 
 
@@ -657,7 +657,7 @@ Legacy parser Issues
                Parsed with Errors: enum-spurious.f90
          Note: [22/4] Distinct error recovery in other constructs is possibly required,     
                as we don't just parse statements one by one, but constructs as a whole. 
- [2022-04-23]  The second error message below is spurious (should be "Unexpected: '?' ").   (todo)
+ [2022-04-23]  The second error message below is spurious (should be "Unexpected: '?' ").   (done)
                $ cat -n derived.f90 | head -n7 && $fcheck derived.f90
                     1	module m  
                     2	   type t  
@@ -673,9 +673,9 @@ Legacy parser Issues
                                     'TYPE', 'UNION', or 'label'. 
 
                Parsed with Errors: derived.f90 
-         Note: [23/4] Several keywords used in legacy/non standard conforming code should   (todo)
+         Note: [23/4] Several keywords used in legacy/non standard conforming code should   (done)
                better not proposed as expected tokens, ie DEFINE, RECORD, STRUCTURE, UNION.
- [2022-04-26]  An empty block is rejected.                                                  (todo)
+ [2022-04-26]  An empty block is rejected.                                                  (done)
                $ cat -n empty-block.f90 && fcheck empty-block.f90
                     1	 integer i
                     2	 BLOCK
@@ -689,7 +689,7 @@ Legacy parser Issues
                                                   Expected: end-block-stmt.
                Parsed with Errors: empty-block.f90
                $ 
- [2022-05-14]  The context sensitive DEC TYPE (as print) statements are rejected.           (todo)
+ [2022-05-14]  The context sensitive DEC TYPE (as print) statements are rejected.           (done)
                $ cat fmt-string.f && fcheck -fdec fmt-string.f
                      character(6) :: fmt = "(A6)"
                      type fmt, 'Hello!'
@@ -702,7 +702,7 @@ Legacy parser Issues
         Note:  This change affects also the Scanner and the Translator, as one needs to
                know the declared entities. Without a C Preprocessor though, we may read
                twice pretty valid declarations in C conditional directives.
-        Note:  Adding semantic actions to <entity-decl> isn't that easy if the <prefix>     (todo)
+        Note:  Adding semantic actions to <entity-decl> isn't that easy if the <prefix>     (done)
                rule in Functions/Subroutines allows more than one <declaration-type-spec>.
                Similarly, some extensions or error productions should better be removed.
                Ie, the extraneous ',' in the following rule makes our task harder:            
@@ -918,7 +918,7 @@ The Following four new features/bug-fixes have not been tested very well yet:
                request, with a command line option (ie -fdec or /fdec), apart format statements.
                This may work well in fixed form, but in free form the constant should be ie on the
                same line. A '&' in the constant won't be supported for such a legacy format.
-         Note: [6/5/2022] It's more accurate to mention it as a Legacy Extension, rather DEC/VMS.     (todo)
+         Note: [6/5/2022] It's more accurate to mention it as a Legacy Extension, rather DEC/VMS.     (done)
                So, this feature should better be enabled with a distinct option, not the 'fdec'.               
                In g77 ie it's enabled with the option '-fvxt', in Oracle Fortran with the '-xl'.  
  [2020-06-23]  Hollerith Constants in numeric expressions (multiplications) aren't supported.         (done)
@@ -969,14 +969,14 @@ The Following four new features/bug-fixes have not been tested very well yet:
                	end
                
                tab_digit_cont.f:1: error: syntax:Unexpected End Of Statement. Expected: "name". 
- [2022-05-02]  In character context, OpenMP Conditional Compilation Directives are ignored.       (todo)
+ [2022-05-02]  In character context, OpenMP Conditional Compilation Directives are ignored.       (done)
                $ cat -n cc.f90 && fcheck -fopenmp cc.f90 2>&1 | head -n1
                     1	!  char.*literal.constant 'better'
                     2	   print *, 'bet&
                     3	!$ ter' 
                     4	end
                cc.f90:4: error: syntax:Unterminated literal constant (quote required).
- [2022-05-02]  In fixed form, a line following a, non standard, split include-stmt is lost.       (todo)
+ [2022-05-02]  In fixed form, a line following a, non standard, split include-stmt is lost.       (done)
                $ cat -n cont_line.for && fcheck cont_line.for -debug -w | grep Line=00004
                     1	!  boz.*literal.constant Z'AAAA'      
                     2	      include 
@@ -1031,7 +1031,7 @@ Format String Reader
 
              Parsed with Errors: â¤-2.f90  
        Note: Fixing this bug doesn't solve the problem of printing the '␤' on Windows-8.1 
-[2022-05-04] Regarding the DEC syntax, our outdated manual just mentions the possibility of        (todo)
+[2022-05-04] Regarding the DEC syntax, our outdated manual just mentions the possibility of        (done)
              inaccuracies that however are confirmed now, ie due to missing semantic actions.
 
 
