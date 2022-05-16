@@ -233,6 +233,8 @@ The Following bug-fix has not been tested very well yet:
                until it find ")=" or "]=" or "%name=" and on failure returns <name-r>. Also,
                there is only one accepting rule on backtrack in the state where the name 
                "functionf_s" is matched. 
+        Note:  [16/5] BTW, the scanner should also search for ".name=", not just "%name=",  (todo)
+               due to DEC structures; ie the stmt "rewinded(1).m = 1;" isn't classified ok! 
 
 
 
@@ -509,7 +511,7 @@ Legacy parser Issues
         Note:  [27/8] To postpone the removal of those temporary actions, I'll add as an 
                extra hack the keywords READ2/WRITE2 that can assist a new semantic action 
                in the scanner return the keywords READ/WRITE in the middle of a statement.  
-        Note:  [16/5/22] Added in ChangeLog-History the file "2022-temporary-actions.diff".
+        Note:  [16/5/22] Added file: ChangeLog-History/2022-temporary-actions.diff
  [2019-03-31]  Except "SUBROUTINE", the keywords in the error message below are spurious.   (done)                   
                $ cat subroutine-1.f90 && fcheck subroutine-1.f90  2>&1 | grep -v "3"
                1     subroutine s
