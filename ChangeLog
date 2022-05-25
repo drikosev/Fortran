@@ -689,7 +689,7 @@ Legacy parser Issues
                                                   Expected: end-block-stmt.
                Parsed with Errors: empty-block.f90
                $ 
- [2022-05-14]  The context sensitive DEC TYPE (as print) statements are rejected.           (done)
+ [2022-05-14]  The context sensitive DEC TYPE (as print) statements are rejected.           (done) 
                $ cat fmt-string.f && fcheck -fdec fmt-string.f
                      character(6) :: fmt = "(A6)"
                      type fmt, 'Hello!'
@@ -699,9 +699,10 @@ Legacy parser Issues
 
                Parsed with Errors: fmt-string.f
 
-        Note:  This change affects also the Scanner and the Translator, as one needs to
-               know the declared entities. Without a C Preprocessor though, we may read
-               twice pretty valid declarations in C conditional directives.
+        Note:  This change affects also the Scanner and the Translator, as one needs to 
+               know the declared entities. Without a C Preprocessor though, we may read 
+               twice, pretty valid, declarations in C conditional directives. Modules in
+               this case is not a problem, because they weren't available in legacy code.
         Note:  Adding semantic actions to <entity-decl> isn't that easy if the <prefix>     (done)
                rule in Functions/Subroutines allows more than one <declaration-type-spec>.
                Similarly, some extensions or error productions should better be removed.

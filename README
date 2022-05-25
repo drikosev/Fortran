@@ -23,7 +23,10 @@ Eventually, some extensions were defined in a separate grammar ("Legacy_Parser.t
  originally posted at: http://compilers.iecc.com/comparch/article/13-07-011
 
  Notes: 
- [1] We use a stack to distinguish between ordinary labels and labels of non-block do constructs. 
+ [1] We use a stack to distinguish between ordinary labels and labels of non-block do constructs.
+     [5/2022] A similar context sensitive approach is used for the DEC TYPE (as PRINT) statements.
+              A similar approach is likely needed for the upcoming conditional expressions (a?b:c)
+              as we'll have to distinguish between function arguments and expressions.     
  [2] Default actions don't overwrite the reduce actions on keywords "FUNCTION" & "SUBROUTINE" because
      the token "<name-f>" depends on them. In the serialised version of the grammar the directive ie
      "#reductions FUNCTION" indicates exactly this restriction. 
